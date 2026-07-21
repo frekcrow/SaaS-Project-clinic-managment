@@ -19,7 +19,15 @@ class Patient extends Model
         'allergies',
         'chronic_diseases',
         'regular_medications',
+        'doctor_id',
+        'reason_for_visit',
+        'onset_of_symptoms',
     ];
+
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
+    }
 
     public function appointments(): HasMany
     {

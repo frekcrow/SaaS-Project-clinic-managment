@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Patient;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -11,7 +14,8 @@ class PatientController extends Controller
      */
     public function index()
     {
-        //
+        $patients = Patient::all();
+        return view('patients.index', compact('patients'));
     }
 
     /**
@@ -19,7 +23,11 @@ class PatientController extends Controller
      */
     public function create()
     {
-        //
+        $doctors = User::where('role', 'Doctor')
+            ->where('tenant_id', Auth::user()->tenant_id)
+            ->get();
+
+        return view('patients.create', compact('doctors'));
     }
 
     /**

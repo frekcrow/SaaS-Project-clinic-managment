@@ -19,6 +19,9 @@ class Patient extends Model
         'allergies',
         'chronic_diseases',
         'regular_medications',
+        'doctor_id',
+        'reason_for_visit',
+        'symptoms_onset',
     ];
 
     public function appointments(): HasMany

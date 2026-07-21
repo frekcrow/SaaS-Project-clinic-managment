@@ -35,7 +35,23 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'dob' => 'nullable|date',
+            'phone' => 'nullable|string|max:255',
+            'doctor_id' => 'nullable|exists:users,id',
+            'reason_for_visit' => 'nullable|string',
+            'symptoms_onset' => 'nullable|string|max:255',
+            'allergies' => 'nullable|string',
+            'chronic_diseases' => 'nullable|string',
+            'regular_medications' => 'nullable|string',
+        ]);
+
+        $validatedData['tenant_id'] = Auth::user()->tenant_id;
+
+        Patient::create($validatedData);
+
+        return redirect()->route('patients.index')->with('success', 'Patient added successfully.');
     }
 
     /**

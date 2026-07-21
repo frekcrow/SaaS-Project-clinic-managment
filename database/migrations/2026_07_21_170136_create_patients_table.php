@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('allergies')->nullable();
             $table->text('chronic_diseases')->nullable();
             $table->text('regular_medications')->nullable();
+            $table->foreignId('doctor_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->text('reason_for_visit')->nullable();
+            $table->string('symptoms_onset')->nullable();
             $table->timestamps();
         });
     }

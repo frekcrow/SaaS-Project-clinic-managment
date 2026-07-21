@@ -10,13 +10,18 @@ class PatientController extends Controller
 {
     public function index()
     {
-        $patients = Patient::with('doctor')->latest()->get();
+        $patients = Patient::with('doctor')
+            ->where('tenant_id', auth()->user()->tenant_id)
+            ->latest()
+            ->get();
         return view('patients.index', compact('patients'));
     }
 
     public function create()
     {
-        $doctors = User::where('role', 'Doctor')->get();
+        $doctors = User::where('role', 'Doctor')
+            ->where('tenant_id', auth()->user()->tenant_id)
+            ->get();
         return view('patients.create', compact('doctors'));
     }
 
@@ -43,7 +48,9 @@ class PatientController extends Controller
 
     public function export()
     {
-        $patients = Patient::with('doctor')->get();
+        $patients = Patient::with('doctor')
+            ->where('tenant_id', auth()->user()->tenant_id)
+            ->get();
 
         $filename = "patients.csv";
         $handle = fopen('php://output', 'w');

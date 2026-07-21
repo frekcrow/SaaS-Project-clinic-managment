@@ -18,7 +18,15 @@ class MedicalRecord extends Model
         'diagnosis',
         'prescription',
         'lab_tests_required',
+        'attachments',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'attachments' => 'array',
+        ];
+    }
 
     public function patient(): BelongsTo
     {

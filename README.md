@@ -1,58 +1,77 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SaaS Clinic Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Project Overview
+This project is a Multi-Tenant SaaS (Software as a Service) application designed for managing medical clinics. It provides a comprehensive solution for clinics to manage their daily operations, including patient records, appointments, billing, and staff roles. 
 
-## About Laravel
+The architecture is multi-tenant, meaning a single instance of the software serves multiple clinics (tenants), with strict data isolation between them.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 2. Tech Stack & Environment
+* **Backend Framework:** Laravel (PHP)
+* **Frontend Build Tool:** Vite (configured via `vite.config.js`)
+* **Database:** MySQL / PostgreSQL (Relational Database)
+* **Architecture:** MVC (Model-View-Controller)
+* **Package Manager:** Composer (PHP) & NPM (Node.js)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 3. Core Entities & Database Relationships
+To help the AI agent understand the data flow, here is the core architecture:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. **Tenants (Clinics):**
+   * The core of the SaaS. Every other entity (except super-admin data) belongs to a specific tenant.
+   * *Relationships:* Has many Users, Patients, Appointments, Invoices.
 
-## Learning Laravel
+2. **Users (Staff/Roles):**
+   * Belongs to a Tenant.
+   * Roles include: `Clinic Admin`, `Doctor`, `Secretary`.
+   * *Relationships:* A Doctor has many Appointments.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3. **Patients:**
+   * Belongs to a Tenant.
+   * *Relationships:* Has many Appointments, Medical Records, Invoices.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+4. **Appointments:**
+   * Belongs to a Tenant, a Doctor (User), and a Patient.
+   * Tracks scheduling, time slots, and status (Pending, Completed, Cancelled).
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+5. **Medical Records:**
+   * Belongs to a Patient and a Doctor.
+   * Contains diagnoses, symptoms, and prescriptions.
 
-## Agentic Development
+6. **Invoices & Billing:**
+   * Belongs to a Patient and a Tenant.
+   * Tracks payments for consultations or treatments.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## 4. Directory Structure Context
+Based on the standard Laravel structure present in this repository:
+* `app/Models/`: Eloquent Models defining relationships and scopes.
+* `app/Http/Controllers/`: Logic for handling requests.
+* `database/migrations/`: Schema definitions.
+* `routes/web.php`: Application routes.
+* `resources/views/`: Blade templates for the frontend UI.
 
-```bash
-composer require laravel/boost --dev
+---
 
-php artisan boost:install
-```
+## 5. 🤖 SYSTEM INSTRUCTIONS FOR JULES (AI AGENT)
+**IMPORTANT:** Jules, when assisting with this project, you MUST strictly adhere to the following rules:
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+1. **Role Context:** Act as an expert, Senior Laravel Developer building a scalable multi-tenant SaaS application.
+2. **Coding Standards:** 
+   * Strictly follow standard Laravel conventions and PSR-12 coding standards.
+   * Use clean, readable, and well-commented code.
+3. **Multi-Tenancy Rule:** 
+   * NEVER forget data isolation. Every query, model, and controller must account for the current Tenant. Use Laravel Global Scopes or a multi-tenancy package (like `stancl/tenancy` or single-database tenant_id columns) to ensure users can only access their clinic's data.
+4. **Development Workflow:** When asked to create a new feature, always provide the complete set of required files:
+   * Database Migration (with proper foreign keys).
+   * Eloquent Model (with fillables, casts, and relationships).
+   * Controller (using RESTful resource methods).
+   * FormRequest (for strict validation rules).
+   * Blade View or API Resource (depending on the requested frontend approach).
+5. **Security First:** 
+   * Always validate inputs using Laravel Form Requests.
+   * Never trust user input.
+   * Protect routes using appropriate middleware (Auth, Role-based, Tenant-aware).
+6. **Step-by-Step Execution:** Do not write the entire application in one go. Break down tasks logically, explain what you are about to do, write the code, and instruct the user on which Artisan commands to run (e.g., `php artisan migrate`).
+7. **System Name & Localization:** The system is named "Atlas". The entire SaaS application dashboard MUST be in Arabic with Right-to-Left (RTL) UI support. 
+8. **Marketing Page:** The project includes a public-facing marketing landing page for the SaaS.
+9. **Features Blueprint:** Refer to the `FEATURES.md` file for the exact business logic and feature requirements before creating database schemas.
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+I am ready. Let's build this SaaS!

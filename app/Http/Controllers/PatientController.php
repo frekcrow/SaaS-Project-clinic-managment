@@ -19,6 +19,26 @@ class PatientController extends Controller
     }
 
     /**
+     * Search for patients by name.
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        if (!$query) {
+            return response()->json([]);
+        }
+
+        $patients = Patient::where('name', 'like', '%' . $query . '%')
+            ->where('tenant_id', $request->user()->tenant_id)
+            ->select('id', 'name', 'phone')
+            ->limit(10)
+            ->get();
+
+        return response()->json($patients);
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

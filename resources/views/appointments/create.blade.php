@@ -12,18 +12,53 @@
                     <form method="POST" action="{{ route('appointments.store') }}">
                         @csrf
 
-                        <!-- Patient Name -->
-                        <div class="mt-4">
-                            <x-input-label for="patient_name" :value="__('اسم المريض')" />
-                            <x-text-input id="patient_name" class="block mt-1 w-full" type="text" name="patient_name" :value="old('patient_name')" required autofocus />
-                            <x-input-error :messages="$errors->get('patient_name')" class="mt-2" />
-                        </div>
+                        <div x-data="patientAutocomplete()" class="space-y-4">
+                            <!-- Patient Name -->
+                            <div class="mt-4 relative">
+                                <x-input-label for="patient_name" :value="__('اسم المريض')" />
+                                <x-text-input
+                                    id="patient_name"
+                                    class="block mt-1 w-full"
+                                    type="text"
+                                    name="patient_name"
+                                    x-model="patientName"
+                                    @input.debounce.300ms="searchPatients"
+                                    @click.away="showDropdown = false"
+                                    @focus="if(patientName.length > 0) showDropdown = true"
+                                    required
+                                    autofocus
+                                    autocomplete="off"
+                                />
+                                <x-input-error :messages="$errors->get('patient_name')" class="mt-2" />
 
-                        <!-- Phone -->
-                        <div class="mt-4">
-                            <x-input-label for="phone" :value="__('رقم الهاتف')" />
-                            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" />
-                            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                                <!-- Dropdown -->
+                                <div x-show="showDropdown && results.length > 0"
+                                     class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
+                                     style="display: none;">
+                                    <ul class="max-h-60 overflow-auto">
+                                        <template x-for="patient in results" :key="patient.id">
+                                            <li @click="selectPatient(patient)"
+                                                class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                                <span x-text="patient.name" class="block font-medium text-gray-900"></span>
+                                                <span x-text="patient.phone" class="block text-sm text-gray-500"></span>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="mt-4">
+                                <x-input-label for="phone" :value="__('رقم الهاتف')" />
+                                <x-text-input
+                                    id="phone"
+                                    class="block mt-1 w-full"
+                                    type="text"
+                                    name="phone"
+                                    x-model="phone"
+                                />
+                                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                            </div>
                         </div>
 
                         <!-- Doctor -->
@@ -67,4 +102,39 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('patientAutocomplete', () => ({
+                patientName: @json(old('patient_name', '')),
+                phone: @json(old('phone', '')),
+                results: [],
+                showDropdown: false,
+
+                async searchPatients() {
+                    if (this.patientName.length < 2) {
+                        this.results = [];
+                        this.showDropdown = false;
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch(`/patients/search?q=${encodeURIComponent(this.patientName)}`);
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        this.results = await response.json();
+                        this.showDropdown = this.results.length > 0;
+                    } catch (error) {
+                        console.error('Error fetching patients:', error);
+                        this.results = [];
+                        this.showDropdown = false;
+                    }
+                },
+
+                selectPatient(patient) {
+                    this.patientName = patient.name;
+                    this.phone = patient.phone || '';
+                    this.showDropdown = false;
+                }
+            }));
+        });
+    </script>
 </x-app-layout>

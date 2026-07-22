@@ -28,7 +28,7 @@
                                     autofocus
                                     autocomplete="off"
                                 />
-                                <input type="hidden" name="patient_id" x-model="patientId" required>
+                                <input type="hidden" name="patient_id" x-model="patient_id" required>
                                 <x-input-error :messages="$errors->get('patient_id')" class="mt-2" />
 
                                 <!-- Dropdown -->
@@ -93,7 +93,7 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('patientAutocomplete', () => ({
                 patientName: '',
-                patientId: @json(old('patient_id', '')),
+                patient_id: @json(old('patient_id', '')),
                 results: [],
                 showDropdown: false,
 
@@ -118,7 +118,7 @@
 
                 selectPatient(patient) {
                     this.patientName = patient.name;
-                    this.patientId = patient.id;
+                    this.patient_id = patient.id;
                     this.showDropdown = false;
                 }
             }));

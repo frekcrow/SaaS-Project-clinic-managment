@@ -11,6 +11,10 @@ class Patient extends Model
 {
     use BelongsToTenant;
 
+    protected $casts = [
+        'dob' => 'date',
+    ];
+
     protected $fillable = [
         'tenant_id',
         'name',

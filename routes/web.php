@@ -8,19 +8,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    if (strtolower(auth()->user()->role) === 'doctor') {
-        return view('doctor.dashboard');
-    }
+use App\Http\Controllers\DashboardController;
 
-    $todaysAppointments = \App\Models\Appointment::with('patient')
-        ->whereDate('appointment_datetime', today())
-        ->orderBy('appointment_datetime', 'asc')
-        ->take(5)
-        ->get();
-
-    return view('dashboard', compact('todaysAppointments'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BillingController;

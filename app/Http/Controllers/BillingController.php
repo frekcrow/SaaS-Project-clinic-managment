@@ -17,7 +17,8 @@ class BillingController extends Controller
     {
         $tenantId = $request->user()->tenant_id;
 
-        $query = Appointment::where('tenant_id', $tenantId)
+        $query = Appointment::with('patient')
+            ->where('tenant_id', $tenantId)
             ->where('status', 'completed');
 
         // Filtering
@@ -47,16 +48,16 @@ class BillingController extends Controller
 
         $appointments = $query->orderBy('appointment_datetime', 'desc')->get();
 
-        // Calculate total amount paid per patient (using patient_name since patient_id is not consistently available)
-        $patientTotals = Appointment::selectRaw('patient_name, SUM(price) as total_paid')
+        // Calculate total amount paid per patient
+        $patientTotals = Appointment::selectRaw('patient_id, SUM(price) as total_paid')
             ->where('tenant_id', $tenantId)
             ->where('status', 'completed')
-            ->groupBy('patient_name')
-            ->pluck('total_paid', 'patient_name');
+            ->groupBy('patient_id')
+            ->pluck('total_paid', 'patient_id');
 
         // Attach totals to current appointments for the view
         foreach ($appointments as $appointment) {
-            $appointment->total_paid = $patientTotals[$appointment->patient_name] ?? $appointment->price;
+            $appointment->total_paid = $patientTotals[$appointment->patient_id] ?? $appointment->price;
         }
 
         // Get clinic name and doctor name

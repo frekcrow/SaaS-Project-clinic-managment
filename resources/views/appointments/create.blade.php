@@ -13,14 +13,13 @@
                         @csrf
 
                         <div x-data="patientAutocomplete()" class="space-y-4">
-                            <!-- Patient Name -->
+                            <!-- Patient Name Search and ID -->
                             <div class="mt-4 relative">
                                 <x-input-label for="patient_name" :value="__('اسم المريض')" />
                                 <x-text-input
                                     id="patient_name"
                                     class="block mt-1 w-full"
                                     type="text"
-                                    name="patient_name"
                                     x-model="patientName"
                                     @input.debounce.300ms="searchPatients"
                                     @click.away="showDropdown = false"
@@ -29,7 +28,8 @@
                                     autofocus
                                     autocomplete="off"
                                 />
-                                <x-input-error :messages="$errors->get('patient_name')" class="mt-2" />
+                                <input type="hidden" name="patient_id" x-model="patientId" required>
+                                <x-input-error :messages="$errors->get('patient_id')" class="mt-2" />
 
                                 <!-- Dropdown -->
                                 <div x-show="showDropdown && results.length > 0"
@@ -45,19 +45,6 @@
                                         </template>
                                     </ul>
                                 </div>
-                            </div>
-
-                            <!-- Phone -->
-                            <div class="mt-4">
-                                <x-input-label for="phone" :value="__('رقم الهاتف')" />
-                                <x-text-input
-                                    id="phone"
-                                    class="block mt-1 w-full"
-                                    type="text"
-                                    name="phone"
-                                    x-model="phone"
-                                />
-                                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                             </div>
                         </div>
 
@@ -105,8 +92,8 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('patientAutocomplete', () => ({
-                patientName: @json(old('patient_name', '')),
-                phone: @json(old('phone', '')),
+                patientName: '',
+                patientId: @json(old('patient_id', '')),
                 results: [],
                 showDropdown: false,
 
@@ -131,7 +118,7 @@
 
                 selectPatient(patient) {
                     this.patientName = patient.name;
-                    this.phone = patient.phone || '';
+                    this.patientId = patient.id;
                     this.showDropdown = false;
                 }
             }));

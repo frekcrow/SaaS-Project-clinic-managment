@@ -38,8 +38,8 @@
                             <tbody class="divide-y divide-gray-200">
                                 @forelse ($appointments as $appointment)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $appointment->patient->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">{{ $appointment->patient->phone ?? '-' }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $appointment->patient->name ?? $appointment->patient_name }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">{{ $appointment->patient->phone ?? $appointment->phone ?? '-' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">{{ $appointment->doctor->name ?? '-' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap" dir="ltr" style="text-align: right;">{{ $appointment->appointment_datetime->format('Y-m-d H:i') }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap countdown-container" data-datetime="{{ $appointment->appointment_datetime->toIso8601String() }}" data-status="{{ $appointment->status }}">
@@ -63,9 +63,12 @@
                                             </form>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2 space-x-reverse flex">
-                                            @if($appointment->patient->phone)
-                                                <a href="tel:{{ $appointment->patient->phone }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 p-2 rounded-full" title="اتصال">📞</a>
-                                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $appointment->patient->phone) }}" target="_blank" class="text-green-600 hover:text-green-900 bg-green-100 p-2 rounded-full" title="واتساب">💬</a>
+                                            @php
+                                                $phoneToUse = $appointment->patient->phone ?? $appointment->phone;
+                                            @endphp
+                                            @if($phoneToUse)
+                                                <a href="tel:{{ $phoneToUse }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-100 p-2 rounded-full" title="اتصال">📞</a>
+                                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phoneToUse) }}" target="_blank" class="text-green-600 hover:text-green-900 bg-green-100 p-2 rounded-full" title="واتساب">💬</a>
                                             @else
                                                 <span class="text-gray-400">لا يوجد رقم</span>
                                             @endif

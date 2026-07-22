@@ -48,16 +48,21 @@ class BillingController extends Controller
 
         $appointments = $query->orderBy('appointment_datetime', 'desc')->get();
 
-        // Calculate total amount paid per patient
+        // Calculate total amount paid per patient (only for those with patient_id)
         $patientTotals = Appointment::selectRaw('patient_id, SUM(price) as total_paid')
             ->where('tenant_id', $tenantId)
             ->where('status', 'completed')
+            ->whereNotNull('patient_id')
             ->groupBy('patient_id')
             ->pluck('total_paid', 'patient_id');
 
         // Attach totals to current appointments for the view
         foreach ($appointments as $appointment) {
-            $appointment->total_paid = $patientTotals[$appointment->patient_id] ?? $appointment->price;
+            if ($appointment->patient_id) {
+                $appointment->total_paid = $patientTotals[$appointment->patient_id] ?? $appointment->price;
+            } else {
+                $appointment->total_paid = $appointment->price; // Default to single appointment price if no patient_id
+            }
         }
 
         // Get clinic name and doctor name

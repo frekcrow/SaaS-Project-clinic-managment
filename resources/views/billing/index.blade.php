@@ -63,9 +63,9 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @foreach($appointments as $appointment)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $appointment->patient->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $appointment->patient->name ?? $appointment->patient_name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $appointment->price }} ريال</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $appointment->patient->phone ?? '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $appointment->patient->phone ?? $appointment->phone ?? '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $appointment->appointment_datetime->format('Y-m-d') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $appointment->appointment_datetime->format('H:i') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -112,7 +112,7 @@
                             <div class="w-full space-y-4">
                                 <div class="flex justify-between">
                                     <span class="font-semibold text-gray-700">اسم المريض:</span>
-                                    <span class="text-gray-900" x-text="currentAppointment?.patient?.name"></span>
+                                    <span class="text-gray-900" x-text="currentAppointment?.patient?.name || currentAppointment?.patient_name"></span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="font-semibold text-gray-700">التاريخ:</span>

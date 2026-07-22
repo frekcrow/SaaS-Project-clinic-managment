@@ -18,18 +18,36 @@
                                 <x-input-label for="patient_name" :value="__('اسم المريض')" />
                                 <x-text-input
                                     id="patient_name"
+                                    name="patient_name"
                                     class="block mt-1 w-full"
                                     type="text"
-                                    x-model="patientName"
+                                    x-model="patient_name"
+                                    @input="clearPatientId"
                                     @input.debounce.300ms="searchPatients"
                                     @click.away="showDropdown = false"
-                                    @focus="if(patientName.length > 0) showDropdown = true"
+                                    @focus="if(patient_name.length > 0) showDropdown = true"
                                     required
                                     autofocus
                                     autocomplete="off"
                                 />
-                                <input type="hidden" name="patient_id" x-model="patient_id" required>
+                                <input type="hidden" name="patient_id" x-model="patient_id">
                                 <x-input-error :messages="$errors->get('patient_id')" class="mt-2" />
+                                <x-input-error :messages="$errors->get('patient_name')" class="mt-2" />
+
+                                <div class="mt-4">
+                                    <x-input-label for="phone" :value="__('رقم الهاتف')" />
+                                    <x-text-input
+                                        id="phone"
+                                        name="phone"
+                                        class="block mt-1 w-full"
+                                        type="text"
+                                        x-model="phone"
+                                        @input="clearPatientId"
+                                        required
+                                        autocomplete="off"
+                                    />
+                                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                                </div>
 
                                 <!-- Dropdown -->
                                 <div x-show="showDropdown && results.length > 0"
@@ -92,20 +110,25 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('patientAutocomplete', () => ({
-                patientName: '',
+                patient_name: @json(old('patient_name', '')),
+                phone: @json(old('phone', '')),
                 patient_id: @json(old('patient_id', '')),
                 results: [],
                 showDropdown: false,
 
+                clearPatientId() {
+                    this.patient_id = '';
+                },
+
                 async searchPatients() {
-                    if (this.patientName.length < 2) {
+                    if (this.patient_name.length < 2) {
                         this.results = [];
                         this.showDropdown = false;
                         return;
                     }
 
                     try {
-                        const response = await fetch(`/patients/search?q=${encodeURIComponent(this.patientName)}`);
+                        const response = await fetch(`/patients/search?q=${encodeURIComponent(this.patient_name)}`);
                         if (!response.ok) throw new Error('Network response was not ok');
                         this.results = await response.json();
                         this.showDropdown = this.results.length > 0;
@@ -117,7 +140,8 @@
                 },
 
                 selectPatient(patient) {
-                    this.patientName = patient.name;
+                    this.patient_name = patient.name;
+                    this.phone = patient.phone || '';
                     this.patient_id = patient.id;
                     this.showDropdown = false;
                 }

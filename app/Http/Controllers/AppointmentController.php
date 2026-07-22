@@ -42,11 +42,13 @@ class AppointmentController extends Controller
     {
         $validatedData = $request->validate([
             'patient_id' => [
-                'required',
+                'nullable',
                 \Illuminate\Validation\Rule::exists('patients', 'id')->where(function ($query) {
                     return $query->where('tenant_id', Auth::user()->tenant_id);
                 }),
             ],
+            'patient_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
             'doctor_id' => [
                 'required',
                 \Illuminate\Validation\Rule::exists('users', 'id')->where(function ($query) {

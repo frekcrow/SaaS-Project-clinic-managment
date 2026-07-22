@@ -33,9 +33,16 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $clinicCodeRules = ['required', 'string', 'max:255'];
+        if ($request->role === 'Doctor') {
+            $clinicCodeRules[] = 'unique:users,clinic_code';
+        } elseif ($request->role === 'Secretary') {
+            $clinicCodeRules[] = 'exists:users,clinic_code';
+        }
+
         $request->validate([
             'role' => ['required', 'string', 'in:Doctor,Secretary'],
-            'clinic_code' => ['required', 'string', 'max:255'],
+            'clinic_code' => $clinicCodeRules,
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],

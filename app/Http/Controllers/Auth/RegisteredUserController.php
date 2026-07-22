@@ -34,24 +34,49 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'clinic_name' => ['required', 'string', 'max:255'],
+            'role' => ['required', 'string', 'in:Doctor,Secretary'],
+            'clinic_code' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = DB::transaction(function () use ($request) {
-            $tenant = Tenant::create([
-                'name' => $request->clinic_name,
-                'domain' => Str::slug($request->clinic_name) . '-' . Str::random(5),
-            ]);
+            $tenantId = null;
+
+            if ($request->role === 'Doctor') {
+                if (User::where('clinic_code', $request->clinic_code)->exists()) {
+                    throw ValidationException::withMessages([
+                        'clinic_code' => __('This clinic code is already taken.'),
+                    ]);
+                }
+
+                $tenant = Tenant::create([
+                    'name' => $request->clinic_code,
+                    'domain' => Str::slug($request->clinic_code) . '-' . Str::random(5),
+                ]);
+                $tenantId = $tenant->id;
+            } elseif ($request->role === 'Secretary') {
+                $doctor = User::where('clinic_code', $request->clinic_code)
+                              ->where('role', 'Doctor')
+                              ->first();
+
+                if (!$doctor) {
+                    throw ValidationException::withMessages([
+                        'clinic_code' => __('Invalid clinic code. No doctor found with this code.'),
+                    ]);
+                }
+
+                $tenantId = $doctor->tenant_id;
+            }
 
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'tenant_id' => $tenant->id,
-                'role' => 'Clinic Admin',
+                'tenant_id' => $tenantId,
+                'role' => $request->role,
+                'clinic_code' => $request->clinic_code,
             ]);
 
             return $user;

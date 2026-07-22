@@ -50,7 +50,8 @@ class AppointmentController extends Controller
             'doctor_id' => [
                 'required',
                 \Illuminate\Validation\Rule::exists('users', 'id')->where(function ($query) {
-                    return $query->where('tenant_id', Auth::user()->tenant_id);
+                    return $query->where('tenant_id', Auth::user()->tenant_id)
+                                 ->where('role', 'Doctor');
                 }),
             ],
             'appointment_datetime' => 'required|date',

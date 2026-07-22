@@ -59,7 +59,13 @@ class PatientController extends Controller
             'name' => 'required|string|max:255',
             'dob' => 'nullable|date',
             'phone' => 'nullable|string|max:255',
-            'doctor_id' => 'nullable|exists:users,id',
+            'doctor_id' => [
+                'nullable',
+                \Illuminate\Validation\Rule::exists('users', 'id')->where(function ($query) {
+                    return $query->where('tenant_id', Auth::user()->tenant_id)
+                                 ->where('role', 'Doctor');
+                }),
+            ],
             'reason_for_visit' => 'nullable|string',
             'symptoms_onset' => 'nullable|string|max:255',
             'allergies' => 'nullable|string',

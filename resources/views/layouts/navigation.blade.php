@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
                         {{ __('جدول المواعيد') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('billing.index')" :active="request()->routeIs('billing.*')">
+                        {{ __('الحسابات') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -81,6 +84,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('appointments.index')" :active="request()->routeIs('appointments.*')">
                 {{ __('جدول المواعيد') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('billing.index')" :active="request()->routeIs('billing.*')">
+                {{ __('الحسابات') }}
             </x-responsive-nav-link>
         </div>
 

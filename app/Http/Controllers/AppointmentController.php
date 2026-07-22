@@ -14,7 +14,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = Appointment::with('doctor')
+        $appointments = Appointment::with(['doctor', 'patient'])
             ->where('tenant_id', Auth::user()->tenant_id)
             ->orderBy('appointment_datetime')
             ->get();
@@ -41,8 +41,12 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'patient_name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:255',
+            'patient_id' => [
+                'required',
+                \Illuminate\Validation\Rule::exists('patients', 'id')->where(function ($query) {
+                    return $query->where('tenant_id', Auth::user()->tenant_id);
+                }),
+            ],
             'doctor_id' => [
                 'required',
                 \Illuminate\Validation\Rule::exists('users', 'id')->where(function ($query) {

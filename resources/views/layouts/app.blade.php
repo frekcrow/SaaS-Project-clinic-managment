@@ -27,7 +27,7 @@
                         <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Dashboard</a>
                         <a href="{{ route('patients.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">سجل المرضى</a>
                         <a href="{{ route('appointments.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">جدول المواعيد</a>
-                        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Accounting</a>
+                        <a href="{{ route('billing.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">الحسابات</a>
                         <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">Settings</a>
                     </nav>
                 </div>

@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('billing.index')" :active="request()->routeIs('billing.*')">
                         {{ __('الحسابات') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.*')">
+                        {{ __('الاعدادات') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -87,6 +90,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('billing.index')" :active="request()->routeIs('billing.*')">
                 {{ __('الحسابات') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.*')">
+                {{ __('الاعدادات') }}
             </x-responsive-nav-link>
         </div>
 

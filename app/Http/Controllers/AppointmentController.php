@@ -27,9 +27,10 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        $doctors = User::where('role', 'Doctor')
-            ->where('tenant_id', Auth::user()->tenant_id)
-            ->get();
+        // Fetch all users with the 'Doctor' role, scoped to current logged-in user's tenant_id
+        $doctors = User::where('tenant_id', Auth::user()->tenant_id)
+                       ->where('role', 'Doctor')
+                       ->get();
 
         return view('appointments.create', compact('doctors'));
     }

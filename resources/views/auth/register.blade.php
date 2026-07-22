@@ -2,11 +2,21 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Clinic Name -->
+        <!-- Role -->
         <div>
-            <x-input-label for="clinic_name" :value="__('Clinic Name')" />
-            <x-text-input id="clinic_name" class="block mt-1 w-full" type="text" name="clinic_name" :value="old('clinic_name')" required autofocus autocomplete="organization" />
-            <x-input-error :messages="$errors->get('clinic_name')" class="mt-2" />
+            <x-input-label for="role" :value="__('Role')" />
+            <select id="role" name="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required autofocus>
+                <option value="Doctor" {{ old('role') == 'Doctor' ? 'selected' : '' }}>Doctor</option>
+                <option value="Secretary" {{ old('role') == 'Secretary' ? 'selected' : '' }}>Secretary</option>
+            </select>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
+        <!-- Clinic Code -->
+        <div class="mt-4">
+            <x-input-label for="clinic_code" :value="__('Clinic Code (Username)')" />
+            <x-text-input id="clinic_code" class="block mt-1 w-full" type="text" name="clinic_code" :value="old('clinic_code')" required />
+            <x-input-error :messages="$errors->get('clinic_code')" class="mt-2" />
         </div>
 
         <!-- Name -->

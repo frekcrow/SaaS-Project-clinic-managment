@@ -17,8 +17,10 @@ Route::get('/dashboard', function () {
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BillingController;
+use App\Http\Controllers\SettingsController;
 
 Route::middleware('auth')->group(function () {
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

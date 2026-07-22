@@ -31,7 +31,7 @@
                             <x-input-label for="doctor_id" :value="__('الطبيب المعالج')" />
                             <select id="doctor_id" name="doctor_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
                                 <option value="">{{ __('اختر الطبيب') }}</option>
-                                @foreach($doctors as $doctor)
+                                @foreach($doctors as $doctor) <!-- Iterate over scoped doctors -->
                                     <option value="{{ $doctor->id }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
                                         {{ $doctor->name }}
                                     </option>

@@ -3,8 +3,32 @@
         لوحة التحكم
     </x-slot>
 
+    <!-- Visitor Counter Card & Live Consultation Status Container -->
+    <div class="mb-8 flex flex-col space-y-4">
+
+        <!-- Visitor Counter Card (Top Left) -->
+        <div class="flex justify-end">
+            <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 min-w-[250px]">
+                <div class="p-2 bg-indigo-50 rounded-xl text-indigo-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-xs font-medium text-slate-500">عدد زوار العيادة</h3>
+                    <p class="text-xl font-bold text-slate-800">142</p>
+                </div>
+                <select class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1.5">
+                    <option>اليوم</option>
+                    <option>الاسبوع</option>
+                    <option>الشهر</option>
+                    <option>السنة</option>
+                </select>
+            </div>
+        </div>
+
     <!-- Live Consultation Status Card -->
-    <div class="mb-8 bg-white rounded-3xl p-6 shadow-sm border border-indigo-100 relative overflow-hidden"
+    <div class="bg-white rounded-[2rem] p-4 shadow-sm border border-indigo-100 relative overflow-hidden max-w-4xl mx-auto w-full"
          x-data="{
             timer: 0,
             formattedTime() {
@@ -16,7 +40,7 @@
          @if($activeConsultation) x-init="setInterval(() => timer++, 1000)" @endif>
         <div class="flex items-center justify-between relative z-10">
             <div class="flex items-center space-x-4 space-x-reverse">
-                <div class="p-4 rounded-2xl {{ $activeConsultation ? 'bg-indigo-100 text-indigo-600 animate-pulse' : 'bg-slate-100 text-slate-400' }}">
+                <div class="w-16 h-16 rounded-full aspect-square object-cover flex items-center justify-center {{ $activeConsultation ? 'bg-indigo-100 text-indigo-600 animate-pulse' : 'bg-slate-100 text-slate-400' }}">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
@@ -44,23 +68,24 @@
         <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-50 rounded-full blur-3xl opacity-50 animate-pulse"></div>
         @endif
     </div>
+    </div> <!-- Close Visitor Counter Card & Live Consultation Status Container -->
 
     <!-- Quick Action Buttons -->
-    <div class="mb-8 flex flex-col sm:flex-row gap-4">
-        <a href="{{ route('patients.index') }}" class="flex-1 bg-gradient-to-l from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white shadow-md hover:shadow-lg rounded-2xl p-4 flex items-center justify-center space-x-3 space-x-reverse transition-all transform hover:-translate-y-1">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="mb-8 flex flex-col sm:flex-row gap-4 max-w-4xl mx-auto w-full">
+        <a href="{{ route('patients.index') }}" class="w-1/2 bg-black text-white shadow-inner rounded-xl p-3 flex items-center justify-center space-x-2 space-x-reverse transition-colors hover:bg-gray-800">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path>
             </svg>
-            <span class="text-lg font-semibold">اضافة مريض</span>
+            <span class="text-sm font-medium">اضافة مريض</span>
         </a>
 
-        <a href="{{ route('appointments.index') }}" class="flex-1 bg-white hover:bg-slate-50 text-indigo-600 border border-indigo-100 shadow-sm hover:shadow-md rounded-2xl p-4 flex items-center justify-center space-x-3 space-x-reverse transition-all transform hover:-translate-y-1">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <a href="{{ route('appointments.index') }}" class="w-1/2 bg-black text-white shadow-inner rounded-xl p-3 flex items-center justify-center space-x-2 space-x-reverse transition-colors hover:bg-gray-800">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path>
             </svg>
-            <span class="text-lg font-semibold">حجز موعد</span>
+            <span class="text-sm font-medium">حجز موعد</span>
         </a>
     </div>
 

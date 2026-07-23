@@ -79,7 +79,7 @@
             <!-- Main Content Area -->
             <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
                 <!-- HeroUI-inspired Top Header (Floating) -->
-                <header class="h-20 flex items-center justify-between px-6 sm:px-8 mt-4 mx-4 md:mx-6 bg-white/70 backdrop-blur-xl shadow-sm border border-white/60 rounded-3xl z-10 flex-shrink-0">
+                <header class="h-20 flex items-center justify-between px-6 sm:px-8 mt-4 mx-4 md:mx-6 z-10 flex-shrink-0">
 
                     <!-- Right empty space for balance, or could add notifications -->
                     <div class="w-20 hidden md:block"></div>
@@ -99,7 +99,7 @@
                     <!-- Profile Area (Top Left in RTL) -->
                     <div class="flex items-center" x-data="{ open: false }">
                         <!-- Dropdown Trigger -->
-                        <button @click="open = !open" class="flex items-center space-x-3 space-x-reverse focus:outline-none bg-slate-50 hover:bg-slate-100 rounded-full py-1 pr-1 pl-4 transition-colors">
+                        <button @click="open = !open" class="flex items-center space-x-3 space-x-reverse focus:outline-none bg-white shadow-sm hover:bg-slate-50 rounded-full py-1 pr-1 pl-4 transition-colors">
                             <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold shadow-sm">
                                 {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
                             </div>

@@ -86,9 +86,19 @@ class AppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Appointment $appointment)
     {
-        //
+        abort_if($appointment->tenant_id !== auth()->user()->tenant_id, 403);
+
+        $validatedData = $request->validate([
+            'appointment_datetime' => 'nullable|date',
+            'price' => 'nullable|numeric|min:0',
+            'status' => 'sometimes|required|in:pending,completed,cancelled',
+        ]);
+
+        $appointment->update($validatedData);
+
+        return response()->json(['message' => 'Appointment updated successfully', 'appointment' => $appointment]);
     }
 
     /**
@@ -113,5 +123,68 @@ class AppointmentController extends Controller
         $appointment->update(['status' => $validatedData['status']]);
 
         return redirect()->back()->with('success', 'Status updated successfully.');
+    }
+
+    /**
+     * Export all appointments as CSV.
+     */
+    public function exportCsv(Request $request)
+    {
+        $appointments = Appointment::with(['doctor', 'patient'])
+            ->where('tenant_id', $request->user()->tenant_id)
+            ->orderBy('appointment_datetime')
+            ->get();
+
+        $headers = [
+            "Content-type"        => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=appointments.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['ID', 'اسم المريض', 'رقم الهاتف', 'الطبيب', 'تاريخ ووقت الموعد', 'السعر', 'الحالة'];
+
+        $callback = function () use ($appointments, $columns) {
+            $file = fopen('php://output', 'w');
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF)); // Add BOM for Excel UTF-8 support
+            fputcsv($file, $columns);
+
+            foreach ($appointments as $appointment) {
+                fputcsv($file, [
+                    $appointment->id,
+                    $appointment->patient->name ?? $appointment->patient_name,
+                    $appointment->patient->phone ?? $appointment->phone ?? '-',
+                    $appointment->doctor->name ?? '-',
+                    $appointment->appointment_datetime->format('Y-m-d H:i'),
+                    $appointment->price,
+                    $appointment->status
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Bulk delete appointments.
+     */
+    public function bulkDelete(Request $request)
+    {
+        $validatedData = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:appointments,id',
+        ]);
+
+        $deletedCount = Appointment::whereIn('id', $validatedData['ids'])
+            ->where('tenant_id', $request->user()->tenant_id)
+            ->delete();
+
+        return response()->json([
+            'message' => "Successfully deleted $deletedCount appointments.",
+            'deleted' => $deletedCount
+        ]);
     }
 }

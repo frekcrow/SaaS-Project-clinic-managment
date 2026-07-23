@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/patients/export-csv', [PatientController::class, 'exportCsv'])->name('patients.export_csv');
+    Route::post('/patients/bulk-delete', [PatientController::class, 'bulkDelete'])->name('patients.bulk_delete');
     Route::get('/patients/search', [PatientController::class, 'search'])->name('patients.search');
     Route::resource('patients', PatientController::class);
 

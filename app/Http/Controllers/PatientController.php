@@ -99,9 +99,19 @@ class PatientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Patient $patient)
     {
-        //
+        abort_if($patient->tenant_id !== auth()->user()->tenant_id, 403);
+
+        $validatedData = $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'dob' => 'nullable|date',
+            'phone' => 'nullable|string|max:255',
+        ]);
+
+        $patient->update($validatedData);
+
+        return response()->json(['message' => 'Patient updated successfully', 'patient' => $patient]);
     }
 
     /**
@@ -110,5 +120,62 @@ class PatientController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Export all patients as CSV.
+     */
+    public function exportCsv(Request $request)
+    {
+        $patients = Patient::where('tenant_id', $request->user()->tenant_id)->get();
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=patients.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['ID', 'Name', 'Phone', 'Date of Birth', 'Created At'];
+
+        $callback = function () use ($patients, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($patients as $patient) {
+                fputcsv($file, [
+                    $patient->id,
+                    $patient->name,
+                    $patient->phone,
+                    $patient->dob ? $patient->dob->format('Y-m-d') : '',
+                    $patient->created_at->format('Y-m-d H:i:s')
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Bulk delete patients.
+     */
+    public function bulkDelete(Request $request)
+    {
+        $validatedData = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:patients,id',
+        ]);
+
+        $deletedCount = Patient::whereIn('id', $validatedData['ids'])
+            ->where('tenant_id', $request->user()->tenant_id)
+            ->delete();
+
+        return response()->json([
+            'message' => "Successfully deleted $deletedCount patients.",
+            'deleted' => $deletedCount
+        ]);
     }
 }

@@ -75,4 +75,68 @@ class BillingController extends Controller
             'doctorName' => $doctorName,
         ]);
     }
+
+    /**
+     * Export all billing records as CSV.
+     */
+    public function exportCsv(Request $request)
+    {
+        $tenantId = $request->user()->tenant_id;
+        $appointments = Appointment::with('patient')
+            ->where('tenant_id', $tenantId)
+            ->where('status', 'completed')
+            ->orderBy('appointment_datetime', 'desc')
+            ->get();
+
+        $headers = [
+            "Content-type"        => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=billing.csv",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $columns = ['ID', 'اسم المريض', 'المبلغ المدفوع', 'رقم الهاتف', 'التاريخ', 'الوقت'];
+
+        $callback = function () use ($appointments, $columns) {
+            $file = fopen('php://output', 'w');
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF)); // Add BOM for Excel UTF-8 support
+            fputcsv($file, $columns);
+
+            foreach ($appointments as $appointment) {
+                fputcsv($file, [
+                    $appointment->id,
+                    $appointment->patient->name ?? $appointment->patient_name,
+                    $appointment->price,
+                    $appointment->patient->phone ?? $appointment->phone ?? '-',
+                    $appointment->appointment_datetime->format('Y-m-d'),
+                    $appointment->appointment_datetime->format('H:i')
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Bulk delete billing records (appointments).
+     */
+    public function bulkDelete(Request $request)
+    {
+        $validatedData = $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:appointments,id',
+        ]);
+
+        $deletedCount = Appointment::whereIn('id', $validatedData['ids'])
+            ->where('tenant_id', $request->user()->tenant_id)
+            ->delete();
+
+        return response()->json([
+            'message' => "Successfully deleted $deletedCount billing records.",
+            'deleted' => $deletedCount
+        ]);
+    }
 }

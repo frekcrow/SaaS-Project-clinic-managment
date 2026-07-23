@@ -25,7 +25,7 @@
     <!-- Top Cards Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <!-- Live Consultation Status Card (Right Side) -->
-        <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-indigo-100 relative overflow-hidden w-full h-full flex flex-col justify-center"
+        <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-black/5 relative overflow-hidden w-full h-full flex flex-col justify-center"
              x-data="{
                 timer: 0,
                 formattedTime() {
@@ -67,7 +67,7 @@
         </div>
 
         <!-- Visitor Counter Card (Left Side) -->
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 flex flex-col justify-center gap-4 w-full h-full">
+        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-black/5 flex flex-col justify-center gap-4 w-full h-full">
             <div class="flex items-center justify-between w-full gap-4">
                 <div class="p-4 bg-indigo-50 rounded-xl text-indigo-600">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,14 +76,16 @@
                 </div>
                 <div class="flex-1">
                     <h3 class="text-sm font-medium text-slate-500">عدد زوار العيادة</h3>
-                    <p class="text-3xl font-bold text-slate-800">142</p>
+                    <p class="text-3xl font-bold text-slate-800">{{ $visitorsCount }}</p>
                 </div>
-                <select class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1.5 self-start mt-2">
-                    <option>اليوم</option>
-                    <option>الاسبوع</option>
-                    <option>الشهر</option>
-                    <option>السنة</option>
-                </select>
+                <form method="GET" action="{{ route('dashboard') }}" class="self-start mt-2">
+                    <select name="filter" onchange="this.form.submit()" class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1.5 w-full text-right bg-[position:left_0.5rem_center]">
+                        <option value="today" {{ $filter === 'today' ? 'selected' : '' }}>اليوم</option>
+                        <option value="week" {{ $filter === 'week' ? 'selected' : '' }}>الاسبوع</option>
+                        <option value="month" {{ $filter === 'month' ? 'selected' : '' }}>الشهر</option>
+                        <option value="year" {{ $filter === 'year' ? 'selected' : '' }}>السنة</option>
+                    </select>
+                </form>
             </div>
         </div>
     </div>
@@ -91,7 +93,7 @@
     <!-- Statistics Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <!-- Card 1: Today's Appointments -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-shadow">
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between mb-4">
                 <div class="p-3 bg-purple-50 rounded-2xl text-purple-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +109,7 @@
         </div>
 
         <!-- Card 2: Patients Pending Surgery -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-shadow">
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between mb-4">
                 <div class="p-3 bg-rose-50 rounded-2xl text-rose-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +125,7 @@
         </div>
 
         <!-- Card 3: Today's Sessions -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-shadow">
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between mb-4">
                 <div class="p-3 bg-sky-50 rounded-2xl text-sky-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +141,7 @@
         </div>
 
         <!-- Card 4: Total Revenue -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
             <div class="flex items-center justify-between mb-2">
                 <div class="p-3 bg-emerald-50 rounded-2xl text-emerald-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +157,7 @@
             </div>
             <div class="relative z-10">
                 <h3 class="text-slate-500 text-sm font-medium mb-1">إجمالي الإيرادات</h3>
-                <p class="text-3xl font-bold text-slate-800">4,500 <span class="text-lg text-slate-500 font-normal">د.ك</span></p>
+                <p class="text-3xl font-bold text-slate-800">{{ number_format($totalRevenue) }} <span class="text-lg text-slate-500 font-normal">د.ع</span></p>
             </div>
 
             <!-- Mini Insight Diagram (Background Sparkline) -->
@@ -170,8 +172,8 @@
     </div>
 
     <!-- Mini Appointments Table -->
-    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+    <div class="bg-white rounded-3xl shadow-sm border border-black/5 overflow-hidden">
+        <div class="p-6 border-b border-black/5 flex items-center justify-between">
             <h2 class="text-lg font-bold text-slate-800">مواعيد اليوم</h2>
             <a href="{{ route('appointments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">عرض الكل</a>
         </div>
@@ -287,7 +289,7 @@
                          x-transition:leave-start="translate-x-0"
                          x-transition:leave-end="-translate-x-full"
                          class="pointer-events-auto w-screen max-w-md">
-                        <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-r-3xl border-r border-slate-100">
+                        <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-r-3xl border-r border-black/5">
                             <div class="px-4 sm:px-6 flex items-center justify-between">
                                 <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">المكالمات الواردة</h2>
                                 <button type="button" @click="callsModal = false" class="rounded-md bg-white text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -300,7 +302,7 @@
                             <div class="relative mt-6 flex-1 px-4 sm:px-6">
                                 <ul class="space-y-4">
                                     @forelse($recentCalls as $call)
-                                        <li class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                        <li class="bg-slate-50 p-4 rounded-2xl border border-black/5">
                                             <!-- Example of real data rendering -->
                                             <div class="flex items-center justify-between">
                                                 <p class="font-medium text-slate-800">{{ $call->caller_name }}</p>
@@ -350,7 +352,7 @@
                          x-transition:leave-start="translate-x-0"
                          x-transition:leave-end="-translate-x-full"
                          class="pointer-events-auto w-screen max-w-md">
-                        <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-r-3xl border-r border-slate-100">
+                        <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-r-3xl border-r border-black/5">
                             <div class="px-4 sm:px-6 flex items-center justify-between">
                                 <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">الرسائل</h2>
                                 <button type="button" @click="messagesModal = false" class="rounded-md bg-white text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -363,7 +365,7 @@
                             <div class="relative mt-6 flex-1 px-4 sm:px-6">
                                 <ul class="space-y-4">
                                     @forelse($recentMessages as $message)
-                                        <li class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                        <li class="bg-slate-50 p-4 rounded-2xl border border-black/5">
                                             <!-- Example of real data rendering -->
                                             <p class="font-medium text-slate-800">{{ $message->sender }}</p>
                                         </li>

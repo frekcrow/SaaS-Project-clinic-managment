@@ -7,7 +7,7 @@ use App\Models\Appointment;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (strtolower(auth()->user()->role) === 'doctor') {
             return view('doctor.dashboard');
@@ -23,6 +23,29 @@ class DashboardController extends Controller
             ->where('status', 'in_progress')
             ->first();
 
+        // Calculations for Dashboard Stats
+        $filter = $request->query('filter', 'today');
+        $query = Appointment::where('status', 'completed');
+
+        switch ($filter) {
+            case 'week':
+                $query->where('appointment_datetime', '>=', now()->startOfWeek());
+                break;
+            case 'month':
+                $query->where('appointment_datetime', '>=', now()->startOfMonth());
+                break;
+            case 'year':
+                $query->where('appointment_datetime', '>=', now()->startOfYear());
+                break;
+            case 'today':
+            default:
+                $query->whereDate('appointment_datetime', today());
+                break;
+        }
+
+        $visitorsCount = $query->count();
+        $totalRevenue = $query->sum('price');
+
         // Preparing variables for future columns
         $pendingSurgeries = 0;
         $todaySessions = 0;
@@ -36,7 +59,10 @@ class DashboardController extends Controller
             'pendingSurgeries',
             'todaySessions',
             'recentCalls',
-            'recentMessages'
+            'recentMessages',
+            'visitorsCount',
+            'totalRevenue',
+            'filter'
         ));
     }
 }

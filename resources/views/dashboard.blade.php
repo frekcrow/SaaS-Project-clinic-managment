@@ -178,12 +178,13 @@
 
                     <div class="flex items-center gap-2">
                         <div class="relative" x-init="initDatepicker()">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none text-slate-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
-                            <input type="text" name="revenue_date" x-ref="dateInput" dir="ltr" class="text-left text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1 w-32" placeholder="تاريخ محدد">
+                            <input type="text" name="revenue_date" x-ref="dateInput" dir="ltr" class="text-left text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-24" placeholder="تاريخ محدد">
                         </div>
-                        <select name="revenue_period" onchange="this.form.submit()" class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1 w-24 text-right bg-[position:left_0.5rem_center]">
+                        <select name="revenue_period" onchange="this.form.submit()" class="text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-20 text-right bg-[position:left_0.25rem_center]">
+                            <option value="all" {{ $revenuePeriod === 'all' ? 'selected' : '' }}>الكل</option>
                             <option value="today" {{ $revenuePeriod === 'today' ? 'selected' : '' }}>اليوم</option>
                             <option value="week" {{ $revenuePeriod === 'week' ? 'selected' : '' }}>الاسبوع</option>
                             <option value="month" {{ $revenuePeriod === 'month' ? 'selected' : '' }}>الشهر</option>

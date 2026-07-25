@@ -2,11 +2,8 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('الحسابات') }} - {{ $clinicName }}
+                {{ __('سجل الحسابات') }}
             </h2>
-            <div class="text-gray-600">
-                د. {{ $doctorName }}
-            </div>
         </div>
     </x-slot>
 
@@ -50,9 +47,6 @@
                 </div>
 
                 <div class="flex items-center space-x-2 space-x-reverse">
-                    <a href="{{ route('appointments.create') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
-                        {{ __('اضافة +') }}
-                    </a>
                     <a href="{{ route('billing.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('تصدير CSV') }}
                     </a>
@@ -115,7 +109,7 @@
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-900 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4">
-                                                        <span x-text="appointment.price || '0'"></span> ريال
+                                                        <span x-text="Number(appointment.price || 0).toLocaleString()"></span> د.ع
                                                     </div>
                                                 </template>
                                                 <template x-if="editMode">
@@ -185,7 +179,7 @@
                                 <div class="border-t pt-4 flex justify-between items-center bg-gray-50 p-3 rounded">
                                     <span class="font-bold text-lg text-gray-900">المبلغ المدفوع:</span>
                                     <span class="font-bold text-lg text-gray-900">
-                                        <span x-text="showFullHistory ? totalPaid : currentAppointment?.price"></span> ريال
+                                        <span x-text="Number(showFullHistory ? totalPaid : (currentAppointment?.price || 0)).toLocaleString()"></span> د.ع
                                     </span>
                                 </div>
                             </div>

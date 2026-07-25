@@ -13,11 +13,19 @@ class DashboardController extends Controller
             return view('doctor.dashboard');
         }
 
-        $todaysAppointments = Appointment::with('patient')
-            ->whereDate('appointment_datetime', today())
-            ->orderBy('appointment_datetime', 'asc')
-            ->take(5)
+        $appointmentStatus = $request->query('appointment_status', 'pending');
+
+        $todaysAppointmentsQuery = Appointment::with('patient')
+            ->whereDate('appointment_datetime', today());
+
+        if ($appointmentStatus !== 'all') {
+            $todaysAppointmentsQuery->where('status', $appointmentStatus);
+        }
+
+        $todaysAppointments = $todaysAppointmentsQuery->orderBy('appointment_datetime', 'asc')
             ->get();
+
+        $recentAppointments = $todaysAppointments->take(5);
 
         $activeConsultation = Appointment::with('patient')
             ->where('status', 'in_progress')
@@ -44,7 +52,33 @@ class DashboardController extends Controller
         }
 
         $visitorsCount = $query->count();
-        $totalRevenue = $query->sum('price');
+
+        // Revenue Calculations
+        $revenuePeriod = $request->query('revenue_period', 'today');
+        $revenueDate = $request->query('revenue_date');
+        $revenueQuery = Appointment::where('status', 'completed');
+
+        if ($revenueDate) {
+            $revenueQuery->whereDate('appointment_datetime', $revenueDate);
+        } else {
+            switch ($revenuePeriod) {
+                case 'week':
+                    $revenueQuery->where('appointment_datetime', '>=', now()->startOfWeek());
+                    break;
+                case 'month':
+                    $revenueQuery->where('appointment_datetime', '>=', now()->startOfMonth());
+                    break;
+                case 'year':
+                    $revenueQuery->where('appointment_datetime', '>=', now()->startOfYear());
+                    break;
+                case 'today':
+                default:
+                    $revenueQuery->whereDate('appointment_datetime', today());
+                    break;
+            }
+        }
+
+        $totalRevenue = $revenueQuery->sum('price');
 
         // Preparing variables for future columns
         $pendingSurgeries = 0;
@@ -55,6 +89,7 @@ class DashboardController extends Controller
 
         return view('dashboard', compact(
             'todaysAppointments',
+            'recentAppointments',
             'activeConsultation',
             'pendingSurgeries',
             'todaySessions',
@@ -62,7 +97,10 @@ class DashboardController extends Controller
             'recentMessages',
             'visitorsCount',
             'totalRevenue',
-            'filter'
+            'filter',
+            'appointmentStatus',
+            'revenuePeriod',
+            'revenueDate'
         ));
     }
 }

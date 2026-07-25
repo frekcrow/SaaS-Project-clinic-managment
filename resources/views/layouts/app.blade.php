@@ -92,7 +92,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" class="w-full bg-white border-none rounded-full shadow-sm py-2.5 pr-11 pl-4 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="ابحث هنا...">
+                            <input type="text" class="w-full bg-white border-[1.5px] border-black/80 rounded-full shadow-sm py-2.5 pr-11 pl-4 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="ابحث هنا...">
                         </div>
                     </div>
 

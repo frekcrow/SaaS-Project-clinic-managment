@@ -100,7 +100,19 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <span class="text-sm font-medium text-slate-500">اليوم</span>
+                <form method="GET" action="{{ route('dashboard') }}" class="self-start">
+                    <!-- Preserve other filters -->
+                    @if(request('filter')) <input type="hidden" name="filter" value="{{ request('filter') }}"> @endif
+                    @if(request('revenue_period')) <input type="hidden" name="revenue_period" value="{{ request('revenue_period') }}"> @endif
+                    @if(request('revenue_date')) <input type="hidden" name="revenue_date" value="{{ request('revenue_date') }}"> @endif
+
+                    <select name="appointment_status" onchange="this.form.submit()" class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1 w-full text-right bg-[position:left_0.5rem_center]">
+                        <option value="all" {{ $appointmentStatus === 'all' ? 'selected' : '' }}>الكل</option>
+                        <option value="completed" {{ $appointmentStatus === 'completed' ? 'selected' : '' }}>مكتمل</option>
+                        <option value="pending" {{ $appointmentStatus === 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
+                        <option value="cancelled" {{ $appointmentStatus === 'cancelled' ? 'selected' : '' }}>ملغي</option>
+                    </select>
+                </form>
             </div>
             <div>
                 <h3 class="text-slate-500 text-sm font-medium mb-1">مواعيد اليوم</h3>
@@ -141,21 +153,46 @@
         </div>
 
         <!-- Card 4: Total Revenue -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden">
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden z-20">
             <div class="flex items-center justify-between mb-2">
                 <div class="p-3 bg-emerald-50 rounded-2xl text-emerald-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-                <div class="flex items-center space-x-1 space-x-reverse bg-emerald-100 text-emerald-700 px-2 py-1 rounded-full text-xs font-bold">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                    </svg>
-                    <span>Up 12%</span>
-                </div>
+                <form method="GET" action="{{ route('dashboard') }}" class="self-start flex flex-col items-end gap-2" x-data="{
+                    initDatepicker() {
+                        window.flatpickr(this.$refs.dateInput, {
+                            allowInput: true,
+                            dateFormat: 'Y-m-d',
+                            defaultDate: '{{ $revenueDate ?? '' }}',
+                            onChange: (selectedDates, dateStr, instance) => {
+                                this.$el.closest('form').submit();
+                            }
+                        });
+                    }
+                }">
+                    <!-- Preserve other filters -->
+                    @if(request('filter')) <input type="hidden" name="filter" value="{{ request('filter') }}"> @endif
+                    @if(request('appointment_status')) <input type="hidden" name="appointment_status" value="{{ request('appointment_status') }}"> @endif
+
+                    <div class="flex items-center gap-2">
+                        <div class="relative" x-init="initDatepicker()">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <input type="text" name="revenue_date" x-ref="dateInput" dir="ltr" class="text-left text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1 w-32" placeholder="تاريخ محدد">
+                        </div>
+                        <select name="revenue_period" onchange="this.form.submit()" class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1 w-24 text-right bg-[position:left_0.5rem_center]">
+                            <option value="today" {{ $revenuePeriod === 'today' ? 'selected' : '' }}>اليوم</option>
+                            <option value="week" {{ $revenuePeriod === 'week' ? 'selected' : '' }}>الاسبوع</option>
+                            <option value="month" {{ $revenuePeriod === 'month' ? 'selected' : '' }}>الشهر</option>
+                            <option value="year" {{ $revenuePeriod === 'year' ? 'selected' : '' }}>السنة</option>
+                        </select>
+                    </div>
+                </form>
             </div>
-            <div class="relative z-10">
+            <div class="relative z-10 mt-2">
                 <h3 class="text-slate-500 text-sm font-medium mb-1">إجمالي الإيرادات</h3>
                 <p class="text-3xl font-bold text-slate-800">{{ number_format($totalRevenue) }} <span class="text-lg text-slate-500 font-normal">د.ع</span></p>
             </div>
@@ -188,7 +225,7 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
-                    @forelse($todaysAppointments as $appointment)
+                    @forelse($recentAppointments as $appointment)
                         <tr class="hover:bg-slate-50/80 transition-colors group">
                             <td class="py-4 px-6 text-slate-800 font-medium group-hover:text-indigo-600 transition-colors">
                                 {{ $appointment->patient_name ?? ($appointment->patient ? $appointment->patient->name : 'غير محدد') }}

@@ -71,6 +71,8 @@ class DashboardController extends Controller
                 case 'year':
                     $revenueQuery->where('appointment_datetime', '>=', now()->startOfYear());
                     break;
+                case 'all':
+                    break;
                 case 'today':
                 default:
                     $revenueQuery->whereDate('appointment_datetime', today());

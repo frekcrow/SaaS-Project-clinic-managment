@@ -20,6 +20,7 @@ use App\Http\Controllers\SettingsController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/billing/export-csv', [BillingController::class, 'exportCsv'])->name('billing.export_csv');
     Route::post('/billing/bulk-delete', [BillingController::class, 'bulkDelete'])->name('billing.bulk_delete');

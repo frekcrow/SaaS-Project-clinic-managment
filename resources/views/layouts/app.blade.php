@@ -100,12 +100,16 @@
                     <div class="flex items-center" x-data="{ open: false }">
                         <!-- Dropdown Trigger -->
                         <button @click="open = !open" class="flex items-center space-x-3 space-x-reverse focus:outline-none bg-white shadow-sm hover:bg-slate-50 rounded-full py-1 pr-1 pl-4 transition-colors">
-                            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold shadow-sm">
-                                {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
+                            <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold shadow-sm overflow-hidden">
+                                @if(Auth::user()->avatar_path)
+                                    <img src="{{ Storage::url(Auth::user()->avatar_path) }}" alt="Avatar" class="w-full h-full object-cover">
+                                @else
+                                    {{ substr(Auth::user()->secretary_name ?? Auth::user()->name ?? 'U', 0, 1) }}
+                                @endif
                             </div>
                             <div class="flex flex-col items-start hidden sm:flex">
-                                <span class="text-sm font-semibold text-slate-800">{{ Auth::user()->name ?? 'المستخدم' }}</span>
-                                <span class="text-xs text-slate-500">عيادة الشفاء</span>
+                                <span class="text-sm font-semibold text-slate-800">{{ Auth::user()->secretary_name ?? Auth::user()->name ?? 'المستخدم' }}</span>
+                                <span class="text-xs text-slate-500">{{ Auth::user()->clinic_name ?? 'عيادة الشفاء' }}</span>
                             </div>
                             <svg class="w-4 h-4 text-slate-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>

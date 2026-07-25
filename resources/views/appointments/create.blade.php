@@ -87,11 +87,29 @@
                             <x-input-error :messages="$errors->get('appointment_datetime')" class="mt-2" />
                         </div>
 
-                        <!-- Price -->
-                        <div class="mt-4">
-                            <x-input-label for="price" :value="__('السعر / الرسوم (اختياري)')" />
-                            <x-text-input id="price" class="block mt-1 w-full" type="number" step="0.01" name="price" :value="old('price')" />
-                            <x-input-error :messages="$errors->get('price')" class="mt-2" />
+                        <div x-data="appointmentPricing({{ auth()->user()->default_consultation_price ?? 0 }}, {{ auth()->user()->default_session_price ?? 0 }})" class="mt-4 border-t pt-4 border-gray-100">
+                            @if(auth()->user()->has_sessions_system)
+                                <div class="mb-4 space-y-2">
+                                    <span class="block text-sm font-medium text-gray-700">نوع الحجز</span>
+                                    <div class="flex gap-6">
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" x-model="isConsultation" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                            <span class="ml-2 mr-2 text-sm text-gray-600">كشفية</span>
+                                        </label>
+                                        <label class="inline-flex items-center">
+                                            <input type="checkbox" x-model="isSession" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                            <span class="ml-2 mr-2 text-sm text-gray-600">جلسة</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <!-- Price -->
+                            <div class="mt-4">
+                                <x-input-label for="price" :value="__('السعر / الرسوم (اختياري)')" />
+                                <x-text-input id="price" class="block mt-1 w-full font-bold" type="number" step="0.01" name="price" x-model="price" />
+                                <x-input-error :messages="$errors->get('price')" class="mt-2" />
+                            </div>
                         </div>
 
                         <div class="flex items-center justify-end mt-6 gap-4">
@@ -109,6 +127,34 @@
     </div>
     <script>
         document.addEventListener('alpine:init', () => {
+            Alpine.data('appointmentPricing', (defaultConsultation, defaultSession) => ({
+                isConsultation: false,
+                isSession: false,
+                price: @json(old('price', '')),
+                defaultConsultationPrice: defaultConsultation,
+                defaultSessionPrice: defaultSession,
+
+                calculatePrice() {
+                    let total = 0;
+                    let hasSelection = false;
+
+                    if (this.isConsultation) {
+                        total += Number(this.defaultConsultationPrice);
+                        hasSelection = true;
+                    }
+                    if (this.isSession) {
+                        total += Number(this.defaultSessionPrice);
+                        hasSelection = true;
+                    }
+
+                    if (hasSelection) {
+                         this.price = total;
+                    } else {
+                         this.price = '';
+                    }
+                }
+            }));
+
             Alpine.data('patientAutocomplete', () => ({
                 patient_name: @json(old('patient_name', '')),
                 phone: @json(old('phone', '')),

@@ -14,9 +14,21 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+        Appointment::where('tenant_id', Auth::user()->tenant_id)
+            ->where('status', 'pending')
+            ->where(function ($q) {
+                $q->where('appointment_date', '<', now()->toDateString())
+                  ->orWhere(function ($q2) {
+                      $q2->where('appointment_date', '=', now()->toDateString())
+                         ->where('appointment_time', '<', now()->toTimeString());
+                  });
+            })
+            ->update(['status' => 'cancelled']);
+
         $appointments = Appointment::with(['doctor', 'patient'])
             ->where('tenant_id', Auth::user()->tenant_id)
-            ->orderBy('appointment_datetime')
+            ->orderBy('appointment_date')
+            ->orderBy('appointment_time')
             ->get();
 
         return view('appointments.index', compact('appointments'));
@@ -56,7 +68,8 @@ class AppointmentController extends Controller
                                  ->where('role', 'Doctor');
                 }),
             ],
-            'appointment_datetime' => 'required|date',
+            'appointment_date' => 'required|date',
+            'appointment_time' => 'required|date_format:H:i',
             'price' => 'nullable|numeric|min:0',
         ]);
 
@@ -91,7 +104,8 @@ class AppointmentController extends Controller
         abort_if($appointment->tenant_id !== auth()->user()->tenant_id, 403);
 
         $validatedData = $request->validate([
-            'appointment_datetime' => 'nullable|date',
+            'appointment_date' => 'nullable|date',
+            'appointment_time' => 'nullable|date_format:H:i',
             'price' => 'nullable|numeric|min:0',
             'status' => 'sometimes|required|in:pending,completed,cancelled',
         ]);
@@ -132,7 +146,8 @@ class AppointmentController extends Controller
     {
         $appointments = Appointment::with(['doctor', 'patient'])
             ->where('tenant_id', $request->user()->tenant_id)
-            ->orderBy('appointment_datetime')
+            ->orderBy('appointment_date')
+            ->orderBy('appointment_time')
             ->get();
 
         $headers = [
@@ -151,12 +166,13 @@ class AppointmentController extends Controller
             fputcsv($file, $columns);
 
             foreach ($appointments as $appointment) {
+                $timeString = substr($appointment->appointment_time, 0, 5);
                 fputcsv($file, [
                     $appointment->id,
                     $appointment->patient->name ?? $appointment->patient_name,
                     $appointment->patient->phone ?? $appointment->phone ?? '-',
                     $appointment->doctor->name ?? '-',
-                    $appointment->appointment_datetime->format('Y-m-d H:i'),
+                    $appointment->appointment_date->format('Y-m-d') . ' ' . $timeString,
                     $appointment->price,
                     $appointment->status
                 ]);

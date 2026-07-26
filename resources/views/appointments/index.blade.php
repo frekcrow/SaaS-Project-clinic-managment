@@ -86,15 +86,20 @@
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
-                                                    <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_datetime_formatted"></div>
+                                                    <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_date_formatted"></div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="datetime-local" x-model="appointment.appointment_datetime_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                    <input type="date" x-model="appointment.appointment_date_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
                                                 </template>
                                             </td>
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
-                                                <div class="px-6 py-4" x-html="renderCountdown(appointment)"></div>
+                                                <template x-if="!editMode">
+                                                    <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_formatted"></div>
+                                                </template>
+                                                <template x-if="editMode">
+                                                    <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                </template>
                                             </td>
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
@@ -163,7 +168,7 @@
                 appointments: initialAppointments.map(a => {
                     return {
                         ...a,
-                        appointment_date_formatted: a.appointment_date || '',
+                        appointment_date_formatted: a.appointment_date ? a.appointment_date.substring(0, 10) : '',
                         appointment_time_formatted: a.appointment_time ? a.appointment_time.substring(0, 5) : ''
                     };
                 }),

@@ -7,7 +7,14 @@
         </div>
     </x-slot>
 
-    <div class="py-12" x-data="patientsGrid(@js($patients))">
+    @php
+        $formattedPatients = $patients->map(function($patient) {
+            $formatted = $patient->toArray();
+            $formatted['dob_formatted'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('Y/m/d') : '';
+            return $formatted;
+        });
+    @endphp
+    <div class="py-12" x-data="patientsGrid(@js($formattedPatients))">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Top Action Bar -->
@@ -94,10 +101,10 @@
                                             </td>
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
-                                                    <div class="px-6 py-4" x-text="patient.dob_formatted || '-'"></div>
+                                                    <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="date" x-model="patient.dob_formatted" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
+                                                    <input type="text" x-model="patient.dob_formatted" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr" placeholder="YYYY/MM/DD">
                                                 </template>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
@@ -120,10 +127,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('patientsGrid', (initialPatients) => ({
-                patients: initialPatients.map(p => ({
-                    ...p,
-                    dob_formatted: p.dob ? p.dob.substring(0, 10) : ''
-                })),
+                patients: initialPatients,
                 search: '',
                 sortBy: 'newest',
                 editMode: false,

@@ -13,16 +13,28 @@ class DashboardController extends Controller
             return view('doctor.dashboard');
         }
 
+        Appointment::where('tenant_id', auth()->user()->tenant_id)
+            ->where('status', 'pending')
+            ->where(function ($q) {
+                $q->where('appointment_date', '<', now()->toDateString())
+                  ->orWhere(function ($q2) {
+                      $q2->where('appointment_date', '=', now()->toDateString())
+                         ->where('appointment_time', '<', now()->toTimeString());
+                  });
+            })
+            ->update(['status' => 'cancelled']);
+
         $appointmentStatus = $request->query('appointment_status', 'pending');
 
         $todaysAppointmentsQuery = Appointment::with('patient')
-            ->whereDate('appointment_datetime', today());
+            ->whereDate('appointment_date', today());
 
         if ($appointmentStatus !== 'all') {
             $todaysAppointmentsQuery->where('status', $appointmentStatus);
         }
 
-        $todaysAppointments = $todaysAppointmentsQuery->orderBy('appointment_datetime', 'asc')
+        $todaysAppointments = $todaysAppointmentsQuery->orderBy('appointment_date', 'asc')
+            ->orderBy('appointment_time', 'asc')
             ->get();
 
         $recentAppointments = $todaysAppointments->take(5);
@@ -37,17 +49,17 @@ class DashboardController extends Controller
 
         switch ($filter) {
             case 'week':
-                $query->where('appointment_datetime', '>=', now()->startOfWeek());
+                $query->where('appointment_date', '>=', now()->startOfWeek());
                 break;
             case 'month':
-                $query->where('appointment_datetime', '>=', now()->startOfMonth());
+                $query->where('appointment_date', '>=', now()->startOfMonth());
                 break;
             case 'year':
-                $query->where('appointment_datetime', '>=', now()->startOfYear());
+                $query->where('appointment_date', '>=', now()->startOfYear());
                 break;
             case 'today':
             default:
-                $query->whereDate('appointment_datetime', today());
+                $query->whereDate('appointment_date', today());
                 break;
         }
 
@@ -59,23 +71,23 @@ class DashboardController extends Controller
         $revenueQuery = Appointment::where('status', 'completed');
 
         if ($revenueDate) {
-            $revenueQuery->whereDate('appointment_datetime', $revenueDate);
+            $revenueQuery->whereDate('appointment_date', $revenueDate);
         } else {
             switch ($revenuePeriod) {
                 case 'week':
-                    $revenueQuery->where('appointment_datetime', '>=', now()->startOfWeek());
+                    $revenueQuery->where('appointment_date', '>=', now()->startOfWeek());
                     break;
                 case 'month':
-                    $revenueQuery->where('appointment_datetime', '>=', now()->startOfMonth());
+                    $revenueQuery->where('appointment_date', '>=', now()->startOfMonth());
                     break;
                 case 'year':
-                    $revenueQuery->where('appointment_datetime', '>=', now()->startOfYear());
+                    $revenueQuery->where('appointment_date', '>=', now()->startOfYear());
                     break;
                 case 'all':
                     break;
                 case 'today':
                 default:
-                    $revenueQuery->whereDate('appointment_datetime', today());
+                    $revenueQuery->whereDate('appointment_date', today());
                     break;
             }
         }

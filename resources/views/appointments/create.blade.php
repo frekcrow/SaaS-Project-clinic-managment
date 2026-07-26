@@ -81,10 +81,17 @@
                         </div>
 
                         <!-- Appointment Date and Time -->
-                        <div class="mt-4">
-                            <x-input-label for="appointment_datetime" :value="__('تاريخ ووقت الموعد')" />
-                            <x-text-input id="appointment_datetime" class="block mt-1 w-full" type="datetime-local" name="appointment_datetime" :value="old('appointment_datetime')" required />
-                            <x-input-error :messages="$errors->get('appointment_datetime')" class="mt-2" />
+                        <div class="mt-4 flex flex-col md:flex-row gap-4">
+                            <div class="flex-1">
+                                <x-input-label for="appointment_date" :value="__('تاريخ الموعد')" />
+                                <x-text-input id="appointment_date" class="block mt-1 w-full text-left" dir="ltr" type="text" x-data="{}" x-init="flatpickr($el, {allowInput: true, dateFormat: 'Y-m-d'})" name="appointment_date" :value="old('appointment_date')" required />
+                                <x-input-error :messages="$errors->get('appointment_date')" class="mt-2" />
+                            </div>
+                            <div class="flex-1">
+                                <x-input-label for="appointment_time" :value="__('وقت الموعد')" />
+                                <x-text-input id="appointment_time" class="block mt-1 w-full text-left" dir="ltr" type="time" name="appointment_time" :value="old('appointment_time')" required />
+                                <x-input-error :messages="$errors->get('appointment_time')" class="mt-2" />
+                            </div>
                         </div>
 
                         <div x-data="appointmentPricing({{ auth()->user()->default_consultation_price ?? 0 }}, {{ auth()->user()->default_session_price ?? 0 }})" class="mt-4 border-t pt-4 border-gray-100">

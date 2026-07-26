@@ -120,10 +120,10 @@
                                                 <span x-text="appointment.patient?.phone || appointment.phone || '-'"></span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
-                                                <span x-text="appointment.appointment_datetime.substring(0, 10)"></span>
+                                                <span x-text="appointment.appointment_date"></span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
-                                                <span x-text="appointment.appointment_datetime.substring(11, 16)"></span>
+                                                <span x-text="appointment.appointment_time ? appointment.appointment_time.substring(0, 5) : ''"></span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
                                                 <button @click="openInvoiceModal(appointment, appointment.total_paid, clinicName)" class="text-indigo-600 hover:text-indigo-900 p-2 bg-indigo-50 hover:bg-indigo-100 rounded transition-colors border border-indigo-200">
@@ -165,11 +165,11 @@
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="font-semibold text-gray-700">التاريخ:</span>
-                                    <span class="text-gray-900" x-text="currentAppointment ? new Date(currentAppointment.appointment_datetime).toLocaleDateString('en-CA') : ''"></span>
+                                    <span class="text-gray-900" x-text="currentAppointment ? currentAppointment.appointment_date : ''"></span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="font-semibold text-gray-700">الوقت:</span>
-                                    <span class="text-gray-900" x-text="currentAppointment ? new Date(currentAppointment.appointment_datetime).toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit', hour12: false}) : ''"></span>
+                                    <span class="text-gray-900" x-text="currentAppointment ? (currentAppointment.appointment_time ? currentAppointment.appointment_time.substring(0, 5) : '') : ''"></span>
                                 </div>
                                 <div class="flex justify-between">
                                     <span class="font-semibold text-gray-700">السبب:</span>
@@ -236,7 +236,7 @@
                     const now = new Date();
                     if (this.filter !== 'all') {
                         filtered = filtered.filter(a => {
-                            const apptDate = new Date(a.appointment_datetime);
+                            const apptDate = new Date(a.appointment_date);
                             if (this.filter === 'today') {
                                 return apptDate.toDateString() === now.toDateString();
                             } else if (this.filter === 'week') {

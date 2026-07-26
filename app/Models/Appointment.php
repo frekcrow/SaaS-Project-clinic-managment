@@ -17,13 +17,14 @@ class Appointment extends Model
         'patient_name',
         'phone',
         'doctor_id',
-        'appointment_datetime',
+        'appointment_date',
+        'appointment_time',
         'price',
         'status',
     ];
 
     protected $casts = [
-        'appointment_datetime' => 'datetime',
+        'appointment_date' => 'date',
     ];
 
     public function doctor(): BelongsTo

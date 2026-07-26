@@ -48,15 +48,9 @@
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
                 <div class="p-0 text-gray-900">
-
-                    <template x-if="filteredAppointments.length === 0">
-                        <div class="p-6 text-center text-gray-500">{{ __('لا توجد مواعيد') }}</div>
-                    </template>
-
-                    <template x-if="filteredAppointments.length > 0">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full bg-white border-0">
-                                <thead>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border-0">
+                            <thead>
                                     <tr class="bg-gray-50 border-b border-gray-200">
                                         <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-12 text-center">
                                             <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
@@ -64,8 +58,8 @@
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">اسم المريض</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الهاتف</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ ووقت الموعد</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الوقت المتبقي</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">السعر</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الحالة</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">إجراءات</th>
@@ -149,11 +143,14 @@
                                             </td>
                                         </tr>
                                     </template>
+                                    <template x-if="filteredAppointments.length === 0">
+                                        <tr>
+                                            <td colspan="10" class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</td>
+                                        </tr>
+                                    </template>
                                 </tbody>
-                            </table>
-                        </div>
-                    </template>
-
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,18 +161,10 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('appointmentsGrid', (initialAppointments) => ({
                 appointments: initialAppointments.map(a => {
-                    // Format datetime for datetime-local input (YYYY-MM-DDThh:mm)
-                    let formattedDt = '';
-                    if (a.appointment_datetime) {
-                        const dt = new Date(a.appointment_datetime);
-                        // Convert to local time string that datetime-local expects
-                        const tzOffset = dt.getTimezoneOffset() * 60000;
-                        formattedDt = (new Date(dt - tzOffset)).toISOString().slice(0, 16);
-                    }
-
                     return {
                         ...a,
-                        appointment_datetime_formatted: formattedDt
+                        appointment_date_formatted: a.appointment_date || '',
+                        appointment_time_formatted: a.appointment_time ? a.appointment_time.substring(0, 5) : ''
                     };
                 }),
                 search: '',
@@ -185,9 +174,6 @@
                 now: new Date().getTime(),
 
                 init() {
-                    setInterval(() => {
-                        this.now = new Date().getTime();
-                    }, 60000);
                 },
 
                 get filteredAppointments() {
@@ -203,8 +189,8 @@
                     }
 
                     return filtered.sort((a, b) => {
-                        const dtA = new Date(a.appointment_datetime || 0);
-                        const dtB = new Date(b.appointment_datetime || 0);
+                        const dtA = new Date((a.appointment_date || '1970-01-01') + 'T' + (a.appointment_time || '00:00:00'));
+                        const dtB = new Date((b.appointment_date || '1970-01-01') + 'T' + (b.appointment_time || '00:00:00'));
                         const caA = new Date(a.created_at || 0);
                         const caB = new Date(b.created_at || 0);
 
@@ -236,12 +222,8 @@
                     try {
                         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
-                        // Parse back to ISO for backend if changed
-                        let dtToSave = appointment.appointment_datetime_formatted;
-                        if (dtToSave) {
-                           dtToSave = dtToSave.replace('T', ' ') + ':00';
-                           appointment.appointment_datetime = dtToSave; // update internal state
-                        }
+                        appointment.appointment_date = appointment.appointment_date_formatted;
+                        appointment.appointment_time = appointment.appointment_time_formatted;
 
                         const response = await fetch(`/appointments/${appointment.id}`, {
                             method: 'PUT',
@@ -251,7 +233,8 @@
                                 'Accept': 'application/json'
                             },
                             body: JSON.stringify({
-                                appointment_datetime: dtToSave,
+                                appointment_date: appointment.appointment_date,
+                                appointment_time: appointment.appointment_time,
                                 price: appointment.price || null,
                                 status: appointment.status
                             })
@@ -293,35 +276,6 @@
                     }
                 },
 
-                renderCountdown(appointment) {
-                    if (appointment.status !== 'pending') {
-                        return '-';
-                    }
-
-                    if (!appointment.appointment_datetime) {
-                        return '-';
-                    }
-
-                    // Use the string directly from the original data if available to avoid timezone shift issues during calc
-                    // Or use the formatted one. For countdown, the original raw datetime is best.
-                    const appointmentTime = new Date(appointment.appointment_datetime).getTime();
-                    const distance = appointmentTime - this.now;
-
-                    if (distance < 0) {
-                        return '<span class="text-red-500 font-bold">❌</span>';
-                    }
-
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-                    let output = '';
-                    if (days > 0) output += days + ' يوم ';
-                    if (hours > 0) output += hours + ' س ';
-                    output += minutes + ' د ';
-
-                    return output;
-                }
             }));
         });
     </script>

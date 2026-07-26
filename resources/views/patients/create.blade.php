@@ -30,14 +30,14 @@
                             <div x-data="{
                                 initFlatpickr() {
                                     window.flatpickr(this.$refs.dobInput, {
-                                        dateFormat: 'Y-m-d',
+                                        dateFormat: 'Y/m/d',
                                         allowInput: true,
                                         disableMobile: true
                                     });
                                 }
                             }" x-init="initFlatpickr">
                                 <x-input-label for="dob" :value="__('تاريخ الميلاد')" />
-                                <x-text-input x-ref="dobInput" id="dob" class="block mt-1 w-full text-left" dir="ltr" type="text" name="dob" :value="old('dob')" placeholder="YYYY-MM-DD" />
+                                <x-text-input x-ref="dobInput" id="dob" class="block mt-1 w-full text-left" dir="ltr" type="text" name="dob" :value="old('dob')" placeholder="YYYY/MM/DD" x-mask="9999/99/99" />
                                 <x-input-error :messages="$errors->get('dob')" class="mt-2" />
                             </div>
 

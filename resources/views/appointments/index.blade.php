@@ -235,7 +235,8 @@
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': csrfToken,
-                                'Accept': 'application/json'
+                                'Accept': 'application/json',
+                                'Cache-Control': 'no-cache'
                             },
                             body: JSON.stringify({
                                 appointment_date: appointment.appointment_date,
@@ -247,6 +248,11 @@
 
                         if (!response.ok) {
                             console.error('Failed to save appointment', await response.text());
+                        } else {
+                            const data = await response.json();
+                            if (data.appointment && data.appointment.status) {
+                                appointment.status = data.appointment.status;
+                            }
                         }
                     } catch (error) {
                         console.error('Error saving appointment:', error);

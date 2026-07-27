@@ -14,16 +14,18 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        Appointment::where('tenant_id', Auth::user()->tenant_id)
+        $pendingAppointments = Appointment::where('tenant_id', Auth::user()->tenant_id)
             ->where('status', 'pending')
-            ->where(function ($q) {
-                $q->where('appointment_date', '<', now()->toDateString())
-                  ->orWhere(function ($q2) {
-                      $q2->where('appointment_date', '=', now()->toDateString())
-                         ->where('appointment_time', '<', now()->toTimeString());
-                  });
-            })
-            ->update(['status' => 'cancelled']);
+            ->get();
+
+        foreach ($pendingAppointments as $appt) {
+            if ($appt->appointment_date && $appt->appointment_time) {
+                $dateTimeString = $appt->appointment_date->format('Y-m-d') . ' ' . $appt->appointment_time;
+                if (\Carbon\Carbon::parse($dateTimeString, 'Asia/Baghdad')->isPast()) {
+                    $appt->update(['status' => 'cancelled']);
+                }
+            }
+        }
 
         $appointments = Appointment::with(['doctor', 'patient'])
             ->where('tenant_id', Auth::user()->tenant_id)

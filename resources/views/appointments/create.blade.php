@@ -84,7 +84,7 @@
                         <div class="mt-4 flex flex-col md:flex-row gap-4">
                             <div class="flex-1">
                                 <x-input-label for="appointment_date" :value="__('تاريخ الموعد')" />
-                                <x-text-input id="appointment_date" class="block mt-1 w-full text-left" dir="ltr" type="text" x-data="{}" x-init="flatpickr($el, {allowInput: true, dateFormat: 'Y-m-d'})" name="appointment_date" :value="old('appointment_date')" required />
+                                <x-text-input id="appointment_date" class="block mt-1 w-full text-left" dir="ltr" type="text" x-data="{}" x-init="flatpickr($el, {allowInput: true, disableMobile: true, dateFormat: 'Y-m-d'})" name="appointment_date" :value="old('appointment_date')" required />
                                 <x-input-error :messages="$errors->get('appointment_date')" class="mt-2" />
                             </div>
                             <div class="flex-1">

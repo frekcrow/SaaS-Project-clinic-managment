@@ -13,21 +13,24 @@ class DashboardController extends Controller
             return view('doctor.dashboard');
         }
 
-        Appointment::where('tenant_id', auth()->user()->tenant_id)
+        $pendingAppointments = Appointment::where('tenant_id', auth()->user()->tenant_id)
             ->where('status', 'pending')
-            ->where(function ($q) {
-                $q->where('appointment_date', '<', now()->toDateString())
-                  ->orWhere(function ($q2) {
-                      $q2->where('appointment_date', '=', now()->toDateString())
-                         ->where('appointment_time', '<', now()->toTimeString());
-                  });
-            })
-            ->update(['status' => 'cancelled']);
+            ->get();
+
+        foreach ($pendingAppointments as $appt) {
+            if ($appt->appointment_date && $appt->appointment_time) {
+                $dateTimeString = $appt->appointment_date->format('Y-m-d') . ' ' . $appt->appointment_time;
+                if (\Carbon\Carbon::parse($dateTimeString, 'Asia/Baghdad')->isPast()) {
+                    $appt->update(['status' => 'cancelled']);
+                }
+            }
+        }
 
         $appointmentStatus = $request->query('appointment_status', 'pending');
 
         $todaysAppointmentsQuery = Appointment::with('patient')
-            ->whereDate('appointment_date', today());
+            ->where('tenant_id', auth()->user()->tenant_id)
+            ->where('appointment_date', today()->format('Y-m-d'));
 
         if ($appointmentStatus !== 'all') {
             $todaysAppointmentsQuery->where('status', $appointmentStatus);
@@ -37,15 +40,21 @@ class DashboardController extends Controller
             ->orderBy('appointment_time', 'asc')
             ->get();
 
-        $recentAppointments = $todaysAppointments->take(5);
+        $recentAppointments = Appointment::with('patient')
+            ->where('tenant_id', auth()->user()->tenant_id)
+            ->where('appointment_date', today()->format('Y-m-d'))
+            ->orderBy('appointment_time', 'asc')
+            ->take(5)
+            ->get();
 
         $activeConsultation = Appointment::with('patient')
+            ->where('tenant_id', auth()->user()->tenant_id)
             ->where('status', 'in_progress')
             ->first();
 
         // Calculations for Dashboard Stats
         $filter = $request->query('filter', 'today');
-        $query = Appointment::where('status', 'completed');
+        $query = Appointment::where('tenant_id', auth()->user()->tenant_id)->where('status', 'completed');
 
         switch ($filter) {
             case 'week':
@@ -59,7 +68,7 @@ class DashboardController extends Controller
                 break;
             case 'today':
             default:
-                $query->whereDate('appointment_date', today());
+                $query->where('appointment_date', today()->format('Y-m-d'));
                 break;
         }
 
@@ -68,10 +77,10 @@ class DashboardController extends Controller
         // Revenue Calculations
         $revenuePeriod = $request->query('revenue_period', 'today');
         $revenueDate = $request->query('revenue_date');
-        $revenueQuery = Appointment::where('status', 'completed');
+        $revenueQuery = Appointment::where('tenant_id', auth()->user()->tenant_id)->where('status', 'completed');
 
         if ($revenueDate) {
-            $revenueQuery->whereDate('appointment_date', $revenueDate);
+            $revenueQuery->where('appointment_date', $revenueDate);
         } else {
             switch ($revenuePeriod) {
                 case 'week':
@@ -87,7 +96,7 @@ class DashboardController extends Controller
                     break;
                 case 'today':
                 default:
-                    $revenueQuery->whereDate('appointment_date', today());
+                    $revenueQuery->where('appointment_date', today()->format('Y-m-d'));
                     break;
             }
         }

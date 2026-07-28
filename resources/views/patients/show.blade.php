@@ -50,21 +50,33 @@
                                 <div>
                                     <h5 class="text-md font-bold text-gray-900 border-b pb-2 mb-4">{{ __('معلومات المريض') }}</h5>
                                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                        <div>
+                                        <div class="flex flex-col items-center justify-center text-center">
                                             <span class="block text-sm font-medium text-gray-500">{{ __('الاسم') }}</span>
                                             <span class="block mt-1 font-semibold text-gray-900">{{ $patient->name }}</span>
                                         </div>
-                                        <div>
+                                        <div class="flex flex-col items-center justify-center text-center">
                                             <span class="block text-sm font-medium text-gray-500">{{ __('رقم الهاتف') }}</span>
                                             <span class="block mt-1 font-semibold text-gray-900" dir="ltr">{{ $patient->phone ?: '-' }}</span>
                                         </div>
-                                        <div>
+                                        <div class="flex flex-col items-center justify-center text-center">
                                             <span class="block text-sm font-medium text-gray-500">{{ __('تاريخ الميلاد') }}</span>
                                             <span class="block mt-1 font-semibold text-gray-900" dir="ltr">{{ $patient->dob ? $patient->dob->format('Y-m-d') : '-' }}</span>
                                         </div>
-                                        <div>
+                                        <div class="flex flex-col items-center justify-center text-center">
                                             <span class="block text-sm font-medium text-gray-500">{{ __('اسم الطبيب المعالج') }}</span>
                                             <span class="block mt-1 font-semibold text-gray-900">{{ $patient->doctor_name ?: ($record->doctor ? $record->doctor->name : '-') }}</span>
+                                        </div>
+                                        <div class="flex flex-col items-center justify-center text-center">
+                                            <span class="block text-sm font-medium text-gray-500">{{ __('الجنس') }}</span>
+                                            <span class="block mt-1 font-semibold text-gray-900">{{ $patient->gender ?: '-' }}</span>
+                                        </div>
+                                        <div class="flex flex-col items-center justify-center text-center">
+                                            <span class="block text-sm font-medium text-gray-500">{{ __('التدخين') }}</span>
+                                            <span class="block mt-1 font-semibold text-gray-900">{{ $patient->smoking_status ?: '-' }}</span>
+                                        </div>
+                                        <div class="flex flex-col items-center justify-center text-center">
+                                            <span class="block text-sm font-medium text-gray-500">{{ __('زمرة الدم') }}</span>
+                                            <span class="block mt-1 font-semibold text-gray-900" dir="ltr">{{ $patient->blood_type ?: '-' }}</span>
                                         </div>
                                     </div>
                                 </div>

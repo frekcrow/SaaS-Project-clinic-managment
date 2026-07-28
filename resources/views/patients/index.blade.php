@@ -11,6 +11,9 @@
         $formattedPatients = $patients->map(function($patient) {
             $formatted = $patient->toArray();
             $formatted['dob_formatted'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('Y/m/d') : '';
+            $formatted['dob_day'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('d') : '';
+            $formatted['dob_month'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('m') : '';
+            $formatted['dob_year'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('Y') : '';
             return $formatted;
         });
     @endphp
@@ -104,7 +107,11 @@
                                                     <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="text" x-model="patient.dob_formatted" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr" placeholder="YYYY/MM/DD" x-mask="9999/99/99">
+                                                    <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
+                                                        <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
+                                                        <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
+                                                        <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
+                                                    </div>
                                                 </template>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
@@ -169,6 +176,17 @@
 
                 async savePatient(patient) {
                     try {
+                        let updatedDob = null;
+                        if (patient.dob_year && patient.dob_month && patient.dob_day) {
+                            updatedDob = `${patient.dob_year}-${String(patient.dob_month).padStart(2, '0')}-${String(patient.dob_day).padStart(2, '0')}`;
+                            patient.dob_formatted = `${patient.dob_year}/${String(patient.dob_month).padStart(2, '0')}/${String(patient.dob_day).padStart(2, '0')}`;
+                        } else if (!patient.dob_year && !patient.dob_month && !patient.dob_day) {
+                            updatedDob = null;
+                            patient.dob_formatted = '';
+                        } else {
+                            updatedDob = patient.dob_formatted ? patient.dob_formatted.replace(/\//g, '-') : null;
+                        }
+
                         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
                         const response = await fetch(`/patients/${patient.id}`, {
                             method: 'PUT',
@@ -180,7 +198,7 @@
                             body: JSON.stringify({
                                 name: patient.name,
                                 phone: patient.phone,
-                                dob: patient.dob_formatted || null
+                                dob: updatedDob
                             })
                         });
 

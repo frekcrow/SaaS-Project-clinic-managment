@@ -59,14 +59,8 @@ class PatientController extends Controller
             'name' => 'required|string|max:255',
             'dob' => 'nullable|date',
             'phone' => 'nullable|string|max:255',
-            'doctor_id' => [
-                'nullable',
-                \Illuminate\Validation\Rule::exists('users', 'id')->where(function ($query) {
-                    return $query->where('tenant_id', Auth::user()->tenant_id)
-                                 ->where('role', 'Doctor');
-                }),
-            ],
-            'reason_for_visit' => 'nullable|string',
+            'doctor_name' => 'nullable|string|max:255',
+            'visit_reason' => 'nullable|string',
             'symptoms_onset' => 'nullable|string|max:255',
             'allergies' => 'nullable|string',
             'chronic_diseases' => 'nullable|string',
@@ -75,7 +69,22 @@ class PatientController extends Controller
 
         $validatedData['tenant_id'] = Auth::user()->tenant_id;
 
-        Patient::create($validatedData);
+        $patient = Patient::create($validatedData);
+
+        if ($request->filled('visit_reason') || $request->filled('symptoms_onset')) {
+            $defaultDoctorId = User::where('role', 'Doctor')
+                ->where('tenant_id', Auth::user()->tenant_id)
+                ->first()?->id ?? Auth::id();
+
+            \App\Models\MedicalRecord::create([
+                'tenant_id' => Auth::user()->tenant_id,
+                'patient_id' => $patient->id,
+                'doctor_id' => $defaultDoctorId,
+                'diagnosis' => 'قيد الانتظار',
+                'visit_reason' => $request->input('visit_reason'),
+                'symptoms_onset' => $request->input('symptoms_onset'),
+            ]);
+        }
 
         return redirect()->route('patients.index')->with('success', 'Patient added successfully.');
     }

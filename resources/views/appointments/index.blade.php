@@ -7,11 +7,32 @@
         </div>
     </x-slot>
 
-    <div class="py-12" dir="rtl" x-data="appointmentsGrid(@js($appointments))">
+    @php
+        $appointmentsArray = clone $appointments;
+        $appointmentsArray->transform(function($appt) {
+            $appt->appointment_date_grouped = $appt->appointment_date ? \Carbon\Carbon::parse($appt->appointment_date)->format('Y-m-d') : '';
+            return $appt;
+        });
+        $groupedRecords = collect($appointmentsArray)->sortByDesc('appointment_date_grouped')->groupBy('appointment_date_grouped');
+    @endphp
+
+    <div class="py-12" dir="rtl" x-data="appointmentsGrid(@js($appointmentsArray))">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Top Action Bar -->
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+
+                <!-- View Mode Toggle -->
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" @click="viewMode = 'default'" :class="viewMode === 'default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                        <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                        {{ __('العرض الافتراضي') }}
+                    </button>
+                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode === 'grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                        <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{ __('عرض حسب التاريخ') }}
+                    </button>
+                </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 space-x-reverse">
                     <input type="text" x-model="search" placeholder="{{ __('ابحث عن موعد (اسم المريض أو رقم الهاتف)...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -46,8 +67,9 @@
             </div>
 
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
-                <div class="p-0 text-gray-900">
+            <div x-show="viewMode === 'default'">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="p-0 text-gray-900">
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white border-0">
                             <thead>
@@ -158,6 +180,131 @@
                     </div>
                 </div>
             </div>
+            </div>
+
+            <div x-show="viewMode === 'grouped'" x-cloak>
+                @if($groupedRecords->isEmpty())
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                        <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
+                    </div>
+                @else
+                    @foreach($groupedRecords as $date => $dayAppointments)
+                        <div class="mb-8" x-show="filteredAppointments.filter(a => a.appointment_date_grouped === '{{ $date }}').length > 0">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3 sticky top-0 bg-gray-100/80 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200">
+                                {{ \Carbon\Carbon::parse($date)->locale('ar')->translatedFormat('Y - F - d') }}
+                            </h3>
+                            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full bg-white border-0">
+                                        <thead>
+                                                <tr class="bg-gray-50 border-b border-gray-200">
+                                                    <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-12 text-center">
+                                                        <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                    </th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">اسم المريض</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الهاتف</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">السعر</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الحالة</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">إجراءات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-gray-200">
+                                                <template x-for="appointment in filteredAppointments.filter(a => a.appointment_date_grouped === '{{ $date }}')" :key="appointment.id">
+                                                    <tr class="hover:bg-gray-50 transition-colors">
+                                                        <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
+                                                            <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                            <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.name : appointment.patient_name) || '-'"></div>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                            <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.phone : appointment.phone) || '-'"></div>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                            <div class="px-6 py-4" x-text="appointment.doctor ? appointment.doctor.name : '-'"></div>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                            <template x-if="!editMode">
+                                                                <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_date_formatted"></div>
+                                                            </template>
+                                                            <template x-if="editMode">
+                                                                <input type="date" x-model="appointment.appointment_date_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                            </template>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                            <template x-if="!editMode">
+                                                                <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_formatted"></div>
+                                                            </template>
+                                                            <template x-if="editMode">
+                                                                <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                            </template>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-medium border-b border-gray-200 border-l h-full">
+                                                            <template x-if="!editMode">
+                                                                <div class="px-6 py-4">
+                                                                    <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 space-x-reverse" dir="ltr">
+                                                                        <span x-text="Number(appointment.price).toLocaleString()"></span>
+                                                                        <span class="text-xs">د.ع</span>
+                                                                    </span>
+                                                                    <span x-show="!appointment.price" class="text-gray-400">-</span>
+                                                                </div>
+                                                            </template>
+                                                            <template x-if="editMode">
+                                                                <input type="number" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm" placeholder="0">
+                                                            </template>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm border-b border-gray-200 border-l h-full">
+                                                            <template x-if="!editMode">
+                                                                <div class="px-6 py-4 flex items-center h-full">
+                                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full border shadow-sm"
+                                                                        :class="{
+                                                                            'bg-yellow-50 text-yellow-700 border-yellow-200': appointment.status === 'pending',
+                                                                            'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
+                                                                            'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
+                                                                        }">
+                                                                        <span x-text="
+                                                                            appointment.status === 'pending' ? 'قيد الانتظار' :
+                                                                            (appointment.status === 'completed' ? 'مكتمل' :
+                                                                            (appointment.status === 'cancelled' ? 'ملغي' : appointment.status))
+                                                                        "></span>
+                                                                    </span>
+                                                                </div>
+                                                            </template>
+                                                            <template x-if="editMode">
+                                                                <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
+                                                                    <option value="pending">قيد الانتظار</option>
+                                                                    <option value="completed">مكتمل</option>
+                                                                    <option value="cancelled">ملغي</option>
+                                                                </select>
+                                                            </template>
+                                                        </td>
+
+                                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200 text-center">
+                                                            <button @click="openEditModal(appointment)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200 inline-flex items-center" :disabled="editMode">
+                                                                {{ __('تعديل تفاصيل') }}
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+
         </div>
     </div>
 
@@ -165,6 +312,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('appointmentsGrid', (initialAppointments) => ({
+                viewMode: 'default',
                 appointments: initialAppointments.map(a => {
                     return {
                         ...a,

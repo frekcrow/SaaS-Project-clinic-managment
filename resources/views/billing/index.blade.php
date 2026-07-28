@@ -30,11 +30,36 @@
         }
     </style>
 
-    <div class="py-12" x-data="billingData(@js($appointments), @js($clinicName))">
+    @php
+        $appointmentsArray = clone $appointments;
+        $appointmentsArray->transform(function($appt) {
+            // For billing, records are appointments. Use created_at or appointment_datetime if available.
+            // Based on previous controller inspection, billing uses `appointment_datetime` (or we can fallback to created_at if not)
+            // Wait, the controller used `appointment_datetime`, but maybe the model uses `created_at` or `appointment_date`.
+            // The model `Appointment` has `appointment_date`.
+            $appt->created_at_date = $appt->appointment_date ? \Carbon\Carbon::parse($appt->appointment_date)->format('Y-m-d') : ($appt->created_at ? $appt->created_at->format('Y-m-d') : '');
+            return $appt;
+        });
+        $groupedRecords = collect($appointmentsArray)->sortByDesc('created_at_date')->groupBy('created_at_date');
+    @endphp
+
+    <div class="py-12" x-data="billingData(@js($appointmentsArray), @js($clinicName))">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Top Action Bar -->
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+
+                <!-- View Mode Toggle -->
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" @click="viewMode = 'default'" :class="viewMode === 'default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                        <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                        {{ __('العرض الافتراضي') }}
+                    </button>
+                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode === 'grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                        <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{ __('عرض حسب التاريخ') }}
+                    </button>
+                </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 space-x-reverse">
                     <input type="text" x-model="search" placeholder="{{ __('ابحث في السجلات...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="filter" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -63,8 +88,9 @@
                 </button>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
-                <div class="p-0 text-gray-900">
+            <div x-show="viewMode === 'default'">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="p-0 text-gray-900">
                     <template x-if="filteredAppointments.length === 0">
                         <div class="p-6 text-center text-gray-500">{{ __('لا توجد سجلات مطابقة.') }}</div>
                     </template>
@@ -138,6 +164,88 @@
                     </template>
                 </div>
             </div>
+            </div>
+
+            <div x-show="viewMode === 'grouped'" x-cloak>
+                @if($groupedRecords->isEmpty())
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                        <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
+                    </div>
+                @else
+                    @foreach($groupedRecords as $date => $dayAppointments)
+                        <div class="mb-8" x-show="filteredAppointments.filter(a => a.created_at_date === '{{ $date }}').length > 0">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3 sticky top-0 bg-gray-100/80 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200">
+                                {{ \Carbon\Carbon::parse($date)->locale('ar')->translatedFormat('Y - F - d') }}
+                            </h3>
+                            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
+                                                    <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('اسم المريض') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('المبلغ المدفوع') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('رقم الهاتف') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('التاريخ') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('الوقت') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                    {{ __('الإجراءات') }}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            <template x-for="appointment in filteredAppointments.filter(a => a.created_at_date === '{{ $date }}')" :key="appointment.id">
+                                                <tr class="hover:bg-gray-50">
+                                                    <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
+                                                        <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l">
+                                                        <div x-text="(appointment.patient ? appointment.patient.name : appointment.patient_name) || '-'"></div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm border-b border-gray-200 border-l">
+                                                        <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 space-x-reverse font-medium" dir="ltr">
+                                                            <span x-text="Number(appointment.price).toLocaleString()"></span>
+                                                            <span class="text-xs">د.ع</span>
+                                                        </span>
+                                                        <span x-show="!appointment.price" class="text-gray-400">-</span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                        <div x-text="(appointment.patient ? appointment.patient.phone : appointment.phone) || '-'"></div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l text-left" dir="ltr">
+                                                        <div x-text="appointment.appointment_date ? appointment.appointment_date.substring(0, 10) : (appointment.appointment_datetime ? appointment.appointment_datetime.substring(0, 10) : '-')"></div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l text-left" dir="ltr">
+                                                        <div x-text="appointment.appointment_time ? appointment.appointment_time.substring(0, 5) : (appointment.appointment_datetime ? appointment.appointment_datetime.substring(11, 16) : '-')"></div>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                        <button @click="openInvoice(appointment)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200 inline-flex items-center">
+                                                            <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                                                            {{ __('طباعة وصل') }}
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
         </div>
 
         <!-- Alpine.js Modal for Invoice -->
@@ -209,6 +317,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('billingData', (initialAppointments, initialClinicName) => ({
+                viewMode: 'default',
                 appointments: initialAppointments,
                 clinicName: initialClinicName,
                 search: '',

@@ -28,16 +28,27 @@
 
                             <!-- DOB -->
                             <div>
-                                <x-input-label for="dob" :value="__('تاريخ الميلاد')" />
-                                <x-text-input id="dob" class="block mt-1 w-full text-left" dir="ltr" type="text" name="dob" :value="old('dob')" placeholder="YYYY/MM/DD" autocomplete="off" x-mask="9999/99/99" />
-                                <x-input-error :messages="$errors->get('dob')" class="mt-2" />
+                                <x-input-label for="dob_day" :value="__('تاريخ الميلاد')" />
+                                <div class="flex space-x-2 space-x-reverse mt-1" dir="ltr">
+                                    <input type="number" id="dob_day" name="dob_day" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="DD" min="1" max="31" value="{{ old('dob_day') }}" />
+                                    <input type="number" id="dob_month" name="dob_month" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="MM" min="1" max="12" value="{{ old('dob_month') }}" />
+                                    <input type="number" id="dob_year" name="dob_year" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="YYYY" min="1900" max="{{ date('Y') }}" value="{{ old('dob_year') }}" />
+                                </div>
+                                <x-input-error :messages="$errors->get('dob_day')" class="mt-2" />
                             </div>
 
                             <!-- Doctor Name -->
                             <div>
-                                <x-input-label for="doctor_name" :value="__('اسم الطبيب المعالج')" />
-                                <x-text-input id="doctor_name" class="block mt-1 w-full" type="text" name="doctor_name" :value="old('doctor_name')" />
-                                <x-input-error :messages="$errors->get('doctor_name')" class="mt-2" />
+                                <x-input-label for="doctor_id" :value="__('اسم الطبيب المعالج')" />
+                                <select id="doctor_id" name="doctor_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
+                                    <option value="">{{ __('اختر الطبيب') }}</option>
+                                    @foreach($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
+                                            {{ $doctor->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" />
                             </div>
 
                             <!-- Reason for Visit -->

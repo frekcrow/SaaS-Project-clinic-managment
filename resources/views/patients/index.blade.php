@@ -36,7 +36,7 @@
                     <a href="{{ route('patients.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('تصدير CSV') }}
                     </a>
-                    <button @click="editMode = !editMode" :class="editMode ? 'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm transition-colors hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <button @click.prevent="editMode = !editMode" :class="editMode ? 'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
                         {{ __('تعديل') }}
                     </button>
                 </div>
@@ -79,7 +79,7 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     <template x-for="patient in filteredPatients" :key="patient.id">
-                                        <tr class="hover:bg-gray-50 transition-colors">
+                                        <tr class="hover:bg-gray-50">
                                             <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
                                                 <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                             </td>

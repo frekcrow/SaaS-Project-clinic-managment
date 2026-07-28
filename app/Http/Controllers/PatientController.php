@@ -85,7 +85,13 @@ class PatientController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $patient = Patient::with(['medicalRecords' => function ($query) {
+            $query->orderBy('visit_date', 'desc');
+        }])->findOrFail($id);
+
+        abort_if($patient->tenant_id !== auth()->user()->tenant_id, 403);
+
+        return view('patients.show', compact('patient'));
     }
 
     /**

@@ -35,23 +35,16 @@
 
                             <!-- Doctor Name -->
                             <div>
-                                <x-input-label for="doctor_id" :value="__('الطبيب المعالج')" />
-                                <select id="doctor_id" name="doctor_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
-                                    <option value="">{{ __('اختر الطبيب') }}</option>
-                                    @foreach($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
-                                            {{ $doctor->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" />
+                                <x-input-label for="doctor_name" :value="__('اسم الطبيب المعالج')" />
+                                <x-text-input id="doctor_name" class="block mt-1 w-full" type="text" name="doctor_name" :value="old('doctor_name')" />
+                                <x-input-error :messages="$errors->get('doctor_name')" class="mt-2" />
                             </div>
 
                             <!-- Reason for Visit -->
                             <div class="md:col-span-2">
-                                <x-input-label for="reason_for_visit" :value="__('سبب الزيارة')" />
-                                <textarea id="reason_for_visit" name="reason_for_visit" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="3">{{ old('reason_for_visit') }}</textarea>
-                                <x-input-error :messages="$errors->get('reason_for_visit')" class="mt-2" />
+                                <x-input-label for="visit_reason" :value="__('سبب الزيارة')" />
+                                <textarea id="visit_reason" name="visit_reason" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="3">{{ old('visit_reason') }}</textarea>
+                                <x-input-error :messages="$errors->get('visit_reason')" class="mt-2" />
                             </div>
 
                             <!-- Onset of Symptoms -->

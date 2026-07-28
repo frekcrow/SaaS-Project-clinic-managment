@@ -24,6 +24,7 @@ class Patient extends Model
         'chronic_diseases',
         'regular_medications',
         'doctor_id',
+        'doctor_name',
         'reason_for_visit',
         'symptoms_onset',
     ];

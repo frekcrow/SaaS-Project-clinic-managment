@@ -20,6 +20,8 @@ class MedicalRecord extends Model
         'prescription',
         'lab_tests',
         'attachments',
+        'visit_reason',
+        'symptoms_onset',
     ];
 
     protected $casts = [

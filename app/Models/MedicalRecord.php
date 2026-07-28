@@ -15,9 +15,16 @@ class MedicalRecord extends Model
         'tenant_id',
         'patient_id',
         'doctor_id',
+        'visit_date',
         'diagnosis',
         'prescription',
-        'lab_tests_required',
+        'lab_tests',
+        'attachments',
+    ];
+
+    protected $casts = [
+        'visit_date' => 'datetime',
+        'attachments' => 'array',
     ];
 
     public function patient(): BelongsTo

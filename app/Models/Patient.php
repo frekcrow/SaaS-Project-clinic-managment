@@ -27,6 +27,9 @@ class Patient extends Model
         'doctor_name',
         'reason_for_visit',
         'symptoms_onset',
+        'gender',
+        'smoking_status',
+        'blood_type',
     ];
 
     public function appointments(): HasMany

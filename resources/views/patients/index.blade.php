@@ -14,14 +14,29 @@
             $formatted['dob_day'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('d') : '';
             $formatted['dob_month'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('m') : '';
             $formatted['dob_year'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('Y') : '';
+            $formatted['created_at_date'] = $patient->created_at ? \Carbon\Carbon::parse($patient->created_at)->format('Y-m-d') : '';
             return $formatted;
         });
+
+        $groupedRecords = collect($formattedPatients)->sortByDesc('created_at_date')->groupBy('created_at_date');
     @endphp
     <div class="py-12" x-data="patientsGrid(@js($formattedPatients))">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Top Action Bar -->
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+
+                <!-- View Mode Toggle -->
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <button type="button" @click="viewMode = 'default'" :class="viewMode === 'default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                        <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                        {{ __('العرض الافتراضي') }}
+                    </button>
+                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode === 'grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                        <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        {{ __('عرض حسب التاريخ') }}
+                    </button>
+                </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 space-x-reverse">
                     <input type="text" x-model="search" placeholder="{{ __('ابحث عن مريض...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -52,80 +67,165 @@
                 </button>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
-                <div class="p-0 text-gray-900">
-                    <template x-if="filteredPatients.length === 0">
-                        <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
-                    </template>
+            <div x-show="viewMode === 'default'">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="p-0 text-gray-900">
+                        <template x-if="filteredPatients.length === 0">
+                            <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
+                        </template>
 
-                    <template x-if="filteredPatients.length > 0">
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
-                                            <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
-                                            {{ __('اسم المريض') }}
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
-                                            {{ __('رقم الهاتف') }}
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
-                                            {{ __('تاريخ الميلاد') }}
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
-                                            {{ __('الإجراءات') }}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    <template x-for="patient in filteredPatients" :key="patient.id">
-                                        <tr class="hover:bg-gray-50">
-                                            <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
-                                                <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                            </td>
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
-                                                <template x-if="!editMode">
-                                                    <div class="px-6 py-4" x-text="patient.name"></div>
-                                                </template>
-                                                <template x-if="editMode">
-                                                    <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0">
-                                                </template>
-                                            </td>
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
-                                                <template x-if="!editMode">
-                                                    <div class="px-6 py-4" x-text="patient.phone || '-'"></div>
-                                                </template>
-                                                <template x-if="editMode">
-                                                    <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
-                                                </template>
-                                            </td>
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
-                                                <template x-if="!editMode">
-                                                    <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
-                                                </template>
-                                                <template x-if="editMode">
-                                                    <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
-                                                        <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
-                                                        <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
-                                                        <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
-                                                    </div>
-                                                </template>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
-                                                <a :href="'/patients/' + patient.id" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200">
-                                                    {{ __('ملف المريض') }}
-                                                </a>
-                                            </td>
+                        <template x-if="filteredPatients.length > 0">
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
+                                                <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('اسم المريض') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('رقم الهاتف') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('تاريخ الميلاد') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                {{ __('الإجراءات') }}
+                                            </th>
                                         </tr>
-                                    </template>
-                                </tbody>
-                            </table>
-                        </div>
-                    </template>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <template x-for="patient in filteredPatients" :key="patient.id">
+                                            <tr class="hover:bg-gray-50">
+                                                <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
+                                                    <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                </td>
+                                                <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                    <template x-if="!editMode">
+                                                        <div class="px-6 py-4" x-text="patient.name"></div>
+                                                    </template>
+                                                    <template x-if="editMode">
+                                                        <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0">
+                                                    </template>
+                                                </td>
+                                                <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                    <template x-if="!editMode">
+                                                        <div class="px-6 py-4" x-text="patient.phone || '-'"></div>
+                                                    </template>
+                                                    <template x-if="editMode">
+                                                        <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
+                                                    </template>
+                                                </td>
+                                                <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                    <template x-if="!editMode">
+                                                        <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
+                                                    </template>
+                                                    <template x-if="editMode">
+                                                        <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
+                                                            <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
+                                                            <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
+                                                            <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
+                                                        </div>
+                                                    </template>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                    <a :href="'/patients/' + patient.id" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200">
+                                                        {{ __('ملف المريض') }}
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </template>
+                    </div>
                 </div>
+            </div>
+
+            <div x-show="viewMode === 'grouped'" x-cloak>
+                @if($groupedRecords->isEmpty())
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                        <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
+                    </div>
+                @else
+                    @foreach($groupedRecords as $date => $dayPatients)
+                        <div class="mb-8" x-show="filteredPatients.filter(p => p.created_at_date === '{{ $date }}').length > 0">
+                            <h3 class="text-lg font-bold text-gray-800 mb-3 sticky top-0 bg-gray-100/80 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200">
+                                {{ \Carbon\Carbon::parse($date)->locale('ar')->translatedFormat('Y - F - d') }}
+                            </h3>
+                            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
+                                                    <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('اسم المريض') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('رقم الهاتف') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('تاريخ الميلاد') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                    {{ __('الإجراءات') }}
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            <template x-for="patient in filteredPatients.filter(p => p.created_at_date === '{{ $date }}')" :key="patient.id">
+                                                <tr class="hover:bg-gray-50">
+                                                    <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
+                                                        <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                    </td>
+                                                    <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                        <template x-if="!editMode">
+                                                            <div class="px-6 py-4" x-text="patient.name"></div>
+                                                        </template>
+                                                        <template x-if="editMode">
+                                                            <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0">
+                                                        </template>
+                                                    </td>
+                                                    <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                        <template x-if="!editMode">
+                                                            <div class="px-6 py-4" x-text="patient.phone || '-'"></div>
+                                                        </template>
+                                                        <template x-if="editMode">
+                                                            <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
+                                                        </template>
+                                                    </td>
+                                                    <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                        <template x-if="!editMode">
+                                                            <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
+                                                        </template>
+                                                        <template x-if="editMode">
+                                                            <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
+                                                                <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
+                                                                <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
+                                                                <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
+                                                            </div>
+                                                        </template>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                        <a :href="'/patients/' + patient.id" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200">
+                                                            {{ __('ملف المريض') }}
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>
@@ -137,6 +237,7 @@
                 patients: initialPatients,
                 search: '',
                 sortBy: 'newest',
+                viewMode: 'default',
                 editMode: false,
                 selected: [],
 

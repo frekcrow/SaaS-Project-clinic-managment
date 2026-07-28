@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form action="{{ route('patients.store') }}" method="POST">
+                    <form action="{{ route('patients.store') }}" method="POST" x-data>
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Full Name -->
@@ -29,7 +29,7 @@
                             <!-- DOB -->
                             <div>
                                 <x-input-label for="dob" :value="__('تاريخ الميلاد')" />
-                                <x-text-input id="dob" class="block mt-1 w-full text-left" dir="ltr" type="text" name="dob" :value="old('dob')" placeholder="YYYY/MM/DD" autocomplete="off" />
+                                <x-text-input id="dob" class="block mt-1 w-full text-left" dir="ltr" type="text" name="dob" :value="old('dob')" placeholder="YYYY/MM/DD" autocomplete="off" x-mask="9999/99/99" />
                                 <x-input-error :messages="$errors->get('dob')" class="mt-2" />
                             </div>
 

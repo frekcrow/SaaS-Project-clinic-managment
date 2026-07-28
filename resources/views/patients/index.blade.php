@@ -104,7 +104,7 @@
                                                     <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="text" x-model="patient.dob_formatted" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr" placeholder="YYYY/MM/DD">
+                                                    <input type="text" x-model="patient.dob_formatted" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr" placeholder="YYYY/MM/DD" x-mask="9999/99/99">
                                                 </template>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">

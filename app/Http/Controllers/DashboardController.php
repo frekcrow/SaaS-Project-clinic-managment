@@ -10,7 +10,12 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         if (strtolower(auth()->user()->role) === 'doctor') {
-            return view('doctor.dashboard');
+            $todaysAppointments = Appointment::with('patient')
+                ->where('tenant_id', auth()->user()->tenant_id)
+                ->where('appointment_date', today()->format('Y-m-d'))
+                ->orderBy('queue_number', 'asc')
+                ->get();
+            return view('doctor.dashboard', compact('todaysAppointments'));
         }
 
         $pendingAppointments = Appointment::where('tenant_id', auth()->user()->tenant_id)

@@ -128,7 +128,7 @@ class AppointmentController extends Controller
             'appointment_date' => 'nullable|date',
             'appointment_time' => 'nullable|date_format:H:i',
             'price' => 'nullable|numeric|min:0',
-            'status' => 'sometimes|required|in:pending,completed,cancelled',
+            'status' => 'sometimes|required|in:pending,completed,cancelled,in_progress',
             'is_session' => 'boolean',
             'session_type_id' => [
                 'nullable',
@@ -163,12 +163,45 @@ class AppointmentController extends Controller
         abort_if($appointment->tenant_id !== Auth::user()->tenant_id, 403);
 
         $validatedData = $request->validate([
-            'status' => 'required|in:pending,completed,cancelled',
+            'status' => 'required|in:pending,completed,cancelled,in_progress',
         ]);
 
-        $appointment->update(['status' => $validatedData['status']]);
+        if ($validatedData['status'] === 'in_progress' && $appointment->status !== 'in_progress') {
+            $appointment->update([
+                'status' => 'in_progress',
+                'session_started_at' => now(),
+            ]);
+        } else {
+            $appointment->update(['status' => $validatedData['status']]);
+        }
 
         return redirect()->back()->with('success', 'Status updated successfully.');
+    }
+
+    /**
+     * Export all appointments as CSV.
+     */
+    public function currentQueue(Request $request)
+    {
+        $tenantId = Auth::user()->tenant_id;
+        $today = today()->format('Y-m-d');
+
+        $activeSession = Appointment::where('tenant_id', $tenantId)
+            ->where('appointment_date', $today)
+            ->where('status', 'in_progress')
+            ->first();
+
+        $nextSession = Appointment::where('tenant_id', $tenantId)
+            ->where('appointment_date', $today)
+            ->where('status', 'pending')
+            ->orderBy('queue_number')
+            ->first();
+
+        return response()->json([
+            'status' => $activeSession ? 'active' : 'waiting',
+            'active_number' => $activeSession ? $activeSession->queue_number : null,
+            'next_number' => $nextSession ? $nextSession->queue_number : null,
+        ]);
     }
 
     /**

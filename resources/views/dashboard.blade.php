@@ -66,6 +66,35 @@
             @endif
         </div>
 
+                <!-- Queue Capsule -->
+        <div x-data="queueCapsule"
+             x-init="initCapsule"
+             class="mb-4 h-14 relative overflow-hidden bg-white/80 backdrop-blur-md rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-black/5 flex items-center justify-center">
+
+            <template x-for="(state, index) in states" :key="state.id">
+                <div x-show="currentIndex === index"
+                     x-transition:enter="transition ease-out duration-500 transform"
+                     x-transition:enter-start="translate-y-full opacity-0"
+                     x-transition:enter-end="translate-y-0 opacity-100"
+                     x-transition:leave="transition ease-in duration-500 transform absolute"
+                     x-transition:leave-start="translate-y-0 opacity-100"
+                     x-transition:leave-end="-translate-y-full opacity-0"
+                     class="flex items-center gap-3 absolute w-full justify-center">
+
+                    <div x-show="state.status === 'active'" class="flex items-center gap-3">
+                        <div class="w-3 h-3 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
+                        <span class="text-slate-800 font-bold text-lg tracking-wide">المراجع الحالي في الغرفة: <span class="text-red-600 bg-red-50 px-2 py-0.5 rounded-lg border border-red-100" x-text="state.number"></span></span>
+                    </div>
+
+                    <div x-show="state.status === 'waiting'" class="flex items-center gap-3">
+                        <div class="w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                        <span class="text-slate-600 font-bold text-lg tracking-wide">المراجع التالي: <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100" x-text="state.number || '-'"></span></span>
+                    </div>
+
+                </div>
+            </template>
+        </div>
+
         <!-- Visitor Counter Card (Left Side) -->
         <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-black/5 flex flex-col justify-center gap-4 w-full h-full">
             <div class="flex items-center justify-between w-full gap-4">
@@ -423,4 +452,49 @@
             </div>
         </div>
     </div>
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('queueCapsule', () => ({
+            states: [],
+            currentIndex: 0,
+            interval: null,
+            initCapsule() {
+                this.fetchData();
+                this.interval = setInterval(() => {
+                    this.fetchData();
+                }, 5000);
+            },
+            async fetchData() {
+                try {
+                    const response = await fetch('/api/queue/current');
+                    const data = await response.json();
+
+                    const newStatus = data.status;
+                    const newNumber = newStatus === 'active' ? data.active_number : data.next_number;
+                    const newStateId = newStatus + '-' + newNumber;
+
+                    const currentState = this.states[this.currentIndex];
+
+                    if (!currentState || currentState.id !== newStateId) {
+                        this.states.push({
+                            id: newStateId,
+                            status: newStatus,
+                            number: newNumber
+                        });
+                        if (this.states.length > 1) {
+                            setTimeout(() => {
+                                this.currentIndex++;
+                            }, 50); // slight delay to allow dom update
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching queue state:', error);
+                }
+            },
+            destroy() {
+                if(this.interval) clearInterval(this.interval);
+            }
+        }));
+    });
+</script>
 </x-app-layout>

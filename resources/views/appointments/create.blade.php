@@ -98,15 +98,30 @@
                             @if(auth()->user()->has_sessions_system)
                                 <div class="mb-4 space-y-2">
                                     <span class="block text-sm font-medium text-gray-700">نوع الحجز</span>
-                                    <div class="flex gap-6">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" x-model="isConsultation" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                            <span class="ml-2 mr-2 text-sm text-gray-600">كشفية</span>
-                                        </label>
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" x-model="isSession" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                            <span class="ml-2 mr-2 text-sm text-gray-600">جلسة</span>
-                                        </label>
+                                    <div class="flex flex-col gap-4">
+                                        <div class="flex gap-6">
+                                            <label class="inline-flex items-center">
+                                                <input type="checkbox" x-model="isConsultation" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                <span class="ml-2 mr-2 text-sm text-gray-600">كشفية</span>
+                                            </label>
+                                            <label class="inline-flex items-center">
+                                                <input type="checkbox" name="is_session" value="1" x-model="isSession" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                <span class="ml-2 mr-2 text-sm text-gray-600">جلسة</span>
+                                            </label>
+                                        </div>
+
+                                        <div x-show="isSession" class="mt-2" style="display: none;">
+                                            <x-input-label for="session_type_id" :value="__('نوع الجلسة')" />
+                                            <select id="session_type_id" name="session_type_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                                <option value="">{{ __('اختر نوع الجلسة') }}</option>
+                                                @foreach($sessionTypes as $sessionType)
+                                                    <option value="{{ $sessionType->id }}" {{ old('session_type_id') == $sessionType->id ? 'selected' : '' }}>
+                                                        {{ $sessionType->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <x-input-error :messages="$errors->get('session_type_id')" class="mt-2" />
+                                        </div>
                                     </div>
                                 </div>
                             @endif

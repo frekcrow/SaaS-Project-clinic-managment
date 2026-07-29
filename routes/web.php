@@ -17,10 +17,18 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SessionTypeController;
+use App\Http\Controllers\SurgeryTypeController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    Route::post('/settings/session-types', [SessionTypeController::class, 'store'])->name('settings.session-types.store');
+    Route::delete('/settings/session-types/{id}', [SessionTypeController::class, 'destroy'])->name('settings.session-types.destroy');
+
+    Route::post('/settings/surgery-types', [SurgeryTypeController::class, 'store'])->name('settings.surgery-types.store');
+    Route::delete('/settings/surgery-types/{id}', [SurgeryTypeController::class, 'destroy'])->name('settings.surgery-types.destroy');
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/billing/export-csv', [BillingController::class, 'exportCsv'])->name('billing.export_csv');
     Route::post('/billing/bulk-delete', [BillingController::class, 'bulkDelete'])->name('billing.bulk_delete');

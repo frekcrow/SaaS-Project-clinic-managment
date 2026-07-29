@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\SettingsUpdateRequest;
 use Illuminate\Support\Facades\Storage;
+use App\Models\SessionType;
+use App\Models\SurgeryType;
 
 class SettingsController extends Controller
 {
@@ -13,8 +15,15 @@ class SettingsController extends Controller
      */
     public function index(Request $request)
     {
+        $tenantId = $request->user()->tenant_id;
+
+        $sessionTypes = SessionType::where('tenant_id', $tenantId)->get();
+        $surgeryTypes = SurgeryType::where('tenant_id', $tenantId)->get();
+
         return view('settings.index', [
             'user' => $request->user(),
+            'sessionTypes' => $sessionTypes,
+            'surgeryTypes' => $surgeryTypes,
         ]);
     }
 

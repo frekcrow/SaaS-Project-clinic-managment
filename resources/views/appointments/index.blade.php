@@ -79,6 +79,8 @@
                                         </th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">اسم المريض</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الهاتف</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الحجز</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">نوع الحجز</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
@@ -100,6 +102,39 @@
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                 <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.phone : appointment.phone) || '-'"></div>
+                                            </td>
+
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm font-bold text-gray-900 border-b border-gray-200 border-l h-full text-center bg-gray-50">
+                                                <div class="px-6 py-4" x-text="appointment.queue_number || '-'"></div>
+                                            </td>
+
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                <template x-if="!editMode">
+                                                    <div class="px-6 py-4">
+                                                        <template x-if="appointment.is_session">
+                                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                                                                جلسة <span x-show="appointment.session_type" x-text="' - ' + (appointment.session_type ? appointment.session_type.name : '')"></span>
+                                                            </span>
+                                                        </template>
+                                                        <template x-if="!appointment.is_session">
+                                                            <span class="text-gray-400">-</span>
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                                <template x-if="editMode">
+                                                    <div class="px-4 py-2 flex flex-col gap-2">
+                                                        <label class="inline-flex items-center">
+                                                            <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                            <span class="ml-2 mr-2 text-xs text-gray-600">جلسة؟</span>
+                                                        </label>
+                                                        <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-xs py-1">
+                                                            <option value="">اختر النوع</option>
+                                                            @foreach($sessionTypes as $type)
+                                                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </template>
                                             </td>
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
@@ -203,6 +238,8 @@
                                                     </th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">اسم المريض</th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الهاتف</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الحجز</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">نوع الحجز</th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
@@ -224,6 +261,39 @@
 
                                                         <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                             <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.phone : appointment.phone) || '-'"></div>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-bold text-gray-900 border-b border-gray-200 border-l h-full text-center bg-gray-50">
+                                                            <div class="px-6 py-4" x-text="appointment.queue_number || '-'"></div>
+                                                        </td>
+
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                            <template x-if="!editMode">
+                                                                <div class="px-6 py-4">
+                                                                    <template x-if="appointment.is_session">
+                                                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+                                                                            جلسة <span x-show="appointment.session_type" x-text="' - ' + (appointment.session_type ? appointment.session_type.name : '')"></span>
+                                                                        </span>
+                                                                    </template>
+                                                                    <template x-if="!appointment.is_session">
+                                                                        <span class="text-gray-400">-</span>
+                                                                    </template>
+                                                                </div>
+                                                            </template>
+                                                            <template x-if="editMode">
+                                                                <div class="px-4 py-2 flex flex-col gap-2">
+                                                                    <label class="inline-flex items-center">
+                                                                        <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                                        <span class="ml-2 mr-2 text-xs text-gray-600">جلسة؟</span>
+                                                                    </label>
+                                                                    <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-xs py-1">
+                                                                        <option value="">اختر النوع</option>
+                                                                        @foreach($sessionTypes as $type)
+                                                                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </template>
                                                         </td>
 
                                                         <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
@@ -390,7 +460,9 @@
                                 appointment_date: appointment.appointment_date,
                                 appointment_time: appointment.appointment_time,
                                 price: appointment.price || null,
-                                status: appointment.status
+                                status: appointment.status,
+                                is_session: appointment.is_session ? 1 : 0,
+                                session_type_id: appointment.session_type_id || null
                             })
                         });
 
@@ -401,6 +473,7 @@
                             if (data.appointment && data.appointment.status) {
                                 appointment.status = data.appointment.status;
                             }
+                            window.location.reload(); // Reload to refresh relations like session_type name
                         }
                     } catch (error) {
                         console.error('Error saving appointment:', error);

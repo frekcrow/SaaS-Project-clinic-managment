@@ -24,11 +24,13 @@ class Appointment extends Model
         'queue_number',
         'is_session',
         'session_type_id',
+        'session_started_at',
     ];
 
     protected $casts = [
         'appointment_date' => 'date:Y-m-d',
         'is_session' => 'boolean',
+        'session_started_at' => 'datetime',
     ];
 
     public function doctor(): BelongsTo

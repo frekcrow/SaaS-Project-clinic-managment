@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/appointments/export-csv', [AppointmentController::class, 'exportCsv'])->name('appointments.export_csv');
     Route::post('/appointments/bulk-delete', [AppointmentController::class, 'bulkDelete'])->name('appointments.bulk_delete');
+    Route::get('/api/queue/current', [AppointmentController::class, 'currentQueue'])->name('api.queue.current');
     Route::resource('appointments', AppointmentController::class);
     Route::patch('/appointments/{appointment}/status', [AppointmentController::class, 'updateStatus'])->name('appointments.update_status');
 

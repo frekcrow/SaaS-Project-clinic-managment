@@ -1,4 +1,5 @@
 <div x-data="dynamicIsland()"
+     x-cloak
      x-init="initIsland()"
      class="fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] flex justify-center items-start pointer-events-none"
      dir="rtl">

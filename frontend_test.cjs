@@ -19,7 +19,8 @@ const { chromium } = require('playwright');
         await page.waitForLoadState('networkidle');
         console.log('Loaded Patients Grid successfully');
 
-        await page.click('button:has-text("تحويل إلى العمليات")');
+        // Target the button by title attribute instead of text content since it's an icon-only button
+        await page.click('button[title="تحويل إلى العمليات"]');
         await page.waitForSelector('text=تحويل إلى العمليات -', { state: 'visible' });
         console.log('Opened Transfer Modal successfully');
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Patient;
 use App\Models\Surgery;
 use App\Models\SurgeryType;
 use Illuminate\Http\Request;
@@ -20,8 +21,9 @@ class SurgeryController extends Controller
             ->get();
 
         $surgeryTypes = SurgeryType::where('tenant_id', Auth::user()->tenant_id)->get();
+        $patients = Patient::where('tenant_id', Auth::user()->tenant_id)->orderBy('name')->get();
 
-        return view('surgeries.index', compact('surgeries', 'surgeryTypes'));
+        return view('surgeries.index', compact('surgeries', 'surgeryTypes', 'patients'));
     }
 
     /**
@@ -43,6 +45,14 @@ class SurgeryController extends Controller
                 }),
             ],
             'surgery_date' => 'required|date',
+            'hospital_name' => 'required|string|max:255',
+            'surgeon_name' => 'required|string|max:255',
+            'disease_name' => 'required|string|max:255',
+            'assistant_name' => 'nullable|string|max:255',
+            'anesthesiologist_name' => 'nullable|string|max:255',
+            'anesthesia_type' => 'required|string|in:تخدير عام,تخدير موضعي,تخدير قطني,أخرى',
+            'cost' => 'required|numeric|min:0',
+            'notes' => 'nullable|string',
         ]);
 
         $validatedData['tenant_id'] = Auth::user()->tenant_id;

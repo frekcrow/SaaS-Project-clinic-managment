@@ -67,7 +67,7 @@
 
                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                    <div x-show="showTransferModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" dir="rtl">
+                    <div x-show="showTransferModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full" dir="rtl">
                         <form @submit.prevent="submitTransfer">
                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
@@ -75,7 +75,7 @@
                                         <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                                             {{ __('تحويل إلى العمليات') }} - <span x-text="transferPatient ? transferPatient.name : ''"></span>
                                         </h3>
-                                        <div class="mt-4 space-y-4">
+                                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
                                                 <x-input-label for="surgery_type_id" :value="__('نوع العملية')" />
                                                 <select id="surgery_type_id" x-model="transferForm.surgery_type_id" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
@@ -89,6 +89,56 @@
                                                 <x-input-label for="surgery_date" :value="__('تاريخ العملية')" />
                                                 <input type="text" id="surgery_date" x-model="transferForm.surgery_date" x-init="flatpickr($el, {allowInput: true, disableMobile: true, dateFormat: 'Y-m-d'})" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full text-left" dir="ltr" required>
                                             </div>
+
+                                            <div>
+                                                <x-input-label for="hospital_name" :value="__('اسم المستشفى')" />
+                                                <x-text-input id="hospital_name" x-model="transferForm.hospital_name" type="text" class="mt-1 block w-full" required />
+                                            </div>
+
+                                            <div>
+                                                <x-input-label for="surgeon_name" :value="__('اسم الجراح')" />
+                                                <x-text-input id="surgeon_name" x-model="transferForm.surgeon_name" type="text" class="mt-1 block w-full" required />
+                                            </div>
+
+                                            <div>
+                                                <x-input-label for="disease_name" :value="__('اسم المرض / التشخيص')" />
+                                                <x-text-input id="disease_name" x-model="transferForm.disease_name" type="text" class="mt-1 block w-full" required />
+                                            </div>
+
+                                            <div>
+                                                <x-input-label for="assistant_name" :value="__('اسم المساعد')" />
+                                                <x-text-input id="assistant_name" x-model="transferForm.assistant_name" type="text" class="mt-1 block w-full" />
+                                            </div>
+
+                                            <div>
+                                                <x-input-label for="anesthesiologist_name" :value="__('اسم طبيب التخدير')" />
+                                                <x-text-input id="anesthesiologist_name" x-model="transferForm.anesthesiologist_name" type="text" class="mt-1 block w-full" />
+                                            </div>
+
+                                            <div>
+                                                <x-input-label for="anesthesia_type" :value="__('نوع التخدير')" />
+                                                <select id="anesthesia_type" x-model="transferForm.anesthesia_type" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
+                                                    <option value="" disabled>{{ __('اختر نوع التخدير') }}</option>
+                                                    <option value="تخدير عام">{{ __('تخدير عام') }}</option>
+                                                    <option value="تخدير موضعي">{{ __('تخدير موضعي') }}</option>
+                                                    <option value="تخدير قطني">{{ __('تخدير قطني') }}</option>
+                                                    <option value="أخرى">{{ __('أخرى') }}</option>
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <x-input-label for="cost" :value="__('التكلفة')" />
+                                                <div class="relative mt-1">
+                                                    <x-text-input id="cost" x-model="transferForm.cost" type="number" step="0.01" min="0" class="block w-full pl-10" required />
+                                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        <span class="text-gray-500 sm:text-sm">د.ع</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <x-input-label for="notes" :value="__('ملاحظات')" />
+                                            <textarea id="notes" x-model="transferForm.notes" rows="3" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -308,19 +358,35 @@
                 transferPatient: null,
                 transferForm: {
                     surgery_type_id: '',
-                    surgery_date: ''
+                    surgery_date: '',
+                    hospital_name: '',
+                    surgeon_name: '',
+                    disease_name: '',
+                    assistant_name: '',
+                    anesthesiologist_name: '',
+                    anesthesia_type: '',
+                    cost: '',
+                    notes: ''
                 },
 
                 openTransferModal(patient) {
                     this.transferPatient = patient;
                     this.transferForm.surgery_type_id = '';
                     this.transferForm.surgery_date = '';
+                    this.transferForm.hospital_name = '';
+                    this.transferForm.surgeon_name = '';
+                    this.transferForm.disease_name = '';
+                    this.transferForm.assistant_name = '';
+                    this.transferForm.anesthesiologist_name = '';
+                    this.transferForm.anesthesia_type = '';
+                    this.transferForm.cost = '';
+                    this.transferForm.notes = '';
                     this.showTransferModal = true;
                 },
 
                 async submitTransfer() {
-                    if (!this.transferForm.surgery_type_id || !this.transferForm.surgery_date) {
-                        alert('{{ __('يرجى تعبئة جميع الحقول') }}');
+                    if (!this.transferForm.surgery_type_id || !this.transferForm.surgery_date || !this.transferForm.hospital_name || !this.transferForm.surgeon_name || !this.transferForm.disease_name || !this.transferForm.anesthesia_type || !this.transferForm.cost) {
+                        alert('{{ __('يرجى تعبئة جميع الحقول المطلوبة') }}');
                         return;
                     }
                     try {
@@ -335,7 +401,15 @@
                             body: JSON.stringify({
                                 patient_id: this.transferPatient.id,
                                 surgery_type_id: this.transferForm.surgery_type_id,
-                                surgery_date: this.transferForm.surgery_date
+                                surgery_date: this.transferForm.surgery_date,
+                                hospital_name: this.transferForm.hospital_name,
+                                surgeon_name: this.transferForm.surgeon_name,
+                                disease_name: this.transferForm.disease_name,
+                                assistant_name: this.transferForm.assistant_name,
+                                anesthesiologist_name: this.transferForm.anesthesiologist_name,
+                                anesthesia_type: this.transferForm.anesthesia_type,
+                                cost: this.transferForm.cost,
+                                notes: this.transferForm.notes
                             })
                         });
 

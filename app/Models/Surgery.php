@@ -16,6 +16,14 @@ class Surgery extends Model
         'surgery_type_id',
         'surgery_date',
         'status',
+        'hospital_name',
+        'surgeon_name',
+        'disease_name',
+        'assistant_name',
+        'anesthesiologist_name',
+        'anesthesia_type',
+        'cost',
+        'notes',
     ];
 
     protected $casts = [

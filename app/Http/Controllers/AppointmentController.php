@@ -166,13 +166,35 @@ class AppointmentController extends Controller
             'status' => 'required|in:pending,completed,cancelled,in_progress',
         ]);
 
-        if ($validatedData['status'] === 'in_progress' && $appointment->status !== 'in_progress') {
+        $oldStatus = $appointment->status;
+        $newStatus = $validatedData['status'];
+
+        if ($newStatus === 'in_progress' && $oldStatus !== 'in_progress') {
             $appointment->update([
                 'status' => 'in_progress',
                 'session_started_at' => now(),
             ]);
+
+            // Notify secretary about session start
+            $secretaries = User::where('tenant_id', Auth::user()->tenant_id)
+                ->where('role', '!=', 'Doctor')
+                ->get();
+            foreach ($secretaries as $secretary) {
+                $secretary->notify(new \App\Notifications\GeneralNotification("بدأت الجلسة للمراجع رقم {$appointment->queue_number}", 'info', 'play'));
+            }
+
+        } elseif ($newStatus === 'completed' && $oldStatus === 'in_progress') {
+            $appointment->update(['status' => $newStatus]);
+
+            // Notify secretary about session end
+            $secretaries = User::where('tenant_id', Auth::user()->tenant_id)
+                ->where('role', '!=', 'Doctor')
+                ->get();
+            foreach ($secretaries as $secretary) {
+                $secretary->notify(new \App\Notifications\GeneralNotification("انتهت الجلسة للمراجع رقم {$appointment->queue_number}", 'success', 'check-circle'));
+            }
         } else {
-            $appointment->update(['status' => $validatedData['status']]);
+            $appointment->update(['status' => $newStatus]);
         }
 
         return redirect()->back()->with('success', 'Status updated successfully.');

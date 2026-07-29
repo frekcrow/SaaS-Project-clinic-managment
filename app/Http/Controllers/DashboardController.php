@@ -9,13 +9,17 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $hour = \Carbon\Carbon::now('Asia/Baghdad')->hour;
+        $name = auth()->user()->name;
+        $greeting = $hour < 12 ? "صباح الخير $name" : "مساء الخير $name";
+
         if (strtolower(auth()->user()->role) === 'doctor') {
             $todaysAppointments = Appointment::with('patient')
                 ->where('tenant_id', auth()->user()->tenant_id)
                 ->where('appointment_date', today()->format('Y-m-d'))
                 ->orderBy('queue_number', 'asc')
                 ->get();
-            return view('doctor.dashboard', compact('todaysAppointments'));
+            return view('doctor.dashboard', compact('todaysAppointments', 'greeting'));
         }
 
         $pendingAppointments = Appointment::where('tenant_id', auth()->user()->tenant_id)
@@ -25,7 +29,32 @@ class DashboardController extends Controller
         foreach ($pendingAppointments as $appt) {
             if ($appt->appointment_date && $appt->appointment_time) {
                 $dateTimeString = $appt->appointment_date->format('Y-m-d') . ' ' . $appt->appointment_time;
-                if (\Carbon\Carbon::parse($dateTimeString, 'Asia/Baghdad')->isPast()) {
+                $appointmentDateTime = \Carbon\Carbon::parse($dateTimeString, 'Asia/Baghdad');
+
+                // If more than 15 minutes overdue, generate notification for secretary
+                if (\Carbon\Carbon::now('Asia/Baghdad')->diffInMinutes($appointmentDateTime, false) < -15) {
+                    $cacheKey = 'notified_overdue_' . $appt->id;
+                    if (!\Illuminate\Support\Facades\Cache::has($cacheKey)) {
+                        $patientName = $appt->patient->name ?? $appt->patient_name;
+                        $message = "المراجع {$patientName} تجاوز وقت موعده، هل تريد التواصل معه؟";
+
+                        $secretaries = \App\Models\User::where('tenant_id', auth()->user()->tenant_id)
+                            ->where('role', '!=', 'Doctor') // Assuming non-doctors are secretaries/staff
+                            ->get();
+
+                        foreach ($secretaries as $secretary) {
+                            $secretary->notify(new \App\Notifications\GeneralNotification($message, 'warning', 'clock'));
+                        }
+
+                        \Illuminate\Support\Facades\Cache::put($cacheKey, true, now()->addHours(24));
+                    }
+                }
+
+                // Kept original auto-cancel logic if needed, but adjusted to perhaps not cancel immediately if we are notifying
+                // For now, if we cancel it immediately, they might not see the notification action.
+                // We'll keep the original logic but ONLY if it's REALLY past (e.g. end of day)
+                // Actually, original code cancels immediately if past. Let's adjust to cancel if > 2 hours past to allow them to be overdue.
+                if (\Carbon\Carbon::now('Asia/Baghdad')->diffInMinutes($appointmentDateTime, false) < -120) {
                     $appt->update(['status' => 'cancelled']);
                 }
             }
@@ -128,7 +157,8 @@ class DashboardController extends Controller
             'filter',
             'appointmentStatus',
             'revenuePeriod',
-            'revenueDate'
+            'revenueDate',
+            'greeting'
         ));
     }
 }

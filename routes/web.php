@@ -20,6 +20,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SessionTypeController;
 use App\Http\Controllers\SurgeryTypeController;
 use App\Http\Controllers\SurgeryController;
+use App\Http\Controllers\NotificationController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
@@ -54,6 +55,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/surgeries', [SurgeryController::class, 'index'])->name('surgeries.index');
     Route::post('/surgeries', [SurgeryController::class, 'store'])->name('surgeries.store');
     Route::patch('/surgeries/{surgery}/status', [SurgeryController::class, 'updateStatus'])->name('surgeries.update_status');
+
+    // Notifications
+    Route::get('/api/notifications/latest', [NotificationController::class, 'latest'])->name('api.notifications.latest');
+    Route::get('/api/notifications', [NotificationController::class, 'index'])->name('api.notifications.index');
+    Route::post('/api/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('api.notifications.read');
+    Route::post('/api/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('api.notifications.read_all');
 });
 
 require __DIR__.'/auth.php';

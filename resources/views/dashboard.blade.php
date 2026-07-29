@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        لوحة التحكم
+        {{ $greeting ?? 'لوحة التحكم' }} - هل أنت مستعد ليومك؟
     </x-slot>
 
     <!-- Quick Action Buttons -->

@@ -17,6 +17,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">
+        <x-dynamic-island />
         <div class="min-h-screen flex relative overflow-hidden">
 
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
@@ -89,8 +90,59 @@
                 <!-- HeroUI-inspired Top Header (Floating) -->
                 <header class="h-20 flex items-center justify-between px-6 sm:px-8 mt-4 mx-4 md:mx-6 z-10 flex-shrink-0 bg-white/40 backdrop-blur-md border border-white/20 rounded-3xl">
 
-                    <!-- Right empty space for balance, or could add notifications -->
-                    <div class="w-20 hidden md:block"></div>
+                    <!-- Right side: Notifications -->
+                    <div class="flex items-center gap-4" x-data="notificationsDropdown()" @notification-read.window="fetchNotifications()">
+                        <div class="relative">
+                            <button @click="open = !open" class="p-2 bg-white rounded-full shadow-sm hover:bg-slate-50 transition-colors relative">
+                                <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                                </svg>
+                                <span x-show="unreadCount > 0" x-text="unreadCount" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full"></span>
+                            </button>
+
+                            <!-- Notifications Dropdown -->
+                            <div x-show="open" @click.away="open = false" x-transition class="absolute top-12 right-0 w-80 bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-50 overflow-hidden">
+                                <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
+                                    <h3 class="font-bold text-slate-800">الإشعارات</h3>
+                                    <button x-show="unreadCount > 0" @click="markAllAsRead" class="text-xs text-indigo-600 hover:text-indigo-800">تحديد الكل كمقروء</button>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <template x-if="notifications.length === 0">
+                                        <div class="p-4 text-center text-slate-500 text-sm">لا توجد إشعارات</div>
+                                    </template>
+                                    <template x-for="notif in notifications" :key="notif.id">
+                                        <div class="px-4 py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors flex items-start gap-3 cursor-pointer"
+                                             :class="{'bg-slate-50': !notif.read_at}"
+                                             @click="markAsRead(notif.id)">
+
+                                            <!-- Icon -->
+                                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center mt-1">
+                                                <template x-if="notif.data.icon === 'clock'">
+                                                    <svg class="w-4 h-4 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                </template>
+                                                <template x-if="notif.data.icon === 'play'">
+                                                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                </template>
+                                                <template x-if="notif.data.icon === 'check-circle'">
+                                                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                </template>
+                                                <template x-if="!['clock', 'play', 'check-circle'].includes(notif.data.icon)">
+                                                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                </template>
+                                            </div>
+
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm text-slate-800" :class="{'font-bold': !notif.read_at}" x-text="notif.data.message"></p>
+                                                <p class="text-xs text-slate-500 mt-1" x-text="new Date(notif.created_at).toLocaleString('ar-IQ')"></p>
+                                            </div>
+
+                                            <div x-show="!notif.read_at" class="flex-shrink-0 w-2 h-2 rounded-full bg-red-500 mt-2"></div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Floating Search Bar (Center-ish) -->
                     <div class="flex-1 flex justify-center px-4">
@@ -155,5 +207,62 @@
             </div>
         </div>
         @stack('scripts')
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('notificationsDropdown', () => ({
+                    open: false,
+                    notifications: [],
+                    unreadCount: 0,
+
+                    init() {
+                        this.fetchNotifications();
+                        setInterval(() => {
+                            this.fetchNotifications();
+                        }, 10000); // Check every 10s
+                    },
+
+                    async fetchNotifications() {
+                        try {
+                            const response = await fetch('/api/notifications');
+                            if (response.ok) {
+                                const data = await response.json();
+                                this.notifications = data.notifications || [];
+                                this.unreadCount = data.unreadCount || 0;
+                            }
+                        } catch (error) {
+                            console.error('Error fetching notifications list:', error);
+                        }
+                    },
+
+                    async markAsRead(id) {
+                        try {
+                            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                            await fetch(`/api/notifications/${id}/read`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken
+                                }
+                            });
+                            this.fetchNotifications();
+                        } catch (error) {}
+                    },
+
+                    async markAllAsRead() {
+                        try {
+                            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                            await fetch(`/api/notifications/read-all`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken
+                                }
+                            });
+                            this.fetchNotifications();
+                        } catch (error) {}
+                    }
+                }));
+            });
+        </script>
     </body>
 </html>

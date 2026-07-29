@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\User;
+use App\Models\SessionType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,13 +28,15 @@ class AppointmentController extends Controller
             }
         }
 
-        $appointments = Appointment::with(['doctor', 'patient'])
+        $appointments = Appointment::with(['doctor', 'patient', 'sessionType'])
             ->where('tenant_id', Auth::user()->tenant_id)
             ->orderBy('appointment_date')
             ->orderBy('appointment_time')
             ->get();
 
-        return view('appointments.index', compact('appointments'));
+        $sessionTypes = SessionType::where('tenant_id', Auth::user()->tenant_id)->get();
+
+        return view('appointments.index', compact('appointments', 'sessionTypes'));
     }
 
     /**
@@ -46,7 +49,9 @@ class AppointmentController extends Controller
                        ->where('role', 'Doctor')
                        ->get();
 
-        return view('appointments.create', compact('doctors'));
+        $sessionTypes = SessionType::where('tenant_id', Auth::user()->tenant_id)->get();
+
+        return view('appointments.create', compact('doctors', 'sessionTypes'));
     }
 
     /**
@@ -73,9 +78,23 @@ class AppointmentController extends Controller
             'appointment_date' => 'required|date',
             'appointment_time' => 'required|date_format:H:i',
             'price' => 'nullable|numeric|min:0',
+            'is_session' => 'boolean',
+            'session_type_id' => [
+                'nullable',
+                \Illuminate\Validation\Rule::exists('session_types', 'id')->where(function ($query) {
+                    return $query->where('tenant_id', Auth::user()->tenant_id);
+                }),
+            ],
         ]);
 
         $validatedData['tenant_id'] = Auth::user()->tenant_id;
+        $validatedData['is_session'] = $request->boolean('is_session');
+
+        $maxQueue = Appointment::where('tenant_id', Auth::user()->tenant_id)
+            ->where('appointment_date', $validatedData['appointment_date'])
+            ->max('queue_number');
+
+        $validatedData['queue_number'] = $maxQueue ? $maxQueue + 1 : 1;
 
         Appointment::create($validatedData);
 
@@ -110,7 +129,18 @@ class AppointmentController extends Controller
             'appointment_time' => 'nullable|date_format:H:i',
             'price' => 'nullable|numeric|min:0',
             'status' => 'sometimes|required|in:pending,completed,cancelled',
+            'is_session' => 'boolean',
+            'session_type_id' => [
+                'nullable',
+                \Illuminate\Validation\Rule::exists('session_types', 'id')->where(function ($query) {
+                    return $query->where('tenant_id', Auth::user()->tenant_id);
+                }),
+            ],
         ]);
+
+        if ($request->has('is_session')) {
+            $validatedData['is_session'] = $request->boolean('is_session');
+        }
 
         $appointment->update($validatedData);
 

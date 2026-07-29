@@ -215,6 +215,66 @@
                 </div>
             </div>
 
+            <!-- Session Types Management -->
+            <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-100 mb-8">
+                <div class="max-w-xl mx-auto">
+                    <h4 class="text-lg font-bold text-slate-800 mb-4">أنواع الجلسات (Session Types)</h4>
+
+                    <form method="POST" action="{{ route('settings.session-types.store') }}" class="flex gap-2 mb-6">
+                        @csrf
+                        <input type="text" name="name" placeholder="أضف نوع جلسة جديد..." class="flex-1 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                        <button type="submit" class="px-6 py-2 bg-black text-white rounded-2xl font-bold shadow-sm hover:bg-neutral-800 transition-colors">إضافة</button>
+                    </form>
+
+                    <div class="space-y-2">
+                        @forelse($sessionTypes as $type)
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                <span class="font-medium text-slate-700">{{ $type->name }}</span>
+                                <form method="POST" action="{{ route('settings.session-types.destroy', $type->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 p-1" onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </form>
+                            </div>
+                        @empty
+                            <p class="text-center text-slate-500 py-4">لا توجد أنواع جلسات مضافة</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
+            <!-- Surgery Types Management -->
+            <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-100 mb-8">
+                <div class="max-w-xl mx-auto">
+                    <h4 class="text-lg font-bold text-slate-800 mb-4">أنواع العمليات (Surgery Types)</h4>
+
+                    <form method="POST" action="{{ route('settings.surgery-types.store') }}" class="flex gap-2 mb-6">
+                        @csrf
+                        <input type="text" name="name" placeholder="أضف نوع عملية جديد..." class="flex-1 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                        <button type="submit" class="px-6 py-2 bg-black text-white rounded-2xl font-bold shadow-sm hover:bg-neutral-800 transition-colors">إضافة</button>
+                    </form>
+
+                    <div class="space-y-2">
+                        @forelse($surgeryTypes as $type)
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                <span class="font-medium text-slate-700">{{ $type->name }}</span>
+                                <form method="POST" action="{{ route('settings.surgery-types.destroy', $type->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 p-1" onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </form>
+                            </div>
+                        @empty
+                            <p class="text-center text-slate-500 py-4">لا توجد أنواع عمليات مضافة</p>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+
             <!-- Account Management (Danger Zone) -->
             <div class="p-6 sm:p-8 bg-red-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-red-100">
                 <div class="max-w-xl mx-auto space-y-4">

@@ -21,10 +21,14 @@ class Appointment extends Model
         'appointment_time',
         'price',
         'status',
+        'queue_number',
+        'is_session',
+        'session_type_id',
     ];
 
     protected $casts = [
         'appointment_date' => 'date:Y-m-d',
+        'is_session' => 'boolean',
     ];
 
     public function doctor(): BelongsTo
@@ -35,5 +39,10 @@ class Appointment extends Model
     public function patient(): BelongsTo
     {
         return $this->belongsTo(Patient::class, 'patient_id');
+    }
+
+    public function sessionType(): BelongsTo
+    {
+        return $this->belongsTo(SessionType::class, 'session_type_id');
     }
 }

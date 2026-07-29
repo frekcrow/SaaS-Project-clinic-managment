@@ -30,7 +30,7 @@
             <!-- Queue Capsule -->
             <div x-data="queueCapsule"
                  x-init="initCapsule"
-                 class="h-12 w-full sm:w-max px-6 relative overflow-hidden bg-white/80 backdrop-blur-md rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] border border-black/5 flex items-center justify-center">
+                 class="flex items-center justify-center px-6 py-2 rounded-full bg-gray-900 text-white shadow-sm w-max whitespace-nowrap relative overflow-hidden">
 
                 <template x-for="(state, index) in states" :key="state.id">
                     <div x-show="currentIndex === index"

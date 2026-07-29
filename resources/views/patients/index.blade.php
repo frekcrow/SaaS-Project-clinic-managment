@@ -60,6 +60,52 @@
                 </div>
             </div>
 
+            <!-- Transfer Modal -->
+            <div x-show="showTransferModal" x-cloak class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    <div x-show="showTransferModal" x-transition.opacity class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="showTransferModal = false"></div>
+
+                    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                    <div x-show="showTransferModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" dir="rtl">
+                        <form @submit.prevent="submitTransfer">
+                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mt-3 text-center sm:mt-0 sm:text-right w-full">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                            {{ __('تحويل إلى العمليات') }} - <span x-text="transferPatient ? transferPatient.name : ''"></span>
+                                        </h3>
+                                        <div class="mt-4 space-y-4">
+                                            <div>
+                                                <x-input-label for="surgery_type_id" :value="__('نوع العملية')" />
+                                                <select id="surgery_type_id" x-model="transferForm.surgery_type_id" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
+                                                    <option value="" disabled>{{ __('اختر نوع العملية') }}</option>
+                                                    @foreach($surgeryTypes as $type)
+                                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <x-input-label for="surgery_date" :value="__('تاريخ العملية')" />
+                                                <input type="text" id="surgery_date" x-model="transferForm.surgery_date" x-init="flatpickr($el, {allowInput: true, disableMobile: true, dateFormat: 'Y-m-d'})" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full text-left" dir="ltr" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                                    {{ __('حفظ') }}
+                                </button>
+                                <button type="button" @click="showTransferModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                                    {{ __('إلغاء') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             <!-- Bulk Actions -->
             <div x-show="editMode && selected.length > 0" x-cloak class="mb-4">
                 <button @click="deleteSelected" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
@@ -134,6 +180,9 @@
                                                     <a :href="'/patients/' + patient.id" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200">
                                                         {{ __('ملف المريض') }}
                                                     </a>
+                                                    <button @click="openTransferModal(patient)" class="ml-2 text-white bg-black hover:bg-neutral-800 px-3 py-1.5 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
+                                                        {{ __('تحويل إلى العمليات') }}
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </template>
@@ -215,7 +264,10 @@
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
                                                         <a :href="'/patients/' + patient.id" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200">
                                                             {{ __('ملف المريض') }}
-                                                        </a>
+                                                    </a>
+                                                    <button @click="openTransferModal(patient)" class="ml-2 text-white bg-black hover:bg-neutral-800 px-3 py-1.5 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
+                                                        {{ __('تحويل إلى العمليات') }}
+                                                    </button>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -240,6 +292,52 @@
                 viewMode: 'default',
                 editMode: false,
                 selected: [],
+                showTransferModal: false,
+                transferPatient: null,
+                transferForm: {
+                    surgery_type_id: '',
+                    surgery_date: ''
+                },
+
+                openTransferModal(patient) {
+                    this.transferPatient = patient;
+                    this.transferForm.surgery_type_id = '';
+                    this.transferForm.surgery_date = '';
+                    this.showTransferModal = true;
+                },
+
+                async submitTransfer() {
+                    if (!this.transferForm.surgery_type_id || !this.transferForm.surgery_date) {
+                        alert('{{ __('يرجى تعبئة جميع الحقول') }}');
+                        return;
+                    }
+                    try {
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                        const response = await fetch('{{ route('surgeries.store') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                patient_id: this.transferPatient.id,
+                                surgery_type_id: this.transferForm.surgery_type_id,
+                                surgery_date: this.transferForm.surgery_date
+                            })
+                        });
+
+                        if (response.ok) {
+                            this.showTransferModal = false;
+                            alert('{{ __('تم تحويل المريض بنجاح') }}');
+                        } else {
+                            console.error('Failed to transfer patient', await response.text());
+                            alert('{{ __('حدث خطأ أثناء تحويل المريض') }}');
+                        }
+                    } catch (error) {
+                        console.error('Error transferring patient:', error);
+                    }
+                },
 
                 get filteredPatients() {
                     let filtered = this.patients;

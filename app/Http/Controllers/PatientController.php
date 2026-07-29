@@ -15,7 +15,8 @@ class PatientController extends Controller
     public function index()
     {
         $patients = Patient::all();
-        return view('patients.index', compact('patients'));
+        $surgeryTypes = \App\Models\SurgeryType::where('tenant_id', Auth::user()->tenant_id)->get();
+        return view('patients.index', compact('patients', 'surgeryTypes'));
     }
 
     /**

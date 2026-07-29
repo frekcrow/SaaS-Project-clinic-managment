@@ -19,6 +19,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SessionTypeController;
 use App\Http\Controllers\SurgeryTypeController;
+use App\Http\Controllers\SurgeryController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
@@ -46,6 +47,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/appointments/bulk-delete', [AppointmentController::class, 'bulkDelete'])->name('appointments.bulk_delete');
     Route::resource('appointments', AppointmentController::class);
     Route::patch('/appointments/{appointment}/status', [AppointmentController::class, 'updateStatus'])->name('appointments.update_status');
+
+    Route::get('/surgeries/export-csv', [SurgeryController::class, 'exportCsv'])->name('surgeries.export_csv');
+    Route::post('/surgeries/bulk-delete', [SurgeryController::class, 'bulkDelete'])->name('surgeries.bulk_delete');
+    Route::get('/surgeries', [SurgeryController::class, 'index'])->name('surgeries.index');
+    Route::post('/surgeries', [SurgeryController::class, 'store'])->name('surgeries.store');
+    Route::patch('/surgeries/{surgery}/status', [SurgeryController::class, 'updateStatus'])->name('surgeries.update_status');
 });
 
 require __DIR__.'/auth.php';

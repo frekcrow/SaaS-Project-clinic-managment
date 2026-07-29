@@ -38,9 +38,6 @@
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="date_desc">{{ __('تاريخ العملية (الأحدث)') }}</option>
                         <option value="date_asc">{{ __('تاريخ العملية (الأقدم)') }}</option>
-                        <option value="status_pending">{{ __('قيد الانتظار') }}</option>
-                        <option value="status_completed">{{ __('مكتمل') }}</option>
-                        <option value="status_cancelled">{{ __('ملغى') }}</option>
                     </select>
                 </div>
 
@@ -82,11 +79,8 @@
                                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                 {{ __('نوع العملية') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
-                                                {{ __('تاريخ العملية') }}
-                                            </th>
                                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
-                                                {{ __('الحالة') }}
+                                                {{ __('تاريخ العملية') }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -102,34 +96,8 @@
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                     <span x-text="surgery.surgery_type ? surgery.surgery_type.name : '-'"></span>
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
                                                     <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
-                                                    <div class="relative" x-data="{ open: false }">
-                                                        <button @click="open = !open" @click.away="open = false" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true">
-                                                            <template x-if="surgery.status === 'pending'">
-                                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ __('قيد الانتظار') }}</span>
-                                                            </template>
-                                                            <template x-if="surgery.status === 'completed'">
-                                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{{ __('مكتمل') }}</span>
-                                                            </template>
-                                                            <template x-if="surgery.status === 'cancelled'">
-                                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">{{ __('ملغى') }}</span>
-                                                            </template>
-                                                            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                            </svg>
-                                                        </button>
-
-                                                        <div x-show="open" x-transition.opacity class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                            <div class="py-1" role="none">
-                                                                <button @click="updateStatus(surgery, 'pending'); open = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">{{ __('قيد الانتظار') }}</button>
-                                                                <button @click="updateStatus(surgery, 'completed'); open = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">{{ __('مكتمل') }}</button>
-                                                                <button @click="updateStatus(surgery, 'cancelled'); open = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">{{ __('ملغى') }}</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                 </td>
                                             </tr>
                                         </template>
@@ -164,11 +132,8 @@
                                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                     {{ __('نوع العملية') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
-                                                    {{ __('تاريخ العملية') }}
-                                                </th>
                                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
-                                                    {{ __('الحالة') }}
+                                                    {{ __('تاريخ العملية') }}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -184,34 +149,8 @@
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                         <span x-text="surgery.surgery_type ? surgery.surgery_type.name : '-'"></span>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
                                                         <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
-                                                        <div class="relative" x-data="{ open: false }">
-                                                            <button @click="open = !open" @click.away="open = false" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="options-menu" aria-haspopup="true" aria-expanded="true">
-                                                                <template x-if="surgery.status === 'pending'">
-                                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ __('قيد الانتظار') }}</span>
-                                                                </template>
-                                                                <template x-if="surgery.status === 'completed'">
-                                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">{{ __('مكتمل') }}</span>
-                                                                </template>
-                                                                <template x-if="surgery.status === 'cancelled'">
-                                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">{{ __('ملغى') }}</span>
-                                                                </template>
-                                                                <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                                                </svg>
-                                                            </button>
-
-                                                            <div x-show="open" x-transition.opacity class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                <div class="py-1" role="none">
-                                                                    <button @click="updateStatus(surgery, 'pending'); open = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">{{ __('قيد الانتظار') }}</button>
-                                                                    <button @click="updateStatus(surgery, 'completed'); open = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">{{ __('مكتمل') }}</button>
-                                                                    <button @click="updateStatus(surgery, 'cancelled'); open = false" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full text-right" role="menuitem">{{ __('ملغى') }}</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             </template>

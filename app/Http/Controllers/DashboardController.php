@@ -138,7 +138,10 @@ class DashboardController extends Controller
         $totalRevenue = $revenueQuery->sum('price');
 
         // Preparing variables for future columns
-        $pendingSurgeries = 0;
+        $pendingSurgeries = \App\Models\Surgery::where('tenant_id', auth()->user()->tenant_id)
+            ->whereDate('surgery_date', today()->format('Y-m-d'))
+            ->count();
+
         $todaySessions = 0;
 
         $recentCalls = collect([]);

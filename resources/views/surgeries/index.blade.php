@@ -201,6 +201,21 @@
                                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                 {{ __('نوع العملية') }}
                                             </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('المستشفى') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('الجراح') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('التشخيص/المرض') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('نوع التخدير') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                {{ __('التكلفة') }}
+                                            </th>
                                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
                                                 {{ __('تاريخ العملية') }}
                                             </th>
@@ -217,6 +232,21 @@
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                     <span x-text="surgery.surgery_type ? surgery.surgery_type.name : '-'"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                    <span x-text="surgery.hospital_name || '-'"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                    <span x-text="surgery.surgeon_name || '-'"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                    <span x-text="surgery.disease_name || '-'"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                    <span x-text="surgery.anesthesia_type || '-'"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                    <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' د.ع' : '-'" dir="ltr"></span>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
                                                     <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>
@@ -254,6 +284,21 @@
                                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                     {{ __('نوع العملية') }}
                                                 </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('المستشفى') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('الجراح') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('التشخيص/المرض') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('نوع التخدير') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                    {{ __('التكلفة') }}
+                                                </th>
                                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
                                                     {{ __('تاريخ العملية') }}
                                                 </th>
@@ -270,6 +315,21 @@
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                         <span x-text="surgery.surgery_type ? surgery.surgery_type.name : '-'"></span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                        <span x-text="surgery.hospital_name || '-'"></span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                        <span x-text="surgery.surgeon_name || '-'"></span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                        <span x-text="surgery.disease_name || '-'"></span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                        <span x-text="surgery.anesthesia_type || '-'"></span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                        <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' د.ع' : '-'" dir="ltr"></span>
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
                                                         <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>

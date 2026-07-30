@@ -19,7 +19,15 @@ class DashboardController extends Controller
                 ->where('appointment_date', today()->format('Y-m-d'))
                 ->orderBy('queue_number', 'asc')
                 ->get();
-            return view('doctor.dashboard', compact('todaysAppointments', 'greeting'));
+
+            $pendingSurgeries = \App\Models\Surgery::where('tenant_id', auth()->user()->tenant_id)
+                ->whereDate('surgery_date', today()->format('Y-m-d'))
+                ->count();
+
+            $surgeryTypes = \App\Models\SurgeryType::where('tenant_id', auth()->user()->tenant_id)->get();
+            $patients = \App\Models\Patient::where('tenant_id', auth()->user()->tenant_id)->orderBy('name')->get();
+
+            return view('doctor.dashboard', compact('todaysAppointments', 'greeting', 'pendingSurgeries', 'surgeryTypes', 'patients'));
         }
 
         $pendingAppointments = Appointment::where('tenant_id', auth()->user()->tenant_id)

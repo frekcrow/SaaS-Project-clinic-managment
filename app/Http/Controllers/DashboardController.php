@@ -142,7 +142,11 @@ class DashboardController extends Controller
             ->whereDate('surgery_date', today()->format('Y-m-d'))
             ->count();
 
-        $todaySessions = 0;
+        $todaySessionsCount = \App\Models\Appointment::where('tenant_id', auth()->user()->tenant_id)
+            ->where('appointment_date', today()->format('Y-m-d'))
+            ->where('is_session', true)
+            ->where('status', 'pending')
+            ->count();
 
         $recentCalls = collect([]);
         $recentMessages = collect([]);
@@ -152,7 +156,7 @@ class DashboardController extends Controller
             'recentAppointments',
             'activeConsultation',
             'pendingSurgeries',
-            'todaySessions',
+            'todaySessionsCount',
             'recentCalls',
             'recentMessages',
             'visitorsCount',

@@ -27,7 +27,28 @@ class DashboardController extends Controller
             $surgeryTypes = \App\Models\SurgeryType::where('tenant_id', auth()->user()->tenant_id)->get();
             $patients = \App\Models\Patient::where('tenant_id', auth()->user()->tenant_id)->orderBy('name')->get();
 
-            return view('doctor.dashboard', compact('todaysAppointments', 'greeting', 'pendingSurgeries', 'surgeryTypes', 'patients'));
+            // Financial Calculations
+            $totalIncome = Appointment::where('tenant_id', auth()->user()->tenant_id)
+                ->where('status', 'completed')
+                ->sum('price');
+
+            $surgeriesQuery = \App\Models\Surgery::where('tenant_id', auth()->user()->tenant_id);
+            $totalSurgeryIncome = $surgeriesQuery->sum('cost');
+            $completedSurgeriesCount = $surgeriesQuery->count();
+            $avgSurgeryIncome = $completedSurgeriesCount > 0 ? $totalSurgeryIncome / $completedSurgeriesCount : 0;
+
+            // Dummy logic for expenses / net worth since there is no Expense model/table.
+            // In a real application, you'd calculate these from an expenses table.
+            $totalExpenses = 0;
+            $paidExpenses = 0;
+            $unpaidExpenses = 0;
+            $netWorth = $totalIncome + $totalSurgeryIncome - $totalExpenses;
+
+            return view('doctor.dashboard', compact(
+                'todaysAppointments', 'greeting', 'pendingSurgeries', 'surgeryTypes', 'patients',
+                'totalIncome', 'totalSurgeryIncome', 'avgSurgeryIncome',
+                'totalExpenses', 'paidExpenses', 'unpaidExpenses', 'netWorth'
+            ));
         }
 
         $pendingAppointments = Appointment::where('tenant_id', auth()->user()->tenant_id)

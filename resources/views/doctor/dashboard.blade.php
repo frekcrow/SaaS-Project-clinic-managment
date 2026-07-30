@@ -279,10 +279,346 @@
 
             </div>
 
+            <!-- 3. Medical Analytics Chart -->
+            <div class="mt-8 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="medicalAnalytics()">
+                <div class="p-6 sm:p-8">
+                    <!-- Top Controls -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                        <h2 class="text-xl font-bold text-slate-800">المخطط الطبي (إحصائيات المرضى)</h2>
+
+                        <div class="flex items-center gap-4 w-full sm:w-auto">
+                            <!-- Dropdown Filter -->
+                            <select x-model="timeFilter" @change="updateChart" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3">
+                                <option value="today">اليوم</option>
+                                <option value="week">اخر اسبوع</option>
+                                <option value="month">اخر شهر</option>
+                                <option value="year">السنة</option>
+                                <option value="all">الكل</option>
+                            </select>
+
+                            <!-- Date Picker -->
+                            <div class="relative w-full sm:w-auto">
+                                <input type="text" x-model="customDate" x-ref="datePicker" placeholder="تاريخ محدد" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3 w-full sm:w-40 text-left" dir="ltr">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="h-80 w-full mb-6" x-ref="chartContainer"></div>
+
+                    <!-- Bottom Tabs -->
+                    <div class="flex flex-wrap items-center justify-center gap-3">
+                        <template x-for="tab in tabs" :key="tab.id">
+                            <button
+                                @click="activeTab = tab.id; updateChart()"
+                                :class="activeTab === tab.id ? 'bg-teal-600 text-white shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'"
+                                class="px-5 py-3 rounded-xl font-bold text-sm transition-all duration-200"
+                                x-text="tab.name"
+                            ></button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Financial Analytics Section -->
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Financial Stats Card -->
+                <div class="lg:col-span-1 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-lg border border-slate-700 p-6 sm:p-8 text-white relative overflow-hidden flex flex-col justify-between">
+                    <!-- Decor -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-[100px]"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-teal-500/20 rounded-tr-[80px] blur-2xl"></div>
+
+                    <div class="relative z-10 mb-8">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
+                                <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <h2 class="text-xl font-bold">الإحصائيات المالية</h2>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- Income -->
+                            <div>
+                                <div class="text-sm text-slate-400 mb-1">الدخل العام</div>
+                                <div class="text-3xl font-black text-white">{{ number_format($totalIncome ?? 0) }} د.ع</div>
+                            </div>
+
+                            <!-- Net Worth -->
+                            <div>
+                                <div class="text-sm text-slate-400 mb-1">صافي الثروة</div>
+                                <div class="text-2xl font-bold text-teal-400">{{ number_format($netWorth ?? 0) }} د.ع</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
+                        <div>
+                            <div class="text-xs text-slate-400 mb-1">مجموع أموال العمليات</div>
+                            <div class="font-bold text-white text-sm">{{ number_format($totalSurgeryIncome ?? 0) }} د.ع</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 mb-1">متوسط الدخل للعملية</div>
+                            <div class="font-bold text-white text-sm">{{ number_format($avgSurgeryIncome ?? 0) }} د.ع</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 mb-1">إجمالي المصاريف</div>
+                            <div class="font-bold text-red-400 text-sm">{{ number_format($totalExpenses ?? 0) }} د.ع</div>
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400 mb-1">المصاريف (مدفوعة/غير مدفوعة)</div>
+                            <div class="font-bold text-white text-xs">
+                                <span class="text-green-400">{{ number_format($paidExpenses ?? 0) }}</span> /
+                                <span class="text-red-400">{{ number_format($unpaidExpenses ?? 0) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Chart -->
+                <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="financialAnalytics()">
+                    <div class="p-6 sm:p-8 h-full flex flex-col">
+                        <!-- Top Controls -->
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                            <h2 class="text-xl font-bold text-slate-800">مؤشر النمو المالي</h2>
+
+                            <div class="flex items-center gap-4 w-full sm:w-auto">
+                                <select x-model="timeFilter" @change="updateChart" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3">
+                                    <option value="today">اليوم</option>
+                                    <option value="week">اخر اسبوع</option>
+                                    <option value="month">اخر شهر</option>
+                                    <option value="year">السنة</option>
+                                    <option value="all">الكل</option>
+                                </select>
+                                <div class="relative w-full sm:w-auto">
+                                    <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="تاريخ محدد" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3 w-full sm:w-40 text-left" dir="ltr">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart Container -->
+                        <div class="flex-1 min-h-[250px] w-full" x-ref="financeChartContainer"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <script>
         document.addEventListener('alpine:init', () => {
+            Alpine.data('financialAnalytics', () => ({
+                chart: null,
+                timeFilter: 'month',
+                customDate: '',
+                // Dummy Data for Financial Trends
+                dummySeries: [{
+                    name: 'الدخل',
+                    data: [1200000, 1800000, 1500000, 2200000, 2800000, 2500000, 3100000]
+                }],
+                dummyLabels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو'],
+
+                init() {
+                    flatpickr(this.$refs.financeDatePicker, {
+                        allowInput: true,
+                        disableMobile: true,
+                        dateFormat: 'Y-m-d',
+                        onChange: (selectedDates, dateStr) => {
+                            this.customDate = dateStr;
+                            this.timeFilter = '';
+                            this.updateChart();
+                        }
+                    });
+
+                    this.$nextTick(() => {
+                        this.renderChart();
+                    });
+                },
+
+                renderChart() {
+                    const options = {
+                        series: this.dummySeries,
+                        chart: {
+                            type: 'area',
+                            height: '100%',
+                            fontFamily: 'Tajawal, sans-serif',
+                            animations: {
+                                enabled: true,
+                                easing: 'easeinout',
+                                speed: 800,
+                                dynamicAnimation: {
+                                    enabled: true,
+                                    speed: 350
+                                }
+                            },
+                            toolbar: { show: false }
+                        },
+                        colors: ['#0d9488'], // teal-600
+                        fill: {
+                            type: 'gradient',
+                            gradient: {
+                                shadeIntensity: 1,
+                                opacityFrom: 0.4,
+                                opacityTo: 0.05,
+                                stops: [0, 90, 100]
+                            }
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            curve: 'smooth',
+                            width: 3
+                        },
+                        xaxis: {
+                            categories: this.dummyLabels,
+                            labels: {
+                                style: { fontFamily: 'Tajawal', fontWeight: 600 }
+                            }
+                        },
+                        yaxis: {
+                            labels: {
+                                style: { fontFamily: 'Tajawal' },
+                                formatter: (value) => {
+                                    return Number(value).toLocaleString('ar-IQ');
+                                }
+                            }
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (val) {
+                                    return Number(val).toLocaleString('ar-IQ') + " د.ع";
+                                }
+                            }
+                        },
+                        grid: {
+                            borderColor: '#f1f5f9',
+                            strokeDashArray: 4,
+                        }
+                    };
+
+                    this.chart = new window.ApexCharts(this.$refs.financeChartContainer, options);
+                    this.chart.render();
+                },
+
+                updateChart() {
+                    // Logic to update chart based on this.timeFilter / this.customDate
+                    // In a real scenario, fetch new data from API and update series/labels.
+                    // For now, we'll just simulate an update with a slight data shuffle.
+                    this.chart.updateSeries([{
+                        name: 'الدخل',
+                        data: this.dummySeries[0].data.map(val => val * (0.8 + Math.random() * 0.4))
+                    }]);
+                }
+            }));
+
+            Alpine.data('medicalAnalytics', () => ({
+                chart: null,
+                timeFilter: 'month',
+                customDate: '',
+                activeTab: 'gender',
+                tabs: [
+                    { id: 'gender', name: 'نسبة الذكور والإناث' },
+                    { id: 'diseases', name: 'الأمراض الشائعة' },
+                    { id: 'age', name: 'أعمار المراجعين' },
+                    { id: 'medications', name: 'الأدوية الموصوفة' },
+                    { id: 'surgeries', name: 'العمليات' }
+                ],
+                // Dummy Data
+                dummyData: {
+                    gender: { type: 'pie', series: [60, 40], labels: ['ذكور', 'إناث'] },
+                    diseases: { type: 'bar', series: [{ name: 'الحالات', data: [45, 30, 25, 15, 10] }], labels: ['السكري', 'الضغط', 'الربو', 'الصداع النصفي', 'فقر الدم'] },
+                    age: { type: 'bar', series: [{ name: 'العدد', data: [15, 40, 55, 35, 20] }], labels: ['0-18', '19-30', '31-45', '46-60', '60+'] },
+                    medications: { type: 'donut', series: [30, 25, 20, 15, 10], labels: ['باراسيتامول', 'أموكسيسيلين', 'أوميبرازول', 'إيبوبروفين', 'فيتامين سي'] },
+                    surgeries: { type: 'bar', series: [{ name: 'العمليات', data: [20, 15, 10, 5] }], labels: ['استئصال الزائدة', 'تفتيت حصى', 'عملية فتق', 'عملية لوزتين'] }
+                },
+
+                init() {
+                    flatpickr(this.$refs.datePicker, {
+                        allowInput: true,
+                        disableMobile: true,
+                        dateFormat: 'Y-m-d',
+                        onChange: (selectedDates, dateStr) => {
+                            this.customDate = dateStr;
+                            this.timeFilter = ''; // clear dropdown
+                            this.updateChart();
+                        }
+                    });
+
+                    this.$nextTick(() => {
+                        this.renderChart();
+                    });
+                },
+
+                renderChart() {
+                    const data = this.dummyData[this.activeTab];
+
+                    const options = {
+                        series: data.series,
+                        chart: {
+                            type: data.type,
+                            height: 320,
+                            fontFamily: 'Tajawal, sans-serif',
+                            animations: {
+                                enabled: true,
+                                easing: 'easeinout',
+                                speed: 800,
+                                dynamicAnimation: {
+                                    enabled: true,
+                                    speed: 350
+                                }
+                            },
+                            toolbar: { show: false }
+                        },
+                        labels: data.labels,
+                        colors: ['#0d9488', '#3b82f6', '#f59e0b', '#ef4444', '#8b5cf6'],
+                        dataLabels: {
+                            enabled: data.type === 'pie' || data.type === 'donut',
+                            style: { fontFamily: 'Tajawal' }
+                        },
+                        plotOptions: {
+                            bar: {
+                                borderRadius: 4,
+                                horizontal: false,
+                                columnWidth: '45%'
+                            }
+                        },
+                        xaxis: {
+                            categories: data.type === 'bar' ? data.labels : [],
+                            labels: {
+                                style: { fontFamily: 'Tajawal', fontWeight: 600 }
+                            }
+                        },
+                        yaxis: {
+                            labels: { style: { fontFamily: 'Tajawal' } }
+                        },
+                        legend: {
+                            position: 'bottom',
+                            fontFamily: 'Tajawal, sans-serif',
+                            fontWeight: 600
+                        },
+                        stroke: {
+                            curve: 'smooth',
+                            width: data.type === 'bar' ? 0 : 2
+                        },
+                        grid: {
+                            borderColor: '#f1f5f9',
+                            strokeDashArray: 4,
+                        }
+                    };
+
+                    this.chart = new window.ApexCharts(this.$refs.chartContainer, options);
+                    this.chart.render();
+                },
+
+                updateChart() {
+                    const data = this.dummyData[this.activeTab];
+
+                    if (this.chart) {
+                        this.chart.destroy();
+                    }
+                    this.renderChart();
+                }
+            }));
+
             if(!Alpine.data('liveTimer')) {
                 Alpine.data('liveTimer', (startedAtIso) => ({
                     startedAt: new Date(startedAtIso),

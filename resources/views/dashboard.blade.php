@@ -184,7 +184,7 @@
             </div>
             <div>
                 <h3 class="text-slate-500 text-sm font-medium mb-1">جلسات اليوم</h3>
-                <p class="text-3xl font-bold text-slate-800">{{ $todaySessions }}</p>
+                <p class="text-3xl font-bold text-slate-800">{{ $todaySessionsCount }}</p>
             </div>
         </div>
 

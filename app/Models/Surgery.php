@@ -24,6 +24,7 @@ class Surgery extends Model
         'anesthesia_type',
         'cost',
         'notes',
+        'doctor_notes',
     ];
 
     protected $casts = [

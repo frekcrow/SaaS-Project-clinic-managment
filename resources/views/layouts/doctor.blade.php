@@ -57,7 +57,7 @@
                         <span x-show="expanded" x-transition.opacity.duration.300ms class="mr-4 font-medium whitespace-nowrap">ملفات المرضى</span>
                     </a>
 
-                    <a href="{{ route('surgeries.index') }}" class="flex items-center px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('surgeries.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.surgeries.index') }}" class="flex items-center px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.surgeries.*') ? 'bg-slate-800 text-teal-400' : '' }}">
                         <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
                         <span x-show="expanded" x-transition.opacity.duration.300ms class="mr-4 font-medium whitespace-nowrap">العمليات</span>
                     </a>

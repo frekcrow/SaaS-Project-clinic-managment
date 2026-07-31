@@ -44,10 +44,102 @@ class DashboardController extends Controller
             $unpaidExpenses = 0;
             $netWorth = $totalIncome + $totalSurgeryIncome - $totalExpenses;
 
+            // Real Analytics Data for Doctor Dashboard
+            $tenantId = auth()->user()->tenant_id;
+
+            // 1. Gender Distribution
+            $genderCounts = \App\Models\Patient::where('tenant_id', $tenantId)
+                ->selectRaw('gender, count(*) as count')
+                ->groupBy('gender')
+                ->pluck('count', 'gender')
+                ->toArray();
+
+            $maleCount = $genderCounts['male'] ?? 0;
+            $femaleCount = $genderCounts['female'] ?? 0;
+
+            // 2. Common Diseases (from MedicalRecords diagnosis)
+            $diseases = \App\Models\MedicalRecord::where('tenant_id', $tenantId)
+                ->whereNotNull('diagnosis')
+                ->where('diagnosis', '!=', '')
+                ->where('diagnosis', '!=', 'قيد الانتظار')
+                ->selectRaw('diagnosis, count(*) as count')
+                ->groupBy('diagnosis')
+                ->orderByDesc('count')
+                ->limit(5)
+                ->get();
+
+            $diseasesLabels = $diseases->pluck('diagnosis')->toArray();
+            $diseasesData = $diseases->pluck('count')->toArray();
+
+            // 3. Age Distribution
+            $ages = \App\Models\Patient::where('tenant_id', $tenantId)
+                ->whereNotNull('dob')
+                ->get()
+                ->map(function ($patient) {
+                    return \Carbon\Carbon::parse($patient->dob)->age;
+                });
+
+            $ageGroups = [
+                '0-18' => $ages->filter(fn($age) => $age <= 18)->count(),
+                '19-30' => $ages->filter(fn($age) => $age >= 19 && $age <= 30)->count(),
+                '31-45' => $ages->filter(fn($age) => $age >= 31 && $age <= 45)->count(),
+                '46-60' => $ages->filter(fn($age) => $age >= 46 && $age <= 60)->count(),
+                '60+' => $ages->filter(fn($age) => $age > 60)->count(),
+            ];
+
+            // 4. Common Medications (from MedicalRecords prescription)
+            $medications = \App\Models\MedicalRecord::where('tenant_id', $tenantId)
+                ->whereNotNull('prescription')
+                ->where('prescription', '!=', '')
+                ->selectRaw('prescription, count(*) as count')
+                ->groupBy('prescription')
+                ->orderByDesc('count')
+                ->limit(5)
+                ->get();
+
+            $medicationsLabels = $medications->pluck('prescription')->toArray();
+            $medicationsData = $medications->pluck('count')->toArray();
+
+            // 5. Surgeries (by Type)
+            $surgeriesByType = \App\Models\Surgery::with('surgeryType')
+                ->where('tenant_id', $tenantId)
+                ->selectRaw('surgery_type_id, count(*) as count')
+                ->groupBy('surgery_type_id')
+                ->orderByDesc('count')
+                ->limit(5)
+                ->get();
+
+            $surgeriesLabels = $surgeriesByType->map(fn($s) => $s->surgeryType->name ?? 'غير محدد')->toArray();
+            $surgeriesData = $surgeriesByType->pluck('count')->toArray();
+
+            // Financial Data over the last 7 days
+            $last7Days = collect(range(6, 0))->map(function ($days) {
+                return now()->subDays($days)->format('Y-m-d');
+            });
+
+            $revenueByDay = \App\Models\Appointment::where('tenant_id', $tenantId)
+                ->where('status', 'completed')
+                ->where('appointment_date', '>=', now()->subDays(6)->format('Y-m-d'))
+                ->selectRaw('appointment_date, sum(price) as total')
+                ->groupBy('appointment_date')
+                ->pluck('total', 'appointment_date')
+                ->toArray();
+
+            $financeLabels = [];
+            $financeData = [];
+            foreach ($last7Days as $day) {
+                $financeLabels[] = \Carbon\Carbon::parse($day)->format('m/d');
+                $financeData[] = $revenueByDay[$day] ?? 0;
+            }
+
             return view('doctor.dashboard', compact(
                 'todaysAppointments', 'greeting', 'pendingSurgeries', 'surgeryTypes', 'patients',
                 'totalIncome', 'totalSurgeryIncome', 'avgSurgeryIncome',
-                'totalExpenses', 'paidExpenses', 'unpaidExpenses', 'netWorth'
+                'totalExpenses', 'paidExpenses', 'unpaidExpenses', 'netWorth',
+                'maleCount', 'femaleCount', 'diseasesLabels', 'diseasesData',
+                'ageGroups', 'medicationsLabels', 'medicationsData',
+                'surgeriesLabels', 'surgeriesData',
+                'financeLabels', 'financeData'
             ));
         }
 

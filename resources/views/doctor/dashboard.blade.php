@@ -410,11 +410,11 @@
                 timeFilter: 'month',
                 customDate: '',
                 // Dummy Data for Financial Trends
-                dummySeries: [{
+                financeSeries: [{
                     name: 'الدخل',
-                    data: [1200000, 1800000, 1500000, 2200000, 2800000, 2500000, 3100000]
+                    data: @json($financeData)
                 }],
-                dummyLabels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو'],
+                financeLabels: @json($financeLabels),
 
                 init() {
                     flatpickr(this.$refs.financeDatePicker, {
@@ -435,7 +435,7 @@
 
                 renderChart() {
                     const options = {
-                        series: this.dummySeries,
+                        series: this.financeSeries,
                         chart: {
                             type: 'area',
                             height: '100%',
@@ -469,7 +469,7 @@
                             width: 3
                         },
                         xaxis: {
-                            categories: this.dummyLabels,
+                            categories: this.financeLabels,
                             labels: {
                                 style: { fontFamily: 'Tajawal', fontWeight: 600 }
                             }
@@ -501,12 +501,7 @@
 
                 updateChart() {
                     // Logic to update chart based on this.timeFilter / this.customDate
-                    // In a real scenario, fetch new data from API and update series/labels.
-                    // For now, we'll just simulate an update with a slight data shuffle.
-                    this.chart.updateSeries([{
-                        name: 'الدخل',
-                        data: this.dummySeries[0].data.map(val => val * (0.8 + Math.random() * 0.4))
-                    }]);
+                    // Requires AJAX call for real dynamic update, omitted for now since we pass @json
                 }
             }));
 
@@ -522,13 +517,13 @@
                     { id: 'medications', name: 'الأدوية الموصوفة' },
                     { id: 'surgeries', name: 'العمليات' }
                 ],
-                // Dummy Data
-                dummyData: {
-                    gender: { type: 'pie', series: [60, 40], labels: ['ذكور', 'إناث'] },
-                    diseases: { type: 'bar', series: [{ name: 'الحالات', data: [45, 30, 25, 15, 10] }], labels: ['السكري', 'الضغط', 'الربو', 'الصداع النصفي', 'فقر الدم'] },
-                    age: { type: 'bar', series: [{ name: 'العدد', data: [15, 40, 55, 35, 20] }], labels: ['0-18', '19-30', '31-45', '46-60', '60+'] },
-                    medications: { type: 'donut', series: [30, 25, 20, 15, 10], labels: ['باراسيتامول', 'أموكسيسيلين', 'أوميبرازول', 'إيبوبروفين', 'فيتامين سي'] },
-                    surgeries: { type: 'bar', series: [{ name: 'العمليات', data: [20, 15, 10, 5] }], labels: ['استئصال الزائدة', 'تفتيت حصى', 'عملية فتق', 'عملية لوزتين'] }
+                // Real Data passed from Controller
+                medicalData: {
+                    gender: { type: 'pie', series: [@json($maleCount), @json($femaleCount)], labels: ['ذكور', 'إناث'] },
+                    diseases: { type: 'bar', series: [{ name: 'الحالات', data: @json($diseasesData) }], labels: @json($diseasesLabels) },
+                    age: { type: 'bar', series: [{ name: 'العدد', data: [@json($ageGroups['0-18']), @json($ageGroups['19-30']), @json($ageGroups['31-45']), @json($ageGroups['46-60']), @json($ageGroups['60+'])] }], labels: ['0-18', '19-30', '31-45', '46-60', '60+'] },
+                    medications: { type: 'donut', series: @json($medicationsData), labels: @json($medicationsLabels) },
+                    surgeries: { type: 'bar', series: [{ name: 'العمليات', data: @json($surgeriesData) }], labels: @json($surgeriesLabels) }
                 },
 
                 init() {
@@ -549,7 +544,7 @@
                 },
 
                 renderChart() {
-                    const data = this.dummyData[this.activeTab];
+                    const data = this.medicalData[this.activeTab];
 
                     const options = {
                         series: data.series,
@@ -610,7 +605,7 @@
                 },
 
                 updateChart() {
-                    const data = this.dummyData[this.activeTab];
+                    const data = this.medicalData[this.activeTab];
 
                     if (this.chart) {
                         this.chart.destroy();

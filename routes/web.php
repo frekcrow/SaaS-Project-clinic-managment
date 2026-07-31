@@ -20,6 +20,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SessionTypeController;
 use App\Http\Controllers\SurgeryTypeController;
 use App\Http\Controllers\SurgeryController;
+use App\Http\Controllers\DoctorPatientController;
 use App\Http\Controllers\NotificationController;
 
 Route::middleware('auth')->group(function () {
@@ -55,6 +56,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/surgeries', [SurgeryController::class, 'index'])->name('surgeries.index');
     Route::post('/surgeries', [SurgeryController::class, 'store'])->name('surgeries.store');
     Route::patch('/surgeries/{surgery}/status', [SurgeryController::class, 'updateStatus'])->name('surgeries.update_status');
+
+    // Doctor EMR routes
+    Route::prefix('doctor')->name('doctor.')->group(function () {
+        Route::get('/patients', [DoctorPatientController::class, 'index'])->name('patients.index');
+        Route::get('/patients/{patient}', [DoctorPatientController::class, 'show'])->name('patients.show');
+        Route::put('/patients/{patient}', [DoctorPatientController::class, 'update'])->name('patients.update');
+        Route::post('/patients/{patient}/records', [DoctorPatientController::class, 'storeRecord'])->name('patients.records.store');
+        Route::post('/patients/{patient}/images', [DoctorPatientController::class, 'uploadImage'])->name('patients.images.upload');
+        Route::delete('/patients/{patient}/images/{image}', [DoctorPatientController::class, 'deleteImage'])->name('patients.images.destroy');
+    });
 
     // Notifications
     Route::get('/api/notifications/latest', [NotificationController::class, 'latest'])->name('api.notifications.latest');

@@ -20,7 +20,7 @@ class SessionTypeController extends Controller
 
         SessionType::create($validated);
 
-        return redirect()->route('settings.index')->with('success', 'تمت إضافة نوع الجلسة بنجاح');
+        return back()->with('success', 'تمت إضافة نوع الجلسة بنجاح');
     }
 
     /**
@@ -34,6 +34,6 @@ class SessionTypeController extends Controller
 
         $sessionType->delete();
 
-        return redirect()->route('settings.index')->with('success', 'تم حذف نوع الجلسة بنجاح');
+        return back()->with('success', 'تم حذف نوع الجلسة بنجاح');
     }
 }

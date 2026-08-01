@@ -78,6 +78,14 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/prescriptions', [App\Http\Controllers\Doctor\PrescriptionController::class, 'index'])->name('prescriptions.index');
         Route::post('/prescriptions/settings', [App\Http\Controllers\Doctor\PrescriptionController::class, 'updateSettings'])->name('prescriptions.settings.update');
+
+        // Settings
+        Route::get('/settings', [App\Http\Controllers\Doctor\SettingsController::class, 'index'])->name('settings.index');
+        Route::post('/settings', [App\Http\Controllers\Doctor\SettingsController::class, 'update'])->name('settings.update');
+        Route::post('/settings/session-types', [SessionTypeController::class, 'store'])->name('settings.session-types.store');
+        Route::delete('/settings/session-types/{id}', [SessionTypeController::class, 'destroy'])->name('settings.session-types.destroy');
+        Route::post('/settings/surgery-types', [SurgeryTypeController::class, 'store'])->name('settings.surgery-types.store');
+        Route::delete('/settings/surgery-types/{id}', [SurgeryTypeController::class, 'destroy'])->name('settings.surgery-types.destroy');
     });
 
     // Notifications

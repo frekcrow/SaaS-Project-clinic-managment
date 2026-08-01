@@ -20,7 +20,7 @@ class SurgeryTypeController extends Controller
 
         SurgeryType::create($validated);
 
-        return redirect()->route('settings.index')->with('success', 'تمت إضافة نوع العملية بنجاح');
+        return back()->with('success', 'تمت إضافة نوع العملية بنجاح');
     }
 
     /**
@@ -34,6 +34,6 @@ class SurgeryTypeController extends Controller
 
         $surgeryType->delete();
 
-        return redirect()->route('settings.index')->with('success', 'تم حذف نوع العملية بنجاح');
+        return back()->with('success', 'تم حذف نوع العملية بنجاح');
     }
 }

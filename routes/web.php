@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
 
     // Doctor EMR routes
     Route::prefix('doctor')->name('doctor.')->group(function () {
+        Route::get('/appointments', [App\Http\Controllers\Doctor\AppointmentController::class, 'index'])->name('appointments.index');
         Route::get('/surgeries', [App\Http\Controllers\DoctorSurgeryController::class, 'index'])->name('surgeries.index');
         Route::put('/surgeries/{surgery}', [App\Http\Controllers\DoctorSurgeryController::class, 'update'])->name('surgeries.update');
         Route::get('/patients', [DoctorPatientController::class, 'index'])->name('patients.index');

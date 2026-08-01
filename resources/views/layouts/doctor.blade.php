@@ -67,7 +67,7 @@
                         <span x-show="expanded" x-transition.opacity.duration.300ms class="mr-4 font-medium whitespace-nowrap">الحسابات والفوترة</span>
                     </a>
 
-                    <a href="{{ route('appointments.index') }}" class="flex items-center px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('appointments.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.appointments.index') }}" class="flex items-center px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.appointments.*') ? 'bg-slate-800 text-teal-400' : '' }}">
                         <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         <span x-show="expanded" x-transition.opacity.duration.300ms class="mr-4 font-medium whitespace-nowrap">تقويم المواعيد</span>
                     </a>

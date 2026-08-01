@@ -69,6 +69,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/patients/{patient}/images/{image}', [DoctorPatientController::class, 'deleteImage'])->name('patients.images.destroy');
 
         Route::get('/billing', [App\Http\Controllers\DoctorBillingController::class, 'index'])->name('billing.index');
+
+        Route::get('/medications', [App\Http\Controllers\MedicationController::class, 'index'])->name('medications.index');
+        Route::post('/medications', [App\Http\Controllers\MedicationController::class, 'store'])->name('medications.store');
+        Route::put('/medications/{medication}', [App\Http\Controllers\MedicationController::class, 'update'])->name('medications.update');
+        Route::delete('/medications/{medication}', [App\Http\Controllers\MedicationController::class, 'destroy'])->name('medications.destroy');
     });
 
     // Notifications

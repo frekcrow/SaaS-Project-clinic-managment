@@ -74,6 +74,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/medications', [App\Http\Controllers\MedicationController::class, 'store'])->name('medications.store');
         Route::put('/medications/{medication}', [App\Http\Controllers\MedicationController::class, 'update'])->name('medications.update');
         Route::delete('/medications/{medication}', [App\Http\Controllers\MedicationController::class, 'destroy'])->name('medications.destroy');
+
+        Route::get('/prescriptions', [App\Http\Controllers\Doctor\PrescriptionController::class, 'index'])->name('prescriptions.index');
+        Route::post('/prescriptions/settings', [App\Http\Controllers\Doctor\PrescriptionController::class, 'updateSettings'])->name('prescriptions.settings.update');
     });
 
     // Notifications

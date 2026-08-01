@@ -62,7 +62,7 @@
                         <span x-show="expanded" x-transition.opacity.duration.300ms class="mr-4 font-medium whitespace-nowrap">العمليات</span>
                     </a>
 
-                    <a href="{{ route('billing.index') }}" class="flex items-center px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('billing.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.billing.index') }}" class="flex items-center px-3 py-3 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.billing.*') ? 'bg-slate-800 text-teal-400' : '' }}">
                         <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                         <span x-show="expanded" x-transition.opacity.duration.300ms class="mr-4 font-medium whitespace-nowrap">الحسابات والفوترة</span>
                     </a>

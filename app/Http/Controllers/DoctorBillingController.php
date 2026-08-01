@@ -1,0 +1,91 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Appointment;
+use App\Models\Surgery;
+use App\Models\Patient;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
+class DoctorBillingController extends Controller
+{
+    public function index(Request $request)
+    {
+        $tenantId = Auth::user()->tenant_id;
+        $today = Carbon::today('Asia/Baghdad')->format('Y-m-d');
+
+        // Top Stats
+        // 1. Total Patients Today (Count of appointments strictly for today)
+        $totalPatientsToday = Appointment::where('tenant_id', $tenantId)
+            ->where('appointment_date', $today)
+            ->count();
+
+        // 2. Today's Income (Sum of session/consultation fees collected today for completed appointments)
+        $todayIncome = Appointment::where('tenant_id', $tenantId)
+            ->where('appointment_date', $today)
+            ->where('status', 'completed')
+            ->sum('price');
+
+        // 3. Total Surgeries Income (Sum of surgery costs for all surgeries)
+        $totalSurgeriesIncome = Surgery::where('tenant_id', $tenantId)
+            ->sum('cost');
+
+        // 4. Net Worth (Total overall income: sessions + surgeries)
+        $totalSessionsIncome = Appointment::where('tenant_id', $tenantId)
+            ->where('status', 'completed')
+            ->sum('price');
+
+        $netWorth = $totalSessionsIncome + $totalSurgeriesIncome;
+
+        // Sorting
+        $sortOrder = $request->input('sort', 'desc');
+        $validSorts = ['desc', 'asc'];
+        if (!in_array($sortOrder, $validSorts)) {
+            $sortOrder = 'desc';
+        }
+
+        // Top Paying Patients List
+        // Calculate total amount paid by each patient (appointments + surgeries)
+        // We use left joins with subqueries to group first, preventing Cartesian product duplication.
+
+        $appointmentsSubquery = Appointment::select('patient_id', DB::raw('SUM(price) as total_appointments_paid'))
+            ->where('tenant_id', $tenantId)
+            ->where('status', 'completed')
+            ->whereNotNull('patient_id')
+            ->groupBy('patient_id');
+
+        $surgeriesSubquery = Surgery::select('patient_id', DB::raw('SUM(cost) as total_surgeries_paid'))
+            ->where('tenant_id', $tenantId)
+            ->whereNotNull('patient_id')
+            ->groupBy('patient_id');
+
+        $patientsData = Patient::where('patients.tenant_id', $tenantId)
+            ->leftJoinSub($appointmentsSubquery, 'a_sub', function ($join) {
+                $join->on('patients.id', '=', 'a_sub.patient_id');
+            })
+            ->leftJoinSub($surgeriesSubquery, 's_sub', function ($join) {
+                $join->on('patients.id', '=', 's_sub.patient_id');
+            })
+            ->select(
+                'patients.id',
+                'patients.name',
+                'patients.phone',
+                DB::raw('COALESCE(a_sub.total_appointments_paid, 0) + COALESCE(s_sub.total_surgeries_paid, 0) as total_paid')
+            )
+            ->whereRaw('(COALESCE(a_sub.total_appointments_paid, 0) + COALESCE(s_sub.total_surgeries_paid, 0)) > 0')
+            ->orderBy('total_paid', $sortOrder)
+            ->get();
+
+        return view('doctor.billing.index', compact(
+            'totalPatientsToday',
+            'todayIncome',
+            'totalSurgeriesIncome',
+            'netWorth',
+            'patientsData',
+            'sortOrder'
+        ));
+    }
+}

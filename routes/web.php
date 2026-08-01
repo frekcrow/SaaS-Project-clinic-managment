@@ -67,6 +67,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/patients/{patient}/records', [DoctorPatientController::class, 'storeRecord'])->name('patients.records.store');
         Route::post('/patients/{patient}/images', [DoctorPatientController::class, 'uploadImage'])->name('patients.images.upload');
         Route::delete('/patients/{patient}/images/{image}', [DoctorPatientController::class, 'deleteImage'])->name('patients.images.destroy');
+
+        Route::get('/billing', [App\Http\Controllers\DoctorBillingController::class, 'index'])->name('billing.index');
     });
 
     // Notifications

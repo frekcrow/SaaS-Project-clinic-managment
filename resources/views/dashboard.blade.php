@@ -188,6 +188,7 @@
             </div>
         </div>
 
+        @if(auth()->user()->role === 'doctor')
         <!-- Card 4: Total Revenue -->
         <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden z-20">
             <div class="flex items-center justify-between mb-2">
@@ -243,6 +244,7 @@
                 </svg>
             </div>
         </div>
+        @endif
     </div>
 
     <!-- Mini Appointments Table -->

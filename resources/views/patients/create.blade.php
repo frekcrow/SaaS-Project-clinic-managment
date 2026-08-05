@@ -15,14 +15,14 @@
                             <!-- Full Name -->
                             <div>
                                 <x-input-label for="name" :value="__('الاسم الكامل')" />
-                                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name', request('name'))" required autofocus />
                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             </div>
 
                             <!-- Phone -->
                             <div>
                                 <x-input-label for="phone" :value="__('رقم الهاتف')" />
-                                <x-text-input id="phone" class="block mt-1 w-full" type="tel" pattern="[0-9]+" name="phone" :value="old('phone')" />
+                                <x-text-input id="phone" class="block mt-1 w-full" type="tel" pattern="[0-9]+" name="phone" :value="old('phone', request('phone'))" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                             </div>
 

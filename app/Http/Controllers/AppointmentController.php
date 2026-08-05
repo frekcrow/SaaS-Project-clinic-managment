@@ -197,6 +197,13 @@ class AppointmentController extends Controller
             $appointment->update(['status' => $newStatus]);
         }
 
+        if ($newStatus === 'completed') {
+            return redirect()->route('patients.create', [
+                'name' => $appointment->patient->name ?? $appointment->patient_name,
+                'phone' => $appointment->patient->phone ?? $appointment->phone
+            ])->with('success', 'Status updated successfully.');
+        }
+
         return redirect()->back()->with('success', 'Status updated successfully.');
     }
 

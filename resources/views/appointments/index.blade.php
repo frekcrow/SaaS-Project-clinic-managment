@@ -84,7 +84,9 @@
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
+                                        @if(auth()->user()->role === 'doctor')
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">السعر</th>
+                                        @endif
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الحالة</th>
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">إجراءات</th>
                                     </tr>
@@ -159,6 +161,7 @@
                                                 </template>
                                             </td>
 
+                                            @if(auth()->user()->role === 'doctor')
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4" x-text="appointment.price || '-'"></div>
@@ -167,6 +170,7 @@
                                                     <input type="number" step="0.01" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
                                                 </template>
                                             </td>
+                                            @endif
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
@@ -247,7 +251,9 @@
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
+                                                    @if(auth()->user()->role === 'doctor')
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">السعر</th>
+                                                    @endif
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الحالة</th>
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">إجراءات</th>
                                                 </tr>
@@ -322,6 +328,7 @@
                                                             </template>
                                                         </td>
 
+                                                        @if(auth()->user()->role === 'doctor')
                                                         <td class="px-0 py-0 whitespace-nowrap text-sm font-medium border-b border-gray-200 border-l h-full">
                                                             <template x-if="!editMode">
                                                                 <div class="px-6 py-4">
@@ -336,6 +343,7 @@
                                                                 <input type="number" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm" placeholder="0">
                                                             </template>
                                                         </td>
+                                                        @endif
 
                                                         <td class="px-0 py-0 whitespace-nowrap text-sm border-b border-gray-200 border-l h-full">
                                                             <template x-if="!editMode">

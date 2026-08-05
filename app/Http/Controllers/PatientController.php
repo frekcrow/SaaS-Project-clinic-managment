@@ -61,7 +61,7 @@ class PatientController extends Controller
             'dob_day' => 'nullable|integer|min:1|max:31',
             'dob_month' => 'nullable|integer|min:1|max:12',
             'dob_year' => 'nullable|integer|min:1900|max:2100',
-            'phone' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|regex:/^[0-9]+$/|max:255',
             'doctor_id' => [
                 'nullable',
                 \Illuminate\Validation\Rule::exists('users', 'id')->where(function ($query) use ($request) {
@@ -73,6 +73,9 @@ class PatientController extends Controller
             'allergies' => 'nullable|string',
             'chronic_diseases' => 'nullable|string',
             'regular_medications' => 'nullable|string',
+            'gender' => 'nullable|string',
+            'smoking_status' => 'nullable|string',
+            'blood_type' => 'nullable|string',
         ]);
 
         if ($request->filled(['dob_day', 'dob_month', 'dob_year'])) {
@@ -134,7 +137,10 @@ class PatientController extends Controller
         $validatedData = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'dob' => 'nullable|date',
-            'phone' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|regex:/^[0-9]+$/|max:255',
+            'gender' => 'nullable|string',
+            'smoking_status' => 'nullable|string',
+            'blood_type' => 'nullable|string',
         ]);
 
         $patient->update($validatedData);

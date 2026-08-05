@@ -22,7 +22,7 @@
                             <!-- Phone -->
                             <div>
                                 <x-input-label for="phone" :value="__('رقم الهاتف')" />
-                                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" />
+                                <x-text-input id="phone" class="block mt-1 w-full" type="tel" pattern="[0-9]+" name="phone" :value="old('phone')" />
                                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                             </div>
 

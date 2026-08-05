@@ -175,19 +175,19 @@
                                 <table class="min-w-full divide-y divide-gray-200">
                                     <thead class="bg-gray-50">
                                         <tr>
-                                            <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
+                                            <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
                                                 <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                 {{ __('اسم المريض') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                 {{ __('رقم الهاتف') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                 {{ __('تاريخ الميلاد') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
                                                 {{ __('الإجراءات') }}
                                             </th>
                                         </tr>
@@ -198,25 +198,25 @@
                                                 <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
                                                     <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                                 </td>
-                                                <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
                                                     <template x-if="!editMode">
-                                                        <div class="px-6 py-4" x-text="patient.name"></div>
+                                                        <div class="px-6 py-4 text-center" x-text="patient.name"></div>
                                                     </template>
                                                     <template x-if="editMode">
                                                         <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0">
                                                     </template>
                                                 </td>
-                                                <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                     <template x-if="!editMode">
-                                                        <div class="px-6 py-4" x-text="patient.phone || '-'"></div>
+                                                        <div class="px-6 py-4 text-center" x-text="patient.phone || '-'"></div>
                                                     </template>
                                                     <template x-if="editMode">
                                                         <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
                                                     </template>
                                                 </td>
-                                                <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                     <template x-if="!editMode">
-                                                        <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
+                                                        <div class="px-6 py-4 text-center" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                     </template>
                                                     <template x-if="editMode">
                                                         <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
@@ -226,8 +226,8 @@
                                                         </div>
                                                     </template>
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
-                                                    <div class="flex items-center gap-2 w-max">
+                                                <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                    <div class="flex items-center justify-center gap-2 w-max mx-auto">
                                                         <a :href="'/patients/' + patient.id" title="ملف المريض" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -266,19 +266,19 @@
                                     <table class="min-w-full divide-y divide-gray-200">
                                         <thead class="bg-gray-50">
                                             <tr>
-                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
+                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
                                                     <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                     {{ __('اسم المريض') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                     {{ __('رقم الهاتف') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                     {{ __('تاريخ الميلاد') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
                                                     {{ __('الإجراءات') }}
                                                 </th>
                                             </tr>
@@ -289,25 +289,25 @@
                                                     <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
                                                         <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                                     </td>
-                                                    <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
                                                         <template x-if="!editMode">
-                                                            <div class="px-6 py-4" x-text="patient.name"></div>
+                                                            <div class="px-6 py-4 text-center" x-text="patient.name"></div>
                                                         </template>
                                                         <template x-if="editMode">
                                                             <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0">
                                                         </template>
                                                     </td>
-                                                    <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                         <template x-if="!editMode">
-                                                            <div class="px-6 py-4" x-text="patient.phone || '-'"></div>
+                                                            <div class="px-6 py-4 text-center" x-text="patient.phone || '-'"></div>
                                                         </template>
                                                         <template x-if="editMode">
                                                             <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
                                                         </template>
                                                     </td>
-                                                    <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                         <template x-if="!editMode">
-                                                            <div class="px-6 py-4 text-left" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
+                                                            <div class="px-6 py-4 text-center" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                         </template>
                                                         <template x-if="editMode">
                                                             <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
@@ -317,8 +317,8 @@
                                                             </div>
                                                         </template>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
-                                                        <div class="flex items-center gap-2 w-max">
+                                                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                        <div class="flex items-center justify-center gap-2 w-max mx-auto">
                                                             <a :href="'/patients/' + patient.id" title="ملف المريض" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>

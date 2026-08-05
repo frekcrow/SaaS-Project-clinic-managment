@@ -127,7 +127,7 @@
     </div>
 
     <!-- Statistics Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <!-- Card 1: Today's Appointments -->
         <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between mb-4">

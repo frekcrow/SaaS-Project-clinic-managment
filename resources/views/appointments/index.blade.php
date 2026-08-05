@@ -154,7 +154,7 @@
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
-                                                    <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_formatted"></div>
+                                                    <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_display"></div>
                                                 </template>
                                                 <template x-if="editMode">
                                                     <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
@@ -174,15 +174,26 @@
 
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
-                                                    <div class="px-6 py-4 flex items-center justify-center">
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                                                            :class="{
-                                                                'bg-green-100 text-green-800': appointment.status === 'completed',
-                                                                'bg-red-100 text-red-800': appointment.status === 'cancelled',
-                                                                'bg-yellow-100 text-yellow-800': appointment.status === 'pending'
-                                                            }"
-                                                            x-text="appointment.status === 'pending' ? 'قيد الانتظار' : (appointment.status === 'completed' ? 'مكتمل' : 'ملغي')">
-                                                        </span>
+                                                    <div class="px-6 py-4 flex items-center justify-center h-full">
+                                                        <template x-if="appointment.status !== 'pending'">
+                                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm border"
+                                                                :class="{
+                                                                    'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
+                                                                    'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
+                                                                }"
+                                                                x-text="appointment.status === 'completed' ? 'مكتمل' : 'ملغي'">
+                                                            </span>
+                                                        </template>
+                                                        <template x-if="appointment.status === 'pending'">
+                                                            <div class="flex gap-2">
+                                                                <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="مكتمل">
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                                </button>
+                                                                <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="إلغاء">
+                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                                </button>
+                                                            </div>
+                                                        </template>
                                                     </div>
                                                 </template>
                                                 <template x-if="editMode">
@@ -321,7 +332,7 @@
 
                                                         <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
                                                             <template x-if="!editMode">
-                                                                <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_formatted"></div>
+                                                                <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_display"></div>
                                                             </template>
                                                             <template x-if="editMode">
                                                                 <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
@@ -347,19 +358,26 @@
 
                                                         <td class="px-0 py-0 whitespace-nowrap text-sm border-b border-gray-200 border-l h-full">
                                                             <template x-if="!editMode">
-                                                                <div class="px-6 py-4 flex items-center h-full">
-                                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full border shadow-sm"
-                                                                        :class="{
-                                                                            'bg-yellow-50 text-yellow-700 border-yellow-200': appointment.status === 'pending',
-                                                                            'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
-                                                                            'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
-                                                                        }">
-                                                                        <span x-text="
-                                                                            appointment.status === 'pending' ? 'قيد الانتظار' :
-                                                                            (appointment.status === 'completed' ? 'مكتمل' :
-                                                                            (appointment.status === 'cancelled' ? 'ملغي' : appointment.status))
-                                                                        "></span>
-                                                                    </span>
+                                                                <div class="px-6 py-4 flex items-center justify-center h-full">
+                                                                    <template x-if="appointment.status !== 'pending'">
+                                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm border"
+                                                                            :class="{
+                                                                                'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
+                                                                                'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
+                                                                            }"
+                                                                            x-text="appointment.status === 'completed' ? 'مكتمل' : 'ملغي'">
+                                                                        </span>
+                                                                    </template>
+                                                                    <template x-if="appointment.status === 'pending'">
+                                                                        <div class="flex gap-2">
+                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="مكتمل">
+                                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                                            </button>
+                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="إلغاء">
+                                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                                                            </button>
+                                                                        </div>
+                                                                    </template>
                                                                 </div>
                                                             </template>
                                                             <template x-if="editMode">
@@ -408,10 +426,23 @@
             Alpine.data('appointmentsGrid', (initialAppointments) => ({
                 viewMode: 'default',
                 appointments: initialAppointments.map(a => {
+                    let time_str = a.appointment_time ? a.appointment_time.substring(0, 5) : '';
+                    let time_display = '';
+                    if (time_str) {
+                        let parts = time_str.split(':');
+                        let h = parseInt(parts[0], 10);
+                        let m = parts[1];
+                        let ampm = h >= 12 ? 'PM' : 'AM';
+                        h = h % 12;
+                        h = h ? h : 12;
+                        time_display = h.toString().padStart(2, '0') + ':' + m + ' ' + ampm;
+                    }
+
                     return {
                         ...a,
                         appointment_date_formatted: a.appointment_date ? a.appointment_date.substring(0, 10) : '',
-                        appointment_time_formatted: a.appointment_time ? a.appointment_time.substring(0, 5) : ''
+                        appointment_time_formatted: time_str,
+                        appointment_time_display: time_display
                     };
                 }),
                 search: '',
@@ -462,6 +493,38 @@
                         this.selected = [];
                     } else {
                         this.selected = this.filteredAppointments.map(a => String(a.id));
+                    }
+                },
+
+                async quickUpdateStatus(appointment, status) {
+                    try {
+                        appointment.status = status;
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+                        const response = await fetch(`/appointments/${appointment.id}/status`, {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json',
+                                'Cache-Control': 'no-cache'
+                            },
+                            body: JSON.stringify({
+                                status: appointment.status
+                            })
+                        });
+
+                        if (!response.ok) {
+                            console.error('Failed to update status', await response.text());
+                        } else {
+                            if (status === 'completed') {
+                                window.location.href = '{{ route('patients.create') }}';
+                            } else {
+                                window.location.reload();
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error updating status:', error);
                     }
                 },
 

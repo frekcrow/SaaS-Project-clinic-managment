@@ -222,7 +222,7 @@
                 </header>
 
                 <!-- Page Content (Scrollable) -->
-                <main class="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-20">
+                <main class="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-20 bg-slate-50">
                     <!-- Page Heading -->
                     @isset($header)
                         <div class="mb-6 flex items-center justify-between">

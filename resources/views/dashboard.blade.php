@@ -3,6 +3,9 @@
         {{ $greeting ?? 'لوحة التحكم' }} - هل أنت مستعد ليومك؟
     </x-slot>
 
+    <!-- Main Dashboard Master Container -->
+    <div class="bg-white rounded-3xl shadow-sm p-4 flex flex-col h-[calc(100vh-10rem)]">
+
     <!-- Main Quick Actions Container -->
     <div class="flex flex-col sm:flex-row items-center justify-between w-full mb-6 gap-4">
 
@@ -58,138 +61,138 @@
         </div>
     </div>
 
-    <!-- Top Cards Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <!-- Live Consultation Status Card (Right Side) -->
-        <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-black/5 relative overflow-hidden w-full h-full flex flex-col justify-center"
-             x-data="{
-                timer: 0,
-                formattedTime() {
-                    let m = Math.floor(this.timer / 60).toString().padStart(2, '0');
-                    let s = (this.timer % 60).toString().padStart(2, '0');
-                    return m + ':' + s;
-                }
-             }"
-             @if($activeConsultation) x-init="setInterval(() => timer++, 1000)" @endif>
-            <div class="flex items-center justify-between relative z-10">
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <div class="w-16 h-16 rounded-full aspect-square object-cover flex items-center justify-center {{ $activeConsultation ? 'bg-indigo-100 text-indigo-600 animate-pulse' : 'bg-slate-100 text-slate-400' }}">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold text-slate-800">حالة العيادة الآن</h2>
+    <!-- Layout Groups Container (Side-by-Side) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-4">
+
+        <!-- Grouping 1: Clinic Status & Visitors (40%) -->
+        <div class="lg:col-span-5 border border-gray-900 rounded-2xl p-4 flex flex-col justify-center">
+            <div class="grid grid-cols-2 gap-4 h-full">
+                <!-- Live Consultation Status Card -->
+                <div class="relative overflow-hidden w-full h-full flex flex-col justify-center border-l border-slate-100 pl-4"
+                     x-data="{
+                        timer: 0,
+                        formattedTime() {
+                            let m = Math.floor(this.timer / 60).toString().padStart(2, '0');
+                            let s = (this.timer % 60).toString().padStart(2, '0');
+                            return m + ':' + s;
+                        }
+                     }"
+                     @if($activeConsultation) x-init="setInterval(() => timer++, 1000)" @endif>
+                    <div class="flex flex-col relative z-10">
+                        <div class="flex items-center space-x-2 space-x-reverse mb-2">
+                            <div class="w-8 h-8 rounded-full aspect-square object-cover flex items-center justify-center {{ $activeConsultation ? 'bg-indigo-100 text-indigo-600 animate-pulse' : 'bg-slate-100 text-slate-400' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-sm font-bold text-slate-800">حالة العيادة الآن</h2>
+                        </div>
+
+                        <div>
+                            @if($activeConsultation)
+                                <p class="text-indigo-600 font-medium text-xs truncate">المريض: {{ $activeConsultation->patient_name ?? $activeConsultation->patient?->name }}</p>
+                            @else
+                                <p class="text-slate-500 font-medium text-xs">لا يوجد مريض حالياً</p>
+                            @endif
+                        </div>
+
                         @if($activeConsultation)
-                            <p class="text-indigo-600 font-medium text-lg mt-1">المريض الحالي: {{ $activeConsultation->patient_name ?? $activeConsultation->patient?->name }}</p>
-                        @else
-                            <p class="text-slate-500 font-medium text-lg mt-1">لا يوجد مريض في الداخل حالياً</p>
+                        <div class="mt-2 flex items-center justify-between">
+                            <span class="text-xs text-slate-500">وقت الجلسة</span>
+                            <span class="text-lg font-mono font-bold text-indigo-600" x-text="formattedTime()">00:00</span>
+                        </div>
                         @endif
                     </div>
                 </div>
 
-                @if($activeConsultation)
-                <div class="text-center">
-                    <span class="block text-sm text-slate-500 mb-1">وقت الجلسة</span>
-                    <span class="text-3xl font-mono font-bold text-indigo-600" x-text="formattedTime()">00:00</span>
+                <!-- Visitor Counter Card -->
+                <div class="flex flex-col justify-between w-full h-full">
+                    <div class="flex items-start justify-between w-full gap-2">
+                        <div class="flex-1">
+                            <h3 class="text-xs font-medium text-slate-500 flex items-center gap-1.5 mb-1">
+                                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                                عدد الزوار
+                            </h3>
+                            <p class="text-2xl font-bold text-slate-800">{{ $visitorsCount }}</p>
+                        </div>
+                    </div>
+                    <form method="GET" action="{{ route('dashboard') }}" class="self-start mt-2 w-full">
+                        <select name="filter" onchange="this.form.submit()" class="text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-full text-right bg-[position:left_0.25rem_center]">
+                            <option value="today" {{ $filter === 'today' ? 'selected' : '' }}>اليوم</option>
+                            <option value="week" {{ $filter === 'week' ? 'selected' : '' }}>الاسبوع</option>
+                            <option value="month" {{ $filter === 'month' ? 'selected' : '' }}>الشهر</option>
+                            <option value="year" {{ $filter === 'year' ? 'selected' : '' }}>السنة</option>
+                        </select>
+                    </form>
                 </div>
-                @endif
             </div>
-
-            @if($activeConsultation)
-            <!-- Decorative pulse background -->
-            <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-50 rounded-full blur-3xl opacity-50 animate-pulse"></div>
-            @endif
         </div>
 
-        <!-- Visitor Counter Card (Left Side) -->
-        <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-black/5 flex flex-col justify-center gap-4 w-full h-full">
-            <div class="flex items-center justify-between w-full gap-4">
-                <div class="p-4 bg-indigo-50 rounded-xl text-indigo-600">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
+        <!-- Grouping 2: Today's Stats (60%) -->
+        <div class="lg:col-span-7 border border-gray-900 rounded-2xl p-4 flex flex-col justify-center">
+            <div class="grid grid-cols-3 gap-4 h-full">
+                <!-- Card 1: Today's Appointments -->
+                <div class="flex flex-col justify-between h-full border-l border-slate-100 pl-4">
+                    <div class="flex items-start justify-between w-full mb-2">
+                        <h3 class="text-xs font-medium text-slate-500 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            إجمالي المواعيد
+                        </h3>
+                    </div>
+                    <p class="text-2xl font-bold text-slate-800">{{ $todaysAppointments->count() }}</p>
+                    <form method="GET" action="{{ route('dashboard') }}" class="mt-2 w-full">
+                        <!-- Preserve other filters -->
+                        @if(request('filter')) <input type="hidden" name="filter" value="{{ request('filter') }}"> @endif
+                        @if(request('revenue_period')) <input type="hidden" name="revenue_period" value="{{ request('revenue_period') }}"> @endif
+                        @if(request('revenue_date')) <input type="hidden" name="revenue_date" value="{{ request('revenue_date') }}"> @endif
+
+                        <select name="appointment_status" onchange="this.form.submit()" class="text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-full text-right bg-[position:left_0.25rem_center]">
+                            <option value="all" {{ $appointmentStatus === 'all' ? 'selected' : '' }}>الكل</option>
+                            <option value="completed" {{ $appointmentStatus === 'completed' ? 'selected' : '' }}>مكتمل</option>
+                            <option value="pending" {{ $appointmentStatus === 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
+                            <option value="cancelled" {{ $appointmentStatus === 'cancelled' ? 'selected' : '' }}>ملغي</option>
+                        </select>
+                    </form>
                 </div>
-                <div class="flex-1">
-                    <h3 class="text-sm font-medium text-slate-500">عدد زوار العيادة</h3>
-                    <p class="text-3xl font-bold text-slate-800">{{ $visitorsCount }}</p>
+
+                <!-- Card 2: Patients Pending Surgery -->
+                <div class="flex flex-col justify-between h-full border-l border-slate-100 pl-4">
+                    <div class="flex items-start justify-between w-full mb-2">
+                        <h3 class="text-xs font-medium text-slate-500 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                            انتظار عمليات
+                        </h3>
+                    </div>
+                    <p class="text-2xl font-bold text-slate-800">{{ $pendingSurgeries }}</p>
+                    <span class="text-[10px] font-medium text-slate-400 mt-auto pt-2 block">الآن</span>
                 </div>
-                <form method="GET" action="{{ route('dashboard') }}" class="self-start mt-2">
-                    <select name="filter" onchange="this.form.submit()" class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1.5 w-full text-right bg-[position:left_0.5rem_center]">
-                        <option value="today" {{ $filter === 'today' ? 'selected' : '' }}>اليوم</option>
-                        <option value="week" {{ $filter === 'week' ? 'selected' : '' }}>الاسبوع</option>
-                        <option value="month" {{ $filter === 'month' ? 'selected' : '' }}>الشهر</option>
-                        <option value="year" {{ $filter === 'year' ? 'selected' : '' }}>السنة</option>
-                    </select>
-                </form>
+
+                <!-- Card 3: Today's Sessions -->
+                <div class="flex flex-col justify-between h-full">
+                    <div class="flex items-start justify-between w-full mb-2">
+                        <h3 class="text-xs font-medium text-slate-500 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            جلسات اليوم
+                        </h3>
+                    </div>
+                    <p class="text-2xl font-bold text-slate-800">{{ $todaySessionsCount }}</p>
+                    <span class="text-[10px] font-medium text-slate-400 mt-auto pt-2 block">اليوم</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Statistics Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <!-- Card 1: Today's Appointments -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="p-3 bg-purple-50 rounded-2xl text-purple-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-                <form method="GET" action="{{ route('dashboard') }}" class="self-start">
-                    <!-- Preserve other filters -->
-                    @if(request('filter')) <input type="hidden" name="filter" value="{{ request('filter') }}"> @endif
-                    @if(request('revenue_period')) <input type="hidden" name="revenue_period" value="{{ request('revenue_period') }}"> @endif
-                    @if(request('revenue_date')) <input type="hidden" name="revenue_date" value="{{ request('revenue_date') }}"> @endif
-
-                    <select name="appointment_status" onchange="this.form.submit()" class="text-sm border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-8 pr-3 py-1 w-full text-right bg-[position:left_0.5rem_center]">
-                        <option value="all" {{ $appointmentStatus === 'all' ? 'selected' : '' }}>الكل</option>
-                        <option value="completed" {{ $appointmentStatus === 'completed' ? 'selected' : '' }}>مكتمل</option>
-                        <option value="pending" {{ $appointmentStatus === 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
-                        <option value="cancelled" {{ $appointmentStatus === 'cancelled' ? 'selected' : '' }}>ملغي</option>
-                    </select>
-                </form>
-            </div>
-            <div>
-                <h3 class="text-slate-500 text-sm font-medium mb-1">مواعيد اليوم</h3>
-                <p class="text-3xl font-bold text-slate-800">{{ $todaysAppointments->count() }}</p>
-            </div>
-        </div>
-
-        <!-- Card 2: Patients Pending Surgery -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="p-3 bg-rose-50 rounded-2xl text-rose-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                    </svg>
-                </div>
-                <span class="text-sm font-medium text-slate-500">الآن</span>
-            </div>
-            <div>
-                <h3 class="text-slate-500 text-sm font-medium mb-1">المرضى بانتظار عمليات</h3>
-                <p class="text-3xl font-bold text-slate-800">{{ $pendingSurgeries }}</p>
-            </div>
-        </div>
-
-        <!-- Card 3: Today's Sessions -->
-        <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between mb-4">
-                <div class="p-3 bg-sky-50 rounded-2xl text-sky-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                    </svg>
-                </div>
-                <span class="text-sm font-medium text-slate-500">اليوم</span>
-            </div>
-            <div>
-                <h3 class="text-slate-500 text-sm font-medium mb-1">جلسات اليوم</h3>
-                <p class="text-3xl font-bold text-slate-800">{{ $todaySessionsCount }}</p>
-            </div>
-        </div>
-
-        @if(auth()->user()->role === 'doctor')
-        <!-- Card 4: Total Revenue -->
+    @if(auth()->user()->role === 'doctor')
+    <div class="mb-4">
+        <!-- Card 4: Total Revenue (Moved down for doctors) -->
         <div class="bg-white rounded-3xl p-6 shadow-sm border border-black/5 flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden z-20">
             <div class="flex items-center justify-between mb-2">
                 <div class="p-3 bg-emerald-50 rounded-2xl text-emerald-500">
@@ -244,17 +247,17 @@
                 </svg>
             </div>
         </div>
-        @endif
     </div>
+    @endif
 
     <!-- Mini Appointments Table -->
-    <div class="bg-white rounded-3xl shadow-sm border border-black/5 overflow-hidden">
-        <div class="p-6 border-b border-black/5 flex items-center justify-between">
+    <div class="bg-white rounded-3xl shadow-sm border border-black/5 flex-1 min-h-0 flex flex-col overflow-hidden">
+        <div class="p-4 border-b border-black/5 flex items-center justify-between shrink-0">
             <h2 class="text-lg font-bold text-slate-800">مواعيد اليوم</h2>
             <a href="{{ route('appointments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">عرض الكل</a>
         </div>
 
-        <div class="overflow-x-auto">
+        <div class="overflow-y-auto flex-1 min-h-0">
             <table class="w-full text-right">
                 <thead>
                     <tr class="bg-slate-50 text-slate-500 text-sm">
@@ -303,6 +306,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     </div>
 
     <!-- Alpine JS Omnichannel component -->

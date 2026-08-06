@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12" dir="rtl">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
+        <div class="flex flex-col space-y-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
             @if (session('success'))
                 <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-2xl relative shadow-sm" role="alert">
@@ -30,7 +30,7 @@
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
                     <h3 class="text-xl font-bold text-slate-800 mb-6">المعلومات الشخصية</h3>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="flex flex-col gap-8">
                         <!-- Avatar Section -->
                         <div class="flex flex-col items-center justify-start space-y-4 col-span-1" x-data="avatarPreview()">
                             <div class="relative w-32 h-32 rounded-full border-4 border-indigo-50 shadow-md overflow-hidden bg-slate-100 flex items-center justify-center">
@@ -69,7 +69,7 @@
 
                             <div>
                                 <x-input-label for="email" :value="__('البريد الإلكتروني (غير قابل للتعديل هنا)')" />
-                                <x-text-input id="email" type="email" class="mt-1 block w-full rounded-2xl border-slate-200 bg-slate-50 shadow-sm text-slate-500 cursor-not-allowed" :value="$user->email" disabled />
+                                <x-text-input id="email" type="email" class="mt-1 block w-full rounded-2xl border-slate-200 bg-slate-100 shadow-sm text-slate-500 cursor-not-allowed" :value="$user->email" readonly disabled />
                             </div>
 
                             <div>
@@ -91,7 +91,7 @@
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
                     <h3 class="text-xl font-bold text-slate-800 mb-6">إعدادات العيادة والحجوزات</h3>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col gap-6">
                         <div>
                             <x-input-label for="default_consultation_price" :value="__('سعر الكشفية الثابت (د.ع)')" />
                             <x-text-input id="default_consultation_price" name="default_consultation_price" type="number" step="0.01" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('default_consultation_price', $user->default_consultation_price)" required />
@@ -110,20 +110,20 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex justify-end">
-                    <button type="submit" class="px-6 py-3 bg-black text-white font-bold rounded-2xl shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
-                        حفظ الإعدادات
-                    </button>
+                    <div class="mt-6 flex justify-end border-t border-slate-100 pt-6">
+                        <button type="submit" class="px-6 py-3 bg-black text-white font-bold rounded-2xl shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                            حفظ الإعدادات
+                        </button>
+                    </div>
                 </div>
             </form>
 
-            <!-- System Actions Card -->
+            <!-- Broadcast Messages -->
             <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
-                <h3 class="text-xl font-bold text-slate-800 mb-6">إجراءات النظام</h3>
+                <h3 class="text-xl font-bold text-slate-800 mb-6">بث الرسائل للمراجعين</h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col gap-4">
                     <!-- Broadcasting Button -->
                     <div x-data="{ openBroadcastingModal: false }">
                         <button @click="openBroadcastingModal = true" type="button" class="w-full px-4 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl font-bold text-white hover:opacity-90 transition-opacity shadow-sm flex items-center justify-center gap-2">
@@ -182,7 +182,14 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <!-- About System -->
+            <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
+                <h3 class="text-xl font-bold text-slate-800 mb-6">حول النظام</h3>
+
+                <div class="flex flex-col gap-4">
                     <!-- About Button -->
                     <div x-data="{ openAboutModal: false }">
                         <button @click="openAboutModal = true" type="button" class="w-full px-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm flex items-center justify-center gap-2">
@@ -280,10 +287,10 @@
                 <div class="max-w-xl mx-auto space-y-4">
                     <h4 class="text-lg font-bold text-red-800 mb-4 text-center">إدارة الحساب</h4>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-4">
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
-                            <button type="submit" class="w-full text-center px-4 py-3 bg-white border border-red-200 rounded-2xl font-bold text-red-600 hover:bg-red-50 transition-colors shadow-sm">
+                            <button type="submit" class="w-full text-center px-4 py-3 bg-white border border-slate-300 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
                                 تسجيل خروج
                             </button>
                         </form>

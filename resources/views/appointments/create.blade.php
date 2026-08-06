@@ -43,6 +43,7 @@
                                         type="text"
                                         x-model="phone"
                                         @input="clearPatientId"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                         required
                                         autocomplete="off"
                                     />

@@ -197,6 +197,19 @@ class AppointmentController extends Controller
             $appointment->update(['status' => $newStatus]);
         }
 
+        if ($request->wantsJson()) {
+            if ($newStatus === 'completed') {
+                return response()->json([
+                    'success' => true,
+                    'redirect_url' => route('patients.create', [
+                        'name' => $appointment->patient->name ?? $appointment->patient_name,
+                        'phone' => $appointment->patient->phone ?? $appointment->phone
+                    ])
+                ]);
+            }
+            return response()->json(['success' => true]);
+        }
+
         if ($newStatus === 'completed') {
             return redirect()->route('patients.create', [
                 'name' => $appointment->patient->name ?? $appointment->patient_name,

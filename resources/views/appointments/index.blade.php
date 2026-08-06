@@ -517,8 +517,9 @@
                         if (!response.ok) {
                             console.error('Failed to update status', await response.text());
                         } else {
-                            if (status === 'completed') {
-                                window.location.href = '{{ route('patients.create') }}';
+                            const data = await response.json();
+                            if (data.redirect_url) {
+                                window.location.href = data.redirect_url;
                             } else {
                                 window.location.reload();
                             }

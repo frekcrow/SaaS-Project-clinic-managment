@@ -25,6 +25,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubSecretaryController;
 
 Route::middleware('auth')->group(function () {
+    Route::post('/language/switch', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
+
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
 

@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12" dir="rtl">
+    <div class="py-12" >
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
 
             @if (session('success'))
@@ -279,4 +279,22 @@
         })
     </script>
     @endpush
+
+            <form id="language-switch-form" method="POST" action="{{ route('language.switch') }}" class="hidden">
+                @csrf
+                <input type="hidden" name="locale" id="hidden-locale-input">
+            </form>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const localeSelect = document.getElementById("locale");
+                    const hiddenLocaleInput = document.getElementById("hidden-locale-input");
+                    if(localeSelect && hiddenLocaleInput) {
+                        localeSelect.addEventListener("change", function() {
+                            hiddenLocaleInput.value = this.value;
+                            document.getElementById("language-switch-form").submit();
+                        });
+                    }
+                });
+            </script>
+
 </x-doctor-layout>

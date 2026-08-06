@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center" dir="rtl">
+        <div class="flex justify-between items-center" >
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('سجل العمليات') }}
             </h2>
@@ -16,7 +16,7 @@
         $groupedRecords = collect($surgeriesArray)->sortByDesc('surgery_date_grouped')->groupBy('surgery_date_grouped');
     @endphp
 
-    <div class="py-12" dir="rtl" x-data="surgeriesGrid(@js($surgeriesArray))">
+    <div class="py-12"  x-data="surgeriesGrid(@js($surgeriesArray))">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Add Surgery Modal -->

@@ -11,7 +11,7 @@
 
         <!-- Right Side (in RTL): Action Buttons -->
         <div class="flex items-center gap-3 justify-start w-full sm:w-auto">
-            <a href="{{ route('patients.create') }}" class="w-full sm:w-auto px-6 bg-black text-white shadow-inner rounded-xl p-3 flex items-center justify-center space-x-2 space-x-reverse transition-colors hover:bg-gray-800">
+            <a href="{{ route('patients.create') }}" class="w-full sm:w-auto px-6 bg-black text-white shadow-inner rounded-xl p-3 flex items-center justify-center space-x-2 rtl:space-x-reverse transition-colors hover:bg-gray-800">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path>
@@ -19,7 +19,7 @@
                 <span class="text-sm font-medium">اضافة مريض</span>
             </a>
 
-            <a href="{{ route('appointments.index') }}" class="w-full sm:w-auto px-6 bg-black text-white shadow-inner rounded-xl p-3 flex items-center justify-center space-x-2 space-x-reverse transition-colors hover:bg-gray-800">
+            <a href="{{ route('appointments.index') }}" class="w-full sm:w-auto px-6 bg-black text-white shadow-inner rounded-xl p-3 flex items-center justify-center space-x-2 rtl:space-x-reverse transition-colors hover:bg-gray-800">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path>
@@ -79,7 +79,7 @@
                      }"
                      @if($activeConsultation) x-init="setInterval(() => timer++, 1000)" @endif>
                     <div class="flex flex-col relative z-10">
-                        <div class="flex items-center space-x-2 space-x-reverse mb-2">
+                        <div class="flex items-center space-x-2 rtl:space-x-reverse mb-2">
                             <div class="w-8 h-8 rounded-full aspect-square object-cover flex items-center justify-center {{ $activeConsultation ? 'bg-indigo-100 text-indigo-600 animate-pulse' : 'bg-slate-100 text-slate-400' }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -234,7 +234,7 @@
                 </form>
             </div>
             <div class="relative z-10 mt-2">
-                <h3 class="text-slate-500 text-sm font-medium mb-1">إجمالي الإيرادات</h3>
+                <h3 class="text-slate-500 text-sm font-medium mb-1">{{ __('إجمالي الإيرادات') }}</h3>
                 <p class="text-3xl font-bold text-slate-800">{{ number_format($totalRevenue) }} <span class="text-lg text-slate-500 font-normal">د.ع</span></p>
             </div>
 
@@ -253,7 +253,7 @@
     <!-- Mini Appointments Table -->
     <div class="bg-white rounded-3xl shadow-sm border border-black/5 flex-1 min-h-0 flex flex-col overflow-hidden">
         <div class="p-4 border-b border-black/5 flex items-center justify-between shrink-0">
-            <h2 class="text-lg font-bold text-slate-800">مواعيد اليوم</h2>
+            <h2 class="text-lg font-bold text-slate-800">{{ __('مواعيد اليوم') }}</h2>
             <a href="{{ route('appointments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">عرض الكل</a>
         </div>
 
@@ -273,7 +273,7 @@
                                 {{ $appointment->patient_name ?? ($appointment->patient ? $appointment->patient->name : 'غير محدد') }}
                             </td>
                             <td class="py-4 px-6 text-slate-600">
-                                <div class="flex items-center space-x-2 space-x-reverse">
+                                <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
@@ -312,7 +312,7 @@
     <!-- Alpine JS Omnichannel component -->
     <div x-data="{ callsModal: false, messagesModal: false }">
         <!-- Floating Omnichannel Bottom Bar -->
-        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg rounded-full px-6 py-3 flex items-center space-x-6 space-x-reverse transition-transform">
+        <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg rounded-full px-6 py-3 flex items-center space-x-6 rtl:space-x-reverse transition-transform">
 
             <button @click="callsModal = true" class="text-slate-600 hover:text-indigo-600 transition-colors relative group">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

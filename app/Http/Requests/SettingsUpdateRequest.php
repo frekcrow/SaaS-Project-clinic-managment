@@ -30,6 +30,7 @@ class SettingsUpdateRequest extends FormRequest
             'default_consultation_price' => ['required', 'numeric', 'min:0'],
             'default_session_price' => ['nullable', 'numeric', 'min:0'],
             'has_sessions_system' => ['nullable', 'boolean'],
+            'locale' => ['nullable', 'string', 'in:ar,en'],
         ];
     }
 }

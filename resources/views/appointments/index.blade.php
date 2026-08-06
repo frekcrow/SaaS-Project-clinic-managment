@@ -20,7 +20,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Top Action Bar -->
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:rtl:space-x-reverse">
 
                 <!-- View Mode Toggle -->
                 <div class="inline-flex rounded-md shadow-sm" role="group">
@@ -33,7 +33,7 @@
                         {{ __('عرض حسب التاريخ') }}
                     </button>
                 </div>
-                <div class="flex flex-1 w-full max-w-md items-center space-x-2 space-x-reverse">
+                <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
                     <input type="text" x-model="search" placeholder="{{ __('ابحث عن موعد (اسم المريض أو رقم الهاتف)...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="date_asc">{{ __('تاريخ الموعد (الأقرب)') }}</option>
@@ -46,7 +46,7 @@
                     </select>
                 </div>
 
-                <div class="flex items-center space-x-2 space-x-reverse">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
                     <a href="{{ route('appointments.create') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('اضافة +') }}
                     </a>
@@ -206,9 +206,9 @@
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
-                                                <div class="flex space-x-2 space-x-reverse justify-center">
+                                                <div class="flex space-x-2 rtl:space-x-reverse justify-center">
                                                     <template x-if="(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                        <div class="flex space-x-2 space-x-reverse">
+                                                        <div class="flex space-x-2 rtl:space-x-reverse">
                                                             <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="اتصال">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                                             </a>
@@ -343,7 +343,7 @@
                                                         <td class="px-0 py-0 whitespace-nowrap text-sm font-medium border-b border-gray-200 border-l h-full">
                                                             <template x-if="!editMode">
                                                                 <div class="px-6 py-4">
-                                                                    <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 space-x-reverse" dir="ltr">
+                                                                    <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 rtl:space-x-reverse" dir="ltr">
                                                                         <span x-text="Number(appointment.price).toLocaleString()"></span>
                                                                         <span class="text-xs">د.ع</span>
                                                                     </span>
@@ -390,9 +390,9 @@
                                                         </td>
 
                                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200 text-center">
-                                                            <div class="flex space-x-2 space-x-reverse justify-center">
+                                                            <div class="flex space-x-2 rtl:space-x-reverse justify-center">
                                                                 <template x-if="(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                                    <div class="flex space-x-2 space-x-reverse">
+                                                                    <div class="flex space-x-2 rtl:space-x-reverse">
                                                                         <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="اتصال">
                                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                                                         </a>

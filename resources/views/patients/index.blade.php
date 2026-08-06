@@ -24,7 +24,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Top Action Bar -->
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:rtl:space-x-reverse">
 
                 <!-- View Mode Toggle -->
                 <div class="inline-flex rounded-md shadow-sm" role="group">
@@ -37,7 +37,7 @@
                         {{ __('عرض حسب التاريخ') }}
                     </button>
                 </div>
-                <div class="flex flex-1 w-full max-w-md items-center space-x-2 space-x-reverse">
+                <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
                     <input type="text" x-model="search" placeholder="{{ __('ابحث عن مريض...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="newest">{{ __('الأحدث') }}</option>
@@ -47,7 +47,7 @@
                     </select>
                 </div>
 
-                <div class="flex items-center space-x-2 space-x-reverse">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
                     <a href="{{ route('patients.create') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('اضافة +') }}
                     </a>
@@ -219,7 +219,7 @@
                                                         <div class="px-6 py-4 text-center" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                     </template>
                                                     <template x-if="editMode">
-                                                        <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
+                                                        <div class="flex space-x-1 rtl:space-x-reverse h-full px-2 py-4" dir="ltr">
                                                             <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
                                                             <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
                                                             <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
@@ -310,7 +310,7 @@
                                                             <div class="px-6 py-4 text-center" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                         </template>
                                                         <template x-if="editMode">
-                                                            <div class="flex space-x-1 space-x-reverse h-full px-2 py-4" dir="ltr">
+                                                            <div class="flex space-x-1 rtl:space-x-reverse h-full px-2 py-4" dir="ltr">
                                                                 <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
                                                                 <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
                                                                 <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">

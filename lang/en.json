@@ -1,0 +1,23 @@
+{
+    "الرئيسية": "Dashboard",
+    "العمليات": "Surgeries",
+    "سجل المرضى": "Patients",
+    "جدول المواعيد": "Appointments",
+    "الحسابات": "Billing",
+    "الإعدادات": "Settings",
+    "الدعم الفني": "Support",
+    "إشعارات النظام": "System Notifications",
+    "ملفات المرضى": "Patient Files",
+    "الحسابات والفوترة": "Billing & Accounting",
+    "تقويم المواعيد": "Appointments Calendar",
+    "تهيئة الوصفات": "Prescription Config",
+    "الأدوية": "Medications",
+    "لوحة التحكم": "Dashboard",
+    "بحث": "Search",
+    "تسجيل الخروج": "Logout",
+    "الملف الشخصي": "Profile",
+    "نظرة عامة على العيادة": "Clinic Overview",
+    "مواعيد اليوم": "Today's Appointments",
+    "المرضى الجدد": "New Patients",
+    "إجمالي الإيرادات": "Total Revenue"
+}

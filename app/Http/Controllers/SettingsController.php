@@ -20,10 +20,19 @@ class SettingsController extends Controller
         $sessionTypes = SessionType::where('tenant_id', $tenantId)->get();
         $surgeryTypes = SurgeryType::where('tenant_id', $tenantId)->get();
 
+        $subSecretary = null;
+        if ($request->user()->role === 'Secretary' && $request->user()->is_main_account) {
+            $subSecretary = \App\Models\User::where('tenant_id', $tenantId)
+                ->where('role', 'Secretary')
+                ->where('is_main_account', false)
+                ->first();
+        }
+
         return view('settings.index', [
             'user' => $request->user(),
             'sessionTypes' => $sessionTypes,
             'surgeryTypes' => $surgeryTypes,
+            'subSecretary' => $subSecretary,
         ]);
     }
 

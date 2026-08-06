@@ -22,10 +22,13 @@ use App\Http\Controllers\SurgeryTypeController;
 use App\Http\Controllers\SurgeryController;
 use App\Http\Controllers\DoctorPatientController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SubSecretaryController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+
+    Route::post('/settings/sub-secretary', [SubSecretaryController::class, 'store'])->name('settings.sub-secretary.store');
 
     Route::post('/settings/session-types', [SessionTypeController::class, 'store'])->name('settings.session-types.store');
     Route::delete('/settings/session-types/{id}', [SessionTypeController::class, 'destroy'])->name('settings.session-types.destroy');

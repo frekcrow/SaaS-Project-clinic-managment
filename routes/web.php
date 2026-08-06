@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/patients/export-csv', [PatientController::class, 'exportCsv'])->name('patients.export_csv');
     Route::post('/patients/bulk-delete', [PatientController::class, 'bulkDelete'])->name('patients.bulk_delete');
     Route::get('/patients/search', [PatientController::class, 'search'])->name('patients.search');
+
+    Route::get('/api/global-search', [App\Http\Controllers\GlobalSearchController::class, 'search'])->name('api.global_search');
     Route::resource('patients', PatientController::class);
 
     Route::get('/appointments/export-csv', [AppointmentController::class, 'exportCsv'])->name('appointments.export_csv');

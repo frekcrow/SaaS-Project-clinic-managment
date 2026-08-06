@@ -124,6 +124,16 @@
                                 <x-text-input id="default_session_price" name="default_session_price" type="number" step="0.01" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('default_session_price', $user->default_session_price)" />
                             </div>
                         </div>
+
+                        <!-- System Language -->
+                        <div class="col-span-2 mt-4 pt-6 border-t border-slate-100">
+                            <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }} (System Language)</h4>
+                            <x-input-label for="locale" :value="__('اختر لغة واجهة المستخدم')" />
+                            <select id="locale" name="locale" class="mt-1 block w-full sm:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-slate-700 font-medium">
+                                <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>العربية (Arabic)</option>
+                                <option value="en" {{ old('locale', $user->locale) === 'en' ? 'selected' : '' }}>English</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 

@@ -29,7 +29,7 @@
                             <!-- DOB -->
                             <div>
                                 <x-input-label for="dob_day" :value="__('تاريخ الميلاد')" />
-                                <div class="flex space-x-2 space-x-reverse mt-1" dir="ltr">
+                                <div class="flex space-x-2 rtl:space-x-reverse mt-1" dir="ltr">
                                     <input type="number" id="dob_day" name="dob_day" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="DD" min="1" max="31" value="{{ old('dob_day') }}" />
                                     <input type="number" id="dob_month" name="dob_month" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="MM" min="1" max="12" value="{{ old('dob_month') }}" />
                                     <input type="number" id="dob_year" name="dob_year" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="YYYY" min="1900" max="{{ date('Y') }}" value="{{ old('dob_year') }}" />

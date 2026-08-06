@@ -138,7 +138,7 @@
             </div>
 
             <!-- Top Action Bar -->
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:space-x-reverse">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:rtl:space-x-reverse">
 
                 <!-- View Mode Toggle -->
                 <div class="inline-flex rounded-md shadow-sm" role="group">
@@ -151,7 +151,7 @@
                         {{ __('عرض حسب التاريخ') }}
                     </button>
                 </div>
-                <div class="flex flex-1 w-full max-w-md items-center space-x-2 space-x-reverse">
+                <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
                     <input type="text" x-model="search" placeholder="{{ __('ابحث عن عملية (اسم المريض)...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="date_desc">{{ __('تاريخ العملية (الأحدث)') }}</option>
@@ -159,7 +159,7 @@
                     </select>
                 </div>
 
-                <div class="flex items-center space-x-2 space-x-reverse">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
                     <button @click.prevent="openAddModal" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                         {{ __('إضافة +') }}

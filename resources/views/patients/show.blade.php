@@ -52,7 +52,7 @@
                             <!-- Visit Header (Accordion Toggle) -->
                             <div class="px-6 py-4 bg-gray-50 cursor-pointer flex justify-between items-center hover:bg-gray-100 transition-colors print:bg-white print:border-b-2 print:border-black print:px-0 print:pb-2 print:mb-4"
                                  @click="activeVisit = activeVisit === {{ $record->id }} ? null : {{ $record->id }}">
-                                <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                                <div class="flex items-center space-x-4 rtl:rtl:space-x-reverse">
                                     <div class="bg-black text-white p-2 rounded-lg print:hidden">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,7 +73,7 @@
                     <span class="font-black text-2xl tracking-tight">أطلس</span>
                 </div>
 
-                <div class="hidden md:flex space-x-8 space-x-reverse">
+                <div class="hidden md:flex space-x-8 rtl:space-x-reverse">
                     <a href="#features" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">المميزات</a>
                     <a href="#security" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">الأمان</a>
                     <a href="#pricing" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">الخطط</a>

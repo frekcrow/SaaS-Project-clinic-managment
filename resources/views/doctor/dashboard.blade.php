@@ -501,7 +501,7 @@
 
                 updateChart() {
                     // Logic to update chart based on this.timeFilter / this.customDate
-                    // Requires AJAX call for real dynamic update, omitted for now since we pass @json
+                    // Requires AJAX call for real dynamic update, omitted for now since we pass json
                 }
             }));
 

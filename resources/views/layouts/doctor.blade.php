@@ -103,7 +103,7 @@
                             </button>
 
                             <!-- Notifications Dropdown -->
-                            <div x-show="open" @click.away="open = false" x-transition class="absolute top-12 right-0 w-80 bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-50 overflow-hidden">
+                            <div x-show="open" @click.away="open = false" x-transition class="absolute top-12 right-0 w-80 bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-[60] max-h-96 overflow-y-auto">
                                 <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
                                     <h3 class="font-bold text-slate-800">الإشعارات</h3>
                                     <button x-show="unreadCount > 0" @click="markAllAsRead" class="text-xs text-indigo-600 hover:text-indigo-800">تحديد الكل كمقروء</button>
@@ -141,17 +141,47 @@
                         </div>
                     </div>
 
+
                     <!-- Floating Search Bar (Center-ish) -->
-                    <div class="flex-1 flex justify-center px-4">
-                        <div class="w-full max-w-md relative">
+                    <div class="flex-1 flex justify-center px-4" x-data="globalSearch()">
+                        <div class="w-full max-w-md relative" @click.away="open = false">
                             <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
                                 <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" class="w-full bg-white border-[1.5px] border-black/80 rounded-full shadow-sm py-2.5 pr-11 pl-4 focus:ring-2 focus:ring-teal-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="ابحث هنا...">
+                            <input type="text" x-model="query" @input.debounce.300ms="search" @focus="open = true" class="w-full bg-white border-[1.5px] border-black/80 rounded-full shadow-sm py-2.5 pr-11 pl-4 focus:ring-2 focus:ring-teal-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="ابحث هنا...">
+
+                            <!-- Search Results Dropdown -->
+                            <div x-show="open && results.length > 0" x-transition class="absolute top-14 w-full bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-[60] overflow-hidden">
+                                <div class="max-h-80 overflow-y-auto">
+                                    <template x-for="(result, index) in results" :key="index">
+                                        <a :href="result.url" class="px-4 py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors flex items-center gap-3 cursor-pointer">
+                                            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                                                <template x-if="result.icon === 'user'">
+                                                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                                </template>
+                                                <template x-if="result.icon === 'calendar'">
+                                                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                                </template>
+                                                <template x-if="result.icon === 'folder'">
+                                                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                                                </template>
+                                                <template x-if="!['user', 'calendar', 'folder'].includes(result.icon)">
+                                                    <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                </template>
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-slate-800" x-text="result.title"></p>
+                                                <p class="text-xs text-slate-500 mt-0.5" x-text="result.subtitle"></p>
+                                            </div>
+                                        </a>
+                                    </template>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
 
                     <!-- Profile Area (Top Left in RTL) -->
                     <div class="flex items-center" x-data="{ open: false }">
@@ -245,6 +275,7 @@
                         } catch (error) {}
                     },
 
+
                     async markAllAsRead() {
                         try {
                             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -259,7 +290,32 @@
                         } catch (error) {}
                     }
                 }));
+
+                Alpine.data('globalSearch', () => ({
+                    query: '',
+                    results: [],
+                    open: false,
+
+                    async search() {
+                        if (this.query.trim().length === 0) {
+                            this.results = [];
+                            this.open = false;
+                            return;
+                        }
+
+                        try {
+                            const response = await fetch(`/api/global-search?q=${encodeURIComponent(this.query)}`);
+                            if (response.ok) {
+                                this.results = await response.json();
+                                this.open = this.results.length > 0;
+                            }
+                        } catch (error) {
+                            console.error('Error fetching search results:', error);
+                        }
+                    }
+                }));
             });
+
         </script>
         <style>
             .custom-scrollbar::-webkit-scrollbar {

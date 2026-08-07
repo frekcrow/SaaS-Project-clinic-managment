@@ -63,4 +63,16 @@ class SettingsController extends Controller
 
         return redirect()->route('doctor.settings.index')->with('success', __('تم تحديث الإعدادات بنجاح'));
     }
+
+    /**
+     * Reset the user's system usage timer.
+     */
+    public function resetUsage(Request $request)
+    {
+        $user = $request->user();
+        $user->created_at = now();
+        $user->save();
+
+        return back()->with('success', __('تم إعادة ضبط العداد بنجاح'));
+    }
 }

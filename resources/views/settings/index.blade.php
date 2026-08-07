@@ -7,6 +7,9 @@
 
     <div class="py-12" >
         <div class="flex flex-col space-y-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <form id="reset-usage-form" method="POST" action="{{ route('settings.reset_usage') }}" class="hidden">
+                @csrf
+            </form>
 
             @if (session('success'))
                 <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-2xl relative shadow-sm" role="alert">
@@ -77,11 +80,16 @@
                                 <textarea id="bio" name="bio" rows="3" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 resize-none">{{ old('bio', $user->bio) }}</textarea>
                             </div>
 
-                            <div class="text-sm text-indigo-600 font-medium">
-                                @php
-                                    $diff = $user->created_at->diffForHumans(['parts' => 3, 'join' => ' ' . __('و') . ' ']);
-                                @endphp
-                                {{ __('يعمل منذ') }}: {{ str_replace(['years', 'year', 'months', 'month', 'days', 'day', 'ago', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second'], [__('سنوات'), __('سنة'), __('أشهر'), __('شهر'), __('أيام'), __('يوم'), '', __('ساعات'), __('ساعة'), __('دقائق'), __('دقيقة'), __('ثواني'), __('ثانية')], $diff) }}
+                            <div class="flex items-center gap-4">
+                                <div class="text-sm text-indigo-600 font-medium">
+                                    @php
+                                        $diff = $user->created_at->diffForHumans(['parts' => 3, 'join' => ' ' . __('و') . ' ']);
+                                    @endphp
+                                    {{ __('يعمل منذ') }}: {{ str_replace(['years', 'year', 'months', 'month', 'days', 'day', 'ago', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second'], [__('سنوات'), __('سنة'), __('أشهر'), __('شهر'), __('أيام'), __('يوم'), '', __('ساعات'), __('ساعة'), __('دقائق'), __('دقيقة'), __('ثواني'), __('ثانية')], $diff) }}
+                                </div>
+                                <button type="submit" form="reset-usage-form" class="text-xs px-3 py-1.5 border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 rounded-lg transition-colors font-medium">
+                                    {{ __('إعادة ضبط') }}
+                                </button>
                             </div>
                         </div>
                     </div>

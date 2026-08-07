@@ -28,9 +28,9 @@
                 <!-- Sidebar Header -->
                 <div class="h-20 flex items-center px-4" :class="isCollapsed ? 'justify-center' : 'justify-between'">
                     <!-- Logo Area -->
-                    <div x-show="!isCollapsed" x-transition.opacity.duration.300ms class="flex items-center gap-2">
+                    <div x-show="!isCollapsed" x-transition.opacity.duration.300ms class="flex items-center gap-2 me-4">
                         <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
-                        <img src="{{ asset('images/logo-text.png') }}" class="h-8 w-auto" alt="Logo Text">
+                        <img src="{{ asset('images/logo-text.png') }}" class="h-6 w-auto" alt="Logo Text">
                     </div>
                     <!-- Toggle Button -->
                     <button @click="isCollapsed = !isCollapsed" class="text-slate-400 hover:text-slate-600 transition-colors z-50 flex items-center justify-center p-1 rounded-lg hover:bg-slate-100 flex-shrink-0">

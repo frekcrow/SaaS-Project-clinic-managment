@@ -17,6 +17,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\SessionTypeController;
 use App\Http\Controllers\SurgeryTypeController;
 use App\Http\Controllers\SurgeryController;
@@ -37,6 +38,12 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/settings/surgery-types', [SurgeryTypeController::class, 'store'])->name('settings.surgery-types.store');
     Route::delete('/settings/surgery-types/{id}', [SurgeryTypeController::class, 'destroy'])->name('settings.surgery-types.destroy');
+
+    // Broadcast Messages
+    Route::get('/secretary/broadcast', [BroadcastController::class, 'index'])->name('secretary.broadcast.index');
+    Route::post('/secretary/broadcast/update', [BroadcastController::class, 'update'])->name('secretary.broadcast.update');
+    Route::post('/secretary/broadcast/send', [BroadcastController::class, 'send'])->name('secretary.broadcast.send');
+
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/billing/export-csv', [BillingController::class, 'exportCsv'])->name('billing.export_csv');
     Route::post('/billing/bulk-delete', [BillingController::class, 'bulkDelete'])->name('billing.bulk_delete');

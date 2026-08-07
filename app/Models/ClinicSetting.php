@@ -16,5 +16,8 @@ class ClinicSetting extends Model
         'doctor_name',
         'logo_1_path',
         'logo_2_path',
+        'whatsapp_api_token',
+        'whatsapp_phone_number_id',
+        'whatsapp_business_account_id',
     ];
 }

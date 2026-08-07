@@ -11,7 +11,7 @@ class DashboardController extends Controller
     {
         $hour = \Carbon\Carbon::now('Asia/Baghdad')->hour;
         $name = auth()->user()->name;
-        $greeting = $hour < 12 ? "صباح الخير $name" : "مساء الخير $name";
+        $greeting = $hour < 12 ? __('صباح الخير') . " $name" : __('مساء الخير') . " $name";
 
         if (strtolower(auth()->user()->role) === 'doctor') {
             $todaysAppointments = Appointment::with('patient')

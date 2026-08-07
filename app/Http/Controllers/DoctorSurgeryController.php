@@ -37,6 +37,6 @@ class DoctorSurgeryController extends Controller
 
         $surgery->update($validatedData);
 
-        return redirect()->back()->with('success', 'تم تحديث معلومات العملية بنجاح.');
+        return redirect()->back()->with('success', __('تم تحديث معلومات العملية بنجاح.'));
     }
 }

@@ -61,6 +61,6 @@ class SettingsController extends Controller
 
         $user->save();
 
-        return redirect()->route('doctor.settings.index')->with('success', 'تم تحديث الإعدادات بنجاح');
+        return redirect()->route('doctor.settings.index')->with('success', __('تم تحديث الإعدادات بنجاح'));
     }
 }

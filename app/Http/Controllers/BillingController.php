@@ -96,7 +96,7 @@ class BillingController extends Controller
             "Expires"             => "0"
         ];
 
-        $columns = ['ID', 'اسم المريض', 'المبلغ المدفوع', 'رقم الهاتف', 'التاريخ', 'الوقت'];
+        $columns = ['ID', __('اسم المريض'), __('المبلغ المدفوع'), __('رقم الهاتف'), __('التاريخ'), __('الوقت')];
 
         $callback = function () use ($appointments, $columns) {
             $file = fopen('php://output', 'w');

@@ -102,7 +102,7 @@ class PatientController extends Controller
             ]);
         }
 
-        return redirect()->route('patients.index')->with('success', 'Patient added successfully.');
+        return redirect()->route('patients.index')->with('success', __('Patient added successfully.'));
     }
 
     /**

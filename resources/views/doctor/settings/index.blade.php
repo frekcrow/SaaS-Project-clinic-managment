@@ -28,7 +28,7 @@
 
                 <!-- Profile Information Card -->
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6">المعلومات الشخصية</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('المعلومات الشخصية') }}</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <!-- Avatar Section -->
@@ -48,10 +48,10 @@
                                 </template>
                             </div>
                             <label for="avatar" class="cursor-pointer bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-50 hover:text-indigo-600 transition-colors shadow-sm">
-                                تغيير الصورة
+                                {{ __('تغيير الصورة') }}
                             </label>
                             <input type="file" id="avatar" name="avatar" class="hidden" accept="image/*" @change="fileChosen">
-                            <p class="text-xs text-slate-400 mt-2">JPG, PNG, GIF أقصى حجم 2MB</p>
+                            <p class="text-xs text-slate-400 mt-2">JPG, PNG, GIF {{ __('أقصى حجم') }} 2MB</p>
                         </div>
 
                         <!-- Info Inputs -->
@@ -94,9 +94,9 @@
 
                             <div class="text-sm text-indigo-600 font-medium">
                                 @php
-                                    $diff = $user->created_at->diffForHumans(['parts' => 3, 'join' => ' و ']);
+                                    $diff = $user->created_at->diffForHumans(['parts' => 3, 'join' => ' ' . __('و') . ' ']);
                                 @endphp
-                                يعمل منذ: {{ str_replace(['years', 'year', 'months', 'month', 'days', 'day', 'ago', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second'], ['سنوات', 'سنة', 'أشهر', 'شهر', 'أيام', 'يوم', '', 'ساعات', 'ساعة', 'دقائق', 'دقيقة', 'ثواني', 'ثانية'], $diff) }}
+                                {{ __('يعمل منذ') }}: {{ str_replace(['years', 'year', 'months', 'month', 'days', 'day', 'ago', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second'], [__('سنوات'), __('سنة'), __('أشهر'), __('شهر'), __('أيام'), __('يوم'), '', __('ساعات'), __('ساعة'), __('دقائق'), __('دقيقة'), __('ثواني'), __('ثانية')], $diff) }}
                             </div>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
 
                 <!-- Clinic Configuration Card -->
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6">إعدادات العيادة والحجوزات</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('إعدادات العيادة والحجوزات') }}</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -116,7 +116,7 @@
                             <label class="inline-flex items-center cursor-pointer mt-8">
                                 <input type="checkbox" name="has_sessions_system" value="1" class="sr-only peer" x-model="enabled">
                                 <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-                                <span class="mr-3 text-sm font-medium text-slate-700">تفعيل نظام الجلسات</span>
+                                <span class="mr-3 text-sm font-medium text-slate-700">{{ __('تفعيل نظام الجلسات') }}</span>
                             </label>
 
                             <div x-show="enabled" x-collapse class="mt-4">
@@ -130,7 +130,7 @@
                             <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }} (System Language)</h4>
                             <x-input-label for="locale" :value="__('اختر لغة واجهة المستخدم')" />
                             <select id="locale" name="locale" class="mt-1 block w-full sm:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-slate-700 font-medium">
-                                <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>العربية (Arabic)</option>
+                                <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>{{ __('العربية') }} (Arabic)</option>
                                 <option value="en" {{ old('locale', $user->locale) === 'en' ? 'selected' : '' }}>English</option>
                             </select>
                         </div>
@@ -139,7 +139,7 @@
 
                 <div class="flex justify-end">
                     <button type="submit" class="px-6 py-3 bg-black text-white font-bold rounded-2xl shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
-                        حفظ الإعدادات
+                        {{ __('حفظ الإعدادات') }}
                     </button>
                 </div>
             </form>
@@ -148,12 +148,12 @@
                 <!-- Session Types Management -->
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-100">
                     <div class="w-full">
-                        <h4 class="text-lg font-bold text-slate-800 mb-4">أنواع الجلسات (Session Types)</h4>
+                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('أنواع الجلسات') }} (Session Types)</h4>
 
                         <form method="POST" action="{{ route('doctor.settings.session-types.store') }}" class="flex gap-2 mb-6">
                             @csrf
-                            <input type="text" name="name" placeholder="أضف نوع جلسة جديد..." class="flex-1 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                            <button type="submit" class="px-6 py-2 bg-black text-white rounded-2xl font-bold shadow-sm hover:bg-neutral-800 transition-colors">إضافة</button>
+                            <input type="text" name="name" placeholder="{{ __('أضف نوع جلسة جديد') }}..." class="flex-1 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <button type="submit" class="px-6 py-2 bg-black text-white rounded-2xl font-bold shadow-sm hover:bg-neutral-800 transition-colors">{{ __('إضافة') }}</button>
                         </form>
 
                         <div class="space-y-2">
@@ -163,13 +163,13 @@
                                     <form method="POST" action="{{ route('doctor.settings.session-types.destroy', $type->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 p-1" onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                                        <button type="submit" class="text-red-500 hover:text-red-700 p-1" onclick="return confirm('{{ __('هل أنت متأكد من الحذف؟') }}')">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </form>
                                 </div>
                             @empty
-                                <p class="text-center text-slate-500 py-4">لا توجد أنواع جلسات مضافة</p>
+                                <p class="text-center text-slate-500 py-4">{{ __('لا توجد أنواع جلسات مضافة') }}</p>
                             @endforelse
                         </div>
                     </div>
@@ -178,12 +178,12 @@
                 <!-- Surgery Types Management -->
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-100">
                     <div class="w-full">
-                        <h4 class="text-lg font-bold text-slate-800 mb-4">أنواع العمليات (Surgery Types)</h4>
+                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('أنواع العمليات') }} (Surgery Types)</h4>
 
                         <form method="POST" action="{{ route('doctor.settings.surgery-types.store') }}" class="flex gap-2 mb-6">
                             @csrf
-                            <input type="text" name="name" placeholder="أضف نوع عملية جديد..." class="flex-1 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                            <button type="submit" class="px-6 py-2 bg-black text-white rounded-2xl font-bold shadow-sm hover:bg-neutral-800 transition-colors">إضافة</button>
+                            <input type="text" name="name" placeholder="{{ __('أضف نوع عملية جديد') }}..." class="flex-1 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <button type="submit" class="px-6 py-2 bg-black text-white rounded-2xl font-bold shadow-sm hover:bg-neutral-800 transition-colors">{{ __('إضافة') }}</button>
                         </form>
 
                         <div class="space-y-2">
@@ -193,13 +193,13 @@
                                     <form method="POST" action="{{ route('doctor.settings.surgery-types.destroy', $type->id) }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700 p-1" onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                                        <button type="submit" class="text-red-500 hover:text-red-700 p-1" onclick="return confirm('{{ __('هل أنت متأكد من الحذف؟') }}')">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </form>
                                 </div>
                             @empty
-                                <p class="text-center text-slate-500 py-4">لا توجد أنواع عمليات مضافة</p>
+                                <p class="text-center text-slate-500 py-4">{{ __('لا توجد أنواع عمليات مضافة') }}</p>
                             @endforelse
                         </div>
                     </div>
@@ -213,7 +213,7 @@
                     <div class="w-full" x-data="{ openAboutModal: false }">
                         <button @click="openAboutModal = true" type="button" class="w-full px-4 py-4 bg-white border border-slate-200 rounded-2xl font-bold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm flex items-center justify-center gap-2">
                             <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            حول النظام (About)
+                            {{ __('حول النظام') }} (About)
                         </button>
 
                          <!-- Alpine.js Modal for About -->
@@ -228,11 +228,11 @@
                                         <svg class="h-10 w-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     </div>
                                     <h3 class="text-2xl font-bold text-slate-800 mb-2">Atlas System v1.0</h3>
-                                    <p class="text-slate-500 mb-6">نظام متكامل لإدارة العيادات الطبية، مصمم بأحدث التقنيات لتقديم تجربة مستخدم سلسة وعصرية.</p>
-                                    <p class="text-sm text-slate-400 mb-6">© {{ date('Y') }} جميع الحقوق محفوظة.</p>
+                                    <p class="text-slate-500 mb-6">{{ __('نظام متكامل لإدارة العيادات الطبية، مصمم بأحدث التقنيات لتقديم تجربة مستخدم سلسة وعصرية') }}.</p>
+                                    <p class="text-sm text-slate-400 mb-6">© {{ date('Y') }} {{ __('جميع الحقوق محفوظة') }}.</p>
 
                                     <button @click="openAboutModal = false" type="button" class="w-full justify-center rounded-2xl border border-slate-300 shadow-sm px-4 py-3 bg-white text-base font-bold text-slate-700 hover:bg-slate-50 focus:outline-none transition-colors">
-                                        إغلاق
+                                        {{ __('إغلاق') }}
                                     </button>
                                 </div>
                             </div>
@@ -243,18 +243,18 @@
                 <!-- Account Management (Danger Zone) -->
                 <div class="p-6 sm:p-8 bg-red-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-red-100">
                     <div class="w-full space-y-4">
-                        <h4 class="text-lg font-bold text-red-800 mb-4 text-center">إدارة الحساب</h4>
+                        <h4 class="text-lg font-bold text-red-800 mb-4 text-center">{{ __('إدارة الحساب') }}</h4>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <form method="POST" action="{{ route('logout') }}" class="w-full">
                                 @csrf
                                 <button type="submit" class="w-full text-center px-4 py-3 bg-white border border-red-200 rounded-2xl font-bold text-red-600 hover:bg-red-50 transition-colors shadow-sm">
-                                    تسجيل خروج
+                                    {{ __('تسجيل خروج') }}
                                 </button>
                             </form>
 
                             <a href="{{ route('profile.edit') }}" class="block w-full text-center px-4 py-3 bg-red-600 border border-transparent rounded-2xl font-bold text-white hover:bg-red-700 transition-colors shadow-sm">
-                                حذف الحساب
+                                {{ __('حذف الحساب') }}
                             </a>
                         </div>
                     </div>

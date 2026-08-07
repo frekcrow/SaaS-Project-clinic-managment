@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ $greeting ?? 'لوحة التحكم' }} - هل أنت مستعد ليومك؟
+        {{ $greeting ?? __('لوحة التحكم') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
     <!-- Main Dashboard Master Container -->
@@ -16,7 +16,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path>
                 </svg>
-                <span class="text-sm font-medium">اضافة مريض</span>
+                <span class="text-sm font-medium">{{ __('اضافة مريض') }}</span>
             </a>
 
             <a href="{{ route('appointments.index') }}" class="w-full sm:w-auto px-6 bg-black text-white shadow-inner rounded-xl p-3 flex items-center justify-center space-x-2 rtl:space-x-reverse transition-colors hover:bg-gray-800">
@@ -24,7 +24,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11v6m-3-3h6"></path>
                 </svg>
-                <span class="text-sm font-medium">حجز موعد</span>
+                <span class="text-sm font-medium">{{ __('حجز موعد') }}</span>
             </a>
         </div>
 
@@ -47,12 +47,12 @@
 
                         <div x-show="state.status === 'active'" class="flex items-center gap-3 w-max">
                             <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
-                            <span class="text-slate-800 font-bold text-sm tracking-wide">المراجع الحالي: <span class="text-red-600 bg-red-50 px-2 py-0.5 rounded-lg border border-red-100" x-text="state.number"></span></span>
+                            <span class="text-slate-800 font-bold text-sm tracking-wide">{{ __('المراجع الحالي') }}: <span class="text-red-600 bg-red-50 px-2 py-0.5 rounded-lg border border-red-100" x-text="state.number"></span></span>
                         </div>
 
                         <div x-show="state.status === 'waiting'" class="flex items-center gap-3 w-max">
                             <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-                            <span class="text-slate-600 font-bold text-sm tracking-wide">المراجع التالي: <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100" x-text="state.number || '-'"></span></span>
+                            <span class="text-slate-600 font-bold text-sm tracking-wide">{{ __('المراجع التالي') }}: <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100" x-text="state.number || '-'"></span></span>
                         </div>
 
                     </div>
@@ -85,20 +85,20 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                             </div>
-                            <h2 class="text-sm font-bold text-slate-800">حالة العيادة الآن</h2>
+                            <h2 class="text-sm font-bold text-slate-800">{{ __('حالة العيادة الآن') }}</h2>
                         </div>
 
                         <div>
                             @if($activeConsultation)
-                                <p class="text-indigo-600 font-medium text-xs truncate">المريض: {{ $activeConsultation->patient_name ?? $activeConsultation->patient?->name }}</p>
+                                <p class="text-indigo-600 font-medium text-xs truncate">{{ __('المريض') }}: {{ $activeConsultation->patient_name ?? $activeConsultation->patient?->name }}</p>
                             @else
-                                <p class="text-slate-500 font-medium text-xs">لا يوجد مريض حالياً</p>
+                                <p class="text-slate-500 font-medium text-xs">{{ __('لا يوجد مريض حالياً') }}</p>
                             @endif
                         </div>
 
                         @if($activeConsultation)
                         <div class="mt-2 flex items-center justify-between">
-                            <span class="text-xs text-slate-500">وقت الجلسة</span>
+                            <span class="text-xs text-slate-500">{{ __('وقت الجلسة') }}</span>
                             <span class="text-lg font-mono font-bold text-indigo-600" x-text="formattedTime()">00:00</span>
                         </div>
                         @endif
@@ -113,17 +113,17 @@
                                 <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                 </svg>
-                                عدد الزوار
+                                {{ __('عدد الزوار') }}
                             </h3>
                             <p class="text-2xl font-bold text-slate-800">{{ $visitorsCount }}</p>
                         </div>
                     </div>
                     <form method="GET" action="{{ route('dashboard') }}" class="self-start mt-2 w-full">
                         <select name="filter" onchange="this.form.submit()" class="text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-full text-right bg-[position:left_0.25rem_center]">
-                            <option value="today" {{ $filter === 'today' ? 'selected' : '' }}>اليوم</option>
-                            <option value="week" {{ $filter === 'week' ? 'selected' : '' }}>الاسبوع</option>
-                            <option value="month" {{ $filter === 'month' ? 'selected' : '' }}>الشهر</option>
-                            <option value="year" {{ $filter === 'year' ? 'selected' : '' }}>السنة</option>
+                            <option value="today" {{ $filter === 'today' ? 'selected' : '' }}>{{ __('اليوم') }}</option>
+                            <option value="week" {{ $filter === 'week' ? 'selected' : '' }}>{{ __('الاسبوع') }}</option>
+                            <option value="month" {{ $filter === 'month' ? 'selected' : '' }}>{{ __('الشهر') }}</option>
+                            <option value="year" {{ $filter === 'year' ? 'selected' : '' }}>{{ __('السنة') }}</option>
                         </select>
                     </form>
                 </div>
@@ -140,7 +140,7 @@
                             <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
-                            إجمالي المواعيد
+                            {{ __('إجمالي المواعيد') }}
                         </h3>
                     </div>
                     <p class="text-2xl font-bold text-slate-800">{{ $todaysAppointments->count() }}</p>
@@ -151,10 +151,10 @@
                         @if(request('revenue_date')) <input type="hidden" name="revenue_date" value="{{ request('revenue_date') }}"> @endif
 
                         <select name="appointment_status" onchange="this.form.submit()" class="text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-full text-right bg-[position:left_0.25rem_center]">
-                            <option value="all" {{ $appointmentStatus === 'all' ? 'selected' : '' }}>الكل</option>
-                            <option value="completed" {{ $appointmentStatus === 'completed' ? 'selected' : '' }}>مكتمل</option>
-                            <option value="pending" {{ $appointmentStatus === 'pending' ? 'selected' : '' }}>قيد الانتظار</option>
-                            <option value="cancelled" {{ $appointmentStatus === 'cancelled' ? 'selected' : '' }}>ملغي</option>
+                            <option value="all" {{ $appointmentStatus === 'all' ? 'selected' : '' }}>{{ __('الكل') }}</option>
+                            <option value="completed" {{ $appointmentStatus === 'completed' ? 'selected' : '' }}>{{ __('مكتمل') }}</option>
+                            <option value="pending" {{ $appointmentStatus === 'pending' ? 'selected' : '' }}>{{ __('قيد الانتظار') }}</option>
+                            <option value="cancelled" {{ $appointmentStatus === 'cancelled' ? 'selected' : '' }}>{{ __('ملغي') }}</option>
                         </select>
                     </form>
                 </div>
@@ -166,11 +166,11 @@
                             <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                             </svg>
-                            انتظار عمليات
+                            {{ __('انتظار عمليات') }}
                         </h3>
                     </div>
                     <p class="text-2xl font-bold text-slate-800">{{ $pendingSurgeries }}</p>
-                    <span class="text-[10px] font-medium text-slate-400 mt-auto pt-2 block">الآن</span>
+                    <span class="text-[10px] font-medium text-slate-400 mt-auto pt-2 block">{{ __('الآن') }}</span>
                 </div>
 
                 <!-- Card 3: Today's Sessions -->
@@ -180,11 +180,11 @@
                             <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
-                            جلسات اليوم
+                            {{ __('جلسات اليوم') }}
                         </h3>
                     </div>
                     <p class="text-2xl font-bold text-slate-800">{{ $todaySessionsCount }}</p>
-                    <span class="text-[10px] font-medium text-slate-400 mt-auto pt-2 block">اليوم</span>
+                    <span class="text-[10px] font-medium text-slate-400 mt-auto pt-2 block">{{ __('اليوم') }}</span>
                 </div>
             </div>
         </div>
@@ -221,21 +221,21 @@
                             <div class="absolute inset-y-0 left-0 flex items-center pl-2 pointer-events-none text-slate-400">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
-                            <input type="text" name="revenue_date" x-ref="dateInput" dir="ltr" class="text-left text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-24" placeholder="تاريخ محدد">
+                            <input type="text" name="revenue_date" x-ref="dateInput" dir="ltr" class="text-left text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-24" placeholder="{{ __('تاريخ محدد') }}">
                         </div>
                         <select name="revenue_period" onchange="this.form.submit()" class="text-xs border-0 bg-slate-50 rounded-lg text-slate-600 focus:ring-0 cursor-pointer pl-6 pr-2 py-1 w-20 text-right bg-[position:left_0.25rem_center]">
-                            <option value="all" {{ $revenuePeriod === 'all' ? 'selected' : '' }}>الكل</option>
-                            <option value="today" {{ $revenuePeriod === 'today' ? 'selected' : '' }}>اليوم</option>
-                            <option value="week" {{ $revenuePeriod === 'week' ? 'selected' : '' }}>الاسبوع</option>
-                            <option value="month" {{ $revenuePeriod === 'month' ? 'selected' : '' }}>الشهر</option>
-                            <option value="year" {{ $revenuePeriod === 'year' ? 'selected' : '' }}>السنة</option>
+                            <option value="all" {{ $revenuePeriod === 'all' ? 'selected' : '' }}>{{ __('الكل') }}</option>
+                            <option value="today" {{ $revenuePeriod === 'today' ? 'selected' : '' }}>{{ __('اليوم') }}</option>
+                            <option value="week" {{ $revenuePeriod === 'week' ? 'selected' : '' }}>{{ __('الاسبوع') }}</option>
+                            <option value="month" {{ $revenuePeriod === 'month' ? 'selected' : '' }}>{{ __('الشهر') }}</option>
+                            <option value="year" {{ $revenuePeriod === 'year' ? 'selected' : '' }}>{{ __('السنة') }}</option>
                         </select>
                     </div>
                 </form>
             </div>
             <div class="relative z-10 mt-2">
                 <h3 class="text-slate-500 text-sm font-medium mb-1">{{ __('إجمالي الإيرادات') }}</h3>
-                <p class="text-3xl font-bold text-slate-800">{{ number_format($totalRevenue) }} <span class="text-lg text-slate-500 font-normal">د.ع</span></p>
+                <p class="text-3xl font-bold text-slate-800">{{ number_format($totalRevenue) }} <span class="text-lg text-slate-500 font-normal">{{ __('د.ع') }}</span></p>
             </div>
 
             <!-- Mini Insight Diagram (Background Sparkline) -->
@@ -254,44 +254,44 @@
     <div class="bg-white rounded-3xl shadow-sm border border-black/5 flex-1 min-h-0 flex flex-col overflow-hidden">
         <div class="p-4 border-b border-black/5 flex items-center justify-between shrink-0">
             <h2 class="text-lg font-bold text-slate-800">{{ __('مواعيد اليوم') }}</h2>
-            <a href="{{ route('appointments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">عرض الكل</a>
+            <a href="{{ route('appointments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">{{ __('عرض الكل') }}</a>
         </div>
 
         <div class="overflow-y-auto flex-1 min-h-0">
             <table class="w-full text-right">
                 <thead>
                     <tr class="bg-slate-50 text-slate-500 text-sm">
-                        <th class="py-3 px-6 font-medium">اسم المريض</th>
-                        <th class="py-3 px-6 font-medium">الوقت</th>
-                        <th class="py-3 px-6 font-medium">الحالة</th>
+                        <th class="py-3 px-6 font-medium">{{ __('اسم المريض') }}</th>
+                        <th class="py-3 px-6 font-medium">{{ __('الوقت') }}</th>
+                        <th class="py-3 px-6 font-medium">{{ __('الحالة') }}</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @forelse($recentAppointments as $appointment)
                         <tr class="hover:bg-slate-50/80 transition-colors group">
                             <td class="py-4 px-6 text-slate-800 font-medium group-hover:text-indigo-600 transition-colors">
-                                {{ $appointment->patient_name ?? ($appointment->patient ? $appointment->patient->name : 'غير محدد') }}
+                                {{ $appointment->patient_name ?? ($appointment->patient ? $appointment->patient->name : __('غير محدد')) }}
                             </td>
                             <td class="py-4 px-6 text-slate-600">
                                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
-                                    <span>{{ $appointment->appointment_datetime ? $appointment->appointment_datetime->format('h:i A') : 'غير محدد' }}</span>
+                                    <span>{{ $appointment->appointment_datetime ? $appointment->appointment_datetime->format('h:i A') : __('غير محدد') }}</span>
                                 </div>
                             </td>
                             <td class="py-4 px-6">
                                 @if($appointment->status === 'completed')
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
-                                        مكتمل
+                                        {{ __('مكتمل') }}
                                     </span>
                                 @elseif($appointment->status === 'cancelled')
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                        ملغي
+                                        {{ __('ملغي') }}
                                     </span>
                                 @else
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                                        قادم
+                                        {{ __('قادم') }}
                                     </span>
                                 @endif
                             </td>
@@ -299,7 +299,7 @@
                     @empty
                         <tr>
                             <td colspan="3" class="py-8 px-6 text-center text-slate-500">
-                                لا توجد مواعيد اليوم.
+                                {{ __('لا توجد مواعيد اليوم') }}.
                             </td>
                         </tr>
                     @endforelse
@@ -371,7 +371,7 @@
                          class="pointer-events-auto w-screen max-w-md">
                         <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-r-3xl border-r border-black/5">
                             <div class="px-4 sm:px-6 flex items-center justify-between">
-                                <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">المكالمات الواردة</h2>
+                                <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">{{ __('المكالمات الواردة') }}</h2>
                                 <button type="button" @click="callsModal = false" class="rounded-md bg-white text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                     <span class="sr-only">Close panel</span>
                                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -394,7 +394,7 @@
                                             <svg class="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                             </svg>
-                                            <p class="text-lg font-medium">لا توجد مكالمات واردة</p>
+                                            <p class="text-lg font-medium">{{ __('لا توجد مكالمات واردة') }}</p>
                                         </div>
                                     @endforelse
                                 </ul>
@@ -434,7 +434,7 @@
                          class="pointer-events-auto w-screen max-w-md">
                         <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-r-3xl border-r border-black/5">
                             <div class="px-4 sm:px-6 flex items-center justify-between">
-                                <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">الرسائل</h2>
+                                <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">{{ __('الرسائل') }}</h2>
                                 <button type="button" @click="messagesModal = false" class="rounded-md bg-white text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                                     <span class="sr-only">Close panel</span>
                                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -454,7 +454,7 @@
                                             <svg class="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
                                             </svg>
-                                            <p class="text-lg font-medium">لا توجد رسائل جديدة</p>
+                                            <p class="text-lg font-medium">{{ __('لا توجد رسائل جديدة') }}</p>
                                         </div>
                                     @endforelse
                                 </ul>

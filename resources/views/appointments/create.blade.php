@@ -98,16 +98,16 @@
                         <div x-data="appointmentPricing({{ auth()->user()->default_consultation_price ?? 0 }}, {{ auth()->user()->default_session_price ?? 0 }})" class="mt-4 border-t pt-4 border-gray-100">
                             @if(auth()->user()->has_sessions_system)
                                 <div class="mb-4 space-y-2">
-                                    <span class="block text-sm font-medium text-gray-700">نوع الحجز</span>
+                                    <span class="block text-sm font-medium text-gray-700">{{ __('نوع الحجز') }}</span>
                                     <div class="flex flex-col gap-4">
                                         <div class="flex gap-6">
                                             <label class="inline-flex items-center">
                                                 <input type="checkbox" x-model="isConsultation" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                <span class="ml-2 mr-2 text-sm text-gray-600">كشفية</span>
+                                                <span class="ml-2 mr-2 text-sm text-gray-600">{{ __('كشفية') }}</span>
                                             </label>
                                             <label class="inline-flex items-center">
                                                 <input type="checkbox" name="is_session" value="1" x-model="isSession" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                <span class="ml-2 mr-2 text-sm text-gray-600">جلسة</span>
+                                                <span class="ml-2 mr-2 text-sm text-gray-600">{{ __('جلسة') }}</span>
                                             </label>
                                         </div>
 

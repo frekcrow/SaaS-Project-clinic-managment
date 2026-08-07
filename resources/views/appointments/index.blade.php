@@ -77,18 +77,18 @@
                                         <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-12 text-center">
                                             <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                         </th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">اسم المريض</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الهاتف</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الحجز</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">نوع الحجز</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('اسم المريض') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الهاتف') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الحجز') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('نوع الحجز') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الطبيب') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('تاريخ الموعد') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('وقت الموعد') }}</th>
                                         @if(auth()->user()->role === 'doctor')
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">السعر</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
                                         @endif
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الحالة</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">إجراءات</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">{{ __('إجراءات') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200">
@@ -115,7 +115,7 @@
                                                     <div class="px-6 py-4">
                                                         <template x-if="appointment.is_session">
                                                             <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                                                                جلسة <span x-show="appointment.session_type" x-text="' - ' + (appointment.session_type ? appointment.session_type.name : '')"></span>
+                                                                {{ __('جلسة') }} <span x-show="appointment.session_type" x-text="' - ' + (appointment.session_type ? appointment.session_type.name : '')"></span>
                                                             </span>
                                                         </template>
                                                         <template x-if="!appointment.is_session">
@@ -127,10 +127,10 @@
                                                     <div class="px-4 py-2 flex flex-col gap-2">
                                                         <label class="inline-flex items-center">
                                                             <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                            <span class="ml-2 mr-2 text-xs text-gray-600">جلسة؟</span>
+                                                            <span class="ml-2 mr-2 text-xs text-gray-600">{{ __('جلسة؟') }}</span>
                                                         </label>
                                                         <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-xs py-1">
-                                                            <option value="">اختر النوع</option>
+                                                            <option value="">{{ __('اختر النوع') }}</option>
                                                             @foreach($sessionTypes as $type)
                                                                 <option value="{{ $type->id }}">{{ $type->name }}</option>
                                                             @endforeach
@@ -181,15 +181,15 @@
                                                                     'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
                                                                     'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
                                                                 }"
-                                                                x-text="appointment.status === 'completed' ? 'مكتمل' : 'ملغي'">
+                                                                x-text="appointment.status === 'completed' ? '{{ __('مكتمل') }}' : '{{ __('ملغي') }}'">
                                                             </span>
                                                         </template>
                                                         <template x-if="appointment.status === 'pending'">
                                                             <div class="flex gap-2">
-                                                                <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="مكتمل">
+                                                                <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('مكتمل') }}">
                                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                                                 </button>
-                                                                <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="إلغاء">
+                                                                <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('إلغاء') }}">
                                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                                 </button>
                                                             </div>
@@ -198,9 +198,9 @@
                                                 </template>
                                                 <template x-if="editMode">
                                                     <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
-                                                        <option value="pending">قيد الانتظار</option>
-                                                        <option value="completed">مكتمل</option>
-                                                        <option value="cancelled">ملغي</option>
+                                                        <option value="pending">{{ __('قيد الانتظار') }}</option>
+                                                        <option value="completed">{{ __('مكتمل') }}</option>
+                                                        <option value="cancelled">{{ __('ملغي') }}</option>
                                                     </select>
                                                 </template>
                                             </td>
@@ -209,16 +209,16 @@
                                                 <div class="flex space-x-2 rtl:space-x-reverse justify-center">
                                                     <template x-if="(appointment.patient ? appointment.patient.phone : appointment.phone)">
                                                         <div class="flex space-x-2 rtl:space-x-reverse">
-                                                            <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="اتصال">
+                                                            <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="{{ __('اتصال') }}">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                                             </a>
-                                                            <a :href="'https://wa.me/' + ((appointment.patient ? appointment.patient.phone : appointment.phone) || '').replace(/[^0-9]/g, '')" target="_blank" class="text-emerald-600 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 p-2 rounded transition-colors border border-emerald-200" title="واتساب">
+                                                            <a :href="'https://wa.me/' + ((appointment.patient ? appointment.patient.phone : appointment.phone) || '').replace(/[^0-9]/g, '')" target="_blank" class="text-emerald-600 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 p-2 rounded transition-colors border border-emerald-200" title="{{ __('واتساب') }}">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                                                             </a>
                                                         </div>
                                                     </template>
                                                     <template x-if="!(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                        <span class="text-gray-400 text-xs">لا يوجد رقم</span>
+                                                        <span class="text-gray-400 text-xs">{{ __('لا يوجد رقم') }}</span>
                                                     </template>
                                                 </div>
                                             </td>
@@ -255,18 +255,18 @@
                                                     <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-12 text-center">
                                                         <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                                     </th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">اسم المريض</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الهاتف</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">رقم الحجز</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">نوع الحجز</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الطبيب</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">تاريخ الموعد</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">وقت الموعد</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('اسم المريض') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الهاتف') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الحجز') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('نوع الحجز') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الطبيب') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('تاريخ الموعد') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('وقت الموعد') }}</th>
                                                     @if(auth()->user()->role === 'doctor')
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">السعر</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
                                                     @endif
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">الحالة</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">إجراءات</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">{{ __('إجراءات') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="divide-y divide-gray-200">
@@ -293,7 +293,7 @@
                                                                 <div class="px-6 py-4">
                                                                     <template x-if="appointment.is_session">
                                                                         <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                                                                            جلسة <span x-show="appointment.session_type" x-text="' - ' + (appointment.session_type ? appointment.session_type.name : '')"></span>
+                                                                            {{ __('جلسة') }} <span x-show="appointment.session_type" x-text="' - ' + (appointment.session_type ? appointment.session_type.name : '')"></span>
                                                                         </span>
                                                                     </template>
                                                                     <template x-if="!appointment.is_session">
@@ -305,10 +305,10 @@
                                                                 <div class="px-4 py-2 flex flex-col gap-2">
                                                                     <label class="inline-flex items-center">
                                                                         <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                                        <span class="ml-2 mr-2 text-xs text-gray-600">جلسة؟</span>
+                                                                        <span class="ml-2 mr-2 text-xs text-gray-600">{{ __('جلسة؟') }}</span>
                                                                     </label>
                                                                     <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-xs py-1">
-                                                                        <option value="">اختر النوع</option>
+                                                                        <option value="">{{ __('اختر النوع') }}</option>
                                                                         @foreach($sessionTypes as $type)
                                                                             <option value="{{ $type->id }}">{{ $type->name }}</option>
                                                                         @endforeach
@@ -345,7 +345,7 @@
                                                                 <div class="px-6 py-4">
                                                                     <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 rtl:space-x-reverse" dir="ltr">
                                                                         <span x-text="Number(appointment.price).toLocaleString()"></span>
-                                                                        <span class="text-xs">د.ع</span>
+                                                                        <span class="text-xs">{{ __('د.ع') }}</span>
                                                                     </span>
                                                                     <span x-show="!appointment.price" class="text-gray-400">-</span>
                                                                 </div>
@@ -365,15 +365,15 @@
                                                                                 'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
                                                                                 'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
                                                                             }"
-                                                                            x-text="appointment.status === 'completed' ? 'مكتمل' : 'ملغي'">
+                                                                            x-text="appointment.status === 'completed' ? '{{ __('مكتمل') }}' : '{{ __('ملغي') }}'">
                                                                         </span>
                                                                     </template>
                                                                     <template x-if="appointment.status === 'pending'">
                                                                         <div class="flex gap-2">
-                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="مكتمل">
+                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('مكتمل') }}">
                                                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                                                             </button>
-                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="إلغاء">
+                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('إلغاء') }}">
                                                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                                             </button>
                                                                         </div>
@@ -382,9 +382,9 @@
                                                             </template>
                                                             <template x-if="editMode">
                                                                 <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
-                                                                    <option value="pending">قيد الانتظار</option>
-                                                                    <option value="completed">مكتمل</option>
-                                                                    <option value="cancelled">ملغي</option>
+                                                                    <option value="pending">{{ __('قيد الانتظار') }}</option>
+                                                                    <option value="completed">{{ __('مكتمل') }}</option>
+                                                                    <option value="cancelled">{{ __('ملغي') }}</option>
                                                                 </select>
                                                             </template>
                                                         </td>
@@ -393,16 +393,16 @@
                                                             <div class="flex space-x-2 rtl:space-x-reverse justify-center">
                                                                 <template x-if="(appointment.patient ? appointment.patient.phone : appointment.phone)">
                                                                     <div class="flex space-x-2 rtl:space-x-reverse">
-                                                                        <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="اتصال">
+                                                                        <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="{{ __('اتصال') }}">
                                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                                                                         </a>
-                                                                        <a :href="'https://wa.me/' + ((appointment.patient ? appointment.patient.phone : appointment.phone) || '').replace(/[^0-9]/g, '')" target="_blank" class="text-emerald-600 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 p-2 rounded transition-colors border border-emerald-200" title="واتساب">
+                                                                        <a :href="'https://wa.me/' + ((appointment.patient ? appointment.patient.phone : appointment.phone) || '').replace(/[^0-9]/g, '')" target="_blank" class="text-emerald-600 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 p-2 rounded transition-colors border border-emerald-200" title="{{ __('واتساب') }}">
                                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                                                                         </a>
                                                                     </div>
                                                                 </template>
                                                                 <template x-if="!(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                                    <span class="text-gray-400 text-xs">لا يوجد رقم</span>
+                                                                    <span class="text-gray-400 text-xs">{{ __('لا يوجد رقم') }}</span>
                                                                 </template>
                                                             </div>
                                                         </td>

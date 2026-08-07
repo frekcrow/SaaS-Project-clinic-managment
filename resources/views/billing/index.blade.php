@@ -135,7 +135,7 @@
                                             <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-900 border-b border-gray-200 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4">
-                                                        <span x-text="Number(appointment.price || 0).toLocaleString()"></span> د.ع
+                                                        <span x-text="Number(appointment.price || 0).toLocaleString()"></span> {{ __('د.ع') }}
                                                     </div>
                                                 </template>
                                                 <template x-if="editMode">
@@ -217,7 +217,7 @@
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm border-b border-gray-200 border-l">
                                                         <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 rtl:space-x-reverse font-medium" dir="ltr">
                                                             <span x-text="Number(appointment.price).toLocaleString()"></span>
-                                                            <span class="text-xs">د.ع</span>
+                                                            <span class="text-xs">{{ __('د.ع') }}</span>
                                                         </span>
                                                         <span x-show="!appointment.price" class="text-gray-400">-</span>
                                                     </td>
@@ -262,32 +262,32 @@
                             <!-- Invoice Header -->
                             <div class="w-full text-center mb-6 border-b pb-4">
                                 <h3 class="text-2xl font-bold text-gray-900" x-text="clinicName"></h3>
-                                <p class="text-sm text-gray-500 mt-1">فاتورة / إيصال استلام</p>
+                                <p class="text-sm text-gray-500 mt-1">{{ __('فاتورة') }} / {{ __('إيصال استلام') }}</p>
                             </div>
 
                             <!-- Invoice Details -->
                             <div class="w-full space-y-4">
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">اسم المريض:</span>
+                                    <span class="font-semibold text-gray-700">{{ __('اسم المريض') }}:</span>
                                     <span class="text-gray-900" x-text="currentAppointment?.patient?.name || currentAppointment?.patient_name"></span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">التاريخ:</span>
+                                    <span class="font-semibold text-gray-700">{{ __('التاريخ') }}:</span>
                                     <span class="text-gray-900" x-text="currentAppointment ? currentAppointment.appointment_date : ''"></span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">الوقت:</span>
+                                    <span class="font-semibold text-gray-700">{{ __('الوقت') }}:</span>
                                     <span class="text-gray-900" x-text="currentAppointment ? (currentAppointment.appointment_time ? currentAppointment.appointment_time.substring(0, 5) : '') : ''"></span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">السبب:</span>
-                                    <span class="text-gray-900">استشارة / جلسة</span>
+                                    <span class="font-semibold text-gray-700">{{ __('السبب') }}:</span>
+                                    <span class="text-gray-900">{{ __('استشارة') }} / {{ __('جلسة') }}</span>
                                 </div>
 
                                 <div class="border-t pt-4 flex justify-between items-center bg-gray-50 p-3 rounded">
-                                    <span class="font-bold text-lg text-gray-900">المبلغ المدفوع:</span>
+                                    <span class="font-bold text-lg text-gray-900">{{ __('المبلغ المدفوع') }}:</span>
                                     <span class="font-bold text-lg text-gray-900">
-                                        <span x-text="Number(showFullHistory ? totalPaid : (currentAppointment?.price || 0)).toLocaleString()"></span> د.ع
+                                        <span x-text="Number(showFullHistory ? totalPaid : (currentAppointment?.price || 0)).toLocaleString()"></span> {{ __('د.ع') }}
                                     </span>
                                 </div>
                             </div>
@@ -296,14 +296,14 @@
                     <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse no-print justify-between items-center">
                         <div class="flex space-x-2 rtl:space-x-reverse">
                             <button type="button" @click="printInvoice()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
-                                طباعة
+                                {{ __('طباعة') }}
                             </button>
                             <button type="button" @click="closeInvoiceModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                إغلاق
+                                {{ __('إغلاق') }}
                             </button>
                         </div>
                         <div class="flex items-center">
-                            <label for="toggle-history" class="mr-2 text-sm text-gray-700 cursor-pointer pl-2">إظهار التاريخ المالي الكامل:</label>
+                            <label for="toggle-history" class="mr-2 text-sm text-gray-700 cursor-pointer pl-2">{{ __('إظهار التاريخ المالي الكامل') }}:</label>
                             <input id="toggle-history" type="checkbox" x-model="showFullHistory" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>

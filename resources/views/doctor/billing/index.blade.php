@@ -24,7 +24,7 @@
                         <h3 class="text-3xl font-black text-slate-800 mb-1 tracking-tight" dir="ltr">
                             {{ $totalPatientsToday }}
                         </h3>
-                        <p class="text-sm font-medium text-slate-500">إجمالي مرضى اليوم</p>
+                        <p class="text-sm font-medium text-slate-500">{{ __('إجمالي مرضى اليوم') }}</p>
                     </div>
                 </div>
 
@@ -38,9 +38,9 @@
                     </div>
                     <div>
                         <h3 class="text-3xl font-black text-slate-800 mb-1 tracking-tight" dir="ltr">
-                            {{ number_format($todayIncome, 0) }} <span class="text-lg font-medium text-slate-400">د.ع</span>
+                            {{ number_format($todayIncome, 0) }} <span class="text-lg font-medium text-slate-400">{{ __('د.ع') }}</span>
                         </h3>
-                        <p class="text-sm font-medium text-slate-500">دخل اليوم (الجلسات)</p>
+                        <p class="text-sm font-medium text-slate-500">{{ __('دخل اليوم') }} ({{ __('الجلسات') }})</p>
                     </div>
                 </div>
 
@@ -54,9 +54,9 @@
                     </div>
                     <div>
                         <h3 class="text-3xl font-black text-slate-800 mb-1 tracking-tight" dir="ltr">
-                            {{ number_format($totalSurgeriesIncome, 0) }} <span class="text-lg font-medium text-slate-400">د.ع</span>
+                            {{ number_format($totalSurgeriesIncome, 0) }} <span class="text-lg font-medium text-slate-400">{{ __('د.ع') }}</span>
                         </h3>
-                        <p class="text-sm font-medium text-slate-500">إجمالي دخل العمليات</p>
+                        <p class="text-sm font-medium text-slate-500">{{ __('إجمالي دخل العمليات') }}</p>
                     </div>
                 </div>
 
@@ -70,9 +70,9 @@
                     </div>
                     <div class="relative z-10">
                         <h3 class="text-3xl font-black text-white mb-1 tracking-tight" dir="ltr">
-                            {{ number_format($netWorth, 0) }} <span class="text-lg font-medium text-slate-400">د.ع</span>
+                            {{ number_format($netWorth, 0) }} <span class="text-lg font-medium text-slate-400">{{ __('د.ع') }}</span>
                         </h3>
-                        <p class="text-sm font-medium text-slate-400">إجمالي الدخل (الصافي)</p>
+                        <p class="text-sm font-medium text-slate-400">{{ __('إجمالي الدخل') }} ({{ __('الصافي') }})</p>
                     </div>
                 </div>
             </div>
@@ -81,15 +81,15 @@
             <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800">المرضى الأكثر دفعاً</h3>
-                        <p class="text-sm text-gray-500 mt-1">قائمة بالمرضى مرتبة حسب إجمالي المبالغ المدفوعة.</p>
+                        <h3 class="text-lg font-bold text-slate-800">{{ __('المرضى الأكثر دفعاً') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ __('قائمة بالمرضى مرتبة حسب إجمالي المبالغ المدفوعة') }}.</p>
                     </div>
                     <div>
                         <form method="GET" action="{{ route('doctor.billing.index') }}" x-data="{ sort: '{{ $sortOrder }}' }" class="flex items-center gap-2">
-                            <label for="sort" class="text-sm font-medium text-slate-700">ترتيب حسب:</label>
+                            <label for="sort" class="text-sm font-medium text-slate-700">{{ __('ترتيب حسب') }}:</label>
                             <select name="sort" id="sort" x-model="sort" @change="$event.target.form.submit()" class="border-gray-300 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm pl-8 pr-4 py-2 bg-white shadow-sm cursor-pointer">
-                                <option value="desc">الأعلى دخلاً</option>
-                                <option value="asc">الأدنى دخلاً</option>
+                                <option value="desc">{{ __('الأعلى دخلاً') }}</option>
+                                <option value="asc">{{ __('الأدنى دخلاً') }}</option>
                             </select>
                         </form>
                     </div>
@@ -100,9 +100,9 @@
                         <thead>
                             <tr class="bg-slate-50/50 border-b border-gray-100">
                                 <th class="py-4 px-6 text-sm font-bold text-slate-600 w-16">#</th>
-                                <th class="py-4 px-6 text-sm font-bold text-slate-600">اسم المريض</th>
-                                <th class="py-4 px-6 text-sm font-bold text-slate-600">رقم الهاتف</th>
-                                <th class="py-4 px-6 text-sm font-bold text-slate-600 text-left">إجمالي المدفوعات</th>
+                                <th class="py-4 px-6 text-sm font-bold text-slate-600">{{ __('اسم المريض') }}</th>
+                                <th class="py-4 px-6 text-sm font-bold text-slate-600">{{ __('رقم الهاتف') }}</th>
+                                <th class="py-4 px-6 text-sm font-bold text-slate-600 text-left">{{ __('إجمالي المدفوعات') }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-50">
@@ -125,7 +125,7 @@
                                     <td class="py-4 px-6 text-left">
                                         <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-sm">
                                             <span dir="ltr">{{ number_format($patient->total_paid, 0) }}</span>
-                                            <span>د.ع</span>
+                                            <span>{{ __('د.ع') }}</span>
                                         </div>
                                     </td>
                                 </tr>
@@ -134,7 +134,7 @@
                                     <td colspan="4" class="py-12 px-6 text-center text-gray-500">
                                         <div class="flex flex-col items-center justify-center gap-2">
                                             <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4M8 16l-4-4 4-4M16 8l4 4-4 4"></path></svg>
-                                            <span class="font-medium text-lg text-slate-600">لا توجد بيانات مالية</span>
+                                            <span class="font-medium text-lg text-slate-600">{{ __('لا توجد بيانات مالية') }}</span>
                                         </div>
                                     </td>
                                 </tr>

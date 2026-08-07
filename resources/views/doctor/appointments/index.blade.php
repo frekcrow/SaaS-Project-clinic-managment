@@ -1,6 +1,6 @@
 <x-doctor-layout>
     <x-slot name="header">
-        تقويم المواعيد
+        {{ __('تقويم المواعيد') }}
     </x-slot>
 
     <div class="space-y-6">
@@ -13,8 +13,8 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">المراجعين المتبقين اليوم</h2>
-                    <p class="text-slate-500 text-sm">الذين لم يتم إدخالهم بعد</p>
+                    <h2 class="text-lg font-bold text-slate-800">{{ __('المراجعين المتبقين اليوم') }}</h2>
+                    <p class="text-slate-500 text-sm">{{ __('الذين لم يتم إدخالهم بعد') }}</p>
                 </div>
             </div>
             <div class="text-4xl font-black text-teal-600">
@@ -29,11 +29,11 @@
                 <div class="flex gap-2 bg-slate-100 p-1 rounded-xl w-full md:w-auto">
                     <a href="{{ route('doctor.appointments.index', ['view_mode' => 'default']) }}"
                        class="px-4 py-2 rounded-lg text-sm font-medium transition-colors w-1/2 md:w-auto text-center {{ $viewMode === 'default' ? 'bg-white text-teal-600 shadow-sm' : 'text-slate-600 hover:bg-slate-200' }}">
-                        العرض الافتراضي
+                        {{ __('العرض الافتراضي') }}
                     </a>
                     <a href="{{ route('doctor.appointments.index', ['view_mode' => 'filter', 'date' => $filterDate]) }}"
                        class="px-4 py-2 rounded-lg text-sm font-medium transition-colors w-1/2 md:w-auto text-center {{ $viewMode === 'filter' ? 'bg-white text-teal-600 shadow-sm' : 'text-slate-600 hover:bg-slate-200' }}">
-                        حسب التاريخ
+                        {{ __('حسب التاريخ') }}
                     </a>
                 </div>
 
@@ -49,13 +49,13 @@
             <!-- Hourly Summary -->
             @if($hourlySummary->isNotEmpty())
             <div class="pt-4 border-t border-slate-100">
-                <h3 class="text-sm font-semibold text-slate-700 mb-3">ملخص مواعيد اليوم بالساعات</h3>
+                <h3 class="text-sm font-semibold text-slate-700 mb-3">{{ __('ملخص مواعيد اليوم بالساعات') }}</h3>
                 <div class="flex flex-wrap gap-2">
                     @foreach($hourlySummary as $hour => $count)
                     <div class="bg-teal-50 text-teal-700 px-3 py-1.5 rounded-lg text-sm font-medium border border-teal-100 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         <span dir="ltr">{{ $hour }}</span>
-                        <span class="bg-teal-200 text-teal-800 text-xs px-2 py-0.5 rounded-full">{{ $count }} مراجعين</span>
+                        <span class="bg-teal-200 text-teal-800 text-xs px-2 py-0.5 rounded-full">{{ $count }} {{ __('مراجعين') }}</span>
                     </div>
                     @endforeach
                 </div>
@@ -78,7 +78,7 @@
                         </div>
                         <div>
                             <h3 class="font-bold text-slate-800">{{ $appointment->patient->name ?? $appointment->patient_name }}</h3>
-                            <p class="text-sm text-slate-500">{{ $appointment->patient->phone ?? $appointment->phone ?? 'لا يوجد رقم' }}</p>
+                            <p class="text-sm text-slate-500">{{ $appointment->patient->phone ?? $appointment->phone ?? __('لا يوجد رقم') }}</p>
                         </div>
                     </div>
                     <div class="bg-slate-100 px-3 py-1 rounded-full text-xs font-semibold text-slate-600 flex items-center gap-1">
@@ -89,15 +89,15 @@
 
                 <div class="mt-4 pt-4 border-t border-slate-50">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-medium text-slate-500">وقت الموعد</span>
+                        <span class="text-sm font-medium text-slate-500">{{ __('وقت الموعد') }}</span>
                         <span class="text-lg font-bold text-slate-800" dir="ltr">{{ substr($appointment->appointment_time, 0, 5) }}</span>
                     </div>
 
                     <!-- Live Countdown Timer -->
                     <div x-data="countdownTimer({{ $targetTimestamp }})" class="bg-slate-50 rounded-xl p-3 flex flex-col items-center justify-center border border-slate-100">
-                        <span class="text-xs text-slate-500 mb-1">الوقت المتبقي</span>
+                        <span class="text-xs text-slate-500 mb-1">{{ __('الوقت المتبقي') }}</span>
                         <div x-show="!isPast" class="text-xl font-mono font-bold text-teal-600" dir="ltr" x-text="timeLeft" x-cloak></div>
-                        <div x-show="isPast" class="text-sm font-bold text-red-500" x-cloak>تجاوز الوقت المحدد</div>
+                        <div x-show="isPast" class="text-sm font-bold text-red-500" x-cloak>{{ __('تجاوز الوقت المحدد') }}</div>
                     </div>
                 </div>
             </div>
@@ -106,8 +106,8 @@
                 <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="text-lg font-bold text-slate-700 mb-1">لا توجد مواعيد</h3>
-                <p class="text-slate-500">لم يتم العثور على مواعيد في هذه الفترة.</p>
+                <h3 class="text-lg font-bold text-slate-700 mb-1">{{ __('لا توجد مواعيد') }}</h3>
+                <p class="text-slate-500">{{ __('لم يتم العثور على مواعيد في هذه الفترة') }}.</p>
             </div>
             @endforelse
         </div>

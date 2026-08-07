@@ -1,15 +1,15 @@
 <x-doctor-layout>
     <x-slot name="header">
-        الأدوية
+        {{ __('الأدوية') }}
     </x-slot>
 
     <div x-data="medicationsData()">
         <!-- Top Actions -->
         <div class="mb-6 flex justify-between items-center bg-white p-4 rounded-3xl shadow-sm border border-slate-100">
-            <h2 class="text-lg font-bold text-slate-800">قائمة الأدوية</h2>
+            <h2 class="text-lg font-bold text-slate-800">{{ __('قائمة الأدوية') }}</h2>
             <button @click="openModal()" class="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-2xl transition-colors font-medium text-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                إضافة دواء
+                {{ __('إضافة دواء') }}
             </button>
         </div>
 
@@ -27,13 +27,13 @@
                     <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative group">
                         <!-- Actions -->
                         <div class="absolute top-4 left-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button @click="editModal({{ $medication->toJson() }})" class="p-2 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-xl transition-colors" title="تعديل">
+                            <button @click="editModal({{ $medication->toJson() }})" class="p-2 text-slate-400 hover:text-teal-600 hover:bg-teal-50 rounded-xl transition-colors" title="{{ __('تعديل') }}">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                             </button>
-                            <form action="{{ route('doctor.medications.destroy', $medication) }}" method="POST" onsubmit="return confirm('هل أنت متأكد من حذف هذا الدواء؟');" class="inline">
+                            <form action="{{ route('doctor.medications.destroy', $medication) }}" method="POST" onsubmit="return confirm('{{ __('هل أنت متأكد من حذف هذا الدواء؟') }}');" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors" title="حذف">
+                                <button type="submit" class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors" title="{{ __('حذف') }}">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
                             </form>
@@ -56,7 +56,7 @@
                         <div class="space-y-3 mt-4 border-t border-slate-50 pt-4">
                             @if(is_array($medication->dosages) && count($medication->dosages) > 0)
                                 <div>
-                                    <span class="text-xs font-semibold text-slate-500 block mb-2">الجرعات:</span>
+                                    <span class="text-xs font-semibold text-slate-500 block mb-2">{{ __('الجرعات') }}:</span>
                                     <div class="flex flex-wrap gap-1.5">
                                         @foreach($medication->dosages as $dosage)
                                             <span class="inline-flex px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-medium">{{ $dosage }}</span>
@@ -67,7 +67,7 @@
 
                             @if(is_array($medication->usage_times) && count($medication->usage_times) > 0)
                                 <div>
-                                    <span class="text-xs font-semibold text-slate-500 block mb-2">أوقات الاستخدام:</span>
+                                    <span class="text-xs font-semibold text-slate-500 block mb-2">{{ __('أوقات الاستخدام') }}:</span>
                                     <div class="flex flex-wrap gap-1.5">
                                         @foreach($medication->usage_times as $time)
                                             <span class="inline-flex px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg text-xs font-medium">{{ $time }}</span>
@@ -84,10 +84,10 @@
                 <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mb-4">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                 </div>
-                <h3 class="text-lg font-bold text-slate-800 mb-2">لا توجد أدوية</h3>
-                <p class="text-slate-500 mb-6 text-sm">لم تقم بإضافة أي أدوية بعد. ابدأ بإضافة الدواء الأول.</p>
+                <h3 class="text-lg font-bold text-slate-800 mb-2">{{ __('لا توجد أدوية') }}</h3>
+                <p class="text-slate-500 mb-6 text-sm">{{ __('لم تقم بإضافة أي أدوية بعد. ابدأ بإضافة الدواء الأول') }}.</p>
                 <button @click="openModal()" class="bg-teal-50 text-teal-700 hover:bg-teal-100 px-6 py-2 rounded-2xl transition-colors font-medium text-sm">
-                    إضافة دواء جديد
+                    {{ __('إضافة دواء جديد') }}
                 </button>
             </div>
         @endif
@@ -105,7 +105,7 @@
                         <input type="hidden" name="_method" :value="isEdit ? 'PUT' : 'POST'">
 
                         <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                            <h3 class="text-lg leading-6 font-bold text-slate-800" id="modal-title" x-text="isEdit ? 'تعديل الدواء' : 'إضافة دواء جديد'"></h3>
+                            <h3 class="text-lg leading-6 font-bold text-slate-800" id="modal-title" x-text="isEdit ? '{{ __('تعديل الدواء') }}' : '{{ __('إضافة دواء جديد') }}'"></h3>
                             <button type="button" @click="showModal = false" class="text-slate-400 hover:text-slate-500 hover:bg-slate-100 p-1.5 rounded-full transition-colors">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                             </button>
@@ -114,37 +114,37 @@
 
                             <!-- Name -->
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">اسم الدواء <span class="text-red-500">*</span></label>
-                                <input type="text" name="name" x-model="form.name" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all text-sm" placeholder="مثال: Paracetamol 500mg">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">{{ __('اسم الدواء') }} <span class="text-red-500">*</span></label>
+                                <input type="text" name="name" x-model="form.name" required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all text-sm" placeholder="{{ __('مثال') }}: Paracetamol 500mg">
                             </div>
 
                             <!-- Indications -->
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-2">دواعي الاستعمال (اختياري)</label>
-                                <textarea name="indications" x-model="form.indications" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all text-sm" placeholder="مثال: مسكن للآلام، خافض للحرارة"></textarea>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">{{ __('دواعي الاستعمال') }} ({{ __('اختياري') }})</label>
+                                <textarea name="indications" x-model="form.indications" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all text-sm" placeholder="{{ __('مثال') }}: {{ __('مسكن للآلام، خافض للحرارة') }}"></textarea>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <!-- Dosages Dynamic List -->
                                 <div>
                                     <div class="flex justify-between items-center mb-2">
-                                        <label class="block text-sm font-semibold text-slate-700">الجرعات</label>
+                                        <label class="block text-sm font-semibold text-slate-700">{{ __('الجرعات') }}</label>
                                         <button type="button" @click="addDosage()" class="text-xs text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                            إضافة
+                                            {{ __('إضافة') }}
                                         </button>
                                     </div>
                                     <div class="space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
                                         <template x-for="(dosage, index) in form.dosages" :key="index">
                                             <div class="flex gap-2 relative">
-                                                <input type="text" :name="'dosages['+index+']'" x-model="form.dosages[index]" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all" placeholder="مثال: 500mg">
+                                                <input type="text" :name="'dosages['+index+']'" x-model="form.dosages[index]" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all" placeholder="{{ __('مثال') }}: 500mg">
                                                 <button type="button" @click="removeDosage(index)" class="text-slate-400 hover:text-red-500 p-2 shrink-0">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                                                 </button>
                                             </div>
                                         </template>
                                         <template x-if="form.dosages.length === 0">
-                                            <p class="text-xs text-slate-400">لم يتم إضافة جرعات</p>
+                                            <p class="text-xs text-slate-400">{{ __('لم يتم إضافة جرعات') }}</p>
                                         </template>
                                     </div>
                                 </div>
@@ -152,23 +152,23 @@
                                 <!-- Usage Times Dynamic List -->
                                 <div>
                                     <div class="flex justify-between items-center mb-2">
-                                        <label class="block text-sm font-semibold text-slate-700">أوقات الاستخدام</label>
+                                        <label class="block text-sm font-semibold text-slate-700">{{ __('أوقات الاستخدام') }}</label>
                                         <button type="button" @click="addUsageTime()" class="text-xs text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                            إضافة
+                                            {{ __('إضافة') }}
                                         </button>
                                     </div>
                                     <div class="space-y-2 max-h-48 overflow-y-auto pr-1 custom-scrollbar">
                                         <template x-for="(time, index) in form.usage_times" :key="index">
                                             <div class="flex gap-2 relative">
-                                                <input type="text" :name="'usage_times['+index+']'" x-model="form.usage_times[index]" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all" placeholder="مثال: مرتين يومياً">
+                                                <input type="text" :name="'usage_times['+index+']'" x-model="form.usage_times[index]" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all" placeholder="{{ __('مثال') }}: {{ __('مرتين يومياً') }}">
                                                 <button type="button" @click="removeUsageTime(index)" class="text-slate-400 hover:text-red-500 p-2 shrink-0">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
                                                 </button>
                                             </div>
                                         </template>
                                         <template x-if="form.usage_times.length === 0">
-                                            <p class="text-xs text-slate-400">لم يتم إضافة أوقات</p>
+                                            <p class="text-xs text-slate-400">{{ __('لم يتم إضافة أوقات') }}</p>
                                         </template>
                                     </div>
                                 </div>
@@ -176,10 +176,10 @@
                         </div>
                         <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 rounded-b-3xl">
                             <button type="button" @click="showModal = false" class="px-5 py-2.5 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-2xl hover:bg-slate-50 transition-colors">
-                                إلغاء
+                                {{ __('إلغاء') }}
                             </button>
                             <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-teal-600 rounded-2xl hover:bg-teal-700 transition-colors">
-                                حفظ الدواء
+                                {{ __('حفظ الدواء') }}
                             </button>
                         </div>
                     </form>

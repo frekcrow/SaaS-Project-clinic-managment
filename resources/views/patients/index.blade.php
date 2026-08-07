@@ -119,10 +119,10 @@
                                                 <x-input-label for="anesthesia_type" :value="__('نوع التخدير')" />
                                                 <select id="anesthesia_type" x-model="transferForm.anesthesia_type" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
                                                     <option value="" disabled>{{ __('اختر نوع التخدير') }}</option>
-                                                    <option value="تخدير عام">{{ __('تخدير عام') }}</option>
-                                                    <option value="تخدير موضعي">{{ __('تخدير موضعي') }}</option>
-                                                    <option value="تخدير قطني">{{ __('تخدير قطني') }}</option>
-                                                    <option value="أخرى">{{ __('أخرى') }}</option>
+                                                    <option value="{{ __('تخدير عام') }}">{{ __('تخدير عام') }}</option>
+                                                    <option value="{{ __('تخدير موضعي') }}">{{ __('تخدير موضعي') }}</option>
+                                                    <option value="{{ __('تخدير قطني') }}">{{ __('تخدير قطني') }}</option>
+                                                    <option value="{{ __('أخرى') }}">{{ __('أخرى') }}</option>
                                                 </select>
                                             </div>
 
@@ -131,7 +131,7 @@
                                                 <div class="relative mt-1">
                                                     <x-text-input id="cost" x-model="transferForm.cost" type="number" step="0.01" min="0" class="block w-full pl-10" required />
                                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                        <span class="text-gray-500 sm:text-sm">د.ع</span>
+                                                        <span class="text-gray-500 sm:text-sm">{{ __('د.ع') }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -228,12 +228,12 @@
                                                 </td>
                                                 <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200">
                                                     <div class="flex items-center justify-center gap-2 w-max mx-auto">
-                                                        <a :href="'/patients/' + patient.id" title="ملف المريض" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
+                                                        <a :href="'/patients/' + patient.id" title="{{ __('ملف المريض') }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                                             </svg>
                                                         </a>
-                                                        <button @click="openTransferModal(patient)" title="تحويل إلى العمليات" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
+                                                        <button @click="openTransferModal(patient)" title="{{ __('تحويل إلى العمليات') }}" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
                                                             </svg>
@@ -319,12 +319,12 @@
                                                     </td>
                                                     <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200">
                                                         <div class="flex items-center justify-center gap-2 w-max mx-auto">
-                                                            <a :href="'/patients/' + patient.id" title="ملف المريض" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
+                                                            <a :href="'/patients/' + patient.id" title="{{ __('ملف المريض') }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                                                 </svg>
                                                             </a>
-                                                            <button @click="openTransferModal(patient)" title="تحويل إلى العمليات" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
+                                                            <button @click="openTransferModal(patient)" title="{{ __('تحويل إلى العمليات') }}" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
                                                                 </svg>

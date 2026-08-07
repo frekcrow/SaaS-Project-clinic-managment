@@ -1,7 +1,7 @@
 <x-doctor-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ $greeting ?? __('Doctor Dashboard Workspace') }} - هل أنت مستعد ليومك؟
+            {{ $greeting ?? __('Doctor Dashboard Workspace') }} - {{ __('هل أنت مستعد ليومك؟') }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="mb-6">
                 <h1 class="text-2xl font-bold text-slate-800">{{ $greeting ?? __('مرحباً د. :name', ['name' => auth()->user()->name]) }}</h1>
-                <p class="text-slate-500 mt-1">هنا ملخص لجدولك اليوم، نتمنى لك يوماً سعيداً وناجحاً.</p>
+                <p class="text-slate-500 mt-1">{{ __('هنا ملخص لجدولك اليوم، نتمنى لك يوماً سعيداً وناجحاً') }}.</p>
             </div>
 
             @php
@@ -41,15 +41,15 @@
                                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
                                   <span class="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
                                 </span>
-                                المراجع القادم (الانتظار)
+                                {{ __('المراجع القادم') }} ({{ __('الانتظار') }})
                             </div>
                             <h2 class="text-3xl font-black text-slate-800 mb-2">
-                                {{ $pendingAppt ? ($pendingAppt->patient_name ?? ($pendingAppt->patient ? $pendingAppt->patient->name : '-')) : 'لا يوجد مراجعين في الانتظار' }}
+                                {{ $pendingAppt ? ($pendingAppt->patient_name ?? ($pendingAppt->patient ? $pendingAppt->patient->name : '-')) : __('لا يوجد مراجعين في الانتظار') }}
                             </h2>
                             @if($pendingAppt && $pendingAppt->patient)
                                 <a href="{{ route('patients.show', $pendingAppt->patient->id) }}" class="inline-flex items-center text-sm text-slate-500 hover:text-teal-600 transition-colors gap-1 group">
                                     <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                                    عرض الملف الطبي الكامل
+                                    {{ __('عرض الملف الطبي الكامل') }}
                                 </a>
                             @endif
                         </div>
@@ -63,7 +63,7 @@
                                 <input type="hidden" name="status" value="in_progress">
                                 <button type="submit" class="w-full md:w-auto px-8 py-3 bg-black text-white rounded-xl font-bold shadow-sm hover:bg-neutral-800 hover:shadow-md transition-all flex items-center justify-center gap-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                    بدء الجلسة (قبول)
+                                    {{ __('بدء الجلسة') }} ({{ __('قبول') }})
                                 </button>
                             </form>
 
@@ -72,7 +72,7 @@
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="cancelled">
                                 <button type="submit" class="w-full md:w-auto px-6 py-3 bg-white text-red-600 border border-slate-200 rounded-xl font-bold shadow-sm hover:bg-red-50 hover:border-red-100 transition-all">
-                                    تخطي (رفض)
+                                    {{ __('تخطي') }} ({{ __('رفض') }})
                                 </button>
                             </form>
                         </div>
@@ -91,7 +91,7 @@
                                 <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             </div>
                             <div>
-                                <div class="text-sm font-bold text-blue-600 mb-1">جلسة نشطة حالياً</div>
+                                <div class="text-sm font-bold text-blue-600 mb-1">{{ __('جلسة نشطة حالياً') }}</div>
                                 <div class="font-semibold text-slate-800">{{ $inProgressAppt->patient_name ?? ($inProgressAppt->patient ? $inProgressAppt->patient->name : '-') }}</div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="completed">
                                 <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-xl font-bold shadow-sm hover:bg-blue-700 transition-colors">
-                                    إنهاء الجلسة
+                                    {{ __('إنهاء الجلسة') }}
                                 </button>
                             </form>
                         </div>
@@ -125,14 +125,14 @@
                             <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center mb-4">
                                 <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
                             </div>
-                            <h3 class="text-slate-500 font-medium mb-1">عمليات اليوم</h3>
+                            <h3 class="text-slate-500 font-medium mb-1">{{ __('عمليات اليوم') }}</h3>
                             <div class="text-4xl font-black text-slate-800">{{ $pendingSurgeries ?? 0 }}</div>
                         </div>
 
                         <div class="mt-6" x-data="{ showAddModal: false }">
                             <button @click="showAddModal = true" class="text-sm font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                إضافة عملية
+                                {{ __('إضافة عملية') }}
                             </button>
 
                             <!-- Add Surgery Modal -->
@@ -213,10 +213,10 @@
                                                                 <x-input-label for="anesthesia_type" :value="__('نوع التخدير')" />
                                                                 <select id="anesthesia_type" name="anesthesia_type" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
                                                                     <option value="" disabled selected>{{ __('اختر نوع التخدير') }}</option>
-                                                                    <option value="تخدير عام">{{ __('تخدير عام') }}</option>
-                                                                    <option value="تخدير موضعي">{{ __('تخدير موضعي') }}</option>
-                                                                    <option value="تخدير قطني">{{ __('تخدير قطني') }}</option>
-                                                                    <option value="أخرى">{{ __('أخرى') }}</option>
+                                                                    <option value="{{ __('تخدير عام') }}">{{ __('تخدير عام') }}</option>
+                                                                    <option value="{{ __('تخدير موضعي') }}">{{ __('تخدير موضعي') }}</option>
+                                                                    <option value="{{ __('تخدير قطني') }}">{{ __('تخدير قطني') }}</option>
+                                                                    <option value="{{ __('أخرى') }}">{{ __('أخرى') }}</option>
                                                                 </select>
                                                             </div>
 
@@ -226,7 +226,7 @@
                                                                 <div class="relative mt-1">
                                                                     <x-text-input id="cost" name="cost" type="number" step="0.01" min="0" class="block w-full pl-10" required />
                                                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                                        <span class="text-gray-500 sm:text-sm">د.ع</span>
+                                                                        <span class="text-gray-500 sm:text-sm">{{ __('د.ع') }}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -263,13 +263,13 @@
                             <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center mb-4">
                                 <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <h3 class="text-slate-500 font-medium mb-1">المراجعين في الانتظار</h3>
+                            <h3 class="text-slate-500 font-medium mb-1">{{ __('المراجعين في الانتظار') }}</h3>
                             <div class="text-4xl font-black text-slate-800">{{ $pendingCount }}</div>
                         </div>
 
                         <div class="mt-6">
                             <a href="{{ route('appointments.index') }}" class="text-sm font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 px-4 py-2 rounded-lg transition-colors inline-flex items-center gap-2">
-                                عرض القائمة كاملة
+                                {{ __('عرض القائمة كاملة') }}
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                             </a>
                         </div>
@@ -284,21 +284,21 @@
                 <div class="p-6 sm:p-8">
                     <!-- Top Controls -->
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-                        <h2 class="text-xl font-bold text-slate-800">المخطط الطبي (إحصائيات المرضى)</h2>
+                        <h2 class="text-xl font-bold text-slate-800">{{ __('المخطط الطبي') }} ({{ __('إحصائيات المرضى') }})</h2>
 
                         <div class="flex items-center gap-4 w-full sm:w-auto">
                             <!-- Dropdown Filter -->
                             <select x-model="timeFilter" @change="updateChart" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3">
-                                <option value="today">اليوم</option>
-                                <option value="week">اخر اسبوع</option>
-                                <option value="month">اخر شهر</option>
-                                <option value="year">السنة</option>
-                                <option value="all">الكل</option>
+                                <option value="today">{{ __('اليوم') }}</option>
+                                <option value="week">{{ __('اخر اسبوع') }}</option>
+                                <option value="month">{{ __('اخر شهر') }}</option>
+                                <option value="year">{{ __('السنة') }}</option>
+                                <option value="all">{{ __('الكل') }}</option>
                             </select>
 
                             <!-- Date Picker -->
                             <div class="relative w-full sm:w-auto">
-                                <input type="text" x-model="customDate" x-ref="datePicker" placeholder="تاريخ محدد" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3 w-full sm:w-40 text-left" dir="ltr">
+                                <input type="text" x-model="customDate" x-ref="datePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3 w-full sm:w-40 text-left" dir="ltr">
                             </div>
                         </div>
                     </div>
@@ -333,39 +333,39 @@
                             <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
                                 <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <h2 class="text-xl font-bold">الإحصائيات المالية</h2>
+                            <h2 class="text-xl font-bold">{{ __('الإحصائيات المالية') }}</h2>
                         </div>
 
                         <div class="space-y-6">
                             <!-- Income -->
                             <div>
-                                <div class="text-sm text-slate-400 mb-1">الدخل العام</div>
-                                <div class="text-3xl font-black text-white">{{ number_format($totalIncome ?? 0) }} د.ع</div>
+                                <div class="text-sm text-slate-400 mb-1">{{ __('الدخل العام') }}</div>
+                                <div class="text-3xl font-black text-white">{{ number_format($totalIncome ?? 0) }} {{ __('د.ع') }}</div>
                             </div>
 
                             <!-- Net Worth -->
                             <div>
-                                <div class="text-sm text-slate-400 mb-1">صافي الثروة</div>
-                                <div class="text-2xl font-bold text-teal-400">{{ number_format($netWorth ?? 0) }} د.ع</div>
+                                <div class="text-sm text-slate-400 mb-1">{{ __('صافي الثروة') }}</div>
+                                <div class="text-2xl font-bold text-teal-400">{{ number_format($netWorth ?? 0) }} {{ __('د.ع') }}</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="relative z-10 grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
                         <div>
-                            <div class="text-xs text-slate-400 mb-1">مجموع أموال العمليات</div>
-                            <div class="font-bold text-white text-sm">{{ number_format($totalSurgeryIncome ?? 0) }} د.ع</div>
+                            <div class="text-xs text-slate-400 mb-1">{{ __('مجموع أموال العمليات') }}</div>
+                            <div class="font-bold text-white text-sm">{{ number_format($totalSurgeryIncome ?? 0) }} {{ __('د.ع') }}</div>
                         </div>
                         <div>
-                            <div class="text-xs text-slate-400 mb-1">متوسط الدخل للعملية</div>
-                            <div class="font-bold text-white text-sm">{{ number_format($avgSurgeryIncome ?? 0) }} د.ع</div>
+                            <div class="text-xs text-slate-400 mb-1">{{ __('متوسط الدخل للعملية') }}</div>
+                            <div class="font-bold text-white text-sm">{{ number_format($avgSurgeryIncome ?? 0) }} {{ __('د.ع') }}</div>
                         </div>
                         <div>
-                            <div class="text-xs text-slate-400 mb-1">إجمالي المصاريف</div>
-                            <div class="font-bold text-red-400 text-sm">{{ number_format($totalExpenses ?? 0) }} د.ع</div>
+                            <div class="text-xs text-slate-400 mb-1">{{ __('إجمالي المصاريف') }}</div>
+                            <div class="font-bold text-red-400 text-sm">{{ number_format($totalExpenses ?? 0) }} {{ __('د.ع') }}</div>
                         </div>
                         <div>
-                            <div class="text-xs text-slate-400 mb-1">المصاريف (مدفوعة/غير مدفوعة)</div>
+                            <div class="text-xs text-slate-400 mb-1">{{ __('المصاريف') }} ({{ __('مدفوعة') }}/{{ __('غير مدفوعة') }})</div>
                             <div class="font-bold text-white text-xs">
                                 <span class="text-green-400">{{ number_format($paidExpenses ?? 0) }}</span> /
                                 <span class="text-red-400">{{ number_format($unpaidExpenses ?? 0) }}</span>
@@ -379,18 +379,18 @@
                     <div class="p-6 sm:p-8 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-                            <h2 class="text-xl font-bold text-slate-800">مؤشر النمو المالي</h2>
+                            <h2 class="text-xl font-bold text-slate-800">{{ __('مؤشر النمو المالي') }}</h2>
 
                             <div class="flex items-center gap-4 w-full sm:w-auto">
                                 <select x-model="timeFilter" @change="updateChart" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3">
-                                    <option value="today">اليوم</option>
-                                    <option value="week">اخر اسبوع</option>
-                                    <option value="month">اخر شهر</option>
-                                    <option value="year">السنة</option>
-                                    <option value="all">الكل</option>
+                                    <option value="today">{{ __('اليوم') }}</option>
+                                    <option value="week">{{ __('اخر اسبوع') }}</option>
+                                    <option value="month">{{ __('اخر شهر') }}</option>
+                                    <option value="year">{{ __('السنة') }}</option>
+                                    <option value="all">{{ __('الكل') }}</option>
                                 </select>
                                 <div class="relative w-full sm:w-auto">
-                                    <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="تاريخ محدد" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3 w-full sm:w-40 text-left" dir="ltr">
+                                    <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm py-2 px-3 w-full sm:w-40 text-left" dir="ltr">
                                 </div>
                             </div>
                         </div>
@@ -411,7 +411,7 @@
                 customDate: '',
                 // Dummy Data for Financial Trends
                 financeSeries: [{
-                    name: 'الدخل',
+                    name: '{{ __('الدخل') }}',
                     data: @json($financeData)
                 }],
                 financeLabels: @json($financeLabels),
@@ -485,7 +485,7 @@
                         tooltip: {
                             y: {
                                 formatter: function (val) {
-                                    return Number(val).toLocaleString('ar-IQ') + " د.ع";
+                                    return Number(val).toLocaleString('ar-IQ') + " {{ __('د.ع') }}";
                                 }
                             }
                         },
@@ -511,19 +511,19 @@
                 customDate: '',
                 activeTab: 'gender',
                 tabs: [
-                    { id: 'gender', name: 'نسبة الذكور والإناث' },
-                    { id: 'diseases', name: 'الأمراض الشائعة' },
-                    { id: 'age', name: 'أعمار المراجعين' },
-                    { id: 'medications', name: 'الأدوية الموصوفة' },
-                    { id: 'surgeries', name: 'العمليات' }
+                    { id: 'gender', name: '{{ __('نسبة الذكور والإناث') }}' },
+                    { id: 'diseases', name: '{{ __('الأمراض الشائعة') }}' },
+                    { id: 'age', name: '{{ __('أعمار المراجعين') }}' },
+                    { id: 'medications', name: '{{ __('الأدوية الموصوفة') }}' },
+                    { id: 'surgeries', name: '{{ __('العمليات') }}' }
                 ],
                 // Real Data passed from Controller
                 medicalData: {
-                    gender: { type: 'pie', series: [@json($maleCount), @json($femaleCount)], labels: ['ذكور', 'إناث'] },
-                    diseases: { type: 'bar', series: [{ name: 'الحالات', data: @json($diseasesData) }], labels: @json($diseasesLabels) },
-                    age: { type: 'bar', series: [{ name: 'العدد', data: [@json($ageGroups['0-18']), @json($ageGroups['19-30']), @json($ageGroups['31-45']), @json($ageGroups['46-60']), @json($ageGroups['60+'])] }], labels: ['0-18', '19-30', '31-45', '46-60', '60+'] },
+                    gender: { type: 'pie', series: [@json($maleCount), @json($femaleCount)], labels: ['{{ __('ذكور') }}', '{{ __('إناث') }}'] },
+                    diseases: { type: 'bar', series: [{ name: '{{ __('الحالات') }}', data: @json($diseasesData) }], labels: @json($diseasesLabels) },
+                    age: { type: 'bar', series: [{ name: '{{ __('العدد') }}', data: [@json($ageGroups['0-18']), @json($ageGroups['19-30']), @json($ageGroups['31-45']), @json($ageGroups['46-60']), @json($ageGroups['60+'])] }], labels: ['0-18', '19-30', '31-45', '46-60', '60+'] },
                     medications: { type: 'donut', series: @json($medicationsData), labels: @json($medicationsLabels) },
-                    surgeries: { type: 'bar', series: [{ name: 'العمليات', data: @json($surgeriesData) }], labels: @json($surgeriesLabels) }
+                    surgeries: { type: 'bar', series: [{ name: '{{ __('العمليات') }}', data: @json($surgeriesData) }], labels: @json($surgeriesLabels) }
                 },
 
                 init() {

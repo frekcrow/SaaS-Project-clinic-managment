@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>نظام أطلس - السجلات الطبية الإلكترونية المتطورة</title>
+    <title>{{ __('نظام أطلس - السجلات الطبية الإلكترونية المتطورة') }}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,21 +70,21 @@
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-400 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-blue-500/30">
                         A
                     </div>
-                    <span class="font-black text-2xl tracking-tight">أطلس</span>
+                    <span class="font-black text-2xl tracking-tight">{{ __('أطلس') }}</span>
                 </div>
 
                 <div class="hidden md:flex space-x-8 rtl:space-x-reverse">
-                    <a href="#features" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">المميزات</a>
-                    <a href="#security" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">الأمان</a>
-                    <a href="#pricing" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">الخطط</a>
+                    <a href="#features" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">{{ __('المميزات') }}</a>
+                    <a href="#security" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">{{ __('الأمان') }}</a>
+                    <a href="#pricing" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">{{ __('الخطط') }}</a>
                 </div>
 
                 <div class="flex items-center gap-4">
                     @auth
-                        <a href="{{ url('/dashboard') }}" class="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-6 py-2.5 rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-black/10 dark:shadow-white/10">لوحة التحكم</a>
+                        <a href="{{ url('/dashboard') }}" class="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-6 py-2.5 rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-black/10 dark:shadow-white/10">{{ __('لوحة التحكم') }}</a>
                     @else
-                        <a href="{{ route('login') }}" class="text-neutral-700 dark:text-neutral-200 font-bold hover:text-black dark:hover:text-white transition-colors">تسجيل الدخول</a>
-                        <a href="{{ route('register') }}" class="bg-gradient-to-l from-blue-600 to-blue-500 text-white px-6 py-2.5 rounded-full font-bold hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20 transition-all">ابدأ الآن</a>
+                        <a href="{{ route('login') }}" class="text-neutral-700 dark:text-neutral-200 font-bold hover:text-black dark:hover:text-white transition-colors">{{ __('تسجيل الدخول') }}</a>
+                        <a href="{{ route('register') }}" class="bg-gradient-to-l from-blue-600 to-blue-500 text-white px-6 py-2.5 rounded-full font-bold hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20 transition-all">{{ __('ابدأ الآن') }}</a>
                     @endauth
                 </div>
             </div>
@@ -97,21 +97,21 @@
         <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/20 dark:bg-blue-600/20 rounded-full blur-3xl -z-10"></div>
         <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-400/20 dark:bg-emerald-600/20 rounded-full blur-3xl -z-10"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center" x-data="{ words: ['السرعة', 'الأمان', 'الذكاء', 'التطور'], index: 0 }" x-init="setInterval(() => index = (index + 1) % words.length, 2500)">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center" x-data="{ words: ['{{ __('السرعة') }}', '{{ __('الأمان') }}', '{{ __('الذكاء') }}', '{{ __('التطور') }}'], index: 0 }" x-init="setInterval(() => index = (index + 1) % words.length, 2500)">
 
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-tight">
-                نظام أطلس يمنح عيادتك
+                {{ __('نظام أطلس يمنح عيادتك') }}
                 <br />
                 <span class="inline-block min-w-[200px] text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-emerald-400 transition-all duration-500 ease-in-out" x-text="words[index]"></span>
             </h1>
 
             <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
-                بنية تحتية سحابية متطورة لإدارة السجلات الطبية الإلكترونية، مصممة خصيصاً للارتقاء بمستوى الرعاية الصحية في عيادتك بمعايير عالمية.
+                {{ __('بنية تحتية سحابية متطورة لإدارة السجلات الطبية الإلكترونية، مصممة خصيصاً للارتقاء بمستوى الرعاية الصحية في عيادتك بمعايير عالمية') }}.
             </p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#pricing" class="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-neutral-900/20 dark:shadow-white/20 w-full sm:w-auto text-center">ابدأ الآن</a>
-                <a href="#features" class="glassmorphism text-neutral-900 dark:text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/60 dark:hover:bg-white/10 hover:scale-105 transition-all w-full sm:w-auto text-center">اكتشف النظام</a>
+                <a href="#pricing" class="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-neutral-900/20 dark:shadow-white/20 w-full sm:w-auto text-center">{{ __('ابدأ الآن') }}</a>
+                <a href="#features" class="glassmorphism text-neutral-900 dark:text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/60 dark:hover:bg-white/10 hover:scale-105 transition-all w-full sm:w-auto text-center">{{ __('اكتشف النظام') }}</a>
             </div>
 
             <!-- Floating Medical Icons -->
@@ -139,8 +139,8 @@
     <section id="features" class="py-24 bg-white dark:bg-neutral-900 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">نظام متكامل، بنية تحتية سحابية متطورة</h2>
-                <p class="text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">إدارة السجلات الطبية الإلكترونية لم تكن بهذه السهولة والأمان من قبل.</p>
+                <h2 class="text-3xl md:text-5xl font-black mb-4">{{ __('نظام متكامل، بنية تحتية سحابية متطورة') }}</h2>
+                <p class="text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">{{ __('إدارة السجلات الطبية الإلكترونية لم تكن بهذه السهولة والأمان من قبل') }}.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -152,9 +152,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3">إدارة شاملة للعيادة</h3>
+                        <h3 class="text-2xl font-bold mb-3">{{ __('إدارة شاملة للعيادة') }}</h3>
                         <p class="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed max-w-lg">
-                            نظام متكامل يغطي كافة جوانب العيادة بدءاً من حجز المواعيد، مروراً بالسجل الطبي الإلكتروني، وصولاً إلى الفوترة وإدارة الحسابات بكفاءة عالية.
+                            {{ __('نظام متكامل يغطي كافة جوانب العيادة بدءاً من حجز المواعيد، مروراً بالسجل الطبي الإلكتروني، وصولاً إلى الفوترة وإدارة الحسابات بكفاءة عالية') }}.
                         </p>
                     </div>
                     <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full blur-3xl group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40 transition-colors"></div>
@@ -172,9 +172,9 @@
                             <div class="inline-block px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-sm mb-6 border border-emerald-500/30 backdrop-blur-sm">
                                 HIPAA Compliant
                             </div>
-                            <h3 class="text-2xl font-bold mb-3">أقصى درجات الأمان</h3>
+                            <h3 class="text-2xl font-bold mb-3">{{ __('أقصى درجات الأمان') }}</h3>
                             <p class="text-neutral-400 text-base leading-relaxed">
-                                يلتزم النظام بشكل صارم بمعايير الخصوصية والتشفير لحماية بيانات المرضى والسجلات الطبية ضد أي اختراقات.
+                                {{ __('يلتزم النظام بشكل صارم بمعايير الخصوصية والتشفير لحماية بيانات المرضى والسجلات الطبية ضد أي اختراقات') }}.
                             </p>
                         </div>
                     </div>
@@ -187,8 +187,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-3">سرعة فائقة</h3>
-                    <p class="text-neutral-600 dark:text-neutral-400">واجهة مستخدم تفاعلية لحظية تضمن سرعة إدخال واسترجاع البيانات بضغطة زر.</p>
+                    <h3 class="text-2xl font-bold mb-3">{{ __('سرعة فائقة') }}</h3>
+                    <p class="text-neutral-600 dark:text-neutral-400">{{ __('واجهة مستخدم تفاعلية لحظية تضمن سرعة إدخال واسترجاع البيانات بضغطة زر') }}.</p>
                 </div>
 
                 <!-- Bento Box 4 -->
@@ -199,9 +199,9 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold mb-3">إدارة تعدد المستخدمين بصلاحيات دقيقة</h3>
+                        <h3 class="text-2xl font-bold mb-3">{{ __('إدارة تعدد المستخدمين بصلاحيات دقيقة') }}</h3>
                         <p class="text-neutral-600 dark:text-neutral-400 max-w-2xl">
-                            نظام متطور يعتمد على Role-Based Access Control يتيح للأطباء إدارة الصلاحيات للمساعدين والسكرتارية بسهولة من خلال أكواد العيادات (Clinic Codes) مع عزل تام لبيانات كل عيادة.
+                            {{ __('نظام متطور يعتمد على') }} Role-Based Access Control {{ __('يتيح للأطباء إدارة الصلاحيات للمساعدين والسكرتارية بسهولة من خلال أكواد العيادات') }} (Clinic Codes) {{ __('مع عزل تام لبيانات كل عيادة') }}.
                         </p>
                     </div>
                 </div>
@@ -216,22 +216,22 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center gap-16">
                 <div class="lg:w-1/2">
-                    <h2 class="text-3xl md:text-5xl font-black mb-6">لماذا أطلس؟ <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-400">نمو كفاءة العيادة</span></h2>
+                    <h2 class="text-3xl md:text-5xl font-black mb-6">{{ __('لماذا أطلس؟') }} <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-400">{{ __('نمو كفاءة العيادة') }}</span></h2>
                     <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
-                        أثبتت الإحصائيات أن انتقال العيادات للأنظمة السحابية المتطورة يزيد من كفاءة العمل وتقليل وقت الانتظار بنسبة تفوق 40%، مما ينعكس إيجاباً على رضا المرضى وزيادة الإيرادات.
+                        {{ __('أثبتت الإحصائيات أن انتقال العيادات للأنظمة السحابية المتطورة يزيد من كفاءة العمل وتقليل وقت الانتظار بنسبة تفوق') }} 40%، {{ __('مما ينعكس إيجاباً على رضا المرضى وزيادة الإيرادات') }}.
                     </p>
                     <ul class="space-y-4">
                         <li class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                             </div>
-                            <span class="font-bold text-lg">تقليل الأعمال الورقية بنسبة 90%</span>
+                            <span class="font-bold text-lg">{{ __('تقليل الأعمال الورقية بنسبة') }} 90%</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                             </div>
-                            <span class="font-bold text-lg">الوصول للسجلات في ثوانٍ معدودة</span>
+                            <span class="font-bold text-lg">{{ __('الوصول للسجلات في ثوانٍ معدودة') }}</span>
                         </li>
                     </ul>
                 </div>
@@ -244,28 +244,28 @@
                             <div class="w-1/4 flex flex-col items-center justify-end h-full">
                                 <div class="w-full bg-gray-200 dark:bg-neutral-800 rounded-t-xl transition-all duration-1000 ease-out"
                                      :style="showChart ? 'height: 30%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-500">الشهر 1</span>
+                                <span class="text-sm font-bold mt-4 text-neutral-500">{{ __('الشهر') }} 1</span>
                             </div>
                             <!-- Bar 2 -->
                             <div class="w-1/4 flex flex-col items-center justify-end h-full">
                                 <div class="w-full bg-blue-300 dark:bg-blue-900/50 rounded-t-xl transition-all duration-1000 ease-out delay-150"
                                      :style="showChart ? 'height: 50%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-500">الشهر 2</span>
+                                <span class="text-sm font-bold mt-4 text-neutral-500">{{ __('الشهر') }} 2</span>
                             </div>
                             <!-- Bar 3 -->
                             <div class="w-1/4 flex flex-col items-center justify-end h-full">
                                 <div class="w-full bg-blue-500 dark:bg-blue-700 rounded-t-xl transition-all duration-1000 ease-out delay-300"
                                      :style="showChart ? 'height: 75%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-500">الشهر 3</span>
+                                <span class="text-sm font-bold mt-4 text-neutral-500">{{ __('الشهر') }} 3</span>
                             </div>
                             <!-- Bar 4 -->
                             <div class="w-1/4 flex flex-col items-center justify-end h-full relative group">
                                 <div class="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap">
-                                    نمو +85%
+                                    {{ __('نمو') }} +85%
                                 </div>
                                 <div class="w-full bg-gradient-to-t from-emerald-400 to-blue-500 rounded-t-xl shadow-lg shadow-blue-500/20 transition-all duration-1000 ease-out delay-500 cursor-pointer"
                                      :style="showChart ? 'height: 95%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-900 dark:text-white">أطلس</span>
+                                <span class="text-sm font-bold mt-4 text-neutral-900 dark:text-white">{{ __('أطلس') }}</span>
                             </div>
                         </div>
                     </div>
@@ -278,8 +278,8 @@
     <section class="py-24 bg-white dark:bg-neutral-900 border-t border-gray-100 dark:border-neutral-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">آراء الأطباء</h2>
-                <p class="text-lg text-neutral-500 dark:text-neutral-400">نفتخر بثقة نخبة من الأطباء في نظام أطلس.</p>
+                <h2 class="text-3xl md:text-5xl font-black mb-4">{{ __('آراء الأطباء') }}</h2>
+                <p class="text-lg text-neutral-500 dark:text-neutral-400">{{ __('نفتخر بثقة نخبة من الأطباء في نظام أطلس') }}.</p>
             </div>
 
             <!-- Auto-fading Carousel -->
@@ -288,13 +288,13 @@
                 <!-- Slide 1 -->
                 <div x-show="activeSlide === 0" x-transition.opacity.duration.500ms class="absolute inset-0">
                     <div class="glassmorphism p-10 rounded-3xl text-center border border-gray-100 dark:border-neutral-700 shadow-xl">
-                        <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">أ</div>
+                        <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">{{ __('أ') }}</div>
                         <p class="text-2xl font-medium leading-relaxed mb-8 dark:text-neutral-200">
-                            "استخدام أطلس غير شكل العمل في العيادة تماماً. واجهة المستخدم بديهية جداً، والسرعة في استرجاع ملفات المرضى وفرت علينا الكثير من الوقت."
+                            "{{ __('استخدام أطلس غير شكل العمل في العيادة تماماً. واجهة المستخدم بديهية جداً، والسرعة في استرجاع ملفات المرضى وفرت علينا الكثير من الوقت') }}."
                         </p>
                         <div>
-                            <h4 class="font-bold text-lg">د. أحمد</h4>
-                            <p class="text-neutral-500">استشاري أمراض القلب</p>
+                            <h4 class="font-bold text-lg">{{ __('د. أحمد') }}</h4>
+                            <p class="text-neutral-500">{{ __('استشاري أمراض القلب') }}</p>
                         </div>
                     </div>
                 </div>
@@ -302,13 +302,13 @@
                 <!-- Slide 2 -->
                 <div x-show="activeSlide === 1" x-transition.opacity.duration.500ms class="absolute inset-0" style="display: none;">
                     <div class="glassmorphism p-10 rounded-3xl text-center border border-gray-100 dark:border-neutral-700 shadow-xl">
-                        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">س</div>
+                        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">{{ __('س') }}</div>
                         <p class="text-2xl font-medium leading-relaxed mb-8 dark:text-neutral-200">
-                            "ما يميز أطلس هو مستوى الأمان العالي. كون النظام متوافق مع معايير HIPAA يعطيني الثقة الكاملة في حفظ بيانات مرضاي."
+                            "{{ __('ما يميز أطلس هو مستوى الأمان العالي. كون النظام متوافق مع معايير') }} HIPAA {{ __('يعطيني الثقة الكاملة في حفظ بيانات مرضاي') }}."
                         </p>
                         <div>
-                            <h4 class="font-bold text-lg">د. سارة</h4>
-                            <p class="text-neutral-500">طبيبة أسنان</p>
+                            <h4 class="font-bold text-lg">{{ __('د. سارة') }}</h4>
+                            <p class="text-neutral-500">{{ __('طبيبة أسنان') }}</p>
                         </div>
                     </div>
                 </div>
@@ -316,13 +316,13 @@
                 <!-- Slide 3 -->
                 <div x-show="activeSlide === 2" x-transition.opacity.duration.500ms class="absolute inset-0" style="display: none;">
                     <div class="glassmorphism p-10 rounded-3xl text-center border border-gray-100 dark:border-neutral-700 shadow-xl">
-                        <div class="w-16 h-16 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">ع</div>
+                        <div class="w-16 h-16 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">{{ __('ع') }}</div>
                         <p class="text-2xl font-medium leading-relaxed mb-8 dark:text-neutral-200">
-                            "إدارة المواعيد أصبحت منظمة جداً، ودعم تعدد السكرتارية في نفس العيادة ميزة ممتازة وتعمل بشكل سلس وفعال."
+                            "{{ __('إدارة المواعيد أصبحت منظمة جداً، ودعم تعدد السكرتارية في نفس العيادة ميزة ممتازة وتعمل بشكل سلس وفعال') }}."
                         </p>
                         <div>
-                            <h4 class="font-bold text-lg">د. عمر</h4>
-                            <p class="text-neutral-500">أخصائي باطنية</p>
+                            <h4 class="font-bold text-lg">{{ __('د. عمر') }}</h4>
+                            <p class="text-neutral-500">{{ __('أخصائي باطنية') }}</p>
                         </div>
                     </div>
                 </div>
@@ -344,55 +344,55 @@
     <section id="pricing" class="py-24 bg-gray-50 dark:bg-neutral-950">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">خطط الشراء</h2>
-                <p class="text-lg text-neutral-500 dark:text-neutral-400">اختر الخطة التي تناسب حجم عيادتك وطموحاتك.</p>
+                <h2 class="text-3xl md:text-5xl font-black mb-4">{{ __('خطط الشراء') }}</h2>
+                <p class="text-lg text-neutral-500 dark:text-neutral-400">{{ __('اختر الخطة التي تناسب حجم عيادتك وطموحاتك') }}.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
 
                 <!-- Basic Tier -->
                 <div class="bg-white dark:bg-neutral-900 rounded-3xl p-8 border border-gray-100 dark:border-neutral-800 shadow-sm hover:shadow-xl transition-all">
-                    <h3 class="text-xl font-bold mb-2">الأساسية</h3>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-6">للعيادات الصغيرة والناشئة</p>
-                    <div class="text-4xl font-black mb-6">مجاناً</div>
+                    <h3 class="text-xl font-bold mb-2">{{ __('الأساسية') }}</h3>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-6">{{ __('للعيادات الصغيرة والناشئة') }}</p>
+                    <div class="text-4xl font-black mb-6">{{ __('مجاناً') }}</div>
                     <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 50 مريض شهرياً</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> إدارة المواعيد</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> سكرتير واحد</li>
+                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 50 {{ __('مريض شهرياً') }}</li>
+                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('إدارة المواعيد') }}</li>
+                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('سكرتير واحد') }}</li>
                     </ul>
-                    <a href="{{ route('register') }}" class="block w-full py-3 px-4 bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-center font-bold rounded-xl transition-colors">ابدأ الآن</a>
+                    <a href="{{ route('register') }}" class="block w-full py-3 px-4 bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-center font-bold rounded-xl transition-colors">{{ __('ابدأ الآن') }}</a>
                 </div>
 
                 <!-- Pro Tier (Emphasized) -->
                 <div class="bg-gradient-to-b from-neutral-900 to-black dark:from-neutral-800 dark:to-neutral-900 text-white rounded-3xl p-10 border border-blue-500/50 shadow-2xl shadow-blue-500/20 transform md:-translate-y-4 relative">
                     <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-emerald-400 rounded-t-3xl"></div>
                     <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-emerald-400 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
-                        الأكثر شيوعاً
+                        {{ __('الأكثر شيوعاً') }}
                     </div>
 
-                    <h3 class="text-xl font-bold mb-2">المتقدمة</h3>
-                    <p class="text-neutral-400 text-sm mb-6">للعيادات المتنامية</p>
-                    <div class="text-4xl font-black mb-6">49$ <span class="text-lg font-medium text-neutral-400">/شهر</span></div>
+                    <h3 class="text-xl font-bold mb-2">{{ __('المتقدمة') }}</h3>
+                    <p class="text-neutral-400 text-sm mb-6">{{ __('للعيادات المتنامية') }}</p>
+                    <div class="text-4xl font-black mb-6">49$ <span class="text-lg font-medium text-neutral-400">/{{ __('شهر') }}</span></div>
                     <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> عدد غير محدود من المرضى</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> السجل الطبي الإلكتروني الكامل</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> إدارة الحسابات والفوترة</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> حتى 3 سكرتارية</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('عدد غير محدود من المرضى') }}</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('السجل الطبي الإلكتروني الكامل') }}</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('إدارة الحسابات والفوترة') }}</li>
+                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('حتى 3 سكرتارية') }}</li>
                     </ul>
-                    <a href="{{ route('register') }}" class="block w-full py-4 px-4 bg-white text-black hover:bg-gray-100 text-center font-bold rounded-xl transition-colors shadow-lg">اشترك الآن</a>
+                    <a href="{{ route('register') }}" class="block w-full py-4 px-4 bg-white text-black hover:bg-gray-100 text-center font-bold rounded-xl transition-colors shadow-lg">{{ __('اشترك الآن') }}</a>
                 </div>
 
                 <!-- Enterprise Tier -->
                 <div class="bg-white dark:bg-neutral-900 rounded-3xl p-8 border border-gray-100 dark:border-neutral-800 shadow-sm hover:shadow-xl transition-all">
-                    <h3 class="text-xl font-bold mb-2">الاحترافية</h3>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-6">للمجمعات الطبية</p>
-                    <div class="text-4xl font-black mb-6">99$ <span class="text-lg font-medium text-neutral-400">/شهر</span></div>
+                    <h3 class="text-xl font-bold mb-2">{{ __('الاحترافية') }}</h3>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-6">{{ __('للمجمعات الطبية') }}</p>
+                    <div class="text-4xl font-black mb-6">99$ <span class="text-lg font-medium text-neutral-400">/{{ __('شهر') }}</span></div>
                     <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> كل مميزات الباقة المتقدمة</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> أطباء متعددين</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> تقارير وإحصائيات متقدمة</li>
+                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('كل مميزات الباقة المتقدمة') }}</li>
+                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('أطباء متعددين') }}</li>
+                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('تقارير وإحصائيات متقدمة') }}</li>
                     </ul>
-                    <a href="#" class="block w-full py-3 px-4 bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-center font-bold rounded-xl transition-colors">تواصل معنا</a>
+                    <a href="#" class="block w-full py-3 px-4 bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-center font-bold rounded-xl transition-colors">{{ __('تواصل معنا') }}</a>
                 </div>
 
             </div>
@@ -409,44 +409,44 @@
                         <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-emerald-400 flex items-center justify-center text-white font-bold text-xl">
                             A
                         </div>
-                        <span class="font-black text-2xl tracking-tight">أطلس</span>
+                        <span class="font-black text-2xl tracking-tight">{{ __('أطلس') }}</span>
                     </div>
                     <p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed">
-                        نظام الإدارة الشامل للعيادات الطبية الحديثة. مبني بأحدث التقنيات لضمان السرعة والأمان.
+                        {{ __('نظام الإدارة الشامل للعيادات الطبية الحديثة. مبني بأحدث التقنيات لضمان السرعة والأمان') }}.
                     </p>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-lg mb-6">النظام</h4>
+                    <h4 class="font-bold text-lg mb-6">{{ __('النظام') }}</h4>
                     <ul class="space-y-4">
-                        <li><a href="#features" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">المميزات</a></li>
-                        <li><a href="#security" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">الأمان والخصوصية</a></li>
-                        <li><a href="#pricing" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">الأسعار</a></li>
+                        <li><a href="#features" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('المميزات') }}</a></li>
+                        <li><a href="#security" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('الأمان والخصوصية') }}</a></li>
+                        <li><a href="#pricing" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('الأسعار') }}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-lg mb-6">الدعم الفني</h4>
+                    <h4 class="font-bold text-lg mb-6">{{ __('الدعم الفني') }}</h4>
                     <ul class="space-y-4">
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">مركز المساعدة</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">تواصل معنا</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">تحديثات النظام</a></li>
+                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('مركز المساعدة') }}</a></li>
+                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('تواصل معنا') }}</a></li>
+                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('تحديثات النظام') }}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h4 class="font-bold text-lg mb-6">سياسة الخصوصية</h4>
+                    <h4 class="font-bold text-lg mb-6">{{ __('سياسة الخصوصية') }}</h4>
                     <ul class="space-y-4">
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">شروط الاستخدام</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">حماية البيانات</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">الامتثال (HIPAA)</a></li>
+                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('شروط الاستخدام') }}</a></li>
+                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('حماية البيانات') }}</a></li>
+                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('الامتثال') }} (HIPAA)</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="border-t border-gray-200 dark:border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-neutral-500 dark:text-neutral-400 text-sm">
-                    &copy; {{ date('Y') }} نظام أطلس. جميع الحقوق محفوظة.
+                    &copy; {{ date('Y') }} {{ __('نظام أطلس. جميع الحقوق محفوظة') }}.
                 </p>
                 <div class="flex items-center gap-4">
                     <!-- Social Media Links -->

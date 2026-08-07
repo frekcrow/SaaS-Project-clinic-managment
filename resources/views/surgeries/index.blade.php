@@ -97,10 +97,10 @@
                                                 <x-input-label for="anesthesia_type" :value="__('نوع التخدير')" />
                                                 <select id="anesthesia_type" name="anesthesia_type" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
                                                     <option value="" disabled selected>{{ __('اختر نوع التخدير') }}</option>
-                                                    <option value="تخدير عام">{{ __('تخدير عام') }}</option>
-                                                    <option value="تخدير موضعي">{{ __('تخدير موضعي') }}</option>
-                                                    <option value="تخدير قطني">{{ __('تخدير قطني') }}</option>
-                                                    <option value="أخرى">{{ __('أخرى') }}</option>
+                                                    <option value="{{ __('تخدير عام') }}">{{ __('تخدير عام') }}</option>
+                                                    <option value="{{ __('تخدير موضعي') }}">{{ __('تخدير موضعي') }}</option>
+                                                    <option value="{{ __('تخدير قطني') }}">{{ __('تخدير قطني') }}</option>
+                                                    <option value="{{ __('أخرى') }}">{{ __('أخرى') }}</option>
                                                 </select>
                                             </div>
 
@@ -110,7 +110,7 @@
                                                 <div class="relative mt-1">
                                                     <x-text-input id="cost" name="cost" type="number" step="0.01" min="0" class="block w-full pl-10" required />
                                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                        <span class="text-gray-500 sm:text-sm">د.ع</span>
+                                                        <span class="text-gray-500 sm:text-sm">{{ __('د.ع') }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -246,7 +246,7 @@
                                                     <span x-text="surgery.anesthesia_type || '-'"></span>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
-                                                    <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' د.ع' : '-'" dir="ltr"></span>
+                                                    <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' {{ __('د.ع') }}' : '-'" dir="ltr"></span>
                                                 </td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
                                                     <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>
@@ -329,7 +329,7 @@
                                                         <span x-text="surgery.anesthesia_type || '-'"></span>
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
-                                                        <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' د.ع' : '-'" dir="ltr"></span>
+                                                        <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' {{ __('د.ع') }}' : '-'" dir="ltr"></span>
                                                     </td>
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
                                                         <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>

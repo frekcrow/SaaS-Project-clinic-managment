@@ -18,7 +18,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                    <input type="text" x-model="searchQuery" class="block w-full pl-3 pr-10 py-3 border border-gray-300 rounded-2xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 sm:text-sm transition duration-150 ease-in-out shadow-sm" placeholder="ابحث عن مريض بالاسم...">
+                    <input type="text" x-model="searchQuery" class="block w-full pl-3 pr-10 py-3 border border-gray-300 rounded-2xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 sm:text-sm transition duration-150 ease-in-out shadow-sm" placeholder="{{ __('ابحث عن مريض بالاسم') }}...">
                 </div>
             </div>
 
@@ -50,8 +50,8 @@
                 <div class="w-24 h-24 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center mb-6">
                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                 </div>
-                <h3 class="text-xl font-bold text-slate-700 mb-2">لا يوجد مرضى</h3>
-                <p class="text-gray-500 max-w-sm">لم يتم العثور على أي ملفات مرضى مطابقة لبحثك.</p>
+                <h3 class="text-xl font-bold text-slate-700 mb-2">{{ __('لا يوجد مرضى') }}</h3>
+                <p class="text-gray-500 max-w-sm">{{ __('لم يتم العثور على أي ملفات مرضى مطابقة لبحثك') }}.</p>
             </div>
 
         </div>

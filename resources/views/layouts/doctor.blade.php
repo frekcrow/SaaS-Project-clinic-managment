@@ -42,7 +42,7 @@
                     </svg>
                     <!-- Text visible on hover -->
                     <span x-show="expanded" x-transition.opacity.duration.300ms class="me-3 text-xl font-bold text-white whitespace-nowrap">
-                        د. {{ Auth::user()->name ?? 'الطبيب' }}
+                        {{ __('د') }}. {{ Auth::user()->name ?? __('الطبيب') }}
                     </span>
                 </div>
 
@@ -105,12 +105,12 @@
                             <!-- Notifications Dropdown -->
                             <div x-show="open" @click.away="open = false" x-transition class="absolute top-12 end-0 w-80 !bg-white opacity-100 shadow-xl rounded-2xl border border-slate-100 py-2 z-[60]">
                                 <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
-                                    <h3 class="font-bold text-slate-800">الإشعارات</h3>
-                                    <button x-show="unreadCount > 0" @click="markAllAsRead" class="text-xs text-indigo-600 hover:text-indigo-800">تحديد الكل كمقروء</button>
+                                    <h3 class="font-bold text-slate-800">{{ __('الإشعارات') }}</h3>
+                                    <button x-show="unreadCount > 0" @click="markAllAsRead" class="text-xs text-indigo-600 hover:text-indigo-800">{{ __('تحديد الكل كمقروء') }}</button>
                                 </div>
                                 <div class="max-h-80 overflow-y-auto">
                                     <template x-if="notifications.length === 0">
-                                        <div class="p-4 text-center text-slate-500 text-sm">لا توجد إشعارات</div>
+                                        <div class="p-4 text-center text-slate-500 text-sm">{{ __('لا توجد إشعارات') }}</div>
                                     </template>
                                     <template x-for="notif in notifications" :key="notif.id">
                                         <div class="px-4 py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors flex items-start gap-3 cursor-pointer" :class="{'bg-slate-50': !notif.read_at}" @click="markAsRead(notif.id)">
@@ -195,8 +195,8 @@
                                 @endif
                             </div>
                             <div class="flex flex-col items-start hidden sm:flex">
-                                <span class="text-sm font-semibold text-slate-800">د. {{ Auth::user()->name ?? 'الطبيب' }}</span>
-                                <span class="text-xs text-slate-500">{{ Auth::user()->clinic_name ?? 'عيادة الشفاء' }}</span>
+                                <span class="text-sm font-semibold text-slate-800">{{ __('د') }}. {{ Auth::user()->name ?? __('الطبيب') }}</span>
+                                <span class="text-xs text-slate-500">{{ Auth::user()->clinic_name ?? __('عيادة الشفاء') }}</span>
                             </div>
                             <svg class="w-4 h-4 text-slate-400 me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -209,7 +209,7 @@
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit" class="w-full text-right block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
-                                    تسجيل الخروج
+                                    {{ __('تسجيل الخروج') }}
                                 </button>
                             </form>
                         </div>

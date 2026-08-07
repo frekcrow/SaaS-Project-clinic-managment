@@ -42,8 +42,8 @@
                                 <x-input-label for="gender" :value="__('الجنس')" />
                                 <select id="gender" name="gender" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
                                     <option value="">{{ __('اختر الجنس') }}</option>
-                                    <option value="ذكر" {{ old('gender') == 'ذكر' ? 'selected' : '' }}>ذكر</option>
-                                    <option value="أنثى" {{ old('gender') == 'أنثى' ? 'selected' : '' }}>أنثى</option>
+                                    <option value="{{ __('ذكر') }}" {{ old('gender') == __('ذكر') ? 'selected' : '' }}>{{ __('ذكر') }}</option>
+                                    <option value="{{ __('أنثى') }}" {{ old('gender') == __('أنثى') ? 'selected' : '' }}>{{ __('أنثى') }}</option>
                                 </select>
                                 <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                             </div>
@@ -53,9 +53,9 @@
                                 <x-input-label for="smoking_status" :value="__('التدخين')" />
                                 <select id="smoking_status" name="smoking_status" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
                                     <option value="">{{ __('اختر حالة التدخين') }}</option>
-                                    <option value="غير مدخن" {{ old('smoking_status') == 'غير مدخن' ? 'selected' : '' }}>غير مدخن</option>
-                                    <option value="مدخن حالي" {{ old('smoking_status') == 'مدخن حالي' ? 'selected' : '' }}>مدخن حالي</option>
-                                    <option value="مدخن سابق" {{ old('smoking_status') == 'مدخن سابق' ? 'selected' : '' }}>مدخن سابق</option>
+                                    <option value="{{ __('غير مدخن') }}" {{ old('smoking_status') == __('غير مدخن') ? 'selected' : '' }}>{{ __('غير مدخن') }}</option>
+                                    <option value="{{ __('مدخن حالي') }}" {{ old('smoking_status') == __('مدخن حالي') ? 'selected' : '' }}>{{ __('مدخن حالي') }}</option>
+                                    <option value="{{ __('مدخن سابق') }}" {{ old('smoking_status') == __('مدخن سابق') ? 'selected' : '' }}>{{ __('مدخن سابق') }}</option>
                                 </select>
                                 <x-input-error :messages="$errors->get('smoking_status')" class="mt-2" />
                             </div>
@@ -65,7 +65,7 @@
                                 <x-input-label for="blood_type" :value="__('زمرة الدم')" />
                                 <select id="blood_type" name="blood_type" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" dir="ltr">
                                     <option value="">{{ __('اختر زمرة الدم') }}</option>
-                                    @foreach(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', 'غير معروف'] as $type)
+                                    @foreach(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', __('غير معروف')] as $type)
                                         <option value="{{ $type }}" {{ old('blood_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
                                     @endforeach
                                 </select>

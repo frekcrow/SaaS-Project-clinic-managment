@@ -18,13 +18,12 @@
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">
         <x-dynamic-island />
-        <div class="min-h-screen flex relative overflow-hidden">
+        <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }} }" class="flex h-screen bg-gray-50 overflow-hidden">
 
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
             <aside
-                x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }} }"
                 :class="isCollapsed ? 'w-20' : 'w-44'"
-                class="fixed hidden md:flex flex-col {{ request()->routeIs('dashboard') ? 'h-screen bg-white shadow-md rounded-none' : 'm-4 h-[calc(100vh-2rem)] bg-white/70 backdrop-blur-xl shadow-sm border border-white/60 rounded-3xl' }} transition-all duration-300 ease-in-out z-50 flex-shrink-0"
+                class="fixed hidden md:flex flex-col h-screen bg-white shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0"
             >
                 <!-- Toggle Button -->
                 <button @click="isCollapsed = !isCollapsed" class="absolute top-4 end-4 text-slate-400 hover:text-slate-600 transition-colors z-50 flex items-center justify-center p-1 rounded-lg hover:bg-slate-100">
@@ -119,9 +118,9 @@
             </aside>
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
                 <!-- HeroUI-inspired Top Header (Floating) -->
-                <header class="relative z-[70] h-20 flex items-center justify-between px-6 sm:px-8 mt-4 mx-4 md:mx-6 flex-shrink-0 bg-white/40 backdrop-blur-md border border-white/20 rounded-3xl transition-all duration-300 md:ms-24" :class="isCollapsed ? 'md:ms-24' : 'md:ms-48'">
+                <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white border-b border-slate-200 flex-shrink-0">
 
                     <!-- Right side: Notifications -->
                     <div class="flex items-center gap-4" x-data="notificationsDropdown()" @notification-read.window="fetchNotifications()">
@@ -134,7 +133,7 @@
                             </button>
 
                             <!-- Notifications Dropdown -->
-                            <div x-show="open" @click.away="open = false" x-transition class="absolute top-full rtl:left-0 ltr:right-0 mt-2 origin-top-right rtl:origin-top-left w-80 !bg-white opacity-100 shadow-xl rounded-2xl border border-slate-100 py-2 z-[60]">
+                            <div x-show="open" @click.away="open = false" x-transition class="absolute top-full mt-2 start-0 ms-2 max-w-xs w-80 !bg-white opacity-100 shadow-xl rounded-2xl border border-slate-100 py-2 z-[60]">
                                 <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
                                     <h3 class="font-bold text-slate-800">{{ __('الإشعارات') }}</h3>
                                     <button x-show="unreadCount > 0" @click="markAllAsRead" class="text-xs text-indigo-600 hover:text-indigo-800">{{ __('تحديد الكل كمقروء') }}</button>

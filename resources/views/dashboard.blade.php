@@ -47,12 +47,20 @@
 
                         <div x-show="state.status === 'active'" class="flex items-center gap-3 w-max">
                             <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
-                            <span class="text-slate-800 font-bold text-sm tracking-wide">{{ __('المراجع الحالي') }}: <span class="text-red-600 bg-red-50 px-2 py-0.5 rounded-lg border border-red-100" x-text="state.number"></span></span>
+                            <div class="flex items-center gap-2 text-slate-800 font-bold text-sm tracking-wide whitespace-nowrap">
+                                <span>{{ __('المراجع الحالي') }}</span>
+                                <span>:</span>
+                                <span class="text-red-600 bg-red-50 px-2 py-0.5 rounded-lg border border-red-100" x-text="state.number"></span>
+                            </div>
                         </div>
 
                         <div x-show="state.status === 'waiting'" class="flex items-center gap-3 w-max">
                             <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-                            <span class="text-slate-600 font-bold text-sm tracking-wide">{{ __('المراجع التالي') }}: <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100" x-text="state.number || '-'"></span></span>
+                            <div class="flex items-center gap-2 text-slate-600 font-bold text-sm tracking-wide whitespace-nowrap">
+                                <span>{{ __('المراجع التالي') }}</span>
+                                <span>:</span>
+                                <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100" x-text="state.number || '-'"></span>
+                            </div>
                         </div>
 
                     </div>

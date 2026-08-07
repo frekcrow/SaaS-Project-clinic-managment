@@ -135,63 +135,10 @@
 
                 <div class="flex flex-col gap-4">
                     <!-- Broadcasting Button -->
-                    <div x-data="{ openBroadcastingModal: false }">
-                        <button @click="openBroadcastingModal = true" type="button" class="w-full px-4 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl font-bold text-white hover:opacity-90 transition-opacity shadow-sm flex items-center justify-center gap-2">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
-                            {{ __('البث الشامل') }} (Broadcasting)
-                        </button>
-
-                        <!-- Alpine.js Modal for Broadcasting -->
-                        <div x-show="openBroadcastingModal" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                                <div x-show="openBroadcastingModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" aria-hidden="true" @click="openBroadcastingModal = false"></div>
-
-                                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-                                <div x-show="openBroadcastingModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="inline-block align-bottom w-full max-w-lg bg-white rounded-3xl text-right overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle border border-slate-100 p-6 mx-auto relative">
-                                    <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">{{ __('ربط منصات التواصل') }}</h3>
-
-                                    <div class="space-y-4 mt-6">
-                                        <div class="flex items-center justify-between p-4 bg-green-50 rounded-2xl border border-green-100">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white">
-                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
-                                                </div>
-                                                <span class="font-bold text-green-800">WhatsApp</span>
-                                            </div>
-                                            <button type="button" class="px-4 py-2 bg-white text-green-700 rounded-xl text-sm font-bold shadow-sm border border-green-200 hover:bg-green-100 transition-colors">{{ __('ربط الان') }}</button>
-                                        </div>
-
-                                        <div class="flex items-center justify-between p-4 bg-blue-50 rounded-2xl border border-blue-100">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.5 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                                                </div>
-                                                <span class="font-bold text-blue-800">Telegram</span>
-                                            </div>
-                                            <button type="button" class="px-4 py-2 bg-white text-blue-700 rounded-xl text-sm font-bold shadow-sm border border-blue-200 hover:bg-blue-100 transition-colors">{{ __('ربط الان') }}</button>
-                                        </div>
-
-                                        <div class="flex items-center justify-between p-4 bg-purple-50 rounded-2xl border border-purple-100">
-                                            <div class="flex items-center gap-3">
-                                                <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white">
-                                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 4.974 0 11.111c0 3.498 1.744 6.614 4.469 8.654V24l4.088-2.242c1.092.301 2.246.464 3.443.464 6.627 0 12-4.974 12-11.111C24 4.974 18.627 0 12 0zm1.191 14.963l-3.056-3.26-5.963 3.26 6.559-6.963 3.13 3.26 5.888-3.26-6.558 6.963z"/></svg>
-                                                </div>
-                                                <span class="font-bold text-purple-800">Messenger</span>
-                                            </div>
-                                            <button type="button" class="px-4 py-2 bg-white text-purple-700 rounded-xl text-sm font-bold shadow-sm border border-purple-200 hover:bg-purple-100 transition-colors">{{ __('ربط الان') }}</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="mt-6">
-                                        <button @click="openBroadcastingModal = false" type="button" class="w-full justify-center rounded-2xl border border-slate-300 shadow-sm px-4 py-3 bg-white text-base font-bold text-slate-700 hover:bg-slate-50 focus:outline-none transition-colors">
-                                            {{ __('إغلاق') }}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <a href="{{ route('secretary.broadcast.index') }}" class="w-full px-4 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl font-bold text-white hover:opacity-90 transition-opacity shadow-sm flex items-center justify-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                        {{ __('البث الشامل') }} (Broadcasting)
+                    </a>
                 </div>
             </div>
 
@@ -214,11 +161,11 @@
 
                                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                                <div x-show="openAboutModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="inline-block align-bottom w-full max-w-lg bg-white rounded-3xl text-center overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle border border-slate-100 p-8 mx-auto relative">
+                                <div x-show="openAboutModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="w-full max-w-md mx-auto bg-white rounded-2xl p-6 shadow-xl relative inline-block align-bottom text-center overflow-hidden transform transition-all sm:my-8 sm:align-middle border border-slate-100">
                                     <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-100 mb-4">
                                         <svg class="h-10 w-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     </div>
-                                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Atlas System v1.0</h3>
+                                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Version 1.0.0</h3>
                                     <p class="text-slate-500 mb-6">{{ __('نظام متكامل لإدارة العيادات الطبية، مصمم بأحدث التقنيات لتقديم تجربة مستخدم سلسة وعصرية') }}.</p>
                                     <p class="text-sm text-slate-400 mb-6">© {{ date('Y') }} {{ __('جميع الحقوق محفوظة') }}.</p>
 

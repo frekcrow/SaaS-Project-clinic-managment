@@ -25,21 +25,19 @@
                 :class="isCollapsed ? 'w-20' : 'w-44'"
                 class="fixed hidden md:flex flex-col h-screen bg-white shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0"
             >
-                <!-- Toggle Button -->
-                <button @click="isCollapsed = !isCollapsed" class="absolute top-4 end-4 text-slate-400 hover:text-slate-600 transition-colors z-50 flex items-center justify-center p-1 rounded-lg hover:bg-slate-100">
-                    <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-                <div class="h-20 flex items-center justify-center px-4">
-                    <!-- Icon always visible -->
-                    <svg class="w-8 h-8 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-                    </svg>
-                    <!-- Text visible on hover -->
-                    <span x-show="!isCollapsed" x-transition.opacity.duration.300ms class="me-3 text-xl font-bold text-slate-800 whitespace-nowrap">
-                        Atlas
-                    </span>
+                <!-- Sidebar Header -->
+                <div class="h-20 flex items-center px-4" :class="isCollapsed ? 'justify-center' : 'justify-between'">
+                    <!-- Logo Area -->
+                    <div x-show="!isCollapsed" x-transition.opacity.duration.300ms class="flex items-center gap-2">
+                        <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
+                        <img src="{{ asset('images/logo-text.png') }}" class="h-8 w-auto" alt="Logo Text">
+                    </div>
+                    <!-- Toggle Button -->
+                    <button @click="isCollapsed = !isCollapsed" class="text-slate-400 hover:text-slate-600 transition-colors z-50 flex items-center justify-center p-1 rounded-lg hover:bg-slate-100 flex-shrink-0">
+                        <svg class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
                 </div>
 
                 <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto overflow-x-hidden">
@@ -121,6 +119,12 @@
             <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
                 <!-- HeroUI-inspired Top Header (Floating) -->
                 <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white border-b border-slate-200 flex-shrink-0">
+
+                    <!-- Dynamic Header Logo -->
+                    <div class="flex items-center gap-2" x-cloak x-show="isCollapsed" x-transition.opacity.duration.300ms>
+                        <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
+                        <img src="{{ asset('images/logo-text.png') }}" class="h-8 w-auto" alt="Logo Text">
+                    </div>
 
                     <!-- Right side: Notifications -->
                     <div class="flex items-center gap-4" x-data="notificationsDropdown()" @notification-read.window="fetchNotifications()">

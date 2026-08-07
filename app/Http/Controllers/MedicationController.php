@@ -31,7 +31,7 @@ class MedicationController extends Controller
 
         Medication::create($validated);
 
-        return redirect()->route('doctor.medications.index')->with('success', 'تم إضافة الدواء بنجاح.');
+        return redirect()->route('doctor.medications.index')->with('success', __('تم إضافة الدواء بنجاح.'));
     }
 
     public function update(Request $request, Medication $medication)
@@ -51,13 +51,13 @@ class MedicationController extends Controller
 
         $medication->update($validated);
 
-        return redirect()->route('doctor.medications.index')->with('success', 'تم تحديث الدواء بنجاح.');
+        return redirect()->route('doctor.medications.index')->with('success', __('تم تحديث الدواء بنجاح.'));
     }
 
     public function destroy(Medication $medication)
     {
         $medication->delete();
 
-        return redirect()->route('doctor.medications.index')->with('success', 'تم حذف الدواء بنجاح.');
+        return redirect()->route('doctor.medications.index')->with('success', __('تم حذف الدواء بنجاح.'));
     }
 }

@@ -60,7 +60,7 @@ class SurgeryController extends Controller
 
         Surgery::create($validatedData);
 
-        return redirect()->back()->with('success', 'Surgery added successfully.');
+        return redirect()->back()->with('success', __('Surgery added successfully.'));
     }
 
     /**
@@ -76,7 +76,7 @@ class SurgeryController extends Controller
 
         $surgery->update(['status' => $validatedData['status']]);
 
-        return redirect()->back()->with('success', 'Status updated successfully.');
+        return redirect()->back()->with('success', __('Status updated successfully.'));
     }
 
     /**
@@ -97,7 +97,7 @@ class SurgeryController extends Controller
             "Expires"             => "0"
         ];
 
-        $columns = ['ID', 'اسم المريض', 'نوع العملية', 'تاريخ العملية', 'الحالة'];
+        $columns = ['ID', __('اسم المريض'), __('نوع العملية'), __('تاريخ العملية'), __('الحالة')];
 
         $callback = function () use ($surgeries, $columns) {
             $file = fopen('php://output', 'w');

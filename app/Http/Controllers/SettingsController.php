@@ -56,6 +56,6 @@ class SettingsController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('settings.index')->with('success', 'تم تحديث الإعدادات بنجاح');
+        return redirect()->route('settings.index')->with('success', __('تم تحديث الإعدادات بنجاح'));
     }
 }

@@ -98,7 +98,7 @@ class AppointmentController extends Controller
 
         Appointment::create($validatedData);
 
-        return redirect()->route('appointments.index')->with('success', 'Appointment added successfully.');
+        return redirect()->route('appointments.index')->with('success', __('Appointment added successfully.'));
     }
 
     /**
@@ -214,10 +214,10 @@ class AppointmentController extends Controller
             return redirect()->route('patients.create', [
                 'name' => $appointment->patient->name ?? $appointment->patient_name,
                 'phone' => $appointment->patient->phone ?? $appointment->phone
-            ])->with('success', 'Status updated successfully.');
+            ])->with('success', __('Status updated successfully.'));
         }
 
-        return redirect()->back()->with('success', 'Status updated successfully.');
+        return redirect()->back()->with('success', __('Status updated successfully.'));
     }
 
     /**
@@ -265,7 +265,7 @@ class AppointmentController extends Controller
             "Expires"             => "0"
         ];
 
-        $columns = ['ID', 'اسم المريض', 'رقم الهاتف', 'الطبيب', 'تاريخ ووقت الموعد', 'السعر', 'الحالة'];
+        $columns = ['ID', __('اسم المريض'), __('رقم الهاتف'), __('الطبيب'), __('تاريخ ووقت الموعد'), __('السعر'), __('الحالة')];
 
         $callback = function () use ($appointments, $columns) {
             $file = fopen('php://output', 'w');

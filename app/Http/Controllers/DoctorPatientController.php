@@ -54,7 +54,7 @@ class DoctorPatientController extends Controller
 
         $patient->update($validated);
 
-        return back()->with('success', 'تم تحديث معلومات المريض بنجاح.');
+        return back()->with('success', __('تم تحديث معلومات المريض بنجاح.'));
     }
 
     public function storeRecord(Request $request, Patient $patient)
@@ -87,7 +87,7 @@ class DoctorPatientController extends Controller
             ]);
         }
 
-        return back()->with('success', 'تم حفظ السجل الطبي بنجاح.');
+        return back()->with('success', __('تم حفظ السجل الطبي بنجاح.'));
     }
 
     public function uploadImage(Request $request, Patient $patient)
@@ -107,10 +107,10 @@ class DoctorPatientController extends Controller
                 'image_path' => $path,
             ]);
 
-            return back()->with('success', 'تم رفع الصورة بنجاح.');
+            return back()->with('success', __('تم رفع الصورة بنجاح.'));
         }
 
-        return back()->with('error', 'فشل في رفع الصورة.');
+        return back()->with('error', __('فشل في رفع الصورة.'));
     }
 
     public function deleteImage(Patient $patient, PatientImage $image)
@@ -124,6 +124,6 @@ class DoctorPatientController extends Controller
 
         $image->delete();
 
-        return back()->with('success', 'تم حذف الصورة بنجاح.');
+        return back()->with('success', __('تم حذف الصورة بنجاح.'));
     }
 }

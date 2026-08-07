@@ -68,6 +68,6 @@ class PrescriptionController extends Controller
 
         $settings->update($data);
 
-        return redirect()->route('doctor.prescriptions.index')->with('success', 'تم حفظ إعدادات الوصفة بنجاح.');
+        return redirect()->route('doctor.prescriptions.index')->with('success', __('تم حفظ إعدادات الوصفة بنجاح.'));
     }
 }

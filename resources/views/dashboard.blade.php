@@ -33,7 +33,7 @@
             <!-- Queue Capsule -->
             <div x-data="queueCapsule"
                  x-init="initCapsule"
-                 class="flex items-center justify-center relative overflow-hidden px-8 py-3 text-lg font-semibold rounded-full bg-gray-900 text-white shadow-md w-max whitespace-nowrap">
+                 class="flex items-center justify-center relative overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 w-full sm:w-64 h-20 min-w-max">
 
                 <template x-for="(state, index) in states" :key="state.id">
                     <div x-show="currentIndex === index"
@@ -43,23 +43,25 @@
                          x-transition:leave="transition ease-in duration-500 transform absolute"
                          x-transition:leave-start="translate-y-0 opacity-100"
                          x-transition:leave-end="-translate-y-full opacity-0"
-                         class="flex items-center gap-3 absolute w-full justify-center">
+                         class="flex items-center gap-3 absolute w-full justify-center px-2">
 
-                        <div x-show="state.status === 'active'" class="flex items-center gap-3 w-max">
-                            <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
-                            <div class="flex items-center gap-2 text-slate-800 font-bold text-sm tracking-wide whitespace-nowrap">
-                                <span>{{ __('المراجع الحالي') }}</span>
-                                <span>:</span>
-                                <span class="text-red-600 bg-red-50 px-2 py-0.5 rounded-lg border border-red-100" x-text="state.number"></span>
+                        <div x-show="state.status === 'active'" class="flex flex-col space-y-1 w-full text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <div class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.8)]"></div>
+                                <span class="text-slate-800 font-bold text-sm tracking-wide truncate">{{ __('المراجع الحالي') }}</span>
+                            </div>
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="text-red-600 bg-red-50 px-3 py-1 rounded-lg border border-red-100 font-bold" x-text="state.number"></span>
                             </div>
                         </div>
 
-                        <div x-show="state.status === 'waiting'" class="flex items-center gap-3 w-max">
-                            <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-                            <div class="flex items-center gap-2 text-slate-600 font-bold text-sm tracking-wide whitespace-nowrap">
-                                <span>{{ __('المراجع التالي') }}</span>
-                                <span>:</span>
-                                <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-100" x-text="state.number || '-'"></span>
+                        <div x-show="state.status === 'waiting'" class="flex flex-col space-y-1 w-full text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                                <span class="text-slate-600 font-bold text-sm tracking-wide truncate">{{ __('المراجع التالي') }}</span>
+                            </div>
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="text-emerald-600 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-100 font-bold" x-text="state.number || '-'"></span>
                             </div>
                         </div>
 

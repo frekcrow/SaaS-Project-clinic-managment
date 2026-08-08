@@ -91,7 +91,7 @@
             </aside>
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
+            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden {{ request()->routeIs('dashboard') ? 'md:ms-44' : 'md:ms-20' }}" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
                 <!-- Top Header (Floating) -->
                 <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white border-b border-slate-200 flex-shrink-0">
 
@@ -110,7 +110,7 @@
                             </button>
 
                             <!-- Notifications Dropdown -->
-                            <div x-show="open" @click.away="open = false" x-transition class="absolute top-full mt-2 start-0 ms-2 max-w-xs w-80 !bg-white opacity-100 shadow-xl rounded-2xl border border-slate-100 py-2 z-[60]">
+                            <div x-cloak x-show="open" @click.away="open = false" x-transition class="absolute top-full mt-2 start-0 ms-2 max-w-xs w-80 !bg-white opacity-100 shadow-xl rounded-2xl border border-slate-100 py-2 z-[60]">
                                 <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
                                     <h3 class="font-bold text-slate-800">{{ __('الإشعارات') }}</h3>
                                     <button x-show="unreadCount > 0" @click="markAllAsRead" class="text-xs text-indigo-600 hover:text-indigo-800">{{ __('تحديد الكل كمقروء') }}</button>
@@ -160,7 +160,7 @@
                             <input type="text" x-model="query" @input.debounce.300ms="search" @focus="open = true" class="w-full bg-white border-[1.5px] border-black/80 rounded-full shadow-sm py-2.5 pe-11 ps-4 focus:ring-2 focus:ring-teal-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="{{ __('بحث') }}...">
 
                             <!-- Search Results Dropdown -->
-                            <div x-show="open && results.length > 0" x-transition class="absolute top-14 w-full bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-[60] overflow-hidden">
+                            <div x-cloak x-show="open && results.length > 0" x-transition class="absolute top-14 w-full bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-[60] overflow-hidden">
                                 <div class="max-h-80 overflow-y-auto">
                                     <template x-for="(result, index) in results" :key="index">
                                         <a :href="result.url" class="px-4 py-3 border-b border-slate-50 hover:bg-slate-50 transition-colors flex items-center gap-3 cursor-pointer">
@@ -211,7 +211,7 @@
                         </button>
 
                         <!-- Dropdown Menu -->
-                        <div x-show="open" @click.away="open = false" x-transition class="absolute top-full end-0 mt-2 origin-top-end w-48 bg-white shadow-lg rounded-2xl border border-slate-100 py-2 z-50">
+                        <div x-cloak x-show="open" @click.away="open = false" x-transition class="absolute top-full end-0 mt-2 origin-top-end w-48 bg-white shadow-lg rounded-2xl border border-slate-100 py-2 z-50">
                             <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-teal-600 transition-colors">{{ __('الملف الشخصي') }}</a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

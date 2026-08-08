@@ -120,7 +120,7 @@
             </aside>
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden {{ request()->routeIs('dashboard') ? 'md:ms-44' : 'md:ms-20' }}" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
+            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
                 <!-- HeroUI-inspired Top Header (Floating) -->
                 <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white border-b border-slate-200 flex-shrink-0">
 

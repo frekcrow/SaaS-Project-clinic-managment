@@ -263,8 +263,8 @@
             <a href="{{ route('appointments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">{{ __('عرض الكل') }}</a>
         </div>
 
-        <div class="overflow-y-auto flex-1 min-h-0">
-            <table class="w-full text-right">
+        <div class="overflow-y-auto overflow-x-auto flex-1 min-h-0 w-full">
+            <table class="w-full text-right whitespace-nowrap">
                 <thead>
                     <tr class="bg-slate-50 text-slate-500 text-sm">
                         <th class="py-3 px-6 font-medium">{{ __('اسم المريض') }}</th>

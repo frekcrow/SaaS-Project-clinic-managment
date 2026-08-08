@@ -19,12 +19,15 @@
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">
         <x-dynamic-island />
-        <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }} }" class="flex h-screen bg-gray-50 overflow-hidden">
+        <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, mobileMenuOpen: false }" class="flex h-screen bg-gray-50 overflow-hidden">
+
+            <!-- Mobile Backdrop -->
+            <div x-show="mobileMenuOpen" class="fixed inset-0 bg-slate-900/50 z-[70] md:hidden" @click="mobileMenuOpen = false" x-transition.opacity x-cloak></div>
 
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
             <aside
-                :class="isCollapsed ? 'w-20' : 'w-44'"
-                class="fixed hidden md:flex flex-col h-screen bg-white shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0"
+                :class="[isCollapsed ? 'md:w-20' : 'md:w-44', mobileMenuOpen ? 'translate-x-0 w-64' : 'rtl:translate-x-full ltr:-translate-x-full']"
+                class="fixed flex flex-col h-screen bg-white shadow-md transition-all duration-300 ease-in-out z-[80] md:z-50 start-0 md:transform-none flex-shrink-0"
             >
                 <!-- Sidebar Header -->
                 <div class="h-20 flex items-center px-4" :class="isCollapsed ? 'justify-center' : 'justify-between'">
@@ -121,8 +124,18 @@
                 <!-- HeroUI-inspired Top Header (Floating) -->
                 <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white border-b border-slate-200 flex-shrink-0">
 
+                    <!-- Mobile Menu Toggle & Logo -->
+                    <div class="flex items-center gap-2 md:hidden">
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                        <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
+                    </div>
+
                     <!-- Dynamic Header Logo -->
-                    <div class="flex items-center gap-2" x-cloak x-show="isCollapsed" x-transition.opacity.duration.300ms>
+                    <div class="hidden md:flex items-center gap-2" x-cloak x-show="isCollapsed" x-transition.opacity.duration.300ms>
                         <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
                         <img src="{{ asset('images/logo-text.png') }}" class="h-8 w-auto" alt="Logo Text">
                     </div>
@@ -184,13 +197,13 @@
 
                     <!-- Floating Search Bar (Center-ish) -->
                     <div class="flex-1 flex justify-center px-4" x-data="globalSearch()">
-                        <div class="w-full max-w-md relative" @click.away="open = false">
+                        <div class="w-auto relative" @click.away="open = false">
                             <div class="absolute inset-y-0 end-0 flex items-center pe-4 pointer-events-none">
                                 <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" x-model="query" @input.debounce.300ms="search" @focus="open = true" class="w-full bg-white border-[1.5px] border-black/80 rounded-full shadow-sm py-2.5 pe-11 ps-4 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="{{ __('بحث') }}...">
+                            <input type="text" x-model="query" @input.debounce.300ms="search" @focus="open = true" class="w-32 focus:w-full md:w-64 md:focus:w-80 transition-all duration-300 bg-white border-[1.5px] border-black/80 rounded-full shadow-sm py-2.5 pe-11 ps-4 focus:ring-2 focus:ring-indigo-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="{{ __('بحث') }}...">
 
                             <!-- Search Results Dropdown -->
                             <div x-show="open && results.length > 0" x-transition class="absolute top-14 w-full bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-[60] overflow-hidden">

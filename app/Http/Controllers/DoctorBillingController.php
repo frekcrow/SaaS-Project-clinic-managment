@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\Surgery;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -79,13 +80,65 @@ class DoctorBillingController extends Controller
             ->orderBy('total_paid', $sortOrder)
             ->get();
 
+        // Secretary Revenue Stats
+        $secretariesCount = User::where('tenant_id', $tenantId)->where('role', 'Secretary')->count();
+        $secretaryStats = collect();
+
+        if ($secretariesCount > 1) {
+            $secretaries = User::where('tenant_id', $tenantId)->where('role', 'Secretary')->get();
+            $startOfDay = Carbon::today('Asia/Baghdad');
+            $startOfWeek = Carbon::now('Asia/Baghdad')->startOfWeek();
+            $startOfMonth = Carbon::now('Asia/Baghdad')->startOfMonth();
+
+            foreach ($secretaries as $secretary) {
+                $dailyAppt = Appointment::where('tenant_id', $tenantId)
+                    ->where('created_by', $secretary->id)
+                    ->where('status', 'completed')
+                    ->whereDate('appointment_date', $startOfDay)
+                    ->sum('price');
+                $dailySurg = Surgery::where('tenant_id', $tenantId)
+                    ->where('created_by', $secretary->id)
+                    ->whereDate('surgery_date', $startOfDay)
+                    ->sum('cost');
+
+                $weeklyAppt = Appointment::where('tenant_id', $tenantId)
+                    ->where('created_by', $secretary->id)
+                    ->where('status', 'completed')
+                    ->whereDate('appointment_date', '>=', $startOfWeek)
+                    ->sum('price');
+                $weeklySurg = Surgery::where('tenant_id', $tenantId)
+                    ->where('created_by', $secretary->id)
+                    ->whereDate('surgery_date', '>=', $startOfWeek)
+                    ->sum('cost');
+
+                $monthlyAppt = Appointment::where('tenant_id', $tenantId)
+                    ->where('created_by', $secretary->id)
+                    ->where('status', 'completed')
+                    ->whereDate('appointment_date', '>=', $startOfMonth)
+                    ->sum('price');
+                $monthlySurg = Surgery::where('tenant_id', $tenantId)
+                    ->where('created_by', $secretary->id)
+                    ->whereDate('surgery_date', '>=', $startOfMonth)
+                    ->sum('cost');
+
+                $secretaryStats->push((object)[
+                    'name' => $secretary->name,
+                    'daily' => $dailyAppt + $dailySurg,
+                    'weekly' => $weeklyAppt + $weeklySurg,
+                    'monthly' => $monthlyAppt + $monthlySurg,
+                ]);
+            }
+        }
+
         return view('doctor.billing.index', compact(
             'totalPatientsToday',
             'todayIncome',
             'totalSurgeriesIncome',
             'netWorth',
             'patientsData',
-            'sortOrder'
+            'sortOrder',
+            'secretariesCount',
+            'secretaryStats'
         ));
     }
 }

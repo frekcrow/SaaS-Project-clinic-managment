@@ -254,34 +254,9 @@
                     <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('إدارة الورديات') }} (Shift Management)</h4>
                     <p class="text-sm text-slate-500 mb-6">{{ __('إنشاء أو تحديث حساب سكرتير فرعي') }}.</p>
 
-                    <form method="POST" action="{{ route('settings.sub-secretary.store') }}" class="space-y-4">
-                        @csrf
-
-                        <div>
-                            <label for="sub_email" class="block text-sm font-medium text-slate-700 mb-1">{{ __('البريد الإلكتروني') }} (Email)</label>
-                            <input type="email" id="sub_email" name="email" value="{{ old('email', $subSecretary->email ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
-                            @error('email')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="sub_password" class="block text-sm font-medium text-slate-700 mb-1">{{ __('كلمة المرور') }} (Password)</label>
-                            <input type="password" id="sub_password" name="password" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" {{ isset($subSecretary) ? '' : 'required' }}>
-                            @if(isset($subSecretary))
-                                <p class="mt-1 text-xs text-slate-500">{{ __('اتركه فارغاً إذا لم ترغب بتغيير كلمة المرور') }}.</p>
-                            @endif
-                            @error('password')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="pt-2">
-                            <button type="submit" class="w-full px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-sm hover:bg-indigo-700 transition-colors">
-                                {{ isset($subSecretary) ? __('تحديث الحساب') : __('إنشاء حساب جديد') }}
-                            </button>
-                        </div>
-                    </form>
+                    <a href="{{ route('settings.sub-secretary.create') }}" class="inline-flex items-center justify-center w-full px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold shadow-sm hover:bg-indigo-700 transition-colors">
+                        {{ __('إضافة حساب') }}
+                    </a>
                 </div>
             </div>
             @endif

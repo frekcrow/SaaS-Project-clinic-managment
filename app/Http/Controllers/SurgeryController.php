@@ -57,6 +57,7 @@ class SurgeryController extends Controller
 
         $validatedData['tenant_id'] = Auth::user()->tenant_id;
         $validatedData['status'] = 'pending';
+        $validatedData['created_by'] = Auth::id();
 
         Surgery::create($validatedData);
 

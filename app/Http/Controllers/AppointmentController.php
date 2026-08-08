@@ -95,6 +95,7 @@ class AppointmentController extends Controller
             ->max('queue_number');
 
         $validatedData['queue_number'] = $maxQueue ? $maxQueue + 1 : 1;
+        $validatedData['created_by'] = Auth::id();
 
         Appointment::create($validatedData);
 

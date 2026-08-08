@@ -25,6 +25,7 @@ class Appointment extends Model
         'is_session',
         'session_type_id',
         'session_started_at',
+        'created_by',
     ];
 
     protected $casts = [

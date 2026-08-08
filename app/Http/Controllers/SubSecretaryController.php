@@ -10,6 +10,27 @@ use App\Models\User;
 class SubSecretaryController extends Controller
 {
     /**
+     * Show the form for creating a new sub-secretary account.
+     */
+    public function create(Request $request)
+    {
+        $user = $request->user();
+
+        // Security Constraint: Only the "Main Secretary" can create/update a sub-account.
+        if ($user->role !== 'Secretary' || !$user->is_main_account) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Find existing sub-secretary for this clinic/tenant
+        $subSecretary = User::where('tenant_id', $user->tenant_id)
+            ->where('role', 'Secretary')
+            ->where('is_main_account', false)
+            ->first();
+
+        return view('settings.sub_secretary.create', compact('subSecretary'));
+    }
+
+    /**
      * Store or update the sub-secretary account.
      */
     public function store(Request $request)
@@ -54,6 +75,6 @@ class SubSecretaryController extends Controller
             $message = 'تم إنشاء حساب السكرتير الفرعي بنجاح.';
         }
 
-        return back()->with('success', $message);
+        return redirect()->route('settings.index')->with('success', $message);
     }
 }

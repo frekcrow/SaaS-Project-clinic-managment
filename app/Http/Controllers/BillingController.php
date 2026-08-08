@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\View\View;
@@ -74,6 +75,30 @@ class BillingController extends Controller
             'clinicName' => $clinicName,
             'doctorName' => $doctorName,
         ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'patient_id' => [
+                'required',
+                \Illuminate\Validation\Rule::exists('patients', 'id')->where(function ($query) {
+                    return $query->where('tenant_id', Auth::user()->tenant_id);
+                }),
+            ],
+            'amount' => 'required|numeric|min:0',
+            'status' => 'required|in:paid,unpaid,partial',
+        ]);
+
+        $validatedData['tenant_id'] = Auth::user()->tenant_id;
+        $validatedData['created_by'] = Auth::id();
+
+        Invoice::create($validatedData);
+
+        return redirect()->back()->with('success', __('تم إنشاء الفاتورة بنجاح.'));
     }
 
     /**

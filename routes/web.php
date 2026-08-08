@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::post('/settings/reset-usage', [SettingsController::class, 'resetUsage'])->name('settings.reset_usage');
 
+    Route::get('/settings/sub-secretary', [SubSecretaryController::class, 'create'])->name('settings.sub-secretary.create');
     Route::post('/settings/sub-secretary', [SubSecretaryController::class, 'store'])->name('settings.sub-secretary.store');
 
     Route::post('/settings/session-types', [SessionTypeController::class, 'store'])->name('settings.session-types.store');
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/billing', [BillingController::class, 'index'])->name('billing.index');
     Route::get('/billing/export-csv', [BillingController::class, 'exportCsv'])->name('billing.export_csv');
     Route::post('/billing/bulk-delete', [BillingController::class, 'bulkDelete'])->name('billing.bulk_delete');
+    Route::post('/billing', [BillingController::class, 'store'])->name('billing.store');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -105,6 +107,7 @@ Route::middleware('auth')->group(function () {
     });
 
     // Notifications
+    Route::view('/notifications', 'notifications.index')->name('notifications.index');
     Route::get('/api/notifications/latest', [NotificationController::class, 'latest'])->name('api.notifications.latest');
     Route::get('/api/notifications', [NotificationController::class, 'index'])->name('api.notifications.index');
     Route::post('/api/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('api.notifications.read');

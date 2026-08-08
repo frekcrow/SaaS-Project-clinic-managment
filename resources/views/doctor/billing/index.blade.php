@@ -77,8 +77,41 @@
                 </div>
             </div>
 
+            @if($secretariesCount > 1)
+            <!-- Secretary Revenue Stats -->
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mt-8">
+                <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">{{ __('إيرادات السكرتارية') }}</h3>
+                        <p class="text-sm text-gray-500 mt-1">{{ __('تفصيل الإيرادات المحصلة لكل سكرتير') }}.</p>
+                    </div>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($secretaryStats as $stat)
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+                        <h4 class="font-bold text-slate-800 mb-4">{{ $stat->name }}</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-500">{{ __('اليومي') }}</span>
+                                <span class="font-bold text-slate-700" dir="ltr">{{ number_format($stat->daily, 0) }} <span class="text-xs text-slate-400">{{ __('د.ع') }}</span></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-500">{{ __('الأسبوعي') }}</span>
+                                <span class="font-bold text-slate-700" dir="ltr">{{ number_format($stat->weekly, 0) }} <span class="text-xs text-slate-400">{{ __('د.ع') }}</span></span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-slate-500">{{ __('الشهري') }}</span>
+                                <span class="font-bold text-slate-700" dir="ltr">{{ number_format($stat->monthly, 0) }} <span class="text-xs text-slate-400">{{ __('د.ع') }}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
             <!-- Top Paying Patients Table -->
-            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mt-8">
                 <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                     <div>
                         <h3 class="text-lg font-bold text-slate-800">{{ __('المرضى الأكثر دفعاً') }}</h3>

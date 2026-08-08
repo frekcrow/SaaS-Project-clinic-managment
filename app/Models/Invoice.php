@@ -16,6 +16,7 @@ class Invoice extends Model
         'patient_id',
         'amount',
         'status',
+        'created_by',
     ];
 
     public function patient(): BelongsTo

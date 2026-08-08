@@ -25,6 +25,7 @@ class Surgery extends Model
         'cost',
         'notes',
         'doctor_notes',
+        'created_by',
     ];
 
     protected $casts = [

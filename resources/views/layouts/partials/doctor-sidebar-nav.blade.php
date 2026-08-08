@@ -1,7 +1,7 @@
                 <div class="h-20 flex items-center px-4 border-b border-slate-800" :class="isCollapsed ? 'justify-center' : 'justify-between'">
                     <!-- Logo Area -->
                     <div x-show="!isCollapsed" x-transition.opacity.duration.300ms class="flex items-center gap-2 me-4">
-                        <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto filter brightness-0 invert" alt="Logo Icon">
+                        <img src="{{ asset('images/logo-icon.png') }}" class="h-6 w-auto filter brightness-0 invert" alt="Logo Icon">
                         <img src="{{ asset('images/logo-text.png') }}" class="h-6 w-auto filter brightness-0 invert" alt="Logo Text">
                     </div>
                     <!-- Toggle Button -->

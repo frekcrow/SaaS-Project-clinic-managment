@@ -33,8 +33,8 @@
 
             <!-- Single Sidebar -->
             <aside
-                :class="[isCollapsed ? 'md:w-20' : 'md:w-64', mobileMenuOpen ? 'translate-x-0' : 'rtl:translate-x-full ltr:-translate-x-full', 'md:translate-x-0', 'rtl:md:translate-x-0', 'ltr:md:translate-x-0']"
-                class="fixed inset-y-0 start-0 h-screen bg-slate-900 shadow-xl border-e border-slate-800 transition-all duration-300 z-[70] flex flex-col flex-shrink-0"
+                :class="[isCollapsed ? 'md:w-20' : 'md:w-64', mobileMenuOpen ? 'translate-x-0' : 'ltr:-translate-x-full rtl:translate-x-full']"
+                class="fixed inset-y-0 start-0 z-[70] transform transition-transform duration-300 md:!translate-x-0 h-screen bg-slate-900 shadow-xl border-e border-slate-800 flex flex-col flex-shrink-0"
             >
                 @include('layouts.partials.doctor-sidebar-nav')
             </aside>
@@ -52,12 +52,6 @@
                             </svg>
                         </button>
                         <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
-                    </div>
-
-                    <!-- Dynamic Header Logo -->
-                    <div class="hidden md:flex items-center gap-2" x-cloak x-show="isCollapsed" x-transition.opacity.duration.300ms>
-                        <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
-                        <img src="{{ asset('images/logo-text.png') }}" class="h-8 w-auto" alt="Logo Text">
                     </div>
 
                     <!-- Right side: Notifications -->
@@ -107,6 +101,12 @@
                         </div>
                     </div>
 
+
+                    <!-- Dynamic Header Logo -->
+                    <div class="hidden md:flex items-center gap-2" x-cloak x-show="isCollapsed" x-transition.opacity.duration.300ms>
+                        <img src="{{ asset('images/logo-icon.png') }}" class="h-8 w-auto" alt="Logo Icon">
+                        <img src="{{ asset('images/logo-text.png') }}" class="h-8 w-auto" alt="Logo Text">
+                    </div>
 
                     <!-- Floating Search Bar (Center-ish) -->
                     <div class="flex-1 flex justify-center px-4" x-data="globalSearch()">

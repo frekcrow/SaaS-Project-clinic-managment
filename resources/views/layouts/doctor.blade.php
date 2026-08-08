@@ -33,8 +33,8 @@
 
             <!-- Floating Sidebar (RTL) -->
             <aside
-                :class="[isCollapsed ? 'md:w-20' : 'md:w-44', mobileMenuOpen ? 'translate-x-0 w-64' : 'rtl:translate-x-full ltr:-translate-x-full']"
-                class="fixed flex flex-col h-screen bg-slate-900 shadow-xl border-e border-slate-800 transition-all duration-300 ease-in-out z-[80] md:z-50 start-0 md:transform-none flex-shrink-0"
+                :class="[isCollapsed ? 'md:w-20' : 'md:w-44', mobileMenuOpen ? 'translate-x-0 w-64 !flex' : 'rtl:translate-x-full ltr:-translate-x-full']"
+                class="fixed hidden md:flex flex-col h-screen bg-slate-900 shadow-xl border-e border-slate-800 transition-all duration-300 ease-in-out z-[80] md:z-50 start-0 md:translate-x-0 rtl:md:translate-x-0 ltr:md:translate-x-0 flex-shrink-0"
             >
                 <div class="h-20 flex items-center px-4 border-b border-slate-800" :class="isCollapsed ? 'justify-center' : 'justify-between'">
                     <!-- Logo Area -->

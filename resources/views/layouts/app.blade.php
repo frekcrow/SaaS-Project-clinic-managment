@@ -22,32 +22,27 @@
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">
         <x-dynamic-island />
-        <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, mobileMenuOpen: false }" class="flex h-screen bg-gray-50 overflow-hidden">
+        <div x-data="{ isCollapsed: false, mobileMenuOpen: false }" class="flex h-screen bg-gray-100 overflow-hidden">
 
             <!-- Mobile Backdrop -->
-            <div x-show="mobileMenuOpen" class="fixed inset-0 z-50 bg-gray-800 bg-opacity-50 md:hidden" @click="mobileMenuOpen = false" x-cloak></div>
+            <div x-show="mobileMenuOpen" class="fixed inset-0 bg-black/50 z-[60] md:hidden" @click="mobileMenuOpen = false" x-cloak></div>
 
-            <!-- HeroUI-inspired Floating Sidebar (RTL) -->
+            <!-- Single Sidebar -->
             <aside
-                :class="isCollapsed ? 'md:w-20' : 'md:w-44'"
-                class="hidden md:flex md:flex-col md:flex-shrink-0 md:fixed md:inset-y-0 md:z-40 bg-white shadow-md transition-all duration-300 ease-in-out start-0 md:translate-x-0 rtl:md:translate-x-0 ltr:md:translate-x-0"
+                :class="[isCollapsed ? 'md:w-20' : 'md:w-64', mobileMenuOpen ? 'translate-x-0' : 'rtl:translate-x-full ltr:-translate-x-full', 'md:translate-x-0', 'rtl:md:translate-x-0', 'ltr:md:translate-x-0']"
+                class="fixed inset-y-0 start-0 h-screen bg-white shadow-lg transition-all duration-300 z-[70] flex flex-col flex-shrink-0"
             >
                 @include('layouts.partials.app-sidebar-nav')
             </aside>
 
-            <!-- Mobile Sidebar -->
-            <aside x-show="mobileMenuOpen" x-transition x-cloak class="fixed inset-y-0 start-0 z-[60] flex flex-col w-64 bg-white shadow-xl md:hidden">
-                @include('layouts.partials.app-sidebar-nav')
-            </aside>
-
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden {{ request()->routeIs('dashboard') ? 'md:ms-44' : 'md:ms-20' }}" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
+            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'md:ms-20' : 'md:ms-64'">
                 <!-- HeroUI-inspired Top Header (Floating) -->
                 <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white border-b border-slate-200 flex-shrink-0">
 
                     <!-- Mobile Menu Toggle & Logo -->
                     <div class="flex items-center gap-2 md:hidden">
-                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200">
+                        <button @click="mobileMenuOpen = true" class="p-2 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-slate-200">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                             </svg>

@@ -48,7 +48,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/settings/surgery-types/{id}', [SurgeryTypeController::class, 'destroy'])->name('settings.surgery-types.destroy');
 
     // Chat
-    Route::resource('chat', ChatController::class)->only(['index', 'show', 'store']);
+    Route::get('/chat/{chat}/messages', [ChatController::class, 'messages'])->name('chat.messages');
+    Route::post('/chat/{chat}', [ChatController::class, 'store'])->name('chat.store');
 
     // Broadcast Messages
     Route::get('/secretary/broadcast', [BroadcastController::class, 'index'])->name('secretary.broadcast.index');

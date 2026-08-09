@@ -316,7 +316,7 @@
     </div>
 
     <!-- Alpine JS Omnichannel component -->
-    <div x-data="{ callsModal: false, messagesModal: false }">
+    <div x-data="omniChannel()">
         <!-- Floating Omnichannel Bottom Bar -->
         <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg rounded-full px-6 py-3 flex items-center space-x-6 rtl:space-x-reverse transition-transform">
 
@@ -429,42 +429,138 @@
                      class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
                      @click="messagesModal = false"></div>
 
-                <div class="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10">
+                <div class="pointer-events-none fixed inset-y-0 start-0 flex max-w-full pe-10">
                     <div x-show="messagesModal"
                          x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
-                         x-transition:enter-start="-translate-x-full"
+                         x-transition:enter-start="ltr:-translate-x-full rtl:translate-x-full"
                          x-transition:enter-end="translate-x-0"
                          x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
                          x-transition:leave-start="translate-x-0"
-                         x-transition:leave-end="-translate-x-full"
+                         x-transition:leave-end="ltr:-translate-x-full rtl:translate-x-full"
                          class="pointer-events-auto w-screen max-w-md">
-                        <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl rounded-r-3xl border-r border-black/5">
-                            <div class="px-4 sm:px-6 flex items-center justify-between">
-                                <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">{{ __('الرسائل') }}</h2>
-                                <button type="button" @click="messagesModal = false" class="rounded-md bg-white text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                                    <span class="sr-only">Close panel</span>
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
+                        <div class="flex h-full flex-col bg-white shadow-xl rounded-e-3xl border-e border-black/5 overflow-hidden">
+
+                            <!-- View A: Conversation List -->
+                            <div x-show="currentView === 'list'" class="flex-1 flex flex-col h-full overflow-hidden">
+                                <div class="px-4 py-6 sm:px-6 flex items-center justify-between border-b border-slate-100">
+                                    <h2 class="text-lg font-bold text-slate-900" id="slide-over-title">{{ __('الرسائل') }}</h2>
+                                    <button type="button" @click="messagesModal = false" class="rounded-md bg-white text-slate-400 hover:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                                        <span class="sr-only">Close panel</span>
+                                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="flex-1 overflow-y-auto px-4 py-4 sm:px-6 custom-scrollbar">
+                                    <ul class="space-y-4">
+                                        @forelse($recentMessages as $conversation)
+                                            <li class="bg-slate-50 p-4 rounded-2xl border border-black/5 hover:border-indigo-200 transition-colors cursor-pointer" @click="openChat({{ $conversation->id }}, {{ Js::from($conversation->patient ? $conversation->patient->name : $conversation->provider_chat_id) }}, {{ Js::from($conversation->platform) }})">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold flex-shrink-0">
+                                                        @if($conversation->patient)
+                                                            {{ mb_substr($conversation->patient->name, 0, 1) }}
+                                                        @else
+                                                            ?
+                                                        @endif
+                                                    </div>
+                                                    <div class="flex-1 min-w-0">
+                                                        <div class="flex justify-between items-center mb-1">
+                                                            <h3 class="font-bold text-slate-800 truncate">
+                                                                @if($conversation->patient)
+                                                                    {{ $conversation->patient->name }}
+                                                                @else
+                                                                    {{ $conversation->provider_chat_id }}
+                                                                @endif
+                                                            </h3>
+                                                            @if($conversation->messages->count() > 0)
+                                                                <span class="text-[10px] text-slate-400 whitespace-nowrap">{{ $conversation->messages->first()->created_at->format('H:i') }}</span>
+                                                            @endif
+                                                        </div>
+                                                        <div class="text-sm text-slate-500 truncate flex-1">
+                                                            @if($conversation->messages->count() > 0)
+                                                                {{ $conversation->messages->first()->content }}
+                                                            @else
+                                                                {{ __('لا توجد رسائل') }}
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        @empty
+                                            <div class="flex flex-col items-center justify-center h-full py-12 text-center space-y-4 text-slate-500">
+                                                <svg class="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                                                </svg>
+                                                <p class="text-lg font-medium">{{ __('لا توجد رسائل جديدة') }}</p>
+                                            </div>
+                                        @endforelse
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="relative mt-6 flex-1 px-4 sm:px-6">
-                                <ul class="space-y-4">
-                                    @forelse($recentMessages as $message)
-                                        <li class="bg-slate-50 p-4 rounded-2xl border border-black/5">
-                                            <!-- Example of real data rendering -->
-                                            <p class="font-medium text-slate-800">{{ $message->sender }}</p>
-                                        </li>
-                                    @empty
-                                        <div class="flex flex-col items-center justify-center h-full text-center space-y-4 text-slate-500">
-                                            <svg class="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
-                                            </svg>
-                                            <p class="text-lg font-medium">{{ __('لا توجد رسائل جديدة') }}</p>
+
+                            <!-- View B: Active Chat -->
+                            <div x-show="currentView === 'chat'" class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50 relative" style="display: none;">
+                                <!-- Chat Header -->
+                                <div class="px-4 py-4 border-b border-slate-200 bg-white flex items-center gap-3 shadow-sm z-10">
+                                    <button @click="closeChat()" class="text-slate-400 hover:text-slate-600 transition-colors p-2 -ms-2">
+                                        <svg class="w-5 h-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                    </button>
+                                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold flex-shrink-0" x-text="activeChatName ? activeChatName.charAt(0) : '?'">
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="font-bold text-slate-800 truncate" x-text="activeChatName"></h3>
+                                        <div class="text-xs text-slate-500 flex items-center gap-1">
+                                            <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                                            {{ __('متصل عبر') }} <span x-text="activeChatPlatform"></span>
                                         </div>
-                                    @endforelse
-                                </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Chat Messages Container -->
+                                <div class="flex-1 p-4 overflow-y-auto custom-scrollbar flex flex-col gap-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-slate-50/50" id="chat-messages-container" x-ref="chatMessagesContainer">
+                                    <template x-for="msg in activeChatMessages" :key="msg.id">
+                                        <div>
+                                            <template x-if="msg.sender_type === 'clinic'">
+                                                <!-- Outgoing Message (Clinic) -->
+                                                <div class="flex justify-start">
+                                                    <div class="max-w-[85%] bg-indigo-600 text-white rounded-2xl rounded-tr-sm px-4 py-2 shadow-sm">
+                                                        <div class="text-sm" x-text="msg.content"></div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <template x-if="msg.sender_type !== 'clinic'">
+                                                <!-- Incoming Message (Patient) -->
+                                                <div class="flex justify-end">
+                                                    <div class="max-w-[85%] bg-white border border-slate-200 text-slate-800 rounded-2xl rounded-tl-sm px-4 py-2 shadow-sm">
+                                                        <div class="text-sm" x-text="msg.content"></div>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <!-- Chat Input -->
+                                <div class="p-4 bg-white border-t border-slate-200 z-10">
+                                    <form @submit.prevent="sendMessage()" class="flex gap-2 items-end">
+                                        <div class="flex-1 bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
+                                            <textarea
+                                                x-model="newMessage"
+                                                rows="1"
+                                                class="w-full bg-transparent border-0 focus:ring-0 resize-none py-3 px-4 max-h-32 text-slate-800"
+                                                placeholder="{{ __('اكتب رسالة...') }}"
+                                                required
+                                                @keydown.enter.prevent="sendMessage()"
+                                            ></textarea>
+                                        </div>
+                                        <button type="submit" class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 transition-colors shadow-sm flex-shrink-0" :disabled="isSending" :class="{'opacity-50 cursor-not-allowed': isSending}">
+                                            <svg x-show="!isSending" class="w-5 h-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                                            <svg x-show="isSending" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="display: none;"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -512,6 +608,105 @@
             },
             destroy() {
                 if(this.interval) clearInterval(this.interval);
+            }
+        }));
+
+        Alpine.data('omniChannel', () => ({
+            callsModal: false,
+            messagesModal: false,
+            currentView: 'list', // 'list' or 'chat'
+            activeChatId: null,
+            activeChatName: '',
+            activeChatPlatform: '',
+            activeChatMessages: [],
+            newMessage: '',
+            isSending: false,
+
+            async openChat(id, name, platform) {
+                this.activeChatId = id;
+                this.activeChatName = name;
+                this.activeChatPlatform = platform;
+
+                this.activeChatMessages = []; // clear while loading
+
+                this.currentView = 'chat';
+
+                try {
+                    const response = await fetch(`/chat/${id}/messages`, {
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.activeChatMessages = data.data;
+                        this.scrollToBottom();
+                    }
+                } catch (error) {
+                    console.error('Error fetching messages:', error);
+                }
+            },
+
+            closeChat() {
+                this.currentView = 'list';
+                this.activeChatId = null;
+            },
+
+            scrollToBottom() {
+                setTimeout(() => {
+                    const container = this.$refs.chatMessagesContainer;
+                    if (container) {
+                        container.scrollTop = container.scrollHeight;
+                    }
+                }, 100);
+            },
+
+            async sendMessage() {
+                if (!this.newMessage.trim() || !this.activeChatId) return;
+
+                this.isSending = true;
+                const content = this.newMessage;
+
+                const tempId = Date.now();
+                this.activeChatMessages.push({
+                    id: tempId,
+                    content: content,
+                    sender_type: 'clinic'
+                });
+
+                this.newMessage = '';
+                this.scrollToBottom();
+
+                try {
+                    const response = await fetch(`/chat/${this.activeChatId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({ content: content })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+
+                    const data = await response.json();
+
+                    const index = this.activeChatMessages.findIndex(m => m.id === tempId);
+                    if (index !== -1 && data.data) {
+                        this.activeChatMessages[index] = data.data;
+                    }
+
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    this.activeChatMessages = this.activeChatMessages.filter(m => m.id !== tempId);
+                    alert('{{ __("حدث خطأ أثناء إرسال الرسالة.") }}');
+                } finally {
+                    this.isSending = false;
+                }
             }
         }));
     });

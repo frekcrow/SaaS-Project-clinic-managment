@@ -18,46 +18,55 @@
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
             @endif
-            @if ($errors->any())
+            @if (\$errors->any())
                 <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-2xl relative shadow-sm" role="alert">
                     <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>- {{ $error }}</li>
+                        @foreach (\$errors->all() as \$error)
+                            <li>- {{ \$error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
 
-            <!-- WhatsApp Configuration Card -->
+            <!-- Messaging API Configuration Card -->
             <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-100">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center text-green-600">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                    <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-800">{{ __('إعدادات WhatsApp API') }}</h3>
+                    <h3 class="text-xl font-bold text-slate-800">{{ __('إعدادات منصات المراسلة') }}</h3>
                 </div>
 
                 <form method="POST" action="{{ route('secretary.broadcast.update') }}" class="space-y-6">
                     @csrf
 
+                    <h4 class="font-bold text-slate-700 mt-6 mb-2">{{ __('WhatsApp API') }}</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
-                            <label for="whatsapp_api_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز الوصول (API Token)') }}</label>
-                            <input type="text" id="whatsapp_api_token" name="whatsapp_api_token" value="{{ old('whatsapp_api_token', $clinicSettings->whatsapp_api_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="whatsapp_access_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز الوصول (Access Token)') }}</label>
+                            <input type="text" id="whatsapp_access_token" name="whatsapp_access_token" value="{{ old('whatsapp_access_token', \$messagingSettings->whatsapp_access_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
 
                         <div>
                             <label for="whatsapp_phone_number_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف رقم الهاتف (Phone Number ID)') }}</label>
-                            <input type="text" id="whatsapp_phone_number_id" name="whatsapp_phone_number_id" value="{{ old('whatsapp_phone_number_id', $clinicSettings->whatsapp_phone_number_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <input type="text" id="whatsapp_phone_number_id" name="whatsapp_phone_number_id" value="{{ old('whatsapp_phone_number_id', \$messagingSettings->whatsapp_phone_number_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
 
                         <div>
                             <label for="whatsapp_business_account_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف حساب الأعمال (Business Account ID)') }}</label>
-                            <input type="text" id="whatsapp_business_account_id" name="whatsapp_business_account_id" value="{{ old('whatsapp_business_account_id', $clinicSettings->whatsapp_business_account_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <input type="text" id="whatsapp_business_account_id" name="whatsapp_business_account_id" value="{{ old('whatsapp_business_account_id', \$messagingSettings->whatsapp_business_account_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                     </div>
 
-                    <div class="flex justify-end">
+                    <h4 class="font-bold text-slate-700 mt-6 mb-2">{{ __('Telegram API') }}</h4>
+                    <div class="grid grid-cols-1 gap-6">
+                        <div>
+                            <label for="telegram_bot_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز البوت (Bot Token)') }}</label>
+                            <input type="text" id="telegram_bot_token" name="telegram_bot_token" value="{{ old('telegram_bot_token', \$messagingSettings->telegram_bot_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end mt-8">
                         <button type="submit" class="px-6 py-2 bg-black text-white rounded-2xl font-bold shadow-sm hover:bg-neutral-800 transition-colors">
                             {{ __('حفظ الإعدادات') }}
                         </button>

@@ -17,6 +17,11 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\WebhookController;
+
+Route::get('/webhooks/whatsapp', [WebhookController::class, 'verifyWhatsApp']);
+Route::post('/webhooks/whatsapp', [WebhookController::class, 'handleWhatsApp']);
+Route::post('/webhooks/telegram/{tenant_id}', [WebhookController::class, 'handleTelegram']);
 use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\SessionTypeController;
 use App\Http\Controllers\SurgeryTypeController;

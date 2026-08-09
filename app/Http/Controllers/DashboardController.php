@@ -270,7 +270,7 @@ class DashboardController extends Controller
             ->count();
 
         $recentCalls = collect([]);
-        $recentMessages = collect([]);
+        $recentMessages = \App\Models\Conversation::where('tenant_id', auth()->user()->tenant_id)->with(['patient', 'messages' => function ($query) { $query->latest()->limit(1); }])->orderByDesc('last_message_at')->get();
 
         return view('dashboard', compact(
             'todaysAppointments',

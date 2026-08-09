@@ -60,6 +60,9 @@
                 <button @click="activeTab = 'themes'" :class="activeTab === 'themes' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'" class="px-6 py-2.5 rounded-2xl font-bold border transition-colors flex-shrink-0">
                     {{ __('السمات (Themes)') }}
                 </button>
+                <button @click="activeTab = 'integrations'" :class="activeTab === 'integrations' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'" class="px-6 py-2.5 rounded-2xl font-bold border transition-colors flex-shrink-0">
+                    {{ __('الربط التقني') }}
+                </button>
             </div>
             <form id="reset-usage-form" method="POST" action="{{ route('doctor.settings.reset_usage') }}" class="hidden">
                 @csrf
@@ -374,6 +377,54 @@
                             <svg x-show="currentTheme === 'nature'" class="w-6 h-6 text-[#2d6a4f]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <!-- Integrations Tab -->
+            <div x-show="activeTab === 'integrations'" x-cloak class="space-y-6">
+                <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('الربط التقني') }} (Integrations)</h3>
+                    <form method="POST" action="{{ route('doctor.settings.messaging.update') }}" class="space-y-6">
+                        @csrf
+
+                        <div class="space-y-4">
+                            <h4 class="text-lg font-bold text-slate-800">{{ __('إعدادات واتساب') }} (WhatsApp Settings)</h4>
+
+                            <div>
+                                <x-input-label for="whatsapp_phone_number_id" :value="__('معرف رقم الهاتف') . ' (Phone Number ID)'" />
+                                <x-text-input id="whatsapp_phone_number_id" name="whatsapp_phone_number_id" type="text" class="mt-1 block w-full" :value="old('whatsapp_phone_number_id', $messagingSettings->whatsapp_phone_number_id)" />
+                                <x-input-error class="mt-2" :messages="$errors->get('whatsapp_phone_number_id')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="whatsapp_business_account_id" :value="__('معرف حساب الأعمال') . ' (Business Account ID)'" />
+                                <x-text-input id="whatsapp_business_account_id" name="whatsapp_business_account_id" type="text" class="mt-1 block w-full" :value="old('whatsapp_business_account_id', $messagingSettings->whatsapp_business_account_id)" />
+                                <x-input-error class="mt-2" :messages="$errors->get('whatsapp_business_account_id')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="whatsapp_access_token" :value="__('رمز الوصول') . ' (Access Token)'" />
+                                <x-text-input id="whatsapp_access_token" name="whatsapp_access_token" type="password" class="mt-1 block w-full" :value="old('whatsapp_access_token', $messagingSettings->whatsapp_access_token)" />
+                                <x-input-error class="mt-2" :messages="$errors->get('whatsapp_access_token')" />
+                            </div>
+                        </div>
+
+                        <hr class="border-slate-200">
+
+                        <div class="space-y-4">
+                            <h4 class="text-lg font-bold text-slate-800">{{ __('إعدادات تليجرام') }} (Telegram Settings)</h4>
+
+                            <div>
+                                <x-input-label for="telegram_bot_token" :value="__('رمز البوت') . ' (Bot Token)'" />
+                                <x-text-input id="telegram_bot_token" name="telegram_bot_token" type="password" class="mt-1 block w-full" :value="old('telegram_bot_token', $messagingSettings->telegram_bot_token)" />
+                                <x-input-error class="mt-2" :messages="$errors->get('telegram_bot_token')" />
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <x-primary-button>{{ __('حفظ') }}</x-primary-button>
+                        </div>
+                    </form>
                 </div>
             </div>
 

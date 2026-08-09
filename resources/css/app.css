@@ -9,3 +9,77 @@
 html[dir="ltr"] body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
+/* Themes */
+[data-theme="dark"] body, [data-theme="dark"] .bg-slate-50 {
+    background-color: #121212 !important;
+}
+[data-theme="dark"] .bg-white {
+    background-color: #1e1e1e !important;
+}
+[data-theme="dark"] .text-slate-800, [data-theme="dark"] .text-gray-900, [data-theme="dark"] .text-slate-700 {
+    color: #e0e0e0 !important;
+}
+[data-theme="dark"] .text-slate-500, [data-theme="dark"] .text-slate-600, [data-theme="dark"] .text-gray-500 {
+    color: #9e9e9e !important;
+}
+[data-theme="dark"] .border-slate-100, [data-theme="dark"] .border-slate-200, [data-theme="dark"] .border-gray-100 {
+    border-color: #333333 !important;
+}
+[data-theme="dark"] .bg-indigo-50 {
+    background-color: #312e81 !important; /* dark indigo */
+}
+[data-theme="dark"] .text-indigo-600 {
+    color: #818cf8 !important; /* light indigo */
+}
+
+[data-theme="ocean"] body, [data-theme="ocean"] .bg-slate-50 {
+    background-color: #f0f8ff !important; /* Alice Blue */
+}
+[data-theme="ocean"] .bg-white {
+    background-color: #ffffff !important;
+}
+[data-theme="ocean"] .text-slate-800, [data-theme="ocean"] .text-gray-900 {
+    color: #004d66 !important; /* Deep ocean blue */
+}
+[data-theme="ocean"] .border-slate-100, [data-theme="ocean"] .border-slate-200 {
+    border-color: #b3e0ff !important;
+}
+[data-theme="ocean"] .bg-indigo-600 {
+    background-color: #0077b6 !important; /* Ocean blue button */
+}
+[data-theme="ocean"] .text-indigo-600 {
+    color: #0077b6 !important;
+}
+[data-theme="ocean"] .bg-indigo-50 {
+    background-color: #e6f7ff !important;
+}
+[data-theme="ocean"] .focus\:ring-indigo-500:focus, [data-theme="ocean"] .focus\:border-indigo-500:focus {
+    --tw-ring-color: #0077b6 !important;
+    border-color: #0077b6 !important;
+}
+
+[data-theme="nature"] body, [data-theme="nature"] .bg-slate-50 {
+    background-color: #f5fcf5 !important; /* Minty very light green */
+}
+[data-theme="nature"] .bg-white {
+    background-color: #ffffff !important;
+}
+[data-theme="nature"] .text-slate-800, [data-theme="nature"] .text-gray-900 {
+    color: #1b4332 !important; /* Dark green */
+}
+[data-theme="nature"] .border-slate-100, [data-theme="nature"] .border-slate-200 {
+    border-color: #cce3de !important;
+}
+[data-theme="nature"] .bg-indigo-600 {
+    background-color: #2d6a4f !important; /* Leaf green button */
+}
+[data-theme="nature"] .text-indigo-600 {
+    color: #2d6a4f !important;
+}
+[data-theme="nature"] .bg-indigo-50 {
+    background-color: #e8f5e9 !important;
+}
+[data-theme="nature"] .focus\:ring-indigo-500:focus, [data-theme="nature"] .focus\:border-indigo-500:focus {
+    --tw-ring-color: #2d6a4f !important;
+    border-color: #2d6a4f !important;
+}

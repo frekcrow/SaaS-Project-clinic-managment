@@ -22,6 +22,12 @@
         <style>
             [x-cloak] { display: none !important; }
         </style>
+        <script>
+            const theme = localStorage.getItem('theme') || 'default';
+            if (theme !== 'default') {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+        </script>
         @stack('styles')
     </head>
     <body class="font-sans antialiased bg-slate-50 text-slate-800">

@@ -16,5 +16,6 @@ class MessagingSetting extends Model
         'whatsapp_business_account_id',
         'whatsapp_access_token',
         'telegram_bot_token',
+        'telegram_bot_username',
     ];
 }

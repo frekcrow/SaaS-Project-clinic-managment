@@ -18,11 +18,11 @@
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
             @endif
-            @if (\$errors->any())
+            @if ($errors->any())
                 <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-2xl relative shadow-sm" role="alert">
                     <ul>
-                        @foreach (\$errors->all() as \$error)
-                            <li>- {{ \$error }}</li>
+                        @foreach ($errors->all() as $error)
+                            <li>- {{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
@@ -44,25 +44,29 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
                             <label for="whatsapp_access_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز الوصول (Access Token)') }}</label>
-                            <input type="text" id="whatsapp_access_token" name="whatsapp_access_token" value="{{ old('whatsapp_access_token', \$messagingSettings->whatsapp_access_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <input type="text" id="whatsapp_access_token" name="whatsapp_access_token" value="{{ old('whatsapp_access_token', $messagingSettings->whatsapp_access_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
 
                         <div>
                             <label for="whatsapp_phone_number_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف رقم الهاتف (Phone Number ID)') }}</label>
-                            <input type="text" id="whatsapp_phone_number_id" name="whatsapp_phone_number_id" value="{{ old('whatsapp_phone_number_id', \$messagingSettings->whatsapp_phone_number_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <input type="text" id="whatsapp_phone_number_id" name="whatsapp_phone_number_id" value="{{ old('whatsapp_phone_number_id', $messagingSettings->whatsapp_phone_number_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
 
                         <div>
                             <label for="whatsapp_business_account_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف حساب الأعمال (Business Account ID)') }}</label>
-                            <input type="text" id="whatsapp_business_account_id" name="whatsapp_business_account_id" value="{{ old('whatsapp_business_account_id', \$messagingSettings->whatsapp_business_account_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <input type="text" id="whatsapp_business_account_id" name="whatsapp_business_account_id" value="{{ old('whatsapp_business_account_id', $messagingSettings->whatsapp_business_account_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                     </div>
 
                     <h4 class="font-bold text-slate-700 mt-6 mb-2">{{ __('Telegram API') }}</h4>
-                    <div class="grid grid-cols-1 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="telegram_bot_username" class="block text-sm font-medium text-slate-700 mb-1">{{ __('اسم المستخدم للبوت (Bot Username)') }}</label>
+                            <input type="text" id="telegram_bot_username" name="telegram_bot_username" value="{{ old('telegram_bot_username', $messagingSettings->telegram_bot_username ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
                         <div>
                             <label for="telegram_bot_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز البوت (Bot Token)') }}</label>
-                            <input type="text" id="telegram_bot_token" name="telegram_bot_token" value="{{ old('telegram_bot_token', \$messagingSettings->telegram_bot_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <input type="text" id="telegram_bot_token" name="telegram_bot_token" value="{{ old('telegram_bot_token', $messagingSettings->telegram_bot_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                     </div>
 

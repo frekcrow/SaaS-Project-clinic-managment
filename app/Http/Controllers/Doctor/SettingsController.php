@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Models\SessionType;
 use App\Models\SurgeryType;
+use App\Models\MessagingSetting;
 
 class SettingsController extends Controller
 {
@@ -21,11 +22,13 @@ class SettingsController extends Controller
 
         $sessionTypes = SessionType::where('tenant_id', $tenantId)->get();
         $surgeryTypes = SurgeryType::where('tenant_id', $tenantId)->get();
+        $messagingSettings = MessagingSetting::firstOrCreate(['tenant_id' => $tenantId]);
 
         return view('doctor.settings.index', [
             'user' => $request->user(),
             'sessionTypes' => $sessionTypes,
             'surgeryTypes' => $surgeryTypes,
+            'messagingSettings' => $messagingSettings,
         ]);
     }
 
@@ -62,6 +65,26 @@ class SettingsController extends Controller
         $user->save();
 
         return redirect()->route('doctor.settings.index')->with('success', __('تم تحديث الإعدادات بنجاح'));
+    }
+
+    /**
+     * Update messaging settings.
+     */
+    public function updateMessaging(Request $request)
+    {
+        $tenantId = $request->user()->tenant_id;
+
+        $validated = $request->validate([
+            'whatsapp_phone_number_id' => 'nullable|string|max:255',
+            'whatsapp_business_account_id' => 'nullable|string|max:255',
+            'whatsapp_access_token' => 'nullable|string',
+            'telegram_bot_token' => 'nullable|string|max:255',
+        ]);
+
+        $settings = MessagingSetting::firstOrCreate(['tenant_id' => $tenantId]);
+        $settings->update($validated);
+
+        return redirect()->route('doctor.settings.index')->with('success', __('تم تحديث إعدادات الربط التقني بنجاح'));
     }
 
     /**

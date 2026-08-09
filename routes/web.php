@@ -18,6 +18,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/webhooks/whatsapp', [WebhookController::class, 'verifyWhatsApp']);
 Route::post('/webhooks/whatsapp', [WebhookController::class, 'handleWhatsApp']);
@@ -45,6 +46,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/settings/surgery-types', [SurgeryTypeController::class, 'store'])->name('settings.surgery-types.store');
     Route::delete('/settings/surgery-types/{id}', [SurgeryTypeController::class, 'destroy'])->name('settings.surgery-types.destroy');
+
+    // Chat
+    Route::resource('chat', ChatController::class)->only(['index', 'show', 'store']);
 
     // Broadcast Messages
     Route::get('/secretary/broadcast', [BroadcastController::class, 'index'])->name('secretary.broadcast.index');
@@ -104,6 +108,7 @@ Route::middleware('auth')->group(function () {
         // Settings
         Route::get('/settings', [App\Http\Controllers\Doctor\SettingsController::class, 'index'])->name('settings.index');
         Route::post('/settings', [App\Http\Controllers\Doctor\SettingsController::class, 'update'])->name('settings.update');
+        Route::post('/settings/messaging', [App\Http\Controllers\Doctor\SettingsController::class, 'updateMessaging'])->name('settings.messaging.update');
         Route::post('/settings/reset-usage', [App\Http\Controllers\Doctor\SettingsController::class, 'resetUsage'])->name('settings.reset_usage');
         Route::post('/settings/session-types', [SessionTypeController::class, 'store'])->name('settings.session-types.store');
         Route::delete('/settings/session-types/{id}', [SessionTypeController::class, 'destroy'])->name('settings.session-types.destroy');

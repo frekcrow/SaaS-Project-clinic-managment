@@ -17,6 +17,7 @@ class Conversation extends Model
         'patient_id',
         'platform',
         'provider_chat_id',
+        'contact_name',
         'last_message_at',
     ];
 

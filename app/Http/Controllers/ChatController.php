@@ -28,7 +28,7 @@ class ChatController extends Controller
                 'content' => \$msg->content,
                 'sender_type' => \$msg->sender_type
             ];
-        });
+        })->values();
 
         return response()->json(['data' => \$messages]);
     }
@@ -125,15 +125,15 @@ class ChatController extends Controller
                 return;
             }
 
-            \$url = "https://api.telegram.org/bot{\$settings->telegram_bot_token}/sendMessage";
-
-            \$payload = [
-                'chat_id' => \$chat->provider_chat_id,
-                'text' => \$message->content,
-            ];
+            $token = $settings->telegram_bot_token;
+            $providerChatId = $chat->provider_chat_id;
+            $messageText = $message->content;
 
             try {
-                \$response = Http::post(\$url, \$payload);
+                $response = Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                    'chat_id' => $providerChatId,
+                    'text' => $messageText,
+                ]);
 
                 if (\$response->successful()) {
                     \$responseData = \$response->json();

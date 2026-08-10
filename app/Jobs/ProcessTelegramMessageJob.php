@@ -46,7 +46,14 @@ class ProcessTelegramMessageJob implements ShouldQueue
             return;
         }
 
-        $contactName = trim(Arr::get($message, 'from.first_name', '') . ' ' . Arr::get($message, 'from.last_name', '')) ?: Arr::get($message, 'from.username');
+        $firstName = Arr::get($message, 'from.first_name', '');
+        $lastName = Arr::get($message, 'from.last_name', '');
+        $username = Arr::get($message, 'from.username');
+
+        $contactName = trim($firstName . ' ' . $lastName);
+        if (empty($contactName)) {
+            $contactName = $username;
+        }
 
         $conversation = Conversation::firstOrCreate(
             [

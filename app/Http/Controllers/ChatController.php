@@ -22,7 +22,7 @@ class ChatController extends Controller
             return response()->json(['error' => 'Forbidden'], 403);
         }
 
-        \$messages = \$chat->messages()->oldest()->get()->map(function(\$msg) {
+        $messages = $chat->messages()->orderBy('created_at', 'asc')->get()->map(function($msg) {
             return [
                 'id' => \$msg->id,
                 'content' => \$msg->content,

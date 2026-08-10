@@ -632,6 +632,9 @@
 
                 this.currentView = 'chat';
 
+                if (this.pollingInterval) {
+                    clearInterval(this.pollingInterval);
+                }
                 this.pollingInterval = setInterval(() => { this.fetchNewMessages() }, 3000);
 
                 try {
@@ -668,7 +671,7 @@
                     });
                     if (response.ok) {
                         const data = await response.json();
-                        if (this.activeChatMessages.length !== data.data.length) {
+                        if (JSON.stringify(this.activeChatMessages) !== JSON.stringify(data.data)) {
                             this.activeChatMessages = data.data;
                             this.scrollToBottom();
                         }

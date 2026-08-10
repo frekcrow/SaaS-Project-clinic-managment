@@ -18,26 +18,37 @@ class DoctorBillingController extends Controller
         $tenantId = Auth::user()->tenant_id;
         $today = Carbon::today('Asia/Baghdad')->format('Y-m-d');
 
+        $allSecretaries = User::where('tenant_id', $tenantId)->where('role', 'Secretary')->get();
+        $secretaryId = $request->query('secretary_id');
+
         // Top Stats
         // 1. Total Patients Today (Count of appointments strictly for today)
-        $totalPatientsToday = Appointment::where('tenant_id', $tenantId)
-            ->where('appointment_date', $today)
-            ->count();
+        $totalPatientsTodayQuery = Appointment::where('tenant_id', $tenantId)
+            ->where('appointment_date', $today);
 
         // 2. Today's Income (Sum of session/consultation fees collected today for completed appointments)
-        $todayIncome = Appointment::where('tenant_id', $tenantId)
+        $todayIncomeQuery = Appointment::where('tenant_id', $tenantId)
             ->where('appointment_date', $today)
-            ->where('status', 'completed')
-            ->sum('price');
+            ->where('status', 'completed');
 
         // 3. Total Surgeries Income (Sum of surgery costs for all surgeries)
-        $totalSurgeriesIncome = Surgery::where('tenant_id', $tenantId)
-            ->sum('cost');
+        $totalSurgeriesIncomeQuery = Surgery::where('tenant_id', $tenantId);
 
         // 4. Net Worth (Total overall income: sessions + surgeries)
-        $totalSessionsIncome = Appointment::where('tenant_id', $tenantId)
-            ->where('status', 'completed')
-            ->sum('price');
+        $totalSessionsIncomeQuery = Appointment::where('tenant_id', $tenantId)
+            ->where('status', 'completed');
+
+        if ($secretaryId) {
+            $totalPatientsTodayQuery->where('created_by', $secretaryId);
+            $todayIncomeQuery->where('created_by', $secretaryId);
+            $totalSurgeriesIncomeQuery->where('created_by', $secretaryId);
+            $totalSessionsIncomeQuery->where('created_by', $secretaryId);
+        }
+
+        $totalPatientsToday = $totalPatientsTodayQuery->count();
+        $todayIncome = $todayIncomeQuery->sum('price');
+        $totalSurgeriesIncome = $totalSurgeriesIncomeQuery->sum('cost');
+        $totalSessionsIncome = $totalSessionsIncomeQuery->sum('price');
 
         $netWorth = $totalSessionsIncome + $totalSurgeriesIncome;
 
@@ -62,6 +73,11 @@ class DoctorBillingController extends Controller
             ->where('tenant_id', $tenantId)
             ->whereNotNull('patient_id')
             ->groupBy('patient_id');
+
+        if ($secretaryId) {
+            $appointmentsSubquery->where('created_by', $secretaryId);
+            $surgeriesSubquery->where('created_by', $secretaryId);
+        }
 
         $patientsData = Patient::where('patients.tenant_id', $tenantId)
             ->leftJoinSub($appointmentsSubquery, 'a_sub', function ($join) {
@@ -138,7 +154,9 @@ class DoctorBillingController extends Controller
             'patientsData',
             'sortOrder',
             'secretariesCount',
-            'secretaryStats'
+            'secretaryStats',
+            'allSecretaries',
+            'secretaryId'
         ));
     }
 }

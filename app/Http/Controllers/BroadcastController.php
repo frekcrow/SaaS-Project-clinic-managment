@@ -45,7 +45,7 @@ class BroadcastController extends Controller
 
         if (!empty($validated['telegram_bot_token'])) {
             try {
-                $webhookUrl = route('webhooks.telegram', ['tenant_id' => $tenantId]);
+                $webhookUrl = rtrim(config('app.url'), '/') . '/webhooks/telegram/' . $tenantId;
                 $response = Http::post("https://api.telegram.org/bot{$validated['telegram_bot_token']}/setWebhook", [
                     'url' => $webhookUrl,
                 ]);

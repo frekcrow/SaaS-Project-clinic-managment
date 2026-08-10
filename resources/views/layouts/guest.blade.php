@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <link rel="icon" type="image/png" href="{{ asset('images/logo-icon.png') }}">
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Atlas') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -27,8 +27,9 @@
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <a href="/" class="flex items-center gap-2">
+                    <img src="{{ asset('images/logo-icon.png') }}" alt="Atlas Logo" class="w-12 h-12">
+                    <span class="text-2xl font-bold text-gray-900 dark:text-white">Atlas</span>
                 </a>
             </div>
 

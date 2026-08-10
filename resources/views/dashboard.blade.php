@@ -414,7 +414,7 @@
         <!-- Messages Slide-over Modal -->
         <div x-show="messagesModal"
              style="display: none;"
-             class="fixed inset-0 z-50 overflow-hidden"
+             class="fixed inset-0 z-[100] overflow-hidden"
              aria-labelledby="slide-over-title"
              role="dialog"
              aria-modal="true">
@@ -454,13 +454,13 @@
                                 <div class="flex-1 overflow-y-auto px-4 py-4 sm:px-6 custom-scrollbar">
                                     <ul class="space-y-4">
                                         @forelse($recentMessages as $conversation)
-                                            <li class="bg-slate-50 p-4 rounded-2xl border border-black/5 hover:border-indigo-200 transition-colors cursor-pointer" @click="openChat({{ $conversation->id }}, {{ Js::from($conversation->patient ? $conversation->patient->name : $conversation->provider_chat_id) }}, {{ Js::from($conversation->platform) }})">
+                                            <li class="bg-slate-50 p-4 rounded-2xl border border-black/5 hover:border-indigo-200 transition-colors cursor-pointer" @click="openChat({{ $conversation->id }}, {{ Js::from($conversation->patient ? $conversation->patient->name : ($conversation->contact_name ?: $conversation->provider_chat_id)) }}, {{ Js::from($conversation->platform) }})">
                                                 <div class="flex items-center gap-3">
                                                     <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold flex-shrink-0">
                                                         @if($conversation->patient)
                                                             {{ mb_substr($conversation->patient->name, 0, 1) }}
                                                         @else
-                                                            ?
+                                                            {{ mb_substr($conversation->contact_name ?? $conversation->provider_chat_id, 0, 1) }}
                                                         @endif
                                                     </div>
                                                     <div class="flex-1 min-w-0">
@@ -469,7 +469,7 @@
                                                                 @if($conversation->patient)
                                                                     {{ $conversation->patient->name }}
                                                                 @else
-                                                                    {{ $conversation->provider_chat_id }}
+                                                                    {{ $conversation->contact_name ?? $conversation->provider_chat_id }}
                                                                 @endif
                                                             </h3>
                                                             @if($conversation->messages->count() > 0)
@@ -621,6 +621,7 @@
             activeChatMessages: [],
             newMessage: '',
             isSending: false,
+            pollingInterval: null,
 
             async openChat(id, name, platform) {
                 this.activeChatId = id;
@@ -630,6 +631,8 @@
                 this.activeChatMessages = []; // clear while loading
 
                 this.currentView = 'chat';
+
+                this.pollingInterval = setInterval(() => { this.fetchNewMessages() }, 3000);
 
                 try {
                     const response = await fetch(`/chat/${id}/messages`, {
@@ -649,8 +652,28 @@
             },
 
             closeChat() {
+                if (this.pollingInterval) {
+                    clearInterval(this.pollingInterval);
+                    this.pollingInterval = null;
+                }
                 this.currentView = 'list';
                 this.activeChatId = null;
+            },
+
+            async fetchNewMessages() {
+                if (!this.activeChatId) return;
+                try {
+                    const response = await fetch(`/chat/${this.activeChatId}/messages`, {
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (this.activeChatMessages.length !== data.data.length) {
+                            this.activeChatMessages = data.data;
+                            this.scrollToBottom();
+                        }
+                    }
+                } catch (error) {}
             },
 
             scrollToBottom() {

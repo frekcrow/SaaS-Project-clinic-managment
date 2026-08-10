@@ -46,14 +46,10 @@ class ProcessTelegramMessageJob implements ShouldQueue
             return;
         }
 
-        $firstName = Arr::get($message, 'from.first_name', '');
-        $lastName = Arr::get($message, 'from.last_name', '');
-        $username = Arr::get($message, 'from.username');
-
-        $contactName = trim($firstName . ' ' . $lastName);
-        if (empty($contactName)) {
-            $contactName = $username;
-        }
+        $firstName = $this->payload['message']['from']['first_name'] ?? '';
+        $lastName = $this->payload['message']['from']['last_name'] ?? '';
+        $username = $this->payload['message']['from']['username'] ?? 'Unknown';
+        $fullName = trim($firstName . ' ' . $lastName) ?: $username;
 
         $conversation = Conversation::firstOrCreate(
             [
@@ -62,7 +58,7 @@ class ProcessTelegramMessageJob implements ShouldQueue
                 'provider_chat_id' => $chatId,
             ],
             [
-                'contact_name' => $contactName ?: null,
+                'contact_name' => $fullName,
             ]
         );
 

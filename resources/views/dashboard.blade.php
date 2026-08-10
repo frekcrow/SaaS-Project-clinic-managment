@@ -316,7 +316,75 @@
     </div>
 
     <!-- Alpine JS Omnichannel component -->
-    <div x-data="omniChannel()">
+    <div x-data="{
+        activeConversationId: null,
+        messages: [],
+        loadMessages() {
+            if(!this.activeConversationId) return;
+            fetch('/api/chat/conversations/' + this.activeConversationId + '/messages')
+            .then(res => res.json())
+            .then(data => { this.messages = data; this.scrollToBottom(); });
+        },
+        init() {
+            setInterval(() => { this.loadMessages(); }, 3000);
+        },
+        callsModal: false,
+        messagesModal: false,
+        currentView: 'list',
+        activeChatName: '',
+        activeChatPlatform: '',
+        newMessage: '',
+        isSending: false,
+
+        openChat(id, name, platform) {
+            this.activeConversationId = id;
+            this.activeChatName = name;
+            this.activeChatPlatform = platform;
+            this.messages = [];
+            this.currentView = 'chat';
+            this.loadMessages();
+        },
+        closeChat() {
+            this.currentView = 'list';
+            this.activeConversationId = null;
+        },
+        scrollToBottom() {
+            setTimeout(() => {
+                const container = this.$refs.chatMessagesContainer;
+                if (container) {
+                    container.scrollTop = container.scrollHeight;
+                }
+            }, 100);
+        },
+        async sendMessage() {
+            if (!this.newMessage.trim() || !this.activeConversationId) return;
+
+            this.isSending = true;
+            const content = this.newMessage;
+
+            this.newMessage = '';
+
+            try {
+                const response = await fetch('/chat/' + this.activeConversationId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name=\'csrf-token\']').getAttribute('content'),
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ content: content })
+                });
+
+                if (response.ok) {
+                    this.loadMessages();
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+            } finally {
+                this.isSending = false;
+            }
+        }
+    }">
         <!-- Floating Omnichannel Bottom Bar -->
         <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-white/70 backdrop-blur-xl border border-white/60 shadow-lg rounded-full px-6 py-3 flex items-center space-x-6 rtl:space-x-reverse transition-transform">
 
@@ -518,21 +586,21 @@
 
                                 <!-- Chat Messages Container -->
                                 <div class="flex-1 p-4 overflow-y-auto custom-scrollbar flex flex-col gap-4 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-slate-50/50" id="chat-messages-container" x-ref="chatMessagesContainer">
-                                    <template x-for="msg in activeChatMessages" :key="msg.id">
+                                    <template x-for="message in messages" :key="message.id">
                                         <div>
-                                            <template x-if="msg.sender_type === 'clinic'">
+                                            <template x-if="message.sender_type === 'clinic'">
                                                 <!-- Outgoing Message (Clinic) -->
                                                 <div class="flex justify-start">
                                                     <div class="max-w-[85%] bg-indigo-600 text-white rounded-2xl rounded-tr-sm px-4 py-2 shadow-sm">
-                                                        <div class="text-sm" x-text="msg.content"></div>
+                                                        <div class="text-sm" x-text="message.content"></div>
                                                     </div>
                                                 </div>
                                             </template>
-                                            <template x-if="msg.sender_type !== 'clinic'">
+                                            <template x-if="message.sender_type !== 'clinic'">
                                                 <!-- Incoming Message (Patient) -->
                                                 <div class="flex justify-end">
                                                     <div class="max-w-[85%] bg-white border border-slate-200 text-slate-800 rounded-2xl rounded-tl-sm px-4 py-2 shadow-sm">
-                                                        <div class="text-sm" x-text="msg.content"></div>
+                                                        <div class="text-sm" x-text="message.content"></div>
                                                     </div>
                                                 </div>
                                             </template>
@@ -608,131 +676,6 @@
             },
             destroy() {
                 if(this.interval) clearInterval(this.interval);
-            }
-        }));
-
-        Alpine.data('omniChannel', () => ({
-            callsModal: false,
-            messagesModal: false,
-            currentView: 'list', // 'list' or 'chat'
-            activeChatId: null,
-            activeChatName: '',
-            activeChatPlatform: '',
-            activeChatMessages: [],
-            newMessage: '',
-            isSending: false,
-            pollingInterval: null,
-
-            async openChat(id, name, platform) {
-                this.activeChatId = id;
-                this.activeChatName = name;
-                this.activeChatPlatform = platform;
-
-                this.activeChatMessages = []; // clear while loading
-
-                this.currentView = 'chat';
-
-                if (this.pollingInterval) {
-                    clearInterval(this.pollingInterval);
-                }
-                this.pollingInterval = setInterval(() => { this.fetchNewMessages() }, 3000);
-
-                try {
-                    const response = await fetch(`/chat/${id}/messages`, {
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        this.activeChatMessages = data.data;
-                        this.scrollToBottom();
-                    }
-                } catch (error) {
-                    console.error('Error fetching messages:', error);
-                }
-            },
-
-            closeChat() {
-                if (this.pollingInterval) {
-                    clearInterval(this.pollingInterval);
-                    this.pollingInterval = null;
-                }
-                this.currentView = 'list';
-                this.activeChatId = null;
-            },
-
-            async fetchNewMessages() {
-                if (!this.activeChatId) return;
-                try {
-                    const response = await fetch(`/chat/${this.activeChatId}/messages`, {
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (JSON.stringify(this.activeChatMessages) !== JSON.stringify(data.data)) {
-                            this.activeChatMessages = data.data;
-                            this.scrollToBottom();
-                        }
-                    }
-                } catch (error) {}
-            },
-
-            scrollToBottom() {
-                setTimeout(() => {
-                    const container = this.$refs.chatMessagesContainer;
-                    if (container) {
-                        container.scrollTop = container.scrollHeight;
-                    }
-                }, 100);
-            },
-
-            async sendMessage() {
-                if (!this.newMessage.trim() || !this.activeChatId) return;
-
-                this.isSending = true;
-                const content = this.newMessage;
-
-                const tempId = Date.now();
-                this.activeChatMessages.push({
-                    id: tempId,
-                    content: content,
-                    sender_type: 'clinic'
-                });
-
-                this.newMessage = '';
-                this.scrollToBottom();
-
-                try {
-                    const response = await fetch(`/chat/${this.activeChatId}`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({ content: content })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-
-                    const data = await response.json();
-
-                    const index = this.activeChatMessages.findIndex(m => m.id === tempId);
-                    if (index !== -1 && data.data) {
-                        this.activeChatMessages[index] = data.data;
-                    }
-
-                } catch (error) {
-                    console.error('Error sending message:', error);
-                    this.activeChatMessages = this.activeChatMessages.filter(m => m.id !== tempId);
-                    alert('{{ __("حدث خطأ أثناء إرسال الرسالة.") }}');
-                } finally {
-                    this.isSending = false;
-                }
             }
         }));
     });

@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
+    public function getMessages(Conversation $conversation) {
+        return response()->json($conversation->messages()->orderBy('created_at', 'asc')->get());
+    }
+
     /**
      * Get messages for a conversation.
      */

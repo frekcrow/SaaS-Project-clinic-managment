@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="h-[calc(100vh-10rem)] flex flex-col overflow-hidden">
+    <div class="h-[calc(100vh-10rem)] flex flex-col overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('{{ asset('images/Background.png') }}');">
         <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col min-h-0">
             <div class="mb-4 shrink-0">
                 <h1 class="text-2xl font-bold text-slate-800">{{ $greeting ?? __('مرحباً د. :name', ['name' => auth()->user()->name]) }}</h1>
@@ -21,7 +21,7 @@
             <!-- 1. The Live Patient Queue Card and Quick Stats Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 shrink-0">
                 <!-- Patient Queue Card spans 2 columns on lg -->
-                <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden relative">
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden relative">
                     <!-- Top accent line -->
                     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-blue-500"></div>
 
@@ -119,7 +119,7 @@
                 </div>
 
                 <!-- Card 1 (Today's Surgeries) -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
                     <div class="relative z-10 flex flex-col justify-between h-full w-full">
                         <div>
                             <div class="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center mb-2">
@@ -257,7 +257,7 @@
                 </div>
 
                 <!-- Card 2 (Pending Appointments) -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
                     <div class="relative z-10 flex flex-col justify-between h-full w-full">
                         <div>
                             <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center mb-2">
@@ -281,7 +281,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0 pb-4">
                 <!-- 3. Medical Analytics Chart -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden shrink-0 flex flex-col justify-between" x-data="medicalAnalytics()">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden shrink-0 flex flex-col justify-between" x-data="medicalAnalytics()">
                     <div class="p-4 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-4">
@@ -322,7 +322,7 @@
                 </div>
 
                 <!-- 4. Financial Analytics Chart -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="financialAnalytics()">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden" x-data="financialAnalytics()">
                     <div class="p-4 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-4">

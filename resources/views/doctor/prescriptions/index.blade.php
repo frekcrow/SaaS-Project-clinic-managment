@@ -3,7 +3,7 @@
         {{ __('تهيئة الوصفات الطبية') }}
     </x-slot>
 
-    <div x-data="prescriptionSetup()" class="max-w-7xl mx-auto pb-12">
+    <div x-data="prescriptionSetup({{ $medications->toJson() }})" class="max-w-7xl mx-auto pb-12">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Left Panel (Controls & Settings) -->
             <div class="lg:col-span-1 print:hidden space-y-6">
@@ -211,6 +211,10 @@
                                                         <label class="block text-xs font-semibold text-slate-400 print:hidden mb-1">{{ __('وقت الاستخدام') }} (Usage)</label>
                                                         <input type="text" x-model="med.usage" placeholder="{{ __('مثال') }}: {{ __('مرتين يومياً بعد الأكل') }}" class="w-full bg-transparent border-b border-slate-200 print:border-transparent focus:border-teal-500 focus:outline-none focus:ring-0 text-slate-800 print:text-black text-sm px-0 py-1 transition-colors font-medium">
                                                     </div>
+                                                    <div class="md:col-span-2">
+                                                        <label class="block text-xs font-semibold text-slate-400 print:hidden mb-1">{{ __('دواعي الاستعمال') }} (Indications)</label>
+                                                        <input type="text" x-model="med.indications" placeholder="{{ __('مثال') }}: {{ __('مسكن للألم') }}" class="w-full bg-transparent border-b border-slate-200 print:border-transparent focus:border-teal-500 focus:outline-none focus:ring-0 text-slate-800 print:text-black text-sm px-0 py-1 transition-colors font-medium">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -240,13 +244,14 @@
     @push('scripts')
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('prescriptionSetup', () => ({
+            Alpine.data('prescriptionSetup', (medicationsData = []) => ({
                 selectedAppointmentId: '',
                 patientName: '',
                 bookingNumber: '',
                 bookingDate: '{{ today()->format('Y/m/d') }}',
 
                 selectedMedicationId: '',
+                medications: medicationsData,
                 addedMedications: [],
 
                 updatePatientData() {
@@ -269,13 +274,16 @@
                     const select = document.querySelector('select[x-model="selectedMedicationId"]');
                     const option = select.options[select.selectedIndex];
 
+                    const foundMed = this.medications.find(m => m.id == this.selectedMedicationId) || {};
+
                     this.addedMedications.push({
                         id: this.selectedMedicationId,
                         name: option.dataset.name,
                         generic: option.dataset.generic,
                         type: option.dataset.type,
-                        dosage: '',
-                        usage: ''
+                        dosage: (foundMed.dosages && foundMed.dosages.length > 0) ? foundMed.dosages[0] : '',
+                        usage: (foundMed.usage_times && foundMed.usage_times.length > 0) ? foundMed.usage_times[0] : '',
+                        indications: foundMed.indications || ''
                     });
 
                     // Reset selection

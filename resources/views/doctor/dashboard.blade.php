@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
 
-    <div class="h-[calc(100vh-10rem)] flex flex-col overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('{{ asset('images/Background.png') }}');">
-        <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col min-h-0">
-            <div class="mb-4 shrink-0">
+    <div class="flex flex-col bg-cover bg-center bg-no-repeat bg-fixed" style="background-image: url('{{ asset('images/Background.png') }}');">
+        <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col">
+            <div class="mb-4">
                 <h1 class="text-2xl font-bold text-slate-800">{{ $greeting ?? __('مرحباً د. :name', ['name' => auth()->user()->name]) }}</h1>
                 <p class="text-slate-500 mt-1 text-sm">{{ __('هنا ملخص لجدولك اليوم، نتمنى لك يوماً سعيداً وناجحاً') }}.</p>
             </div>
@@ -17,9 +17,9 @@
                 $pendingCount = $todaysAppointments->where('status', 'pending')->count();
             @endphp
 
-            <div class="flex-1 overflow-y-auto pr-2 space-y-4">
+            <div class="flex-1 pr-2 space-y-4">
             <!-- 1. The Live Patient Queue Card and Quick Stats Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 shrink-0">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
                 <!-- Patient Queue Card spans 2 columns on lg -->
                 <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden relative">
                     <!-- Top accent line -->
@@ -279,9 +279,9 @@
 
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0 pb-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-4">
                 <!-- 3. Medical Analytics Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden shrink-0 flex flex-col justify-between" x-data="medicalAnalytics()">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden flex flex-col justify-between" x-data="medicalAnalytics()">
                     <div class="p-4 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-4">
@@ -349,7 +349,7 @@
             </div>
 
             <!-- 5. Financial Stats Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0 pb-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-4">
                 <!-- Financial Stats Card -->
                 <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-lg border border-slate-700 p-4 text-white relative overflow-hidden flex flex-col justify-between">
                     <!-- Decor -->

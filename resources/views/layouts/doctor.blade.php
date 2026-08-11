@@ -33,7 +33,7 @@
         </script>
         @stack('styles')
     </head>
-    <body class="font-sans antialiased bg-slate-50 dark:bg-gray-900 text-slate-800 dark:text-gray-200">
+    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-slate-800 dark:text-gray-200">
         <x-dynamic-island />
         <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, darkMode: localStorage.getItem('theme') === 'dark', toggleDarkMode() { this.darkMode = !this.darkMode; const theme = this.darkMode ? 'dark' : 'default'; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); document.documentElement.classList.toggle('dark', this.darkMode); } }" class="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
 

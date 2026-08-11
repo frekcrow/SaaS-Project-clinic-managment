@@ -1,11 +1,4 @@
 <x-app-layout>
-    <div class="fixed top-0 left-0 w-screen h-screen -z-50 bg-cover bg-center bg-no-repeat" style="background-image: url('{{ asset('images/Background.png') }}');"></div>
-    <style>
-        body, .min-h-screen { background-color: transparent !important; }
-        /* To ensure the background shows correctly */
-        #app-layout-main, .bg-gray-50, .bg-slate-50, main { background-color: transparent !important; }
-    </style>
-
     <x-slot name="header">
         {{ $greeting ?? __('لوحة التحكم') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>

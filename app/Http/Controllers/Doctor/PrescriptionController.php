@@ -24,6 +24,7 @@ class PrescriptionController extends Controller
             ]
         );
 
+        $patients = Patient::where('tenant_id', $tenantId)->get();
         $medications = Medication::where('tenant_id', $tenantId)->get();
 
         // Fetch appointments for today as a convenient patient list, or recently updated ones
@@ -32,7 +33,7 @@ class PrescriptionController extends Controller
             ->with('patient')
             ->get();
 
-        return view('doctor.prescriptions.index', compact('settings', 'medications', 'appointments'));
+        return view('doctor.prescriptions.index', compact('settings', 'patients', 'medications', 'appointments'));
     }
 
     public function updateSettings(Request $request)

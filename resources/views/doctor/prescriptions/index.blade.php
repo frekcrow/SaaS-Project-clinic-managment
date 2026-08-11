@@ -64,9 +64,9 @@
                             <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('المريض') }} ({{ __('مواعيد اليوم') }})</label>
                             <select x-model="selectedAppointmentId" @change="updatePatientData" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
                                 <option value="">-- {{ __('اختر مريض') }} --</option>
-                                @foreach($appointments as $app)
-                                    <option value="{{ $app->id }}" data-patient="{{ $app->patient_name ?? ($app->patient ? $app->patient->name : '') }}" data-date="{{ $app->appointment_date ? $app->appointment_date->format('Y/m/d') : today()->format('Y/m/d') }}" data-booking="{{ $app->queue_number ?? $app->id }}">
-                                        {{ $app->patient_name ?? ($app->patient ? $app->patient->name : __('بدون اسم')) }}
+                                @foreach($patients as $patient)
+                                    <option value="{{ $patient->id }}" data-patient="{{ $patient->name }}" data-date="{{ today()->format('Y/m/d') }}" data-booking="{{ $patient->id }}">
+                                        {{ $patient->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -99,8 +99,8 @@
                                 <select x-model="selectedMedicationId" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
                                     <option value="">-- {{ __('اختر دواء') }} --</option>
                                     @foreach($medications as $med)
-                                        <option value="{{ $med->id }}" data-name="{{ $med->trade_name }} {{ $med->strength }}" data-generic="{{ $med->generic_name }}" data-type="{{ $med->medication_type }}">
-                                            {{ $med->trade_name }} {{ $med->strength }}
+                                        <option value="{{ $med->id }}" data-name="{{ $med->name }}" data-generic="{{ $med->generic_name }}" data-type="{{ $med->medication_type }}">
+                                            {{ $med->name }}
                                         </option>
                                     @endforeach
                                 </select>

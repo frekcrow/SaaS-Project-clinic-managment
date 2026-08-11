@@ -29,7 +29,7 @@
             }
         </script>
     </head>
-    <body class="font-sans antialiased bg-slate-50 dark:bg-gray-900 text-slate-800 dark:text-gray-200">
+    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-slate-800 dark:text-gray-200">
         <x-dynamic-island />
         <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, darkMode: localStorage.getItem('theme') === 'dark', toggleDarkMode() { this.darkMode = !this.darkMode; const theme = this.darkMode ? 'dark' : 'default'; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); document.documentElement.classList.toggle('dark', this.darkMode); } }" class="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
 
@@ -296,7 +296,7 @@
                 </header>
 
                 <!-- Page Content (Scrollable) -->
-                <main class="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-20 bg-slate-50 dark:bg-gray-900">
+                <main class="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900">
                     <!-- Page Heading -->
                     @isset($header)
                         <div class="mb-6 flex items-center justify-between">

@@ -4,7 +4,7 @@
     </x-slot>
 
     <!-- Main Dashboard Master Container -->
-    <div class="bg-white rounded-3xl shadow-sm p-4 flex flex-col h-[calc(100vh-10rem)]">
+    <div class="bg-cover bg-center bg-no-repeat bg-fixed rounded-3xl shadow-sm p-4 flex flex-col h-[calc(100vh-10rem)]" style="background-image: url('{{ asset('images/Background.png') }}');">
 
     <!-- Main Quick Actions Container -->
     <div class="flex flex-col sm:flex-row items-center justify-between w-full mb-6 gap-4">
@@ -33,7 +33,7 @@
             <!-- Queue Capsule -->
             <div x-data="queueCapsule"
                  x-init="initCapsule"
-                 class="flex items-center justify-center relative overflow-hidden bg-white rounded-2xl p-4 shadow-sm border border-gray-100 w-full sm:w-56 h-16 min-w-max">
+                 class="flex items-center justify-center relative overflow-hidden bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-md border border-gray-100 w-full sm:w-56 h-16 min-w-max">
 
                 <template x-for="(state, index) in states" :key="state.id">
                     <div x-show="currentIndex === index"
@@ -71,7 +71,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-4">
 
         <!-- Grouping 1: Clinic Status & Visitors (40%) -->
-        <div class="lg:col-span-5 border border-gray-900 rounded-2xl p-4 flex flex-col justify-center">
+        <div class="lg:col-span-5 bg-white dark:bg-gray-800 shadow-md border-transparent rounded-2xl p-4 flex flex-col justify-center">
             <div class="grid grid-cols-2 gap-4 h-full">
                 <!-- Live Consultation Status Card -->
                 <div class="relative overflow-hidden w-full h-full flex flex-col justify-center border-l border-slate-100 pl-4"
@@ -137,7 +137,7 @@
         </div>
 
         <!-- Grouping 2: Today's Stats (60%) -->
-        <div class="lg:col-span-7 border border-gray-900 rounded-2xl p-4 flex flex-col justify-center">
+        <div class="lg:col-span-7 bg-white dark:bg-gray-800 shadow-md border-transparent rounded-2xl p-4 flex flex-col justify-center">
             <div class="grid grid-cols-3 gap-4 h-full">
                 <!-- Card 1: Today's Appointments -->
                 <div class="flex flex-col justify-between h-full border-l border-slate-100 pl-4">
@@ -257,7 +257,7 @@
     @endif
 
     <!-- Mini Appointments Table -->
-    <div class="bg-white rounded-3xl shadow-sm border border-black/5 flex-1 min-h-0 flex flex-col overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-md border border-black/5 flex-1 min-h-0 flex flex-col overflow-hidden">
         <div class="p-4 border-b border-black/5 flex items-center justify-between shrink-0">
             <h2 class="text-lg font-bold text-slate-800">{{ __('مواعيد اليوم') }}</h2>
             <a href="{{ route('appointments.index') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">{{ __('عرض الكل') }}</a>

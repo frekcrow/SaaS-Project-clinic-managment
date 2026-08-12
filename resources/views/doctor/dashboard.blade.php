@@ -8,7 +8,7 @@
     <div class="h-[calc(100vh-10rem)] flex flex-col overflow-hidden">
         <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col min-h-0">
             <div class="mb-4 shrink-0">
-                <h1 class="text-2xl font-bold text-slate-800">{{ $greeting ?? __('مرحباً د. :name', ['name' => auth()->user()->name]) }}</h1>
+                <h1 class="text-3xl font-bold text-gray-900">{{ $greeting ?? __('مرحباً د. :name', ['name' => auth()->user()->name]) }}</h1>
                 <p class="text-slate-500 mt-1 text-sm">{{ __('هنا ملخص لجدولك اليوم، نتمنى لك يوماً سعيداً وناجحاً') }}.</p>
             </div>
 
@@ -19,11 +19,11 @@
 
             <div class="flex-1 overflow-y-auto pr-2 space-y-4">
             <!-- 1. The Live Patient Queue Card and Quick Stats Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 shrink-0">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6 shrink-0">
                 <!-- Patient Queue Card spans 2 columns on lg -->
-                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden relative">
+                <div class="lg:col-span-2 bg-[#114b32] text-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-none overflow-hidden relative p-6">
                     <!-- Top accent line -->
-                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-blue-500"></div>
+
 
                     <div class="p-4 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
@@ -39,18 +39,18 @@
                             </div>
 
                             <div>
-                                <div class="text-xs font-bold tracking-wide text-teal-600 mb-1 uppercase flex items-center gap-2">
+                                <div class="text-xs font-bold tracking-wide text-green-100 mb-1 uppercase flex items-center gap-2">
                                     <span class="relative flex h-2 w-2">
                                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
                                       <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
                                     </span>
                                     {{ __('المراجع القادم') }} ({{ __('الانتظار') }})
                                 </div>
-                                <h2 class="text-xl font-black text-slate-800 mb-1">
+                                <h2 class="text-xl font-black text-white mb-1">
                                     {{ $pendingAppt ? ($pendingAppt->patient_name ?? ($pendingAppt->patient ? $pendingAppt->patient->name : '-')) : __('لا يوجد مراجعين في الانتظار') }}
                                 </h2>
                                 @if($pendingAppt && $pendingAppt->patient)
-                                    <a href="{{ route('patients.show', $pendingAppt->patient->id) }}" class="inline-flex items-center text-xs text-slate-500 hover:text-teal-600 transition-colors gap-1 group">
+                                    <a href="{{ route('patients.show', $pendingAppt->patient->id) }}" class="inline-flex items-center text-xs text-green-50 hover:text-green-100 transition-colors gap-1 group">
                                         <svg class="w-3 h-3 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                                         {{ __('عرض الملف الطبي الكامل') }}
                                     </a>
@@ -64,7 +64,7 @@
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="in_progress">
-                                    <button type="submit" class="w-full md:w-auto px-4 py-2 bg-black text-white rounded-xl font-bold text-sm shadow-sm hover:bg-neutral-800 hover:shadow-md transition-all flex items-center justify-center gap-1">
+                                    <button type="submit" class="w-full md:w-auto px-4 py-2 bg-white text-[#114b32] rounded-full font-bold text-sm shadow-sm hover:bg-gray-100 hover:shadow-md transition-all flex items-center justify-center gap-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                         {{ __('بدء الجلسة') }}
                                     </button>
@@ -74,7 +74,7 @@
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="cancelled">
-                                    <button type="submit" class="w-full md:w-auto px-4 py-2 bg-white text-red-600 border border-slate-200 rounded-xl font-bold text-sm shadow-sm hover:bg-red-50 hover:border-red-100 transition-all">
+                                    <button type="submit" class="w-full md:w-auto px-4 py-2 bg-[#0a2e1f] text-white border-none rounded-full font-bold text-sm shadow-sm hover:bg-[#072418] hover:shadow-md transition-all">
                                         {{ __('تخطي') }}
                                     </button>
                                 </form>
@@ -88,14 +88,14 @@
                     @endphp
 
                     @if($inProgressAppt)
-                        <div class="border-t border-slate-100 bg-slate-50/50 p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="border-none bg-white/10 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                                     <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                                 </div>
                                 <div>
                                     <div class="text-xs font-bold text-blue-600 mb-1">{{ __('جلسة نشطة حالياً') }}</div>
-                                    <div class="text-sm font-semibold text-slate-800">{{ $inProgressAppt->patient_name ?? ($inProgressAppt->patient ? $inProgressAppt->patient->name : '-') }}</div>
+                                    <div class="text-sm font-semibold text-white">{{ $inProgressAppt->patient_name ?? ($inProgressAppt->patient ? $inProgressAppt->patient->name : '-') }}</div>
                                 </div>
                             </div>
 
@@ -119,14 +119,14 @@
                 </div>
 
                 <!-- Card 1 (Today's Surgeries) -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="bg-white text-gray-900 rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-none flex flex-col justify-between">
                     <div class="relative z-10 flex flex-col justify-between h-full w-full">
                         <div>
                             <div class="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center mb-2">
                                 <svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
                             </div>
                             <h3 class="text-slate-500 font-medium text-sm mb-1">{{ __('عمليات اليوم') }}</h3>
-                            <div class="text-2xl font-black text-slate-800">{{ $pendingSurgeries ?? 0 }}</div>
+                            <div class="text-4xl font-extrabold mt-4 mb-2 font-black text-gray-900">{{ $pendingSurgeries ?? 0 }}</div>
                         </div>
 
                         <div class="mt-4" x-data="{ showAddModal: false }">
@@ -240,7 +240,7 @@
                                                 </div>
                                             </div>
                                             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200">
-                                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-gray-900 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
                                                     {{ __('إضافة العملية') }}
                                                 </button>
                                                 <button type="button" @click="showAddModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
@@ -257,14 +257,14 @@
                 </div>
 
                 <!-- Card 2 (Pending Appointments) -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="bg-white text-gray-900 rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-none flex flex-col justify-between">
                     <div class="relative z-10 flex flex-col justify-between h-full w-full">
                         <div>
                             <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center mb-2">
                                 <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
                             <h3 class="text-slate-500 font-medium text-sm mb-1">{{ __('المراجعين في الانتظار') }}</h3>
-                            <div class="text-2xl font-black text-slate-800">{{ $pendingCount }}</div>
+                            <div class="text-4xl font-extrabold mt-4 mb-2 font-black text-gray-900">{{ $pendingCount }}</div>
                         </div>
 
                         <div class="mt-4">
@@ -281,11 +281,11 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0 pb-4">
                 <!-- 3. Medical Analytics Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden shrink-0 flex flex-col justify-between" x-data="medicalAnalytics()">
+                <div class="bg-white rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-none flex flex-col justify-between" x-data="medicalAnalytics()">
                     <div class="p-4 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-4">
-                            <h2 class="text-lg font-bold text-slate-800">{{ __('المخطط الطبي') }}</h2>
+                            <h2 class="text-lg font-bold text-gray-900">{{ __('المخطط الطبي') }}</h2>
 
                             <div class="flex items-center gap-2 w-full sm:w-auto">
                                 <!-- Dropdown Filter -->
@@ -312,7 +312,7 @@
                             <template x-for="tab in tabs" :key="tab.id">
                                 <button
                                     @click="activeTab = tab.id; updateChart()"
-                                    :class="activeTab === tab.id ? 'bg-teal-600 text-white shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'"
+                                    :class="activeTab === tab.id ? 'bg-teal-600 text-gray-900 shadow-md' : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'"
                                     class="px-3 py-1.5 rounded-xl font-bold text-xs transition-all duration-200"
                                     x-text="tab.name"
                                 ></button>
@@ -322,11 +322,11 @@
                 </div>
 
                 <!-- 4. Financial Analytics Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden" x-data="financialAnalytics()">
+                <div class="bg-white rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-none overflow-hidden" x-data="financialAnalytics()">
                     <div class="p-4 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-4">
-                            <h2 class="text-lg font-bold text-slate-800">{{ __('مؤشر النمو المالي') }}</h2>
+                            <h2 class="text-lg font-bold text-gray-900">{{ __('مؤشر النمو المالي') }}</h2>
 
                             <div class="flex items-center gap-2 w-full sm:w-auto">
                                 <select x-model="timeFilter" @change="updateChart" class="border-gray-300 rounded-md shadow-sm focus:border-teal-500 focus:ring-teal-500 text-xs py-1.5 px-2">
@@ -351,10 +351,10 @@
             <!-- 5. Financial Stats Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0 pb-4">
                 <!-- Financial Stats Card -->
-                <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-lg border border-slate-700 p-4 text-white relative overflow-hidden flex flex-col justify-between">
+                <div class="bg-white text-gray-900 rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-none flex flex-col justify-between">
                     <!-- Decor -->
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-[100px]"></div>
-                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-teal-500/20 rounded-tr-[80px] blur-2xl"></div>
+
+
 
                     <div class="relative z-10 mb-4">
                         <div class="flex items-center gap-2 mb-4">
@@ -368,7 +368,7 @@
                             <!-- Income -->
                             <div>
                                 <div class="text-xs text-slate-400 mb-1">{{ __('الدخل العام') }}</div>
-                                <div class="text-xl font-black text-white">{{ number_format($totalIncome ?? 0) }} {{ __('د.ع') }}</div>
+                                <div class="text-xl font-black text-slate-800">{{ number_format($totalIncome ?? 0) }} {{ __('د.ع') }}</div>
                             </div>
 
                             <!-- Net Worth -->
@@ -379,14 +379,14 @@
                         </div>
                     </div>
 
-                    <div class="relative z-10 grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
+                    <div class="relative z-10 grid grid-cols-2 gap-4 pt-4 border-t border-slate-100">
                         <div>
                             <div class="text-xs text-slate-400 mb-1">{{ __('مجموع أموال العمليات') }}</div>
-                            <div class="font-bold text-white text-sm">{{ number_format($totalSurgeryIncome ?? 0) }} {{ __('د.ع') }}</div>
+                            <div class="font-bold text-slate-800 text-sm">{{ number_format($totalSurgeryIncome ?? 0) }} {{ __('د.ع') }}</div>
                         </div>
                         <div>
                             <div class="text-xs text-slate-400 mb-1">{{ __('متوسط الدخل للعملية') }}</div>
-                            <div class="font-bold text-white text-sm">{{ number_format($avgSurgeryIncome ?? 0) }} {{ __('د.ع') }}</div>
+                            <div class="font-bold text-slate-800 text-sm">{{ number_format($avgSurgeryIncome ?? 0) }} {{ __('د.ع') }}</div>
                         </div>
                         <div>
                             <div class="text-xs text-slate-400 mb-1">{{ __('إجمالي المصاريف') }}</div>
@@ -394,7 +394,7 @@
                         </div>
                         <div>
                             <div class="text-xs text-slate-400 mb-1">{{ __('المصاريف') }} ({{ __('مدفوعة') }}/{{ __('غير مدفوعة') }})</div>
-                            <div class="font-bold text-white text-xs">
+                            <div class="font-bold text-slate-800 text-xs">
                                 <span class="text-green-400">{{ number_format($paidExpenses ?? 0) }}</span> /
                                 <span class="text-red-400">{{ number_format($unpaidExpenses ?? 0) }}</span>
                             </div>

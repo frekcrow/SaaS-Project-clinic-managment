@@ -57,48 +57,49 @@
                 </div>
 
                 <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('dashboard') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-xs text-gray-400 uppercase tracking-wider block px-4 mb-2 mt-4">Menu</span>
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group {{ request()->routeIs('dashboard') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('لوحة التحكم') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.patients.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.patients.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.patients.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group {{ request()->routeIs('doctor.patients.*') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('ملفات المرضى') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.surgeries.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.surgeries.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.surgeries.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group {{ request()->routeIs('doctor.surgeries.*') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('العمليات') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.billing.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.billing.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.billing.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group {{ request()->routeIs('doctor.billing.*') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('الحسابات والفوترة') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.appointments.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.appointments.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.appointments.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group {{ request()->routeIs('doctor.appointments.*') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('تقويم المواعيد') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.prescriptions.index') }}" class="flex items-center gap-3 px-3 py-2 {{ request()->routeIs('doctor.prescriptions.*') ? 'bg-teal-500/10 text-teal-400' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }} rounded-2xl transition-all duration-200 group">
+                    <a href="{{ route('doctor.prescriptions.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 {{ request()->routeIs('doctor.prescriptions.*') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }} transition-all duration-200 group">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('تهيئة الوصفات') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.medications.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.medications.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.medications.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group {{ request()->routeIs('doctor.medications.*') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('الأدوية') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.settings.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.settings.*') ? 'bg-slate-800 text-teal-400' : '' }}">
+                    <a href="{{ route('doctor.settings.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group {{ request()->routeIs('doctor.settings.*') ? 'bg-[#114b32] text-white rounded-full px-5 py-3 shadow-md' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('الإعدادات') }}</span>
                     </a>
 
                     <div x-data="{ openSupport: false }" class="relative">
-                        <button @click="openSupport = !openSupport" class="w-full flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group">
+                        <button @click="openSupport = !openSupport" class="w-full flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group">
                             <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                             <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap truncate">{{ __('الدعم الفني') }}</span>
                         </button>
@@ -117,7 +118,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('api.notifications.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-300 hover:bg-slate-800 hover:text-white rounded-2xl transition-all duration-200 group">
+                    <a href="{{ route('api.notifications.index') }}" class="flex items-center gap-3 text-gray-500 hover:bg-gray-100 hover:text-gray-900 rounded-full px-5 py-3 transition-all duration-200 group">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                         </svg>
@@ -131,7 +132,7 @@
             <!-- Main Content Area -->
             <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
                 <!-- Top Header (Floating) -->
-                <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-slate-200 dark:border-gray-700 flex-shrink-0">
+                <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-transparent border-0 flex-shrink-0">
 
                     <!-- Dynamic Header Logo -->
                     <div class="flex items-center gap-2" x-cloak x-show="isCollapsed" x-transition.opacity.duration.300ms>
@@ -142,7 +143,7 @@
                     <!-- Right side: Notifications -->
                     <div class="flex items-center gap-4" x-data="notificationsDropdown()" @notification-read.window="fetchNotifications()">
                         <!-- Dark Mode Toggle -->
-                        <button @click="toggleDarkMode()" class="p-2 bg-white dark:bg-gray-800 rounded-full shadow-sm hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors border border-transparent dark:border-gray-600">
+                        <button @click="toggleDarkMode()" class="bg-gray-100 text-gray-600 rounded-full p-2.5 hover:bg-gray-200 border-none shadow-none">
                             <!-- Sun icon for dark mode (to switch to light) -->
                             <svg x-cloak x-show="darkMode" class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
@@ -154,7 +155,7 @@
                         </button>
 
                         <div class="relative">
-                            <button @click="open = !open" class="p-2 bg-white dark:bg-gray-800 rounded-full shadow-sm hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors border border-transparent dark:border-gray-600 relative">
+                            <button @click="open = !open" class="bg-gray-100 text-gray-600 rounded-full p-2.5 hover:bg-gray-200 border-none shadow-none relative">
                                 <svg class="w-6 h-6 text-slate-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                                 <span x-cloak x-show="unreadCount > 0" x-text="unreadCount" class="absolute top-0 end-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform rtl:translate-x-1/4 ltr:-translate-x-1/4 -translate-y-1/4 bg-red-600 rounded-full"></span>
                             </button>
@@ -207,7 +208,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                                 </svg>
                             </div>
-                            <input type="text" x-model="query" @input.debounce.300ms="search" @focus="open = true" class="w-full bg-white border-[1.5px] border-black/80 rounded-full shadow-sm py-2.5 pe-11 ps-4 focus:ring-2 focus:ring-teal-500/50 focus:outline-none text-sm text-slate-700 placeholder-slate-400 transition-shadow" placeholder="{{ __('بحث') }}...">
+                            <input type="text" x-model="query" @input.debounce.300ms="search" @focus="open = true" class="w-full bg-gray-100 rounded-full px-6 py-2.5 text-sm text-gray-500 border-none focus:outline-none transition-shadow ps-4 pe-11" placeholder="{{ __('بحث') }}...">
 
                             <!-- Search Results Dropdown -->
                             <div x-cloak x-show="open && results.length > 0" x-transition class="absolute top-14 w-full bg-white shadow-xl rounded-2xl border border-slate-100 py-2 z-[60] overflow-hidden">

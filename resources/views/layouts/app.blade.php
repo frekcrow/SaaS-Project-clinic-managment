@@ -28,6 +28,7 @@
                 document.documentElement.classList.add('dark');
             }
         </script>
+        <link rel="stylesheet" href="{{ asset('css/mobile-responsive.css') }}">
     </head>
     <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-slate-800 dark:text-gray-200">
         <x-dynamic-island />

@@ -18,7 +18,7 @@
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
         <!-- Scripts -->
-        {{ Vite::useScriptTagAttributes(['data-turbo-track' => 'reload'])->useStyleTagAttributes(['data-turbo-track' => 'reload'])->withEntryPoints(['resources/css/app.css', 'resources/js/app.js']) }}
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <style>
             [x-cloak] { display: none !important; }
         </style>

@@ -20,7 +20,182 @@
 
         $groupedRecords = collect($formattedPatients)->sortByDesc('created_at_date')->groupBy('created_at_date');
     @endphp
-    <div class="py-12" x-data="patientsGrid(@js($formattedPatients))">
+    <div class="py-12" x-data="{
+patients: {{ $formattedPatients->values()->toJson() }},
+                search: '',
+                sortBy: 'newest',
+                viewMode: 'default',
+                editMode: false,
+                selected: [],
+                showTransferModal: false,
+                transferPatient: null,
+                transferForm: {
+                    surgery_type_id: '',
+                    surgery_date: '',
+                    hospital_name: '',
+                    surgeon_name: '',
+                    disease_name: '',
+                    assistant_name: '',
+                    anesthesiologist_name: '',
+                    anesthesia_type: '',
+                    cost: '',
+                    notes: ''
+                },
+
+                openTransferModal(patient) {
+                    this.transferPatient = patient;
+                    this.transferForm.surgery_type_id = '';
+                    this.transferForm.surgery_date = '';
+                    this.transferForm.hospital_name = '';
+                    this.transferForm.surgeon_name = '';
+                    this.transferForm.disease_name = '';
+                    this.transferForm.assistant_name = '';
+                    this.transferForm.anesthesiologist_name = '';
+                    this.transferForm.anesthesia_type = '';
+                    this.transferForm.cost = '';
+                    this.transferForm.notes = '';
+                    this.showTransferModal = true;
+                },
+
+                async submitTransfer() {
+                    if (!this.transferForm.surgery_type_id || !this.transferForm.surgery_date || !this.transferForm.hospital_name || !this.transferForm.surgeon_name || !this.transferForm.disease_name || !this.transferForm.anesthesia_type || !this.transferForm.cost) {
+                        alert(@js(__('يرجى تعبئة جميع الحقول المطلوبة')));
+                        return;
+                    }
+                    try {
+                        const csrfToken = '{{ csrf_token() }}';
+                        const response = await fetch('{{ route('surgeries.store') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                patient_id: this.transferPatient.id,
+                                surgery_type_id: this.transferForm.surgery_type_id,
+                                surgery_date: this.transferForm.surgery_date,
+                                hospital_name: this.transferForm.hospital_name,
+                                surgeon_name: this.transferForm.surgeon_name,
+                                disease_name: this.transferForm.disease_name,
+                                assistant_name: this.transferForm.assistant_name,
+                                anesthesiologist_name: this.transferForm.anesthesiologist_name,
+                                anesthesia_type: this.transferForm.anesthesia_type,
+                                cost: this.transferForm.cost,
+                                notes: this.transferForm.notes
+                            })
+                        });
+
+                        if (response.ok) {
+                            this.showTransferModal = false;
+                            alert(@js(__('تم تحويل المريض بنجاح')));
+                        } else {
+                            console.error('Failed to transfer patient', await response.text());
+                            alert(@js(__('حدث خطأ أثناء تحويل المريض')));
+                        }
+                    } catch (error) {
+                        console.error('Error transferring patient:', error);
+                    }
+                },
+
+                get filteredPatients() {
+                    let filtered = this.patients;
+
+                    if (this.search) {
+                        const q = this.search.toLowerCase();
+                        filtered = filtered.filter(p => p.name.toLowerCase().includes(q) || (p.phone && p.phone.toLowerCase().includes(q)));
+                    }
+
+                    return filtered.sort((a, b) => {
+                        if (this.sortBy === 'newest') {
+                            return new Date(b.created_at || 0) < new Date(a.created_at || 0) ? -1 : 1;
+                        } else if (this.sortBy === 'oldest') {
+                            return new Date(a.created_at || 0) < new Date(b.created_at || 0) ? -1 : 1;
+                        } else if (this.sortBy === 'az') {
+                            return (a.name || '').localeCompare(b.name || '', 'ar');
+                        } else if (this.sortBy === 'za') {
+                            return (b.name || '').localeCompare(a.name || '', 'ar');
+                        }
+                        return 0;
+                    });
+                },
+
+                get allSelected() {
+                    return this.filteredPatients.length > 0 && this.selected.length === this.filteredPatients.length;
+                },
+
+                toggleSelectAll() {
+                    if (this.allSelected) {
+                        this.selected = [];
+                    } else {
+                        this.selected = this.filteredPatients.map(p => p.id);
+                    }
+                },
+
+                async savePatient(patient) {
+                    try {
+                        let updatedDob = null;
+                        if (patient.dob_year && patient.dob_month && patient.dob_day) {
+                            updatedDob = `${patient.dob_year}-${String(patient.dob_month).padStart(2, '0')}-${String(patient.dob_day).padStart(2, '0')}`;
+                            patient.dob_formatted = `${patient.dob_year}/${String(patient.dob_month).padStart(2, '0')}/${String(patient.dob_day).padStart(2, '0')}`;
+                        } else if (!patient.dob_year && !patient.dob_month && !patient.dob_day) {
+                            updatedDob = null;
+                            patient.dob_formatted = '';
+                        } else {
+                            updatedDob = patient.dob_formatted ? patient.dob_formatted.replace(/\//g, '-') : null;
+                        }
+
+                        const csrfToken = '{{ csrf_token() }}';
+                        const response = await fetch(`/patients/${patient.id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                name: patient.name,
+                                phone: patient.phone,
+                                dob: updatedDob
+                            })
+                        });
+
+                        if (!response.ok) {
+                            console.error('Failed to save patient', await response.text());
+                        }
+                    } catch (error) {
+                        console.error('Error saving patient:', error);
+                    }
+                },
+
+                async deleteSelected() {
+                    if (!confirm(@js(__('هل أنت متأكد من حذف المرضى المحددين؟')))) return;
+
+                    try {
+                        const csrfToken = '{{ csrf_token() }}';
+                        const response = await fetch('{{ route('patients.bulk_delete') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                ids: this.selected
+                            })
+                        });
+
+                        if (response.ok) {
+                            this.patients = this.patients.filter(p => !this.selected.includes(String(p.id)) && !this.selected.includes(p.id));
+                            this.selected = [];
+                        } else {
+                            console.error('Failed to delete patients', await response.text());
+                        }
+                    } catch (error) {
+                        console.error('Error deleting patients:', error);
+                    }
+                }
+}">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <!-- Top Action Bar -->
@@ -344,186 +519,5 @@
         </div>
     </div>
 
-    @push('scripts')
-    <script>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('patientsGrid', (initialPatients) => ({
-                patients: initialPatients,
-                search: '',
-                sortBy: 'newest',
-                viewMode: 'default',
-                editMode: false,
-                selected: [],
-                showTransferModal: false,
-                transferPatient: null,
-                transferForm: {
-                    surgery_type_id: '',
-                    surgery_date: '',
-                    hospital_name: '',
-                    surgeon_name: '',
-                    disease_name: '',
-                    assistant_name: '',
-                    anesthesiologist_name: '',
-                    anesthesia_type: '',
-                    cost: '',
-                    notes: ''
-                },
 
-                openTransferModal(patient) {
-                    this.transferPatient = patient;
-                    this.transferForm.surgery_type_id = '';
-                    this.transferForm.surgery_date = '';
-                    this.transferForm.hospital_name = '';
-                    this.transferForm.surgeon_name = '';
-                    this.transferForm.disease_name = '';
-                    this.transferForm.assistant_name = '';
-                    this.transferForm.anesthesiologist_name = '';
-                    this.transferForm.anesthesia_type = '';
-                    this.transferForm.cost = '';
-                    this.transferForm.notes = '';
-                    this.showTransferModal = true;
-                },
-
-                async submitTransfer() {
-                    if (!this.transferForm.surgery_type_id || !this.transferForm.surgery_date || !this.transferForm.hospital_name || !this.transferForm.surgeon_name || !this.transferForm.disease_name || !this.transferForm.anesthesia_type || !this.transferForm.cost) {
-                        alert('{{ __('يرجى تعبئة جميع الحقول المطلوبة') }}');
-                        return;
-                    }
-                    try {
-                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-                        const response = await fetch('{{ route('surgeries.store') }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': csrfToken,
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                patient_id: this.transferPatient.id,
-                                surgery_type_id: this.transferForm.surgery_type_id,
-                                surgery_date: this.transferForm.surgery_date,
-                                hospital_name: this.transferForm.hospital_name,
-                                surgeon_name: this.transferForm.surgeon_name,
-                                disease_name: this.transferForm.disease_name,
-                                assistant_name: this.transferForm.assistant_name,
-                                anesthesiologist_name: this.transferForm.anesthesiologist_name,
-                                anesthesia_type: this.transferForm.anesthesia_type,
-                                cost: this.transferForm.cost,
-                                notes: this.transferForm.notes
-                            })
-                        });
-
-                        if (response.ok) {
-                            this.showTransferModal = false;
-                            alert('{{ __('تم تحويل المريض بنجاح') }}');
-                        } else {
-                            console.error('Failed to transfer patient', await response.text());
-                            alert('{{ __('حدث خطأ أثناء تحويل المريض') }}');
-                        }
-                    } catch (error) {
-                        console.error('Error transferring patient:', error);
-                    }
-                },
-
-                get filteredPatients() {
-                    let filtered = this.patients;
-
-                    if (this.search) {
-                        const q = this.search.toLowerCase();
-                        filtered = filtered.filter(p => p.name.toLowerCase().includes(q) || (p.phone && p.phone.toLowerCase().includes(q)));
-                    }
-
-                    return filtered.sort((a, b) => {
-                        if (this.sortBy === 'newest') {
-                            return new Date(b.created_at || 0) < new Date(a.created_at || 0) ? -1 : 1;
-                        } else if (this.sortBy === 'oldest') {
-                            return new Date(a.created_at || 0) < new Date(b.created_at || 0) ? -1 : 1;
-                        } else if (this.sortBy === 'az') {
-                            return (a.name || '').localeCompare(b.name || '', 'ar');
-                        } else if (this.sortBy === 'za') {
-                            return (b.name || '').localeCompare(a.name || '', 'ar');
-                        }
-                        return 0;
-                    });
-                },
-
-                get allSelected() {
-                    return this.filteredPatients.length > 0 && this.selected.length === this.filteredPatients.length;
-                },
-
-                toggleSelectAll() {
-                    if (this.allSelected) {
-                        this.selected = [];
-                    } else {
-                        this.selected = this.filteredPatients.map(p => p.id);
-                    }
-                },
-
-                async savePatient(patient) {
-                    try {
-                        let updatedDob = null;
-                        if (patient.dob_year && patient.dob_month && patient.dob_day) {
-                            updatedDob = `${patient.dob_year}-${String(patient.dob_month).padStart(2, '0')}-${String(patient.dob_day).padStart(2, '0')}`;
-                            patient.dob_formatted = `${patient.dob_year}/${String(patient.dob_month).padStart(2, '0')}/${String(patient.dob_day).padStart(2, '0')}`;
-                        } else if (!patient.dob_year && !patient.dob_month && !patient.dob_day) {
-                            updatedDob = null;
-                            patient.dob_formatted = '';
-                        } else {
-                            updatedDob = patient.dob_formatted ? patient.dob_formatted.replace(/\//g, '-') : null;
-                        }
-
-                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-                        const response = await fetch(`/patients/${patient.id}`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': csrfToken,
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                name: patient.name,
-                                phone: patient.phone,
-                                dob: updatedDob
-                            })
-                        });
-
-                        if (!response.ok) {
-                            console.error('Failed to save patient', await response.text());
-                        }
-                    } catch (error) {
-                        console.error('Error saving patient:', error);
-                    }
-                },
-
-                async deleteSelected() {
-                    if (!confirm('{{ __('هل أنت متأكد من حذف المرضى المحددين؟') }}')) return;
-
-                    try {
-                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-                        const response = await fetch('{{ route('patients.bulk_delete') }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': csrfToken,
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                ids: this.selected
-                            })
-                        });
-
-                        if (response.ok) {
-                            this.patients = this.patients.filter(p => !this.selected.includes(String(p.id)) && !this.selected.includes(p.id));
-                            this.selected = [];
-                        } else {
-                            console.error('Failed to delete patients', await response.text());
-                        }
-                    } catch (error) {
-                        console.error('Error deleting patients:', error);
-                    }
-                }
-            }));
-        });
-    </script>
-    @endpush
 </x-app-layout>

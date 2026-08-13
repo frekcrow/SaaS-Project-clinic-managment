@@ -12,9 +12,12 @@ Alpine.plugin(mask);
 Alpine.plugin(intersect);
 window.flatpickr = flatpickr;
 
+// Start Alpine for the initial page load
 window.Alpine.start();
 
-document.addEventListener("turbo:render", () => {
-    // Re-initialize Alpine on the new body injected by Turbo
+// Use turbo:load instead of turbo:render to ensure any dynamically injected
+// scripts inside the new body have fully executed before Alpine evaluates x-data.
+document.addEventListener("turbo:load", () => {
+    // Re-initialize Alpine on the new body
     window.Alpine.initTree(document.body);
 });

@@ -11,7 +11,7 @@ Route::get('/', function () {
 use App\Http\Controllers\DashboardController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'check.subscription'])
     ->name('dashboard');
 
 use App\Http\Controllers\AppointmentController;
@@ -31,7 +31,7 @@ use App\Http\Controllers\DoctorPatientController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubSecretaryController;
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'check.subscription'])->group(function () {
     Route::post('/language/switch', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');

@@ -22,9 +22,14 @@ class NativeAppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         
+        if (app()->runningInConsole()) {
+            return;
+        }
+
+        
         Window::open()
             ->id('main')
-           ->title('Atlas Clinic System')
+            ->title('Atlas Clinic System')
             ->width(1280)
             ->height(800)
             ->minWidth(1024)
@@ -32,7 +37,6 @@ class NativeAppServiceProvider extends ServiceProvider
             ->showDevTools(false)
             ->rememberState();
     }
-
     /**
      * Return an array of php.ini directives to be set.
      */

@@ -33,7 +33,7 @@ jobs:
     - name: Install Composer Dependencies
       run: composer update --no-interaction --no-scripts --prefer-dist
 
-      - name: Install NPM Dependencies
+    - name: Install NPM Dependencies
       run: npm install
 
     - name: Build Frontend Assets

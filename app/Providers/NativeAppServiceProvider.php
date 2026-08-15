@@ -21,16 +21,16 @@ class NativeAppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // أوقفنا كود النافذة مؤقتاً ليعمل المتصفح بسلام
-        // Window::open()
-        //     ->id('main')
-        //     ->title('Atlas Clinic System')
-        //     ->width(1280)
-        //     ->height(800)
-        //     ->minWidth(1024)
-        //     ->minHeight(768)
-        //     ->showDevTools(false)
-        //     ->rememberState();
+        
+         Window::open()
+             ->id('main')
+             ->title('Atlas Clinic System')
+             ->width(1280)
+             ->height(800)
+             ->minWidth(1024)
+             ->minHeight(768)
+             ->showDevTools(false)
+             ->rememberState();
     }
 
     /**

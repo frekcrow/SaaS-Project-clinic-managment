@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 #[Description('Sends reminders for surgeries happening in 1, 2, or 3 days')]
 class SurgeryReminderCommand extends Command
 {
+    protected $signature = 'surgery:reminder';
     /**
      * Execute the console command.
      */

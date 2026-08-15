@@ -60,6 +60,8 @@ class RegisteredUserController extends Controller
 
                 $tenant = Tenant::create([
                     'name' => $request->clinic_code,
+                    'subscription_plan' => 'lifetime', 
+                    'subscription_expires_at' => null,
                     'domain' => Str::slug($request->clinic_code) . '-' . Str::random(5),
                 ]);
                 $tenantId = $tenant->id;

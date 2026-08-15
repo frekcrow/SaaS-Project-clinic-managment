@@ -33,14 +33,17 @@ class Tenant extends Model
 
     public function hasValidSubscription(): bool
     {
+        // 1. إذا تم إيقاف العيادة يدوياً، امنع الدخول
         if (!$this->is_active) {
             return false;
         }
 
-        if ($this->subscription_plan === 'lifetime') {
+        // 2. إذا كان الاشتراك مدى الحياة، أو لم يتم تحديد خطة بعد (عيادة جديدة)، اسمح بالدخول
+        if ($this->subscription_plan === 'lifetime' || $this->subscription_plan === null) {
             return true;
         }
 
+        // 3. التحقق من تاريخ الانتهاء للاشتراكات الشهرية/السنوية
         return $this->subscription_expires_at && $this->subscription_expires_at->isFuture();
     }
 

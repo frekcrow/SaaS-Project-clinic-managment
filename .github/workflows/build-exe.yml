@@ -1,0 +1,47 @@
+name: Build Atlas Windows App
+
+# متى يتم تشغيل هذا المصنع؟ (عند الرفع أو يدوياً)
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    # استخدام خادم ويندوز من جيتهاب
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite3, pdo_sqlite, bcmath, intl, gd
+        tools: composer:v2
+
+    - name: Copy .env file
+      run: copy .env.example .env
+
+    - name: Install Composer Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Generate App Key
+      run: php artisan key:generate
+
+    - name: Build NativePHP EXE
+      run: php artisan native:build win
+
+    # رفع ملف الـ exe النهائي لكي تحمله أنت
+    - name: Upload EXE Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Atlas-Clinic-Windows-App
+        path: dist/

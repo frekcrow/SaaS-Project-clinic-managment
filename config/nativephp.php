@@ -15,10 +15,12 @@ return [
      */
     'app_id' => env('NATIVEPHP_APP_ID', 'com.atlasclinic.app'),
 
+    'productName' => 'Atlas Clinic',
+
     /**
      * The Icon of your application.
      */
-    'icon' => null,
+    'icon' => resource_path('icon.ico'),
 
     /**
      * If your application allows deep linking, you can specify the scheme

@@ -46,7 +46,7 @@ class SetupWizardController extends Controller
 
         // Create the file if it doesn't exist
         if (!File::exists($sqliteFile)) {
-            File::put($sqliteFile, '');
+            touch($sqliteFile);
         }
 
         // Write to .env
@@ -55,6 +55,9 @@ class SetupWizardController extends Controller
         // Update the current configuration so migrations use it
         config(['database.connections.sqlite.database' => $sqliteFile]);
         config(['database.default' => 'sqlite']);
+
+        // Forcibly purge the old sqlite connection to use the new runtime config
+        \Illuminate\Support\Facades\DB::purge('sqlite');
 
         // Run migrations
         Artisan::call('migrate', ['--force' => true]);
@@ -82,12 +85,17 @@ class SetupWizardController extends Controller
                 $value = '"' . $value . '"';
             }
 
-            // Check if the key exists
-            if (strpos($env, $key . '=') !== false) {
-                // Update the key
-                $env = preg_replace('/^' . $key . '=.*/m', $key . '=' . str_replace('\\', '\\\\', $value), $env);
+            // Check if the key exists (active or commented out)
+            $escapedValue = str_replace('\\', '\\\\', $value);
+
+            // Match an active key or a commented out key with or without a space after #
+            $pattern = '/^#?\s*' . preg_quote($key, '/') . '=.*/m';
+
+            if (preg_match($pattern, $env)) {
+                // Replace the entire matched line with the new active key=value pair
+                $env = preg_replace($pattern, $key . '=' . $escapedValue, $env);
             } else {
-                // Append the key
+                // Append the key if not found
                 $env .= "\n" . $key . '=' . $value . "\n";
             }
 

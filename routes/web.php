@@ -125,7 +125,7 @@ Route::middleware(['auth', 'check.subscription.status'])->group(function () {
     });
 
     // Notifications
-    Route::view('/notifications', 'notifications.index')->name('notifications.index');
+    Route::get('/notifications', [\App\Http\Controllers\SystemNotificationController::class, 'index'])->name('notifications.index');
     Route::get('/api/notifications/latest', [NotificationController::class, 'latest'])->name('api.notifications.latest');
     Route::get('/api/notifications', [NotificationController::class, 'index'])->name('api.notifications.index');
     Route::post('/api/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('api.notifications.read');

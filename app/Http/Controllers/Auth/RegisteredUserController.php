@@ -17,6 +17,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use App\Models\Tenant;
+use App\Services\LicenseService;
 
 class RegisteredUserController extends Controller
 {
@@ -48,9 +49,19 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'activation_code' => ['required', 'string'],
         ]);
 
-        $user = DB::transaction(function () use ($request) {
+        $licenseService = app(LicenseService::class);
+        try {
+            $payload = $licenseService->decodeAndValidateCode($request->activation_code, null, true, $request->clinic_code);
+        } catch (\Exception $e) {
+            throw ValidationException::withMessages([
+                'activation_code' => $e->getMessage(),
+            ]);
+        }
+
+        $user = DB::transaction(function () use ($request, $payload) {
             $tenantId = null;
 
             if ($request->role === 'Doctor') {
@@ -62,9 +73,16 @@ class RegisteredUserController extends Controller
 
                 $tenant = Tenant::create([
                     'name' => $request->clinic_code,
-                    'subscription_plan' => 'lifetime', 
-                    'subscription_expires_at' => null,
+                    'subscription_plan' => $payload->plan ?? null,
+                    'subscription_expires_at' => match($payload->plan ?? '') {
+                        'monthly' => now()->addDays(30),
+                        'yearly' => now()->addDays(365),
+                        'trial' => now()->addDays($payload->trial_days ?? 14),
+                        'lifetime' => null,
+                        default => null
+                    },
                     'domain' => Str::slug($request->clinic_code) . '-' . Str::random(5),
+                    'is_active' => true,
                 ]);
                 $tenantId = $tenant->id;
             } elseif ($request->role === 'Secretary') {
@@ -89,6 +107,10 @@ class RegisteredUserController extends Controller
                 'role' => $request->role,
                 'clinic_code' => $request->clinic_code,
             ]);
+
+            if (isset($payload->jti)) {
+                app(LicenseService::class)->markAsUsed($payload->jti, $tenantId, $request->clinic_code);
+            }
 
             return $user;
         });

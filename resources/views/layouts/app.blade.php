@@ -31,6 +31,11 @@
     </head>
     <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-slate-800 dark:text-gray-200">
         <x-dynamic-island />
+        @if(isset($subscriptionWarning) && $subscriptionWarning)
+            <div class="bg-yellow-500 text-white text-center py-2 font-bold z-[100] relative">
+                {{ __('Warning: Your subscription will expire soon. Please renew.') }}
+            </div>
+        @endif
         <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, darkMode: localStorage.getItem('theme') === 'dark', toggleDarkMode() { this.darkMode = !this.darkMode; const theme = this.darkMode ? 'dark' : 'default'; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); document.documentElement.classList.toggle('dark', this.darkMode); } }" class="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
 
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->

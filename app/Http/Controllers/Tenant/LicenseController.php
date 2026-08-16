@@ -39,6 +39,8 @@ class LicenseController extends Controller
             $tenant->subscription_expires_at = now()->addDays(30);
         } elseif ($plan === 'yearly') {
             $tenant->subscription_expires_at = now()->addDays(365);
+        } elseif ($plan === 'trial') {
+            $tenant->subscription_expires_at = now()->addDays($payload->trial_days ?? 14);
         } elseif ($plan === 'lifetime') {
             $tenant->subscription_expires_at = null;
         }

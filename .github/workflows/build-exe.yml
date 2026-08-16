@@ -27,8 +27,12 @@ jobs:
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite3, pdo_sqlite, bcmath, intl, gd, fileinfo
         tools: composer:v2
 
-    - name: Copy .env file
-      run: copy .env.example .env
+    - name: Optimize for Production
+      run: |
+        echo "APP_ENV=production" >> .env
+        echo "APP_DEBUG=false" >> .env
+        php artisan optimize
+        php artisan view:cache
 
     - name: Install Composer Dependencies
       run: composer update --no-interaction --no-scripts --prefer-dist

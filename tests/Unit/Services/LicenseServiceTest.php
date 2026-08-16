@@ -5,10 +5,13 @@ namespace Tests\Unit\Services;
 use App\Services\LicenseService;
 use Exception;
 use Firebase\JWT\JWT;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class LicenseServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected LicenseService $licenseService;
     protected string $secretKey = 'Atlas_Clinic_Super_Secret_Key_2026_V1';
 

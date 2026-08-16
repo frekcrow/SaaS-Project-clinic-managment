@@ -6,6 +6,7 @@ use Exception;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
+use App\Models\UsedActivationCode;
 
 class LicenseService
 {
@@ -43,6 +44,26 @@ class LicenseService
             throw new Exception("Tenant ID mismatch");
         }
 
+        // Validate that the code (jti) has not been used already
+        if (isset($payload->jti) && UsedActivationCode::where('jti', $payload->jti)->exists()) {
+            throw new Exception("This activation code has already been used");
+        }
+
         return $payload;
+    }
+
+    /**
+     * Marks an activation code as used by inserting its jti into the database.
+     *
+     * @param string $jti The JWT ID
+     * @param int|string $tenantId The ID of the tenant using the code
+     * @return void
+     */
+    public function markAsUsed(string $jti, $tenantId): void
+    {
+        UsedActivationCode::create([
+            'jti' => $jti,
+            'tenant_id' => $tenantId,
+        ]);
     }
 }

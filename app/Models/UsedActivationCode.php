@@ -13,6 +13,8 @@ class UsedActivationCode extends Model
     protected $fillable = [
         'tenant_id',
         'jti',
+        'usage_count',
+        'bound_username',
     ];
 
     /**

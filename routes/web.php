@@ -11,7 +11,7 @@ Route::get('/', function () {
 use App\Http\Controllers\DashboardController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'check.subscription'])
+    ->middleware(['auth', 'verified', 'check.subscription.status'])
     ->name('dashboard');
 
 use App\Http\Controllers\AppointmentController;
@@ -36,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tenant/license/activate', [\App\Http\Controllers\Tenant\LicenseController::class, 'activate'])->name('tenant.license.activate');
 });
 
-Route::middleware(['auth', 'check.subscription'])->group(function () {
+Route::middleware(['auth', 'check.subscription.status'])->group(function () {
     Route::post('/language/switch', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');

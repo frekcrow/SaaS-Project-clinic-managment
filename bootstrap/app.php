@@ -21,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'check.subscription' => \App\Http\Middleware\CheckTenantSubscription::class,
+            'check.subscription.status' => \App\Http\Middleware\CheckSubscriptionStatus::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

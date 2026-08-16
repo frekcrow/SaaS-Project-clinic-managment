@@ -117,6 +117,7 @@ Route::middleware(['auth', 'check.subscription.status'])->group(function () {
         Route::post('/settings', [App\Http\Controllers\Doctor\SettingsController::class, 'update'])->name('settings.update');
         Route::post('/settings/messaging', [App\Http\Controllers\Doctor\SettingsController::class, 'updateMessaging'])->name('settings.messaging.update');
         Route::post('/settings/reset-usage', [App\Http\Controllers\Doctor\SettingsController::class, 'resetUsage'])->name('settings.reset_usage');
+        Route::post('/settings/download-logs', [App\Http\Controllers\Doctor\SettingsController::class, 'downloadLogs'])->name('settings.download_logs');
         Route::post('/settings/session-types', [SessionTypeController::class, 'store'])->name('settings.session-types.store');
         Route::delete('/settings/session-types/{id}', [SessionTypeController::class, 'destroy'])->name('settings.session-types.destroy');
         Route::post('/settings/surgery-types', [SurgeryTypeController::class, 'store'])->name('settings.surgery-types.store');

@@ -46,8 +46,9 @@ jobs:
     - name: Optimize for Production
       shell: bash
       run: |
-        echo "APP_ENV=local" >> .env
-        echo "APP_DEBUG=true" >> .env
+        echo 'APP_NAME="Atlas Clinic"' >> .env
+        echo "APP_ENV=production" >> .env
+        echo "APP_DEBUG=false" >> .env
         php artisan optimize
         php artisan view:cache
 

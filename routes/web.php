@@ -32,6 +32,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubSecretaryController;
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/settings/license/activate', [\App\Http\Controllers\Tenant\LicenseController::class, 'showActivationForm'])->name('tenant.license.show_activate');
     Route::post('/tenant/license/activate', [\App\Http\Controllers\Tenant\LicenseController::class, 'activate'])->name('tenant.license.activate');
 });
 

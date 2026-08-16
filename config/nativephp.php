@@ -20,7 +20,7 @@ return [
     /**
      * The Icon of your application.
      */
-    'icon' => public_path('icon.png'),
+    'icon' => public_path('icon.ico'),
 
     /**
      * If your application allows deep linking, you can specify the scheme

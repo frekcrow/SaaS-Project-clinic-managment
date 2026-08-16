@@ -13,6 +13,16 @@ class CheckSubscriptionStatus
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // 1. If not authenticated, let the auth middleware handle it
+        if (!auth()->check()) {
+            return $next($request);
+        }
+
+        // 2. Prevent infinite loops for license routes or logout
+        if ($request->routeIs('license.*') || $request->routeIs('tenant.license.*') || $request->routeIs('logout')) {
+            return $next($request);
+        }
+
         if ($request->user() && $request->user()->tenant) {
             $tenant = $request->user()->tenant;
 

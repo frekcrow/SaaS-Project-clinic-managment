@@ -15,13 +15,13 @@ class CheckFirstBootSetup
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Bypass the middleware if running in a testing environment
-        if (app()->runningUnitTests() || app()->environment('testing')) {
+        // Exclude the setup wizard route itself to prevent loops
+        if ($request->routeIs('setup.*')) {
             return $next($request);
         }
 
-        // Exclude the setup wizard route itself to prevent loops
-        if ($request->routeIs('setup.wizard') || $request->routeIs('setup.store')) {
+        // Bypass the middleware if running in a testing environment
+        if (app()->runningUnitTests() || app()->environment('testing')) {
             return $next($request);
         }
 

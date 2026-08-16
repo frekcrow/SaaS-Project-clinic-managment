@@ -2,11 +2,21 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\ServiceProvider;
 use Native\Laravel\Facades\Window;
 use Native\Laravel\Contracts\ProvidesPhpIni;
+use Illuminate\Contracts\Foundation\Application;
 
-class NativeAppServiceProvider implements ProvidesPhpIni
+class NativeAppServiceProvider extends ServiceProvider implements ProvidesPhpIni
 {
+    /**
+     * هذه الدالة هي "السحر" الذي سيحل التعارض بين Laravel 12 و NativePHP!
+     */
+    public function __construct(Application $app)
+    {
+        parent::__construct($app);
+    }
+
     /**
      * Executed once the native application has been booted.
      */

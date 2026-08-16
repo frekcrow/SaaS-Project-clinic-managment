@@ -28,11 +28,9 @@ class BroadcastController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'whatsapp_access_token' => 'nullable|string',
-            'whatsapp_phone_number_id' => 'nullable|string',
-            'whatsapp_business_account_id' => 'nullable|string',
             'telegram_bot_token' => 'nullable|string',
-            'telegram_bot_username' => 'nullable|string',
+            'doctor_chat_id' => 'nullable|string',
+            'secretary_chat_id' => 'nullable|string',
         ]);
 
         $tenantId = $request->user()->tenant_id;

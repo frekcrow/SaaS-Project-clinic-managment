@@ -9,6 +9,14 @@ use App\Services\LicenseService;
 class LicenseController extends Controller
 {
     /**
+     * Show the activation form.
+     */
+    public function showActivationForm()
+    {
+        return view('tenant.license.activate');
+    }
+
+    /**
      * Activate the tenant's subscription.
      */
     public function activate(Request $request, LicenseService $licenseService)

@@ -26,16 +26,21 @@ class NativeAppServiceProvider extends ServiceProvider
             return;
         }
 
-        
-        Window::open()
-            ->id('main')
-            ->title('Atlas Clinic System')
-            ->width(1280)
-            ->height(800)
-            ->minWidth(1024)
-            ->minHeight(768)
-            ->showDevTools(false)
-            ->rememberState();
+        if (class_exists(\Native\Laravel\Facades\Window::class)) {
+            try {
+                Window::open()
+                    ->id('main')
+                    ->title('Atlas Clinic System')
+                    ->width(1280)
+                    ->height(800)
+                    ->minWidth(1024)
+                    ->minHeight(768)
+                    ->showDevTools(false)
+                    ->rememberState();
+            } catch (\Exception $e) {
+                // Ignore errors when running without native app context
+            }
+        }
     }
     /**
      * Return an array of php.ini directives to be set.

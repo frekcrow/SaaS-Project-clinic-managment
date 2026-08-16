@@ -1,9 +1,7 @@
 name: Build Atlas Windows App
 
-# متى يتم تشغيل هذا المصنع؟ (عند الرفع أو يدوياً)
+# التشغيل اليدوي فقط (لتوفير دقائق البناء المجانية)
 on:
-  push:
-    
   workflow_dispatch:
 
 jobs:
@@ -27,11 +25,13 @@ jobs:
         extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite3, pdo_sqlite, bcmath, intl, gd, fileinfo
         tools: composer:v2
 
-    - name: Copy .env file
-      run: copy .env.example .env
+    # إنشاء ملف البيئة الوهمي داخل خادم جيتهاب
+    - name: Setup Environment File
+      shell: bash
+      run: cp .env.example .env
 
     - name: Install Composer Dependencies
-      run: composer update --no-interaction --no-scripts --prefer-dist
+      run: composer install --no-interaction --no-scripts --prefer-dist
 
     - name: Install NPM Dependencies
       run: npm install
@@ -41,6 +41,15 @@ jobs:
 
     - name: Generate App Key
       run: php artisan key:generate
+
+    # 🚀 الخطوة السحرية: تحويل النظام للإنتاج والسرعة القصوى 
+    - name: Optimize for Production
+      shell: bash
+      run: |
+        echo "APP_ENV=production" >> .env
+        echo "APP_DEBUG=false" >> .env
+        php artisan optimize
+        php artisan view:cache
 
     - name: Build NativePHP EXE
       run: php artisan native:build win

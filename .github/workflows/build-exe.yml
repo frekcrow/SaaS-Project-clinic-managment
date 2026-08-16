@@ -3,7 +3,7 @@ name: Build Atlas Windows App
 # متى يتم تشغيل هذا المصنع؟ (عند الرفع أو يدوياً)
 on:
   push:
-    branches: [ "main", "master" ]
+    
   workflow_dispatch:
 
 jobs:

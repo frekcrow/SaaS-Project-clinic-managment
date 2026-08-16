@@ -64,6 +64,12 @@ class SettingsController extends Controller
 
         $user->save();
 
+        if ($request->has('excel_export_path')) {
+            $user->tenant->update([
+                'excel_export_path' => $request->excel_export_path,
+            ]);
+        }
+
         return redirect()->route('doctor.settings.index')->with('success', __('تم تحديث الإعدادات بنجاح'));
     }
 
@@ -97,5 +103,33 @@ class SettingsController extends Controller
         $user->save();
 
         return back()->with('success', __('تم إعادة ضبط العداد بنجاح'));
+    }
+
+    /**
+     * Download the system activity logs securely.
+     */
+    public function downloadLogs(Request $request)
+    {
+        $request->validate([
+            'password' => ['required', 'string'],
+        ]);
+
+        $user = $request->user();
+
+        if ($user->role !== 'Doctor' && !$user->is_main_account) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => __('كلمة المرور غير صحيحة.')]);
+        }
+
+        $logPath = storage_path('logs/blackbox.log');
+
+        if (!file_exists($logPath)) {
+            return back()->withErrors(['password' => __('لا يوجد سجلات متاحة حالياً.')]);
+        }
+
+        return response()->download($logPath);
     }
 }

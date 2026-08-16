@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Traits\BelongsToTenant;
+use App\Traits\SyncsToExcel;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Patient extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, SyncsToExcel;
 
     protected $casts = [
         'dob' => 'date',

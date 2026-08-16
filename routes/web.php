@@ -8,10 +8,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+use App\Http\Controllers\SetupWizardController;
+
+Route::get('/setup', [SetupWizardController::class, 'show'])->name('setup.wizard');
+Route::post('/setup', [SetupWizardController::class, 'store'])->name('setup.store');
+
 use App\Http\Controllers\DashboardController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified', 'check.subscription'])
+    ->middleware(['auth', 'verified', 'check.subscription.status'])
     ->name('dashboard');
 
 use App\Http\Controllers\AppointmentController;
@@ -31,7 +36,12 @@ use App\Http\Controllers\DoctorPatientController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubSecretaryController;
 
-Route::middleware(['auth', 'check.subscription'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+    Route::get('/settings/license/activate', [\App\Http\Controllers\Tenant\LicenseController::class, 'showActivationForm'])->name('tenant.license.show_activate');
+    Route::post('/tenant/license/activate', [\App\Http\Controllers\Tenant\LicenseController::class, 'activate'])->name('tenant.license.activate');
+});
+
+Route::middleware(['auth', 'check.subscription.status'])->group(function () {
     Route::post('/language/switch', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
@@ -112,6 +122,7 @@ Route::middleware(['auth', 'check.subscription'])->group(function () {
         Route::post('/settings', [App\Http\Controllers\Doctor\SettingsController::class, 'update'])->name('settings.update');
         Route::post('/settings/messaging', [App\Http\Controllers\Doctor\SettingsController::class, 'updateMessaging'])->name('settings.messaging.update');
         Route::post('/settings/reset-usage', [App\Http\Controllers\Doctor\SettingsController::class, 'resetUsage'])->name('settings.reset_usage');
+        Route::post('/settings/download-logs', [App\Http\Controllers\Doctor\SettingsController::class, 'downloadLogs'])->name('settings.download_logs');
         Route::post('/settings/session-types', [SessionTypeController::class, 'store'])->name('settings.session-types.store');
         Route::delete('/settings/session-types/{id}', [SessionTypeController::class, 'destroy'])->name('settings.session-types.destroy');
         Route::post('/settings/surgery-types', [SurgeryTypeController::class, 'store'])->name('settings.surgery-types.store');
@@ -119,7 +130,7 @@ Route::middleware(['auth', 'check.subscription'])->group(function () {
     });
 
     // Notifications
-    Route::view('/notifications', 'notifications.index')->name('notifications.index');
+    Route::get('/notifications', [\App\Http\Controllers\SystemNotificationController::class, 'index'])->name('notifications.index');
     Route::get('/api/notifications/latest', [NotificationController::class, 'latest'])->name('api.notifications.latest');
     Route::get('/api/notifications', [NotificationController::class, 'index'])->name('api.notifications.index');
     Route::post('/api/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('api.notifications.read');

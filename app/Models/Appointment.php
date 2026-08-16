@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Traits\BelongsToTenant;
+use App\Traits\SyncsToExcel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Appointment extends Model
 {
-    use BelongsToTenant;
+    use BelongsToTenant, SyncsToExcel;
 
     protected $fillable = [
         'tenant_id',

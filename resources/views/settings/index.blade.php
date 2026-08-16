@@ -7,12 +7,40 @@
 
         <div class="py-12" >
         <div x-data="{ activeTab: 'profile', currentTheme: localStorage.getItem('theme') || 'default', setTheme(theme) { this.currentTheme = theme; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); } }" class="flex flex-col space-y-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Subscription Details Card -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm mb-6">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">{{ __('تفاصيل الاشتراك') }}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-2xl">
+                        <p class="text-sm text-slate-500 mb-1">{{ __('الخطة الحالية') }}</p>
+                        <p class="font-bold text-slate-800">{{ ucfirst(auth()->user()->tenant->subscription_plan ?? 'N/A') }}</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-2xl">
+                        <p class="text-sm text-slate-500 mb-1">{{ __('تاريخ الانتهاء') }}</p>
+                        <p class="font-bold text-slate-800">{{ auth()->user()->tenant->subscription_expires_at ? (is_string(auth()->user()->tenant->subscription_expires_at) ? \Carbon\Carbon::parse(auth()->user()->tenant->subscription_expires_at)->format('Y-m-d') : auth()->user()->tenant->subscription_expires_at->format('Y-m-d')) : __('مدى الحياة') }}</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-2xl flex flex-col justify-center">
+                        <p class="text-sm text-slate-500 mb-1">{{ __('الحالة') }}</p>
+                        <div>
+                            @if(!auth()->user()->tenant->hasValidSubscription())
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">{{ __('منتهي') }}</span>
+                            @elseif(auth()->user()->tenant->subscription_expires_at && (is_string(auth()->user()->tenant->subscription_expires_at) ? \Carbon\Carbon::parse(auth()->user()->tenant->subscription_expires_at)->diffInDays(now()) < 7 : auth()->user()->tenant->subscription_expires_at->diffInDays(now()) < 7))
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">{{ __('ينتهي قريباً') }}</span>
+                            @else
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">{{ __('نشط') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Global Actions Area -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-2">
                 <!-- Broadcasting Button -->
                 <a href="{{ route('secretary.broadcast.index') }}" class="w-full px-4 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl font-bold text-white hover:opacity-90 transition-opacity shadow-sm flex items-center justify-center gap-2 text-sm">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
-                    {{ __('البث الشامل') }}
+                    {{ __('المساعد الذكي') }}
                 </a>
 
                 @if(auth()->user()->role === 'Secretary' && auth()->user()->is_main_account)

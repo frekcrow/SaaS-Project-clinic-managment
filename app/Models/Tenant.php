@@ -15,6 +15,7 @@ class Tenant extends Model
         'subscription_plan',
         'subscription_expires_at',
         'active_features',
+        'excel_export_path',
     ];
 
     protected function casts(): array

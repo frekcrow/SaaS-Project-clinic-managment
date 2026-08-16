@@ -42,7 +42,6 @@ class NativeAppServiceProvider extends ServiceProvider
             ->showDevTools(false)
             ->rememberState();
     }
-
     /**
      * Return an array of php.ini directives to be set.
      */

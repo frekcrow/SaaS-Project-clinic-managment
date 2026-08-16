@@ -41,6 +41,7 @@ class DoctorSettingsUpdateRequest extends FormRequest
             'default_session_price' => ['nullable', 'numeric', 'min:0'],
             'has_sessions_system' => ['nullable', 'boolean'],
             'locale' => ['nullable', 'string', 'in:ar,en'],
+            'excel_export_path' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

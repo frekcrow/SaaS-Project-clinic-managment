@@ -6,6 +6,35 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
             <!-- Top Header & About Atlas -->
+
+
+            <!-- Subscription Details Card -->
+            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm mb-6">
+                <h3 class="text-lg font-bold text-slate-800 mb-4">{{ __('تفاصيل الاشتراك') }}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-2xl">
+                        <p class="text-sm text-slate-500 mb-1">{{ __('الخطة الحالية') }}</p>
+                        <p class="font-bold text-slate-800">{{ ucfirst(auth()->user()->tenant->subscription_plan ?? 'N/A') }}</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-2xl">
+                        <p class="text-sm text-slate-500 mb-1">{{ __('تاريخ الانتهاء') }}</p>
+                        <p class="font-bold text-slate-800">{{ auth()->user()->tenant->subscription_expires_at ? (is_string(auth()->user()->tenant->subscription_expires_at) ? \Carbon\Carbon::parse(auth()->user()->tenant->subscription_expires_at)->format('Y-m-d') : auth()->user()->tenant->subscription_expires_at->format('Y-m-d')) : __('مدى الحياة') }}</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-2xl flex flex-col justify-center">
+                        <p class="text-sm text-slate-500 mb-1">{{ __('الحالة') }}</p>
+                        <div>
+                            @if(!auth()->user()->tenant->hasValidSubscription())
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">{{ __('منتهي') }}</span>
+                            @elseif(auth()->user()->tenant->subscription_expires_at && (is_string(auth()->user()->tenant->subscription_expires_at) ? \Carbon\Carbon::parse(auth()->user()->tenant->subscription_expires_at)->diffInDays(now()) < 7 : auth()->user()->tenant->subscription_expires_at->diffInDays(now()) < 7))
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">{{ __('ينتهي قريباً') }}</span>
+                            @else
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">{{ __('نشط') }}</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <h2 class="text-3xl font-black text-slate-800 tracking-tight">{{ __('الاعدادات') }}</h2>
                 <div class="flex items-center gap-3">
@@ -151,6 +180,14 @@
                                         <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
                                     </div>
                                 </div>
+
+                        <div class="col-span-2 mt-4 pt-6 border-t border-slate-100">
+                            <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('مسار تخزين الإكسل (The Archive)') }}</h4>
+                            <x-input-label for="excel_export_path" :value="__('المسار المحلي لحفظ سجلات الإكسل تلقائياً (مثال: C:\ClinicRecords)')" />
+                            <x-text-input id="excel_export_path" name="excel_export_path" type="text" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('excel_export_path', $user->tenant->excel_export_path)" placeholder="C:\ClinicRecords" />
+                            <p class="text-xs text-slate-500 mt-1">{{ __('إذا تم ترك هذا الحقل فارغاً، فلن يتم المزامنة التلقائية لملفات الإكسل.') }}</p>
+                            <x-input-error class="mt-2" :messages="$errors->get('excel_export_path')" />
+                        </div>
 
                                 <!-- System Language -->
                                 <div class="col-span-2 pt-6 border-t border-slate-100">
@@ -374,11 +411,29 @@
             </div>
 
             <!-- Global Actions (Always visible below tabs) -->
-            <div class="p-6 sm:p-8 bg-red-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-red-100">
-                <div class="w-full space-y-4">
-                    <h4 class="text-lg font-bold text-red-800 mb-4 text-center">{{ __('إدارة الحساب') }}</h4>
+            <div class="space-y-6">
+                <!-- Black Box Logs Download -->
+                <div class="p-6 sm:p-8 bg-slate-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-200">
+                    <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('تحميل سجلات النظام (Black Box)') }}</h4>
+                    <p class="text-sm text-slate-600 mb-4">{{ __('يتطلب هذا الإجراء إدخال كلمة المرور الحالية لضمان الأمان.') }}</p>
+                    <form method="POST" action="{{ route('doctor.settings.download_logs') }}" class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                        @csrf
+                        <div class="w-full sm:w-auto flex-1">
+                            <x-text-input id="log_password" name="password" type="password" class="block w-full" placeholder="{{ __('كلمة المرور الحالية') }}" required />
+                            <x-input-error class="mt-2" :messages="$errors->get('password')" />
+                        </div>
+                        <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-slate-800 text-white font-bold rounded-2xl shadow-sm hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-800">
+                            {{ __('تحميل السجلات') }}
+                        </button>
+                    </form>
+                </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Account Actions -->
+                <div class="p-6 sm:p-8 bg-red-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-red-100">
+                    <div class="w-full space-y-4">
+                        <h4 class="text-lg font-bold text-red-800 mb-4 text-center">{{ __('إدارة الحساب') }}</h4>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <form method="POST" action="{{ route('logout') }}" class="w-full">
                             @csrf
                             <button type="submit" class="w-full text-center px-4 py-3 bg-white border border-red-200 rounded-2xl font-bold text-red-600 hover:bg-red-50 transition-colors shadow-sm">
@@ -386,9 +441,10 @@
                             </button>
                         </form>
 
-                        <a href="{{ route('profile.edit') }}" class="block w-full text-center px-4 py-3 bg-red-600 border border-transparent rounded-2xl font-bold text-white hover:bg-red-700 transition-colors shadow-sm">
-                            {{ __('حذف الحساب') }}
-                        </a>
+                            <a href="{{ route('profile.edit') }}" class="block w-full text-center px-4 py-3 bg-red-600 border border-transparent rounded-2xl font-bold text-white hover:bg-red-700 transition-colors shadow-sm">
+                                {{ __('حذف الحساب') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

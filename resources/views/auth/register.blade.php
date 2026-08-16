@@ -2,10 +2,17 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
+        <!-- Activation Code -->
+        <div class="mb-4">
+            <x-input-label for="activation_code" :value="__('Activation Code')" />
+            <x-text-input id="activation_code" class="block mt-1 w-full" type="text" name="activation_code" :value="old('activation_code')" required autofocus />
+            <x-input-error :messages="$errors->get('activation_code')" class="mt-2" />
+        </div>
+
         <!-- Role -->
         <div>
             <x-input-label for="role" :value="__('Role')" />
-            <select id="role" name="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required autofocus>
+            <select id="role" name="role" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
                 <option value="Doctor" {{ old('role') == 'Doctor' ? 'selected' : '' }}>Doctor</option>
                 <option value="Secretary" {{ old('role') == 'Secretary' ? 'selected' : '' }}>Secretary</option>
             </select>

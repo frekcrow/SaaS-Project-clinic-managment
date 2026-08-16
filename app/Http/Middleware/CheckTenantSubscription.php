@@ -17,7 +17,12 @@ class CheckTenantSubscription
     {
         if ($request->user() && $request->user()->tenant) {
             if (!$request->user()->tenant->hasValidSubscription()) {
-                return response()->view('errors.subscription_expired', [], 403);
+                return redirect()->route('tenant.license.show_activate');
+            }
+
+            // Expiration warning logic
+            if ($request->user()->tenant->subscription_expires_at && $request->user()->tenant->subscription_expires_at->diffInDays(now()) < 7) {
+                \Illuminate\Support\Facades\View::share('subscriptionWarning', true);
             }
         }
 

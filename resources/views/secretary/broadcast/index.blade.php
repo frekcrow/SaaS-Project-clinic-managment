@@ -34,39 +34,26 @@
                     <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-800">{{ __('إعدادات منصات المراسلة') }}</h3>
+                    <h3 class="text-xl font-bold text-slate-800">{{ __('المساعد الذكي (Telegram Bot)') }}</h3>
                 </div>
 
                 <form method="POST" action="{{ route('secretary.broadcast.update') }}" class="space-y-6">
                     @csrf
 
-                    <h4 class="font-bold text-slate-700 mt-6 mb-2">{{ __('WhatsApp API') }}</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
-                            <label for="whatsapp_access_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز الوصول (Access Token)') }}</label>
-                            <input type="text" id="whatsapp_access_token" name="whatsapp_access_token" value="{{ old('whatsapp_access_token', $messagingSettings->whatsapp_access_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
-
-                        <div>
-                            <label for="whatsapp_phone_number_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف رقم الهاتف (Phone Number ID)') }}</label>
-                            <input type="text" id="whatsapp_phone_number_id" name="whatsapp_phone_number_id" value="{{ old('whatsapp_phone_number_id', $messagingSettings->whatsapp_phone_number_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
-
-                        <div>
-                            <label for="whatsapp_business_account_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف حساب الأعمال (Business Account ID)') }}</label>
-                            <input type="text" id="whatsapp_business_account_id" name="whatsapp_business_account_id" value="{{ old('whatsapp_business_account_id', $messagingSettings->whatsapp_business_account_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
-                    </div>
-
-                    <h4 class="font-bold text-slate-700 mt-6 mb-2">{{ __('Telegram API') }}</h4>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="telegram_bot_username" class="block text-sm font-medium text-slate-700 mb-1">{{ __('اسم المستخدم للبوت (Bot Username)') }}</label>
-                            <input type="text" id="telegram_bot_username" name="telegram_bot_username" value="{{ old('telegram_bot_username', $messagingSettings->telegram_bot_username ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
-                        <div>
                             <label for="telegram_bot_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز البوت (Bot Token)') }}</label>
                             <input type="text" id="telegram_bot_token" name="telegram_bot_token" value="{{ old('telegram_bot_token', $messagingSettings->telegram_bot_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+
+                        <div>
+                            <label for="doctor_chat_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف دردشة الطبيب (Doctor Chat ID)') }}</label>
+                            <input type="text" id="doctor_chat_id" name="doctor_chat_id" value="{{ old('doctor_chat_id', $messagingSettings->doctor_chat_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+
+                        <div>
+                            <label for="secretary_chat_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف دردشة السكرتير (Secretary Chat ID)') }}</label>
+                            <input type="text" id="secretary_chat_id" name="secretary_chat_id" value="{{ old('secretary_chat_id', $messagingSettings->secretary_chat_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                     </div>
 

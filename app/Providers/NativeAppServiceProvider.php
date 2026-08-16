@@ -30,7 +30,7 @@ class NativeAppServiceProvider extends ServiceProvider
             try {
                 Window::open()
                     ->id('main')
-                    ->title('Atlas Clinic System')
+                    ->title(config('app.name', 'Atlas Clinic'))
                     ->width(1280)
                     ->height(800)
                     ->minWidth(1024)

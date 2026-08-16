@@ -31,6 +31,10 @@ use App\Http\Controllers\DoctorPatientController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubSecretaryController;
 
+Route::middleware(['auth'])->group(function () {
+    Route::post('/tenant/license/activate', [\App\Http\Controllers\Tenant\LicenseController::class, 'activate'])->name('tenant.license.activate');
+});
+
 Route::middleware(['auth', 'check.subscription'])->group(function () {
     Route::post('/language/switch', [\App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
 

@@ -13,12 +13,14 @@ return [
      * usually in the form of a reverse domain name.
      * For example: com.nativephp.app
      */
-    'app_id' => env('NATIVEPHP_APP_ID', 'com.nativephp.app'),
+    'app_id' => env('NATIVEPHP_APP_ID', 'com.atlasclinic.app'),
+
+    'productName' => 'Atlas Clinic',
 
     /**
      * The Icon of your application.
      */
-    'icon' => public_path('images/logo-icon.png'),
+    'icon' => public_path('icon.ico'),
 
     /**
      * If your application allows deep linking, you can specify the scheme

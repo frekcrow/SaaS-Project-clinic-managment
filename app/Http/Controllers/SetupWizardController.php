@@ -49,8 +49,9 @@ class SetupWizardController extends Controller
             touch($sqliteFile);
         }
 
-        // Write to .env
-        $this->updateEnvFile('DB_DATABASE', $sqliteFile);
+        // Write dynamic DB path to a config JSON instead of read-only .env
+        $configJsonPath = storage_path('app/config.json');
+        file_put_contents($configJsonPath, json_encode(['database_path' => $sqliteFile]));
 
         // Update the current configuration so migrations use it
         config(['database.connections.sqlite.database' => $sqliteFile]);
@@ -64,42 +65,8 @@ class SetupWizardController extends Controller
 
         // Mark setup as complete
         $flagPath = storage_path('app/first_boot.json');
-        File::put($flagPath, json_encode(['setup_complete' => true]));
+        file_put_contents($flagPath, json_encode(['setup_complete' => true]));
 
         return redirect()->route('dashboard')->with('success', __('تم إعداد قاعدة البيانات بنجاح'));
-    }
-
-    /**
-     * Update an environment variable in the .env file.
-     */
-    protected function updateEnvFile($key, $value)
-    {
-        $path = base_path('.env');
-
-        if (file_exists($path)) {
-            // Read the current .env contents
-            $env = file_get_contents($path);
-
-            // Escape value if it contains spaces
-            if (preg_match('/\s/', $value)) {
-                $value = '"' . $value . '"';
-            }
-
-            // Check if the key exists (active or commented out)
-            $escapedValue = str_replace('\\', '\\\\', $value);
-
-            // Match an active key or a commented out key with or without a space after #
-            $pattern = '/^#?\s*' . preg_quote($key, '/') . '=.*/m';
-
-            if (preg_match($pattern, $env)) {
-                // Replace the entire matched line with the new active key=value pair
-                $env = preg_replace($pattern, $key . '=' . $escapedValue, $env);
-            } else {
-                // Append the key if not found
-                $env .= "\n" . $key . '=' . $value . "\n";
-            }
-
-            file_put_contents($path, $env);
-        }
     }
 }

@@ -97,11 +97,14 @@ class RegisteredUserController extends Controller
 
         if ($user->role === 'Doctor') {
             try {
-                Http::post('http://127.0.0.1:5000/api/notify-registration', [
-                    'tenant_id' => $user->tenant_id,
-                    'clinic_name' => $user->clinic_code,
-                    'doctor_name' => $user->name,
-                ]);
+                $botApiUrl = config('services.bot.api_url');
+                if ($botApiUrl) {
+                    Http::post($botApiUrl, [
+                        'tenant_id' => $user->tenant_id,
+                        'clinic_name' => $user->clinic_code,
+                        'doctor_name' => $user->name,
+                    ]);
+                }
             } catch (\Exception $e) {
                 Log::error('Failed to notify Python API of new registration: ' . $e->getMessage());
             }

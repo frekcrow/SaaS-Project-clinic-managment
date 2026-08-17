@@ -23,24 +23,7 @@ class NativeAppServiceProvider implements ProvidesPhpIni
              ->showDevTools(false)
              ->rememberState();
         
-        Window::open()
-            ->id('main')
-           ->title('Atlas Clinic System')
-            ->width(1280)
-            ->height(800)
-            ->minWidth(1024)
-            ->minHeight(768)
-            ->showDevTools(false)
-            ->rememberState();
-        Window::open()
-            ->id('main')
-            ->title(config('app.name', 'Atlas Clinic'))
-            ->width(1280)
-            ->height(800)
-            ->minWidth(1024)
-            ->minHeight(768)
-            ->showDevTools(false)
-            ->rememberState();
+        
     }
 
     /**

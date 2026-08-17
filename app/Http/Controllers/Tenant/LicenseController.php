@@ -53,6 +53,6 @@ class LicenseController extends Controller
             $licenseService->markAsUsed($payload->jti, $tenant->id);
         }
 
-        return back()->with('success', __('Subscription activated successfully!'));
+        return redirect()->route('dashboard')->with('success', __('Subscription activated successfully!'));
     }
 }

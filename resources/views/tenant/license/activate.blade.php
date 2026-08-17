@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('tenant.license.activate') }}">
+    <form method="POST" action="{{ route('activation.submit') }}">
         @csrf
 
         <!-- Activation Code -->

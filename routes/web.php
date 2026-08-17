@@ -8,11 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\SetupWizardController;
-
-Route::get('/setup', [SetupWizardController::class, 'show'])->name('setup.wizard');
-Route::post('/setup', [SetupWizardController::class, 'store'])->name('setup.store');
-
 use App\Http\Controllers\DashboardController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])

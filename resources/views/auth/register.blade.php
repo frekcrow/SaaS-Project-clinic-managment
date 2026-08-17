@@ -2,13 +2,6 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Activation Code -->
-        <div class="mb-4">
-            <x-input-label for="activation_code" :value="__('Activation Code')" />
-            <x-text-input id="activation_code" class="block mt-1 w-full" type="text" name="activation_code" :value="old('activation_code')" required autofocus />
-            <x-input-error :messages="$errors->get('activation_code')" class="mt-2" />
-        </div>
-
         <!-- Role -->
         <div>
             <x-input-label for="role" :value="__('Role')" />

@@ -96,7 +96,6 @@
                         </div>
 
                         <div x-data="appointmentPricing({{ auth()->user()->default_consultation_price ?? 0 }}, {{ auth()->user()->default_session_price ?? 0 }})" class="mt-4 border-t pt-4 border-gray-100">
-                            @if(auth()->user()->has_sessions_system)
                                 <div class="mb-4 space-y-2">
                                     <span class="block text-sm font-medium text-gray-700">{{ __('نوع الحجز') }}</span>
                                     <div class="flex flex-col gap-4">
@@ -105,12 +104,15 @@
                                                 <input type="checkbox" x-model="isConsultation" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                                 <span class="ml-2 mr-2 text-sm text-gray-600">{{ __('كشفية') }}</span>
                                             </label>
+                                            @if(auth()->user()->has_sessions_system)
                                             <label class="inline-flex items-center">
                                                 <input type="checkbox" name="is_session" value="1" x-model="isSession" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                                 <span class="ml-2 mr-2 text-sm text-gray-600">{{ __('جلسة') }}</span>
                                             </label>
+                                            @endif
                                         </div>
 
+                                        @if(auth()->user()->has_sessions_system)
                                         <div x-show="isSession" class="mt-2" style="display: none;">
                                             <x-input-label for="session_type_id" :value="__('نوع الجلسة')" />
                                             <select id="session_type_id" name="session_type_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
@@ -123,9 +125,9 @@
                                             </select>
                                             <x-input-error :messages="$errors->get('session_type_id')" class="mt-2" />
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
-                            @endif
 
                             <!-- Price -->
                             <div class="mt-4">

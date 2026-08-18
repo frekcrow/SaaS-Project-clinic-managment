@@ -158,7 +158,7 @@
                         <div class="col-span-1 md:col-span-2 space-y-6">
                             <div>
                                 <x-input-label for="secretary_name" :value="__('اسم السكرتير/ة')" />
-                                <x-text-input id="secretary_name" name="secretary_name" type="text" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('secretary_name', $user->secretary_name)" />
+                                <x-text-input id="secretary_name" name="name" type="text" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('name', $user->name)" />
                                 <div class="mt-1 text-xs text-slate-500">{{ __('اسم المستخدم') }} ({{ __('للتسجيل') }}): {{ $user->name }}</div>
                             </div>
 
@@ -169,7 +169,7 @@
 
                             <div>
                                 <x-input-label for="email" :value="__('البريد الإلكتروني (غير قابل للتعديل هنا)')" />
-                                <x-text-input id="email" type="email" class="mt-1 block w-full rounded-2xl border-slate-200 bg-slate-100 shadow-sm text-slate-500 cursor-not-allowed" :value="$user->email" readonly disabled />
+                                <x-text-input id="email" name="email" type="email" class="mt-1 block w-full rounded-2xl border-slate-200 bg-slate-100 shadow-sm text-slate-500 cursor-not-allowed" :value="$user->email" readonly />
                             </div>
 
                             <div>

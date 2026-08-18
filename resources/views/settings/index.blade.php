@@ -122,8 +122,9 @@
             @endif
 
             <div x-show="activeTab === 'profile'" x-cloak class="space-y-8">
-            <form method="POST" action="{{ route('settings.update') }}" enctype="multipart/form-data" class="space-y-8">
+            <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="space-y-8">
                 @csrf
+                @method('PATCH')
 
                 <!-- Profile Information Card -->
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
@@ -183,7 +184,7 @@
                                     @endphp
                                     {{ __('يعمل منذ') }}: {{ str_replace(['years', 'year', 'months', 'month', 'days', 'day', 'ago', 'hours', 'hour', 'minutes', 'minute', 'seconds', 'second'], [__('سنوات'), __('سنة'), __('أشهر'), __('شهر'), __('أيام'), __('يوم'), '', __('ساعات'), __('ساعة'), __('دقائق'), __('دقيقة'), __('ثواني'), __('ثانية')], $diff) }}
                                 </div>
-                                <button type="submit" form="reset-usage-form" class="text-xs px-3 py-1.5 border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 rounded-lg transition-colors font-medium">
+                                <button type="button" form="reset-usage-form" class="text-xs px-3 py-1.5 border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 rounded-lg transition-colors font-medium" onclick="document.getElementById('reset-usage-form').submit();">
                                     {{ __('إعادة ضبط') }}
                                 </button>
                             </div>
@@ -192,7 +193,7 @@
 
                     <div class="mt-6 flex justify-end pt-6">
                         <button type="submit" class="px-6 py-3 bg-black text-white font-bold rounded-2xl shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
-                            {{ __('حفظ الإعدادات') }}
+                            {{ __('حفظ الملف الشخصي') }}
                         </button>
                     </div>
                 </div>
@@ -246,7 +247,7 @@
 
                     <div class="mt-6 flex justify-end pt-6">
                         <button type="submit" class="px-6 py-3 bg-black text-white font-bold rounded-2xl shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
-                            {{ __('حفظ الإعدادات') }}
+                            {{ __('حفظ إعدادات العيادة') }}
                         </button>
                     </div>
                 </div>

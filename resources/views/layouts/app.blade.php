@@ -162,6 +162,18 @@
 
                     <!-- Right side: Notifications -->
                     <div class="flex items-center gap-4" x-data="notificationsDropdown()" @notification-read.window="fetchNotifications()">
+                        <!-- Fullscreen Toggle -->
+                        <div x-data="{ isFullscreen: false }" @fullscreenchange.window="isFullscreen = !!document.fullscreenElement">
+                            <button @click="if (!document.fullscreenElement) { document.documentElement.requestFullscreen(); isFullscreen = true; } else { document.exitFullscreen(); isFullscreen = false; }" class="p-2 bg-white dark:bg-gray-800 rounded-full shadow-sm hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors border border-transparent dark:border-gray-600" title="{{ __('وضع ملء الشاشة') }}">
+                                <svg x-cloak x-show="!isFullscreen" class="w-6 h-6 text-slate-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                                </svg>
+                                <svg x-cloak x-show="isFullscreen" class="w-6 h-6 text-slate-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 14h4v4m0-4l-5 5m11-5h4v4m0-4l-5 5M10 10H6V6m4 4l-5-5m11 5h4V6m-4 4l5-5"></path>
+                                </svg>
+                            </button>
+                        </div>
+
                         <!-- Dark Mode Toggle -->
                         <button @click="toggleDarkMode()" class="p-2 bg-white dark:bg-gray-800 rounded-full shadow-sm hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors border border-transparent dark:border-gray-600">
                             <!-- Sun icon for dark mode (to switch to light) -->

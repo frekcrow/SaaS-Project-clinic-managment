@@ -189,6 +189,12 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="mt-6 flex justify-end pt-6">
+                        <button type="submit" class="px-6 py-3 bg-black text-white font-bold rounded-2xl shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
+                            {{ __('حفظ الإعدادات') }}
+                        </button>
+                    </div>
                 </div>
             </form>
                 <div class="p-6 sm:p-8 bg-red-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-red-100 mt-8">
@@ -203,6 +209,7 @@
 
             <div x-show="activeTab === 'clinic'" x-cloak class="space-y-8">
             <form method="POST" action="{{ route('settings.update') }}" enctype="multipart/form-data">
+                @csrf
                 <!-- Clinic Configuration Card -->
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
                     <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('إعدادات العيادة والحجوزات') }}</h3>

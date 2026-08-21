@@ -197,10 +197,13 @@
 <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-300" href="#">Solutions</a>
 <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-300" href="#">Pricing</a>
 </nav>
-<a class="flex items-center gap-sm bg-primary/10 text-primary px-md py-sm rounded-full font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-colors duration-300 active:scale-95" href="/register">
-<span>Get Started</span>
-<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-</a>
+<div class="flex items-center gap-sm">
+    <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-300 mr-sm" href="{{ route('login') }}">Login (تسجيل الدخول)</a>
+    <a class="flex items-center gap-sm bg-primary/10 text-primary px-md py-sm rounded-full font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-colors duration-300 active:scale-95" href="/register">
+        <span>Get Started</span>
+        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+    </a>
+</div>
 </div>
 </header>
 <main class="flex-grow pt-[80px]">
@@ -229,6 +232,9 @@
 <a class="btn-primary rounded-xl px-xl py-md font-label-md text-label-md flex items-center justify-center gap-sm shadow-lg shadow-primary/30" href="/register">
                         Get Started
                         <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+</a>
+<a class="btn-glass rounded-xl px-xl py-md font-label-md text-label-md flex items-center justify-center gap-sm" href="{{ route('login') }}">
+                        Login <span class="material-symbols-outlined text-[20px]">login</span>
 </a>
 <a class="btn-glass rounded-xl px-xl py-md font-label-md text-label-md flex items-center justify-center gap-sm" href="#features">
                         Explore Features

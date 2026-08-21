@@ -37,6 +37,51 @@ class SettingsController extends Controller
     }
 
     /**
+     * Update the user's profile settings.
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'clinic_name' => ['nullable', 'string', 'max:255'],
+            'bio' => ['nullable', 'string'],
+            'avatar' => ['nullable', 'image', 'max:2048'], // 2MB max
+        ]);
+
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar_path) {
+                Storage::disk('public')->delete($user->avatar_path);
+            }
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $validated['avatar_path'] = $path;
+        }
+
+        unset($validated['avatar']);
+
+        $updateData = [
+            'name' => array_key_exists('name', $validated) ? $validated['name'] : $user->name,
+            'clinic_name' => array_key_exists('clinic_name', $validated) ? $validated['clinic_name'] : $user->clinic_name,
+            'bio' => array_key_exists('bio', $validated) ? $validated['bio'] : $user->bio,
+        ];
+
+        if (isset($validated['avatar_path'])) {
+            $updateData['avatar_path'] = $validated['avatar_path'];
+        }
+
+        $user->update($updateData);
+
+        if (array_key_exists('clinic_name', $validated)) {
+            if ($user->tenant) {
+                $user->tenant->update(['name' => $validated['clinic_name']]);
+            }
+        }
+
+        return redirect()->back()->with('success', __('تم تحديث الملف الشخصي بنجاح'));
+    }
+
+    /**
      * Update the user's settings.
      */
     public function update(SettingsUpdateRequest $request)

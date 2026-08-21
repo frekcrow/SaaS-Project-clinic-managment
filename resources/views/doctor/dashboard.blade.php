@@ -1,12 +1,40 @@
 <x-doctor-layout>
-    <x-slot name="header">
+    @push('styles')
+
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <style>
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            border-radius: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .spatial-bg {
+            background-color: #f8fafc;
+            background-image:
+                radial-gradient(at 10% 10%, rgba(45, 212, 191, 0.1) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
+        }
+        .bento-font {
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+        }
+        /* Fix the Z index of modals */
+        .z-50 { z-index: 100 !important; }
+    </style>
+
+@endpush
+<x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ $greeting ?? __('Doctor Dashboard Workspace') }} - {{ __('هل أنت مستعد ليومك؟') }}
         </h2>
     </x-slot>
 
     <div class="h-[calc(100vh-10rem)] flex flex-col overflow-hidden">
-        <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col min-h-0">
+        <div class="max-w-7xl mx-auto w-full flex-1 flex flex-col min-h-0 bento-font spatial-bg p-4 rounded-3xl">
             <div class="mb-4 shrink-0">
                 <h1 class="text-2xl font-bold text-slate-800">{{ $greeting ?? __('مرحباً د. :name', ['name' => auth()->user()->name]) }}</h1>
                 <p class="text-slate-500 mt-1 text-sm">{{ __('هنا ملخص لجدولك اليوم، نتمنى لك يوماً سعيداً وناجحاً') }}.</p>
@@ -19,9 +47,9 @@
 
             <div class="flex-1 overflow-y-auto pr-2 space-y-4">
             <!-- 1. The Live Patient Queue Card and Quick Stats Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 shrink-0">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 shrink-0 relative z-10">
                 <!-- Patient Queue Card spans 2 columns on lg -->
-                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden relative">
+                <div class="lg:col-span-8 liquid-glass min-h-[250px] flex flex-col justify-between p-2">
                     <!-- Top accent line -->
                     <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-400 to-blue-500"></div>
 
@@ -119,7 +147,7 @@
                 </div>
 
                 <!-- Card 1 (Today's Surgeries) -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="lg:col-span-4 liquid-glass p-6 flex flex-col justify-between group hover:shadow-lg transition-all min-h-[250px]">
                     <div class="relative z-10 flex flex-col justify-between h-full w-full">
                         <div>
                             <div class="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center mb-2">
@@ -256,8 +284,10 @@
                     <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-indigo-50 rounded-full opacity-50 group-hover:scale-110 transition-transform"></div>
                 </div>
 
+                </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 shrink-0 relative z-10 mt-6">
                 <!-- Card 2 (Pending Appointments) -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 p-4 flex items-center justify-between group hover:shadow-md transition-shadow relative overflow-hidden">
+                <div class="lg:col-span-12 liquid-glass p-6 flex items-center justify-between group hover:shadow-lg transition-all min-h-[150px]">
                     <div class="relative z-10 flex flex-col justify-between h-full w-full">
                         <div>
                             <div class="w-8 h-8 rounded-xl bg-orange-50 flex items-center justify-center mb-2">
@@ -279,9 +309,9 @@
 
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0 pb-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 shrink-0 pb-4 relative z-10 mt-6">
                 <!-- 3. Medical Analytics Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-slate-100 overflow-hidden shrink-0 flex flex-col justify-between" x-data="medicalAnalytics()">
+                <div class="lg:col-span-8 liquid-glass overflow-hidden shrink-0 flex flex-col justify-between min-h-[450px]" x-data="medicalAnalytics()">
                     <div class="p-4 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-2 mb-4">
@@ -349,7 +379,7 @@
             </div>
 
             <!-- 5. Financial Stats Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 shrink-0 pb-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 shrink-0 pb-4 relative z-10 mt-6">
                 <!-- Financial Stats Card -->
                 <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl shadow-lg border border-slate-700 p-4 text-white relative overflow-hidden flex flex-col justify-between">
                     <!-- Decor -->

@@ -122,9 +122,8 @@
             @endif
 
             <div x-show="activeTab === 'profile'" x-cloak class="space-y-8">
-            <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" class="space-y-8">
+            <form method="POST" action="{{ route('settings.profile.update') }}" enctype="multipart/form-data" class="space-y-8">
                 @csrf
-                @method('PATCH')
 
                 <!-- Profile Information Card -->
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">

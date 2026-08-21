@@ -41,6 +41,7 @@ Route::middleware(['auth', 'ensure.activated'])->group(function () {
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::post('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile.update');
     Route::post('/settings/reset-usage', [SettingsController::class, 'resetUsage'])->name('settings.reset_usage');
 
     Route::get('/settings/sub-secretary', [SubSecretaryController::class, 'create'])->name('settings.sub-secretary.create');

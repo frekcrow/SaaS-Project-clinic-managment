@@ -1,465 +1,257 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ __('نظام أطلس - السجلات الطبية الإلكترونية المتطورة') }}</title>
+    <title>{{ config('app.name', 'Atlas Clinic') }} - Welcome</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
 
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-        <!-- Fallback for local dev if needed -->
-    @endif
+    <!-- Tailwind CSS -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         body {
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
         }
-
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.4);
+        .glass {
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
-
-        .dark .glassmorphism {
-            background: rgba(0, 0, 0, 0.4);
+        .glass-dark {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        .floating-delay-1 {
-            animation-delay: 1.5s;
-        }
-        .floating-delay-2 {
-            animation-delay: 3s;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 overflow-x-hidden selection:bg-blue-500 selection:text-white transition-colors duration-300">
+<body class="antialiased text-gray-900 selection:bg-blue-500 selection:text-white">
 
     <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 glassmorphism border-b border-gray-200 dark:border-neutral-800 transition-all duration-300">
+    <nav class="fixed w-full z-50 top-0 transition-all duration-300 glass border-b border-white/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-400 flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-blue-500/30">
-                        A
-                    </div>
-                    <span class="font-black text-2xl tracking-tight">{{ __('أطلس') }}</span>
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="/">
+                        <img src="{{ asset('images/logo-text.png') }}" alt="Atlas Logo" class="h-10 w-auto">
+                    </a>
                 </div>
-
-                <div class="hidden md:flex space-x-8 rtl:space-x-reverse">
-                    <a href="#features" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">{{ __('المميزات') }}</a>
-                    <a href="#security" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">{{ __('الأمان') }}</a>
-                    <a href="#pricing" class="text-neutral-600 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-colors">{{ __('الخطط') }}</a>
-                </div>
-
-                <div class="flex items-center gap-4">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-6 py-2.5 rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-black/10 dark:shadow-white/10">{{ __('لوحة التحكم') }}</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-neutral-700 dark:text-neutral-200 font-bold hover:text-black dark:hover:text-white transition-colors">{{ __('تسجيل الدخول') }}</a>
-                        <a href="{{ route('register') }}" class="bg-gradient-to-l from-blue-600 to-blue-500 text-white px-6 py-2.5 rounded-full font-bold hover:scale-105 hover:shadow-xl hover:shadow-blue-500/20 transition-all">{{ __('ابدأ الآن') }}</a>
-                    @endauth
+                <!-- Navigation Links -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#features" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Features</a>
+                    <a href="#showcase" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Showcase</a>
+                    @if (Route::has('login'))
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors">Log in</a>
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full font-medium transition-all shadow-lg shadow-blue-500/30">Get Started</a>
+                            @endif
+                        @endauth
+                    @endif
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- 1. Hero Section -->
-    <section class="relative pt-40 pb-20 lg:pt-52 lg:pb-32 overflow-hidden min-h-[90vh] flex items-center justify-center">
-        <!-- Abstract Background Orbs -->
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-400/20 dark:bg-blue-600/20 rounded-full blur-3xl -z-10"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-400/20 dark:bg-emerald-600/20 rounded-full blur-3xl -z-10"></div>
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTMHz2wRSDh48kYnOlQXVw1mNAUSsxcFtwrQrCTjdIupXkMcnsNKe8YOForQkgzi_12rwHmxfu3Ka11wio" alt="Clinic Interior" class="w-full h-full object-cover object-center" />
+            <!-- Overlay to make text readable and add aesthetic -->
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-900/40 to-gray-900/60 mix-blend-multiply"></div>
+        </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center" x-data="{ words: ['{{ __('السرعة') }}', '{{ __('الأمان') }}', '{{ __('الذكاء') }}', '{{ __('التطور') }}'], index: 0 }" x-init="setInterval(() => index = (index + 1) % words.length, 2500)">
-
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-tight">
-                {{ __('نظام أطلس يمنح عيادتك') }}
-                <br />
-                <span class="inline-block min-w-[200px] text-transparent bg-clip-text bg-gradient-to-l from-blue-600 to-emerald-400 transition-all duration-500 ease-in-out" x-text="words[index]"></span>
-            </h1>
-
-            <p class="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-12 font-medium leading-relaxed">
-                {{ __('بنية تحتية سحابية متطورة لإدارة السجلات الطبية الإلكترونية، مصممة خصيصاً للارتقاء بمستوى الرعاية الصحية في عيادتك بمعايير عالمية') }}.
-            </p>
-
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#pricing" class="bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-2xl shadow-neutral-900/20 dark:shadow-white/20 w-full sm:w-auto text-center">{{ __('ابدأ الآن') }}</a>
-                <a href="#features" class="glassmorphism text-neutral-900 dark:text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/60 dark:hover:bg-white/10 hover:scale-105 transition-all w-full sm:w-auto text-center">{{ __('اكتشف النظام') }}</a>
+        <!-- Hero Content -->
+        <div class="relative z-10 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+            <div class="glass rounded-3xl p-8 md:p-14 w-full max-w-3xl transform transition-all hover:scale-[1.01] duration-500">
+                <span class="inline-block py-1 px-3 rounded-full bg-blue-100/80 text-blue-800 text-sm font-semibold tracking-wider mb-6 backdrop-blur-sm border border-blue-200/50">WELCOME TO ATLAS</span>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 mb-6 leading-tight">
+                    Atlas Medical System: <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">The Future of Clinic Management</span>
+                </h1>
+                <p class="mt-4 text-xl text-gray-600 mb-10 max-w-2xl mx-auto font-medium">
+                    Experience seamless patient care, intelligent scheduling, and automated workflows designed specifically for modern medical practices.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="/register" class="bg-gray-900 hover:bg-black text-white px-8 py-4 rounded-full font-semibold text-lg transition-all shadow-xl shadow-gray-900/20 flex items-center justify-center group">
+                        Get Started
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                    <a href="#features" class="glass hover:bg-white/80 text-gray-900 px-8 py-4 rounded-full font-semibold text-lg transition-all flex items-center justify-center">
+                        Explore Features
+                    </a>
+                </div>
             </div>
+        </div>
 
-            <!-- Floating Medical Icons -->
-            <div class="absolute top-10 left-10 md:left-32 floating text-blue-500 opacity-80">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                </svg>
-            </div>
-
-            <div class="absolute bottom-20 right-10 md:right-20 floating floating-delay-1 text-emerald-500 opacity-80">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-            </div>
-
-            <div class="absolute top-32 right-10 md:right-40 floating floating-delay-2 text-indigo-500 opacity-80">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-            </div>
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
         </div>
     </section>
 
-    <!-- 2. Academic System Explanation & HIPAA -->
-    <section id="features" class="py-24 bg-white dark:bg-neutral-900 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">{{ __('نظام متكامل، بنية تحتية سحابية متطورة') }}</h2>
-                <p class="text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl mx-auto">{{ __('إدارة السجلات الطبية الإلكترونية لم تكن بهذه السهولة والأمان من قبل') }}.</p>
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-gray-50 relative overflow-hidden">
+        <!-- Decorative blobs -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight mb-4">Reimagining Clinic Software</h2>
+                <p class="text-xl text-gray-600">Everything you need to run your practice efficiently, neatly packed into an elegant, easy-to-use platform.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Bento Box 1 -->
-                <div class="md:col-span-2 bg-gray-50 dark:bg-neutral-800 p-10 rounded-3xl overflow-hidden relative group hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-neutral-700">
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 bg-white dark:bg-neutral-700 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-3">{{ __('إدارة شاملة للعيادة') }}</h3>
-                        <p class="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed max-w-lg">
-                            {{ __('نظام متكامل يغطي كافة جوانب العيادة بدءاً من حجز المواعيد، مروراً بالسجل الطبي الإلكتروني، وصولاً إلى الفوترة وإدارة الحسابات بكفاءة عالية') }}.
-                        </p>
-                    </div>
-                    <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-100 dark:bg-blue-900/30 rounded-full blur-3xl group-hover:bg-blue-200 dark:group-hover:bg-blue-800/40 transition-colors"></div>
-                </div>
-
-                <!-- Bento Box 2: HIPAA Compliance -->
-                <div id="security" class="bg-gradient-to-br from-neutral-900 to-black dark:from-neutral-800 dark:to-neutral-900 p-10 rounded-3xl text-white relative overflow-hidden group border border-neutral-800 dark:border-neutral-700">
-                    <div class="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-32 w-32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            <!-- CSS Grid for Features -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="glass rounded-3xl p-8 hover:-translate-y-2 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                     </div>
-                    <div class="relative z-10 flex flex-col h-full justify-between">
-                        <div>
-                            <div class="inline-block px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-sm mb-6 border border-emerald-500/30 backdrop-blur-sm">
-                                HIPAA Compliant
-                            </div>
-                            <h3 class="text-2xl font-bold mb-3">{{ __('أقصى درجات الأمان') }}</h3>
-                            <p class="text-neutral-400 text-base leading-relaxed">
-                                {{ __('يلتزم النظام بشكل صارم بمعايير الخصوصية والتشفير لحماية بيانات المرضى والسجلات الطبية ضد أي اختراقات') }}.
-                            </p>
-                        </div>
-                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Smart Patient Records</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Access comprehensive patient histories instantly. Our intuitive interface organizes medical data, making it easy to review past treatments, allergies, and notes in one glance.
+                    </p>
                 </div>
 
-                <!-- Bento Box 3 -->
-                <div class="bg-gray-50 dark:bg-neutral-800 p-10 rounded-3xl border border-gray-100 dark:border-neutral-700 hover:shadow-xl transition-all">
-                    <div class="w-14 h-14 bg-white dark:bg-neutral-700 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <!-- Feature 2 -->
+                <div class="glass rounded-3xl p-8 hover:-translate-y-2 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold mb-3">{{ __('سرعة فائقة') }}</h3>
-                    <p class="text-neutral-600 dark:text-neutral-400">{{ __('واجهة مستخدم تفاعلية لحظية تضمن سرعة إدخال واسترجاع البيانات بضغطة زر') }}.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Automated Appointments</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Say goodbye to double bookings and missed appointments. Our smart scheduling system handles reminders and calendar synchronization effortlessly.
+                    </p>
                 </div>
 
-                <!-- Bento Box 4 -->
-                <div class="md:col-span-2 bg-gray-50 dark:bg-neutral-800 p-10 rounded-3xl border border-gray-100 dark:border-neutral-700 hover:shadow-xl transition-all flex items-center">
-                    <div class="w-full">
-                        <div class="w-14 h-14 bg-white dark:bg-neutral-700 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-3">{{ __('إدارة تعدد المستخدمين بصلاحيات دقيقة') }}</h3>
-                        <p class="text-neutral-600 dark:text-neutral-400 max-w-2xl">
-                            {{ __('نظام متطور يعتمد على') }} Role-Based Access Control {{ __('يتيح للأطباء إدارة الصلاحيات للمساعدين والسكرتارية بسهولة من خلال أكواد العيادات') }} (Clinic Codes) {{ __('مع عزل تام لبيانات كل عيادة') }}.
-                        </p>
+                <!-- Feature 3 -->
+                <div class="glass rounded-3xl p-8 hover:-translate-y-2 transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
                     </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Telegram Bot Integration</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Connect with patients where they are. Our omnichannel approach integrates smoothly with Telegram for immediate notifications, reminders, and patient queries.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 3. Interactive Charts & Features -->
-    <section class="py-24 bg-neutral-50 dark:bg-neutral-950 relative overflow-hidden"
-             x-data="{ showChart: false }"
-             x-intersect.threshold.50="showChart = true">
+    <!-- Showcase Section -->
+    <section id="showcase" class="py-24 bg-white relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Text Content -->
                 <div class="lg:w-1/2">
-                    <h2 class="text-3xl md:text-5xl font-black mb-6">{{ __('لماذا أطلس؟') }} <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-emerald-400">{{ __('نمو كفاءة العيادة') }}</span></h2>
-                    <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed">
-                        {{ __('أثبتت الإحصائيات أن انتقال العيادات للأنظمة السحابية المتطورة يزيد من كفاءة العمل وتقليل وقت الانتظار بنسبة تفوق') }} 40%، {{ __('مما ينعكس إيجاباً على رضا المرضى وزيادة الإيرادات') }}.
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight mb-6">Designed for Modern Doctors</h2>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        Whether you are at your desk or doing rounds with a tablet, Atlas provides a fluid, responsive experience. Spend less time on administrative tasks and more time focusing on what truly matters: your patients.
                     </p>
-                    <ul class="space-y-4">
-                        <li class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            </div>
-                            <span class="font-bold text-lg">{{ __('تقليل الأعمال الورقية بنسبة') }} 90%</span>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center text-gray-700">
+                            <svg class="h-6 w-6 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Optimized for all devices
                         </li>
-                        <li class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            </div>
-                            <span class="font-bold text-lg">{{ __('الوصول للسجلات في ثوانٍ معدودة') }}</span>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="h-6 w-6 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Real-time data synchronization
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <svg class="h-6 w-6 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Secure and compliant
                         </li>
                     </ul>
-                </div>
-
-                <div class="lg:w-1/2 w-full">
-                    <!-- Interactive Chart UI -->
-                    <div class="glassmorphism rounded-3xl p-8 shadow-2xl border border-gray-200 dark:border-neutral-800">
-                        <div class="flex items-end justify-between h-64 gap-4 px-2">
-                            <!-- Bar 1 -->
-                            <div class="w-1/4 flex flex-col items-center justify-end h-full">
-                                <div class="w-full bg-gray-200 dark:bg-neutral-800 rounded-t-xl transition-all duration-1000 ease-out"
-                                     :style="showChart ? 'height: 30%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-500">{{ __('الشهر') }} 1</span>
-                            </div>
-                            <!-- Bar 2 -->
-                            <div class="w-1/4 flex flex-col items-center justify-end h-full">
-                                <div class="w-full bg-blue-300 dark:bg-blue-900/50 rounded-t-xl transition-all duration-1000 ease-out delay-150"
-                                     :style="showChart ? 'height: 50%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-500">{{ __('الشهر') }} 2</span>
-                            </div>
-                            <!-- Bar 3 -->
-                            <div class="w-1/4 flex flex-col items-center justify-end h-full">
-                                <div class="w-full bg-blue-500 dark:bg-blue-700 rounded-t-xl transition-all duration-1000 ease-out delay-300"
-                                     :style="showChart ? 'height: 75%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-500">{{ __('الشهر') }} 3</span>
-                            </div>
-                            <!-- Bar 4 -->
-                            <div class="w-1/4 flex flex-col items-center justify-end h-full relative group">
-                                <div class="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap">
-                                    {{ __('نمو') }} +85%
-                                </div>
-                                <div class="w-full bg-gradient-to-t from-emerald-400 to-blue-500 rounded-t-xl shadow-lg shadow-blue-500/20 transition-all duration-1000 ease-out delay-500 cursor-pointer"
-                                     :style="showChart ? 'height: 95%' : 'height: 0%'"></div>
-                                <span class="text-sm font-bold mt-4 text-neutral-900 dark:text-white">{{ __('أطلس') }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 4. Customer Testimonials -->
-    <section class="py-24 bg-white dark:bg-neutral-900 border-t border-gray-100 dark:border-neutral-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">{{ __('آراء الأطباء') }}</h2>
-                <p class="text-lg text-neutral-500 dark:text-neutral-400">{{ __('نفتخر بثقة نخبة من الأطباء في نظام أطلس') }}.</p>
-            </div>
-
-            <!-- Auto-fading Carousel -->
-            <div class="relative max-w-4xl mx-auto" x-data="{ activeSlide: 0, slides: 3 }" x-init="setInterval(() => activeSlide = (activeSlide + 1) % slides, 4000)">
-
-                <!-- Slide 1 -->
-                <div x-show="activeSlide === 0" x-transition.opacity.duration.500ms class="absolute inset-0">
-                    <div class="glassmorphism p-10 rounded-3xl text-center border border-gray-100 dark:border-neutral-700 shadow-xl">
-                        <div class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">{{ __('أ') }}</div>
-                        <p class="text-2xl font-medium leading-relaxed mb-8 dark:text-neutral-200">
-                            "{{ __('استخدام أطلس غير شكل العمل في العيادة تماماً. واجهة المستخدم بديهية جداً، والسرعة في استرجاع ملفات المرضى وفرت علينا الكثير من الوقت') }}."
-                        </p>
-                        <div>
-                            <h4 class="font-bold text-lg">{{ __('د. أحمد') }}</h4>
-                            <p class="text-neutral-500">{{ __('استشاري أمراض القلب') }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div x-show="activeSlide === 1" x-transition.opacity.duration.500ms class="absolute inset-0" style="display: none;">
-                    <div class="glassmorphism p-10 rounded-3xl text-center border border-gray-100 dark:border-neutral-700 shadow-xl">
-                        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">{{ __('س') }}</div>
-                        <p class="text-2xl font-medium leading-relaxed mb-8 dark:text-neutral-200">
-                            "{{ __('ما يميز أطلس هو مستوى الأمان العالي. كون النظام متوافق مع معايير') }} HIPAA {{ __('يعطيني الثقة الكاملة في حفظ بيانات مرضاي') }}."
-                        </p>
-                        <div>
-                            <h4 class="font-bold text-lg">{{ __('د. سارة') }}</h4>
-                            <p class="text-neutral-500">{{ __('طبيبة أسنان') }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div x-show="activeSlide === 2" x-transition.opacity.duration.500ms class="absolute inset-0" style="display: none;">
-                    <div class="glassmorphism p-10 rounded-3xl text-center border border-gray-100 dark:border-neutral-700 shadow-xl">
-                        <div class="w-16 h-16 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-2xl font-bold mx-auto mb-6">{{ __('ع') }}</div>
-                        <p class="text-2xl font-medium leading-relaxed mb-8 dark:text-neutral-200">
-                            "{{ __('إدارة المواعيد أصبحت منظمة جداً، ودعم تعدد السكرتارية في نفس العيادة ميزة ممتازة وتعمل بشكل سلس وفعال') }}."
-                        </p>
-                        <div>
-                            <h4 class="font-bold text-lg">{{ __('د. عمر') }}</h4>
-                            <p class="text-neutral-500">{{ __('أخصائي باطنية') }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Spacer to preserve height since slides are absolute -->
-                <div class="pb-[400px] sm:pb-[350px] md:pb-[300px]"></div>
-
-                <!-- Indicators -->
-                <div class="flex justify-center gap-2 mt-8">
-                    <button @click="activeSlide = 0" :class="{'bg-blue-600 w-8': activeSlide === 0, 'bg-gray-300 dark:bg-neutral-700 w-3': activeSlide !== 0}" class="h-3 rounded-full transition-all duration-300"></button>
-                    <button @click="activeSlide = 1" :class="{'bg-blue-600 w-8': activeSlide === 1, 'bg-gray-300 dark:bg-neutral-700 w-3': activeSlide !== 1}" class="h-3 rounded-full transition-all duration-300"></button>
-                    <button @click="activeSlide = 2" :class="{'bg-blue-600 w-8': activeSlide === 2, 'bg-gray-300 dark:bg-neutral-700 w-3': activeSlide !== 2}" class="h-3 rounded-full transition-all duration-300"></button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 5. Pricing Plans -->
-    <section id="pricing" class="py-24 bg-gray-50 dark:bg-neutral-950">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">{{ __('خطط الشراء') }}</h2>
-                <p class="text-lg text-neutral-500 dark:text-neutral-400">{{ __('اختر الخطة التي تناسب حجم عيادتك وطموحاتك') }}.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
-
-                <!-- Basic Tier -->
-                <div class="bg-white dark:bg-neutral-900 rounded-3xl p-8 border border-gray-100 dark:border-neutral-800 shadow-sm hover:shadow-xl transition-all">
-                    <h3 class="text-xl font-bold mb-2">{{ __('الأساسية') }}</h3>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-6">{{ __('للعيادات الصغيرة والناشئة') }}</p>
-                    <div class="text-4xl font-black mb-6">{{ __('مجاناً') }}</div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 50 {{ __('مريض شهرياً') }}</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('إدارة المواعيد') }}</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('سكرتير واحد') }}</li>
-                    </ul>
-                    <a href="{{ route('register') }}" class="block w-full py-3 px-4 bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-center font-bold rounded-xl transition-colors">{{ __('ابدأ الآن') }}</a>
-                </div>
-
-                <!-- Pro Tier (Emphasized) -->
-                <div class="bg-gradient-to-b from-neutral-900 to-black dark:from-neutral-800 dark:to-neutral-900 text-white rounded-3xl p-10 border border-blue-500/50 shadow-2xl shadow-blue-500/20 transform md:-translate-y-4 relative">
-                    <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-500 to-emerald-400 rounded-t-3xl"></div>
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-emerald-400 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
-                        {{ __('الأكثر شيوعاً') }}
-                    </div>
-
-                    <h3 class="text-xl font-bold mb-2">{{ __('المتقدمة') }}</h3>
-                    <p class="text-neutral-400 text-sm mb-6">{{ __('للعيادات المتنامية') }}</p>
-                    <div class="text-4xl font-black mb-6">49$ <span class="text-lg font-medium text-neutral-400">/{{ __('شهر') }}</span></div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('عدد غير محدود من المرضى') }}</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('السجل الطبي الإلكتروني الكامل') }}</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('إدارة الحسابات والفوترة') }}</li>
-                        <li class="flex items-center gap-3"><svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('حتى 3 سكرتارية') }}</li>
-                    </ul>
-                    <a href="{{ route('register') }}" class="block w-full py-4 px-4 bg-white text-black hover:bg-gray-100 text-center font-bold rounded-xl transition-colors shadow-lg">{{ __('اشترك الآن') }}</a>
-                </div>
-
-                <!-- Enterprise Tier -->
-                <div class="bg-white dark:bg-neutral-900 rounded-3xl p-8 border border-gray-100 dark:border-neutral-800 shadow-sm hover:shadow-xl transition-all">
-                    <h3 class="text-xl font-bold mb-2">{{ __('الاحترافية') }}</h3>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-sm mb-6">{{ __('للمجمعات الطبية') }}</p>
-                    <div class="text-4xl font-black mb-6">99$ <span class="text-lg font-medium text-neutral-400">/{{ __('شهر') }}</span></div>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('كل مميزات الباقة المتقدمة') }}</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('أطباء متعددين') }}</li>
-                        <li class="flex items-center gap-3 text-neutral-600 dark:text-neutral-300"><svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> {{ __('تقارير وإحصائيات متقدمة') }}</li>
-                    </ul>
-                    <a href="#" class="block w-full py-3 px-4 bg-gray-100 dark:bg-neutral-800 hover:bg-gray-200 dark:hover:bg-neutral-700 text-center font-bold rounded-xl transition-colors">{{ __('تواصل معنا') }}</a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. The Footer -->
-    <footer class="bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-neutral-800 pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8 mb-16">
-
-                <div class="col-span-1 md:col-span-1">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-emerald-400 flex items-center justify-center text-white font-bold text-xl">
-                            A
-                        </div>
-                        <span class="font-black text-2xl tracking-tight">{{ __('أطلس') }}</span>
-                    </div>
-                    <p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed">
-                        {{ __('نظام الإدارة الشامل للعيادات الطبية الحديثة. مبني بأحدث التقنيات لضمان السرعة والأمان') }}.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6">{{ __('النظام') }}</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#features" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('المميزات') }}</a></li>
-                        <li><a href="#security" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('الأمان والخصوصية') }}</a></li>
-                        <li><a href="#pricing" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('الأسعار') }}</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6">{{ __('الدعم الفني') }}</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('مركز المساعدة') }}</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('تواصل معنا') }}</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('تحديثات النظام') }}</a></li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-bold text-lg mb-6">{{ __('سياسة الخصوصية') }}</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('شروط الاستخدام') }}</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('حماية البيانات') }}</a></li>
-                        <li><a href="#" class="text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">{{ __('الامتثال') }} (HIPAA)</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="border-t border-gray-200 dark:border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-neutral-500 dark:text-neutral-400 text-sm">
-                    &copy; {{ date('Y') }} {{ __('نظام أطلس. جميع الحقوق محفوظة') }}.
-                </p>
-                <div class="flex items-center gap-4">
-                    <!-- Social Media Links -->
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-blue-100 hover:text-blue-600 hover:scale-110 transition-all">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-600 dark:text-neutral-400 hover:bg-blue-100 hover:text-blue-900 hover:scale-110 transition-all">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    <a href="/register" class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+                        Start your free trial today
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
                     </a>
                 </div>
+
+                <!-- Image Showcase with Floating Card -->
+                <div class="lg:w-1/2 relative w-full aspect-square md:aspect-[4/3] lg:aspect-auto lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTsjipy1Swzv-mNCDcgc_hqD-8bbvAubIrvXQ_Or8axJLCJ_0Amcsb11OVrhzirCuP9jdKXxFOGRwJ5UTg" alt="Doctor using software on tablet" class="w-full h-full object-cover" />
+
+                    <!-- Floating Glass Card Overlapping -->
+                    <div class="absolute bottom-8 left-8 right-8 md:left-auto md:right-8 md:w-80 glass-dark p-4 rounded-2xl flex items-center shadow-2xl transform hover:-translate-y-1 transition-transform border border-white/20">
+                        <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center mr-4 shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm">Success</p>
+                            <p class="text-gray-300 text-xs mt-0.5">Patient Successfully Transferred</p>
+                            <div class="mt-2 text-[10px] text-gray-400">Just now • Room 302</div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="{{ asset('images/logo-text.png') }}" alt="Atlas Logo" class="h-8 w-auto opacity-70 grayscale">
+            </div>
+            <p class="text-gray-500 text-sm">
+                &copy; {{ date('Y') }} Atlas Clinic. All rights reserved.
+            </p>
         </div>
     </footer>
 
+    <!-- Simple animations -->
+    <style>
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+    </style>
 </body>
 </html>

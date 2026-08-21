@@ -151,7 +151,7 @@
                                     <div x-show="showAddModal" x-transition.opacity class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="showAddModal = false"></div>
                                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                                     <div x-show="showAddModal" x-transition class="inline-block align-bottom bg-white rounded-2xl text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
-                                        <form method="POST" action="{{ route('doctor.surgeries.store') }}">
+                                        <form method="POST" action="{{ route('surgeries.store') }}">
                                             @csrf
                                             <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-slate-100">
                                                 <div class="sm:flex sm:items-start">

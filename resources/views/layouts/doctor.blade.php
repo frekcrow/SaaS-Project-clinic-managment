@@ -46,7 +46,7 @@
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
             <aside
                 :class="isCollapsed ? 'w-20' : 'w-44'"
-                class="fixed hidden md:flex flex-col h-screen bg-white dark:bg-gray-800 border-e border-slate-100 dark:border-gray-700 shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0"
+                class="fixed flex flex-col h-screen bg-white dark:bg-gray-800 border-e border-slate-100 dark:border-gray-700 shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0"
             >
                 <!-- Sidebar Header -->
                 <div class="h-20 border-b border-slate-100 dark:border-gray-700 flex items-center px-4" :class="isCollapsed ? 'justify-center' : 'justify-between'">
@@ -164,7 +164,7 @@
             </aside>
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'md:ms-20' : 'md:ms-44'">
+            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'ms-20' : 'ms-44'">
                 <!-- HeroUI-inspired Top Header (Floating) -->
                 <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-slate-200 dark:border-gray-700 flex-shrink-0">
 
@@ -304,7 +304,7 @@
                                     {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
                                 @endif
                             </div>
-                            <div class="flex flex-col items-start hidden sm:flex">
+                            <div class="flex flex-col items-start">
                                 <span class="text-sm font-semibold text-slate-800">{{ __('د') }}. {{ Auth::user()->name ?? __('الطبيب') }}</span>
                                 <span class="text-xs text-slate-500">{{ Auth::user()->clinic_name ?? __('عيادة الشفاء') }}</span>
                             </div>
@@ -327,7 +327,7 @@
                 </header>
 
                 <!-- Page Content (Scrollable) -->
-                <main class="flex-1 overflow-y-auto px-4 md:px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900">
+                <main class="flex-1 overflow-y-auto px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900">
                     <!-- Page Heading -->
                     @isset($header)
                         <div class="mb-6 flex items-center justify-between">
@@ -337,7 +337,7 @@
                         </div>
                     @endisset
 
-                    <div class="mx-auto">
+                    <div class="w-full">
                         {{ $slot }}
                     </div>
                 </main>

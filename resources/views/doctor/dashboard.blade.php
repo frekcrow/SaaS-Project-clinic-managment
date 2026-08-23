@@ -28,11 +28,11 @@
 
     <!-- Row 1: Compact Cards -->
     <div class="col-span-12 lg:col-span-4">
-        <div class="h-48 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+        <div class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <!-- Existing Live Patient Queue Card content -->
-            <div class="flex h-full w-full flex-col overflow-y-auto">
+            <div class="flex h-full w-full flex-col">
 
-                    <div class="p-6 flex flex-col md:flex-row items-center justify-between gap-4 h-full">
+                    <div class="p-4 flex flex-col md:flex-row items-center justify-between gap-4 h-full">
                         <div class="flex items-center gap-4">
                             <div class="w-16 h-16 rounded-full bg-teal-50 border-4 border-white shadow-sm flex items-center justify-center flex-shrink-0 relative">
                                 <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,148 +128,30 @@
 
                 <!-- Today's Surgeries Card -->
     <div class="col-span-12 lg:col-span-4">
-        <div class="h-48 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+        <div class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <!-- Existing Today's Surgeries Card content -->
-            <div class="flex h-full w-full flex-col overflow-y-auto p-6">
-                        <div>
-                            <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center mb-3">
-                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
+            <div class="flex h-full w-full flex-col p-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
                             </div>
-                            <h3 class="text-slate-500 font-medium text-sm mb-1">{{ __('عمليات اليوم') }}</h3>
-                            <div class="text-3xl font-black text-slate-800">{{ $pendingSurgeries ?? 0 }}</div>
-                        </div>
-
-                        <div class="mt-4" x-data="{ showAddModal: false }">
-                            <button @click="showAddModal = true" class="w-full justify-center text-sm font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-sm px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                {{ __('إضافة عملية') }}
-                            </button>
-
-                            <!-- Add Surgery Modal -->
-                            <div x-show="showAddModal" style="display: none;" class="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                                    <div x-show="showAddModal" x-transition.opacity class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" @click="showAddModal = false"></div>
-                                    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                                    <div x-show="showAddModal" x-transition class="inline-block align-bottom bg-white rounded-2xl text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
-                                        <form method="POST" action="{{ route('surgeries.store') }}">
-                                            @csrf
-                                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 border-b border-slate-100">
-                                                <div class="sm:flex sm:items-start">
-                                                    <div class="mt-3 text-center sm:mt-0 sm:text-right w-full">
-                                                        <h3 class="text-xl font-bold text-gray-900 mb-6" id="modal-title">
-                                                            {{ __('إضافة عملية جديدة') }}
-                                                        </h3>
-                                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-right">
-                                                            <!-- Patient -->
-                                                            <div>
-                                                                <x-input-label for="patient_id" :value="__('اسم المريض')" class="mb-1" />
-                                                                <select id="patient_id" name="patient_id" class="border-gray-300 rounded-xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block w-full py-2.5" required>
-                                                                    <option value="" disabled selected>{{ __('اختر المريض') }}</option>
-                                                                    @foreach($patients ?? [] as $patient)
-                                                                        <option value="{{ $patient->id }}">{{ $patient->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                            <!-- Surgery Type -->
-                                                            <div>
-                                                                <x-input-label for="surgery_type_id" :value="__('نوع العملية')" class="mb-1" />
-                                                                <select id="surgery_type_id" name="surgery_type_id" class="border-gray-300 rounded-xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block w-full py-2.5" required>
-                                                                    <option value="" disabled selected>{{ __('اختر نوع العملية') }}</option>
-                                                                    @foreach($surgeryTypes ?? [] as $type)
-                                                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-
-                                                            <!-- Surgery Date -->
-                                                            <div>
-                                                                <x-input-label for="surgery_date" :value="__('تاريخ العملية')" class="mb-1" />
-                                                                <input type="text" id="surgery_date" name="surgery_date" x-init="flatpickr($el, {allowInput: true, disableMobile: true, dateFormat: 'Y-m-d', defaultDate: 'today'})" class="border-gray-300 rounded-xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block w-full text-left py-2.5" dir="ltr" required>
-                                                            </div>
-
-                                                            <!-- Hospital Name -->
-                                                            <div>
-                                                                <x-input-label for="hospital_name" :value="__('اسم المستشفى')" class="mb-1" />
-                                                                <x-text-input id="hospital_name" name="hospital_name" type="text" class="block w-full rounded-xl py-2.5" required />
-                                                            </div>
-
-                                                            <!-- Surgeon Name -->
-                                                            <div>
-                                                                <x-input-label for="surgeon_name" :value="__('اسم الجراح')" class="mb-1" />
-                                                                <x-text-input id="surgeon_name" name="surgeon_name" type="text" class="block w-full rounded-xl py-2.5" required value="{{ auth()->user()->name }}" />
-                                                            </div>
-
-                                                            <!-- Disease Name -->
-                                                            <div>
-                                                                <x-input-label for="disease_name" :value="__('اسم المرض / التشخيص')" class="mb-1" />
-                                                                <x-text-input id="disease_name" name="disease_name" type="text" class="block w-full rounded-xl py-2.5" required />
-                                                            </div>
-
-                                                            <!-- Assistant Name -->
-                                                            <div>
-                                                                <x-input-label for="assistant_name" :value="__('اسم المساعد')" class="mb-1" />
-                                                                <x-text-input id="assistant_name" name="assistant_name" type="text" class="block w-full rounded-xl py-2.5" />
-                                                            </div>
-
-                                                            <!-- Anesthesiologist Name -->
-                                                            <div>
-                                                                <x-input-label for="anesthesiologist_name" :value="__('اسم طبيب التخدير')" class="mb-1" />
-                                                                <x-text-input id="anesthesiologist_name" name="anesthesiologist_name" type="text" class="block w-full rounded-xl py-2.5" />
-                                                            </div>
-
-                                                            <!-- Anesthesia Type -->
-                                                            <div>
-                                                                <x-input-label for="anesthesia_type" :value="__('نوع التخدير')" class="mb-1" />
-                                                                <select id="anesthesia_type" name="anesthesia_type" class="border-gray-300 rounded-xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block w-full py-2.5" required>
-                                                                    <option value="" disabled selected>{{ __('اختر نوع التخدير') }}</option>
-                                                                    <option value="{{ __('تخدير عام') }}">{{ __('تخدير عام') }}</option>
-                                                                    <option value="{{ __('تخدير موضعي') }}">{{ __('تخدير موضعي') }}</option>
-                                                                    <option value="{{ __('تخدير قطني') }}">{{ __('تخدير قطني') }}</option>
-                                                                    <option value="{{ __('أخرى') }}">{{ __('أخرى') }}</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <!-- Cost -->
-                                                            <div>
-                                                                <x-input-label for="cost" :value="__('التكلفة')" class="mb-1" />
-                                                                <div class="relative mt-1">
-                                                                    <x-text-input id="cost" name="cost" type="number" step="0.01" min="0" class="block w-full pl-10 rounded-xl py-2.5" required />
-                                                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                                        <span class="text-gray-500 sm:text-sm">{{ __('د.ع') }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="md:col-span-2">
-                                                                <x-input-label for="notes" :value="__('ملاحظات')" class="mb-1" />
-                                                                <textarea id="notes" name="notes" rows="3" class="border-gray-300 rounded-xl shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block w-full"></textarea>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse rounded-b-2xl">
-                                                <button type="submit" class="w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-6 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
-                                                    {{ __('إضافة العملية') }}
-                                                </button>
-                                                <button type="button" @click="showAddModal = false" class="mt-3 w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-6 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                                    {{ __('إلغاء') }}
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
+                            <div>
+                                <h3 class="text-slate-500 font-medium text-sm mb-1 flex items-center gap-2">
+                                    {{ __('عمليات اليوم') }}
+                                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                </h3>
+                                <div class="text-2xl font-black text-slate-800">{{ $pendingSurgeries ?? 0 }}</div>
                             </div>
                         </div>
+
                     </div>
                     <!-- Decorative element matching Secretary style -->
                     <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-purple-50 rounded-full opacity-50 group-hover:scale-110 transition-transform pointer-events-none"></div>
                 </div>
 
                 <!-- Pending Appointments Card -->
-                <div class="col-span-12 lg:col-span-4 h-40 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
-                    <div class="relative z-10 flex flex-col justify-between h-full w-full p-6 overflow-y-auto gap-4">
+                <div class="col-span-12 lg:col-span-4 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col justify-between h-full w-full p-4 gap-4">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">
                                 <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -291,8 +173,8 @@
                 </div>
 
                 <!-- 3. Medical Analytics Chart -->
-                <div class="col-span-12 lg:col-span-6 h-[22rem] overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_16px_50px_rgba(15,23,42,0.09)] backdrop-blur-xl" x-data="medicalAnalytics()">
-                    <div class="p-6 h-full w-full overflow-y-auto flex flex-col">
+                <div class="col-span-12 lg:col-span-6 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_16px_50px_rgba(15,23,42,0.09)] backdrop-blur-xl" x-data="medicalAnalytics()">
+                    <div class="p-6 h-full w-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
                             <div class="flex items-center gap-2">
@@ -339,12 +221,9 @@
                 </div>
 
     <div class="col-span-12 lg:col-span-6">
-        <div class="relative flex h-[22rem] flex-col overflow-hidden rounded-3xl border border-slate-700/80 bg-slate-900 text-white shadow-[0_16px_50px_rgba(15,23,42,0.18)]">
+        <div class="relative flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-md">
             <!-- Decor -->
-            <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-            <div class="relative z-10 flex h-full w-full flex-col overflow-y-auto p-6 sm:p-8">
+            <div class="relative z-10 flex h-full w-full flex-col p-6 sm:p-8">
                     <div class="relative z-10 mb-8 flex items-center justify-between">
                         <!-- Shared glass card heading -->
                         <div class="flex items-center gap-3">
@@ -364,43 +243,43 @@
                         </div>
                     </div>
 
-                    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="relative z-10 grid grid-cols-2 gap-4 mb-8">
                         <!-- Income -->
-                        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-                            <div class="text-sm text-slate-400 mb-2">{{ __('الدخل العام') }}</div>
-                            <div class="text-2xl font-black text-white">{{ number_format($totalIncome ?? 0) }} <span class="text-sm font-normal text-slate-400">{{ __('د.ع') }}</span></div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <div class="text-sm text-slate-500 mb-2">{{ __('الدخل العام') }}</div>
+                            <div class="text-2xl font-black text-slate-800">{{ number_format($totalIncome ?? 0) }} <span class="text-sm font-normal text-slate-500">{{ __('د.ع') }}</span></div>
                         </div>
 
                         <!-- Net Worth -->
-                        <div class="bg-teal-500/10 p-4 rounded-2xl border border-teal-500/20">
-                            <div class="text-sm text-teal-200 mb-2">{{ __('صافي الثروة') }}</div>
-                            <div class="text-2xl font-black text-teal-400">{{ number_format($netWorth ?? 0) }} <span class="text-sm font-normal text-teal-200/50">{{ __('د.ع') }}</span></div>
+                        <div class="bg-teal-50 p-4 rounded-2xl border border-teal-100">
+                            <div class="text-sm text-teal-600 mb-2">{{ __('صافي الثروة') }}</div>
+                            <div class="text-2xl font-black text-teal-700">{{ number_format($netWorth ?? 0) }} <span class="text-sm font-normal text-teal-500">{{ __('د.ع') }}</span></div>
                         </div>
 
                         <!-- Total Expenses -->
-                        <div class="bg-red-500/10 p-4 rounded-2xl border border-red-500/20">
-                            <div class="text-sm text-red-200 mb-2">{{ __('إجمالي المصاريف') }}</div>
-                            <div class="text-2xl font-black text-red-400">{{ number_format($totalExpenses ?? 0) }} <span class="text-sm font-normal text-red-200/50">{{ __('د.ع') }}</span></div>
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100">
+                            <div class="text-sm text-red-600 mb-2">{{ __('إجمالي المصاريف') }}</div>
+                            <div class="text-2xl font-black text-red-700">{{ number_format($totalExpenses ?? 0) }} <span class="text-sm font-normal text-red-500">{{ __('د.ع') }}</span></div>
                         </div>
 
                         <!-- Surgery Income -->
-                        <div class="bg-purple-500/10 p-4 rounded-2xl border border-purple-500/20">
-                            <div class="text-sm text-purple-200 mb-2">{{ __('أموال العمليات') }}</div>
-                            <div class="text-2xl font-black text-purple-400">{{ number_format($totalSurgeryIncome ?? 0) }} <span class="text-sm font-normal text-purple-200/50">{{ __('د.ع') }}</span></div>
+                        <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100">
+                            <div class="text-sm text-purple-600 mb-2">{{ __('أموال العمليات') }}</div>
+                            <div class="text-2xl font-black text-purple-700">{{ number_format($totalSurgeryIncome ?? 0) }} <span class="text-sm font-normal text-purple-500">{{ __('د.ع') }}</span></div>
                         </div>
                     </div>
 
-                    <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
+                    <div class="relative z-10 grid grid-cols-2 md:grid-cols-3 gap-6 pt-6 border-t border-slate-100">
                         <div>
-                            <div class="text-sm text-slate-400 mb-1">{{ __('متوسط دخل العملية الواحدة') }}</div>
-                            <div class="font-bold text-white text-lg">{{ number_format($avgSurgeryIncome ?? 0) }} <span class="text-xs font-normal text-slate-500">{{ __('د.ع') }}</span></div>
+                            <div class="text-sm text-slate-500 mb-1">{{ __('متوسط دخل العملية الواحدة') }}</div>
+                            <div class="font-bold text-slate-800 text-lg">{{ number_format($avgSurgeryIncome ?? 0) }} <span class="text-xs font-normal text-slate-500">{{ __('د.ع') }}</span></div>
                         </div>
                         <div>
-                            <div class="text-sm text-slate-400 mb-1">{{ __('تفصيل المصاريف') }} ({{ __('مدفوعة') }} / {{ __('غير مدفوعة') }})</div>
+                            <div class="text-sm text-slate-500 mb-1">{{ __('تفصيل المصاريف') }} ({{ __('مدفوعة') }} / {{ __('غير مدفوعة') }})</div>
                             <div class="font-bold text-lg flex items-center gap-2">
-                                <span class="text-emerald-400">{{ number_format($paidExpenses ?? 0) }}</span>
-                                <span class="text-slate-600">/</span>
-                                <span class="text-rose-400">{{ number_format($unpaidExpenses ?? 0) }}</span>
+                                <span class="text-emerald-500">{{ number_format($paidExpenses ?? 0) }}</span>
+                                <span class="text-slate-400">/</span>
+                                <span class="text-rose-500">{{ number_format($unpaidExpenses ?? 0) }}</span>
                             </div>
                         </div>
                     </div>
@@ -408,12 +287,12 @@
                 </div>
 
     <!-- Row 3: Centered Financial Growth -->
-    <div class="col-span-12 lg:col-span-8 lg:col-start-3">
+    <div class="col-span-12">
         <div
             x-data="financialAnalytics()"
-            class="h-52 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_14px_45px_rgba(15,23,42,0.08)] backdrop-blur-xl"
+            class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_14px_45px_rgba(15,23,42,0.08)] backdrop-blur-xl"
         >
-            <div class="flex h-full w-full flex-col overflow-y-auto p-6">
+            <div class="flex h-full w-full flex-col p-6">
                         <!-- Top Controls -->
                         <div class="flex flex-col items-start gap-4 mb-6">
                             <!-- Shared glass card heading -->

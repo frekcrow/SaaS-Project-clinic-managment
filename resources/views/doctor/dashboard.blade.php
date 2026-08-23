@@ -24,15 +24,15 @@
         <div>
 
 <!-- Dashboard Cards: Apple Liquid Glass Bento Grid -->
-<div class="relative z-10 grid grid-cols-12 gap-6">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
     <!-- Row 1: Compact Cards -->
-    <div class="col-span-12 lg:col-span-4">
+    <div class="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm p-4">
         <div class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <!-- Existing Live Patient Queue Card content -->
-            <div class="flex h-full w-full flex-col">
+            <div class="flex w-full flex-col">
 
-                    <div class="p-4 flex flex-col md:flex-row items-center justify-between gap-4 h-full">
+                    <div class="p-4 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div class="flex items-center gap-4">
                             <div class="w-16 h-16 rounded-full bg-teal-50 border-4 border-white shadow-sm flex items-center justify-center flex-shrink-0 relative">
                                 <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,10 +127,10 @@
                 </div>
 
                 <!-- Today's Surgeries Card -->
-    <div class="col-span-12 lg:col-span-4">
+    <div class="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm p-4">
         <div class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <!-- Existing Today's Surgeries Card content -->
-            <div class="flex h-full w-full flex-col p-4">
+            <div class="flex w-full flex-col p-4">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center">
                                 <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
@@ -150,8 +150,8 @@
                 </div>
 
                 <!-- Pending Appointments Card -->
-                <div class="col-span-12 lg:col-span-4 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
-                    <div class="relative z-10 flex flex-col justify-between h-full w-full p-4 gap-4">
+                <div class="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm p-4">
+                    <div class="relative z-10 flex flex-col justify-between w-full p-4 gap-4">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">
                                 <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -173,8 +173,8 @@
                 </div>
 
                 <!-- 3. Medical Analytics Chart -->
-                <div class="col-span-12 lg:col-span-6 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_16px_50px_rgba(15,23,42,0.09)] backdrop-blur-xl" x-data="medicalAnalytics()">
-                    <div class="p-6 h-full w-full flex flex-col">
+                <div class="col-span-1 lg:col-span-6 bg-white rounded-2xl shadow-sm p-4" x-data="medicalAnalytics()">
+                    <div class="p-6 w-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
                             <div class="flex items-center gap-2">
@@ -220,10 +220,10 @@
                     </div>
                 </div>
 
-    <div class="col-span-12 lg:col-span-6">
+    <div class="col-span-1 lg:col-span-6 bg-white rounded-2xl shadow-sm p-4">
         <div class="relative flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-md">
             <!-- Decor -->
-            <div class="relative z-10 flex h-full w-full flex-col p-6 sm:p-8">
+            <div class="relative z-10 flex w-full flex-col p-6 sm:p-8">
                     <div class="relative z-10 mb-8 flex items-center justify-between">
                         <!-- Shared glass card heading -->
                         <div class="flex items-center gap-3">
@@ -287,12 +287,12 @@
                 </div>
 
     <!-- Row 3: Centered Financial Growth -->
-    <div class="col-span-12">
+    <div class="col-span-1 lg:col-span-12 bg-white rounded-2xl shadow-sm p-4">
         <div
             x-data="financialAnalytics()"
             class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_14px_45px_rgba(15,23,42,0.08)] backdrop-blur-xl"
         >
-            <div class="flex h-full w-full flex-col p-6">
+            <div class="flex w-full flex-col p-6">
                         <!-- Top Controls -->
                         <div class="flex flex-col items-start gap-4 mb-6">
                             <!-- Shared glass card heading -->

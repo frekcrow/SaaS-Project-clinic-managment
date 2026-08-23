@@ -36,7 +36,7 @@
                 {{ __('Warning: Your subscription will expire soon. Please renew.') }}
             </div>
         @endif
-        <div x-data="{ isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, darkMode: localStorage.getItem('theme') === 'dark', toggleDarkMode() { this.darkMode = !this.darkMode; const theme = this.darkMode ? 'dark' : 'default'; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); document.documentElement.classList.toggle('dark', this.darkMode); } }" class="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
+        <div x-data="{ isNavigating: false, pageLoaded: false, isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, darkMode: localStorage.getItem('theme') === 'dark', toggleDarkMode() { this.darkMode = !this.darkMode; const theme = this.darkMode ? 'dark' : 'default'; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); document.documentElement.classList.toggle('dark', this.darkMode); } }" x-init="pageLoaded = true" class="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
 
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
             <aside
@@ -59,56 +59,56 @@
                 </div>
 
                 <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto overflow-x-hidden">
-                    <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('dashboard') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                         </svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap">{{ __('الرئيسية') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.patients.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.patients.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('doctor.patients.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.patients.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap">{{ __('ملفات المرضى') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.surgeries.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.surgeries.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('doctor.surgeries.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.surgeries.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path>
                         </svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap">{{ __('العمليات') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.billing.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.billing.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('doctor.billing.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.billing.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
                         </svg>
                        <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap">{{ __('الحسابات والفوترة') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.appointments.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.appointments.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('doctor.appointments.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.appointments.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap">{{ __('تقويم المواعيد') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.prescriptions.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.prescriptions.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('doctor.prescriptions.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.prescriptions.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                         </svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap">{{ __('تهيئة الوصفات') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.medications.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.medications.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('doctor.medications.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.medications.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                         </svg>
                         <span x-cloak x-show="!isCollapsed" x-transition.opacity.duration.300ms class="text-sm font-medium whitespace-nowrap">{{ __('الأدوية') }}</span>
                     </a>
 
-                    <a href="{{ route('doctor.settings.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.settings.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('doctor.settings.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('doctor.settings.*') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -136,7 +136,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('api.notifications.index') }}" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('api.notifications.index') ? 'bg-indigo-50 text-indigo-600' : '' }}">
+                    <a href="{{ route('api.notifications.index') }}" @click="isNavigating = true" class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-100/50 hover:text-indigo-600 rounded-2xl transition-all duration-200 group {{ request()->routeIs('api.notifications.index') ? 'bg-indigo-50 text-indigo-600' : '' }}">
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
                         </svg>
@@ -159,7 +159,14 @@
             </aside>
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden" :class="isCollapsed ? 'ms-20' : 'ms-44'">
+            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden relative" :class="isCollapsed ? 'ms-20' : 'ms-44'">
+                <!-- Glassmorphic Loader Overlay -->
+                <div x-cloak x-show="isNavigating" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0 z-50 flex items-center justify-center bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm transition-all duration-300">
+                    <svg class="w-10 h-10 text-indigo-600 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
                 <!-- HeroUI-inspired Top Header (Floating) -->
                 <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-slate-200 dark:border-gray-700 flex-shrink-0">
 
@@ -322,7 +329,7 @@
                 </header>
 
                 <!-- Page Content (Scrollable) -->
-                <main class="flex-1 overflow-y-auto px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900">
+                <main x-cloak x-show="pageLoaded" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="flex-1 overflow-y-auto px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900">
                     <!-- Page Heading -->
                     @isset($header)
                         <div class="mb-6 flex items-center justify-between">

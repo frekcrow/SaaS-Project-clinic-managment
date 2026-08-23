@@ -1,11 +1,7 @@
 <x-doctor-layout>
     @push('styles')
 
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <style>
-        .bento-font {
-            font-family: 'IBM Plex Sans Arabic', sans-serif;
-        }
         /* Fix the Z index of modals */
         .z-50 { z-index: 100 !important; }
     </style>
@@ -15,7 +11,7 @@
         {{ $greeting ?? __('Doctor Dashboard Workspace') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
-    <div class="space-y-6 bento-font">
+    <div class="space-y-6">
         @php
             $pendingAppt = $todaysAppointments->where('status', 'pending')->first();
             $pendingCount = $todaysAppointments->where('status', 'pending')->count();

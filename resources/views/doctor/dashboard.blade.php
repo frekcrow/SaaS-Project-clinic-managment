@@ -24,11 +24,12 @@
         <div>
 
             <!-- 1. The Live Patient Queue Card & Today's Surgeries Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 relative z-10">
                 <!-- Patient Queue Card spans 8 columns on lg -->
-                <div class="col-span-12 md:col-span-4 aspect-square md:aspect-auto bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between overflow-hidden">
+                <div class="col-span-12 lg:col-span-4 h-40 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between overflow-hidden">
                     <!-- Top accent line -->
                     <div class="h-1 w-full bg-gradient-to-r from-teal-400 to-blue-500"></div>
+                    <div class="overflow-y-auto flex-1 flex flex-col w-full">
 
                     <div class="p-6 flex flex-col md:flex-row items-center justify-between gap-4 h-full">
                         <div class="flex items-center gap-4">
@@ -121,11 +122,12 @@
                             </div>
                         </div>
                     @endif
+                    </div>
                 </div>
 
                 <!-- Today's Surgeries Card -->
-                <div class="col-span-12 md:col-span-4 aspect-square md:aspect-auto bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
-                    <div class="relative z-10 flex flex-col justify-between h-full w-full">
+                <div class="col-span-12 lg:col-span-4 h-40 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col justify-between h-full w-full p-6 overflow-y-auto">
                         <div>
                             <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center mb-3">
                                 <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
@@ -263,8 +265,8 @@
                 </div>
 
                 <!-- Pending Appointments Card -->
-                <div class="col-span-12 md:col-span-4 aspect-square md:aspect-auto bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
-                    <div class="relative z-10 flex flex-col justify-between h-full w-full gap-4">
+                <div class="col-span-12 lg:col-span-4 h-40 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col justify-between h-full w-full p-6 overflow-y-auto gap-4">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">
                                 <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -286,8 +288,8 @@
                 </div>
 
                 <!-- 3. Medical Analytics Chart -->
-                <div class="col-span-12 md:col-span-6 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col min-h-[400px]" x-data="medicalAnalytics()">
-                    <div class="p-6 h-full flex flex-col">
+                <div class="col-span-12 lg:col-span-6 h-80 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col" x-data="medicalAnalytics()">
+                    <div class="p-6 h-full w-full overflow-y-auto flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
                             <div class="flex items-center gap-2">
@@ -334,11 +336,12 @@
                 </div>
 
                 <!-- 5. Financial Stats Section -->
-                <div class="col-span-12 md:col-span-6 bg-slate-900 rounded-2xl shadow-xl border border-slate-800 p-6 sm:p-8 text-white relative overflow-hidden flex flex-col justify-between min-h-[400px]">
+                <div class="col-span-12 lg:col-span-6 h-80 bg-slate-900 rounded-2xl shadow-xl border border-slate-800 text-white relative overflow-hidden flex flex-col justify-between">
                     <!-- Decor -->
                     <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
+                    <div class="p-6 sm:p-8 h-full w-full overflow-y-auto flex flex-col justify-between">
                     <div class="relative z-10 mb-8 flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/20">
@@ -388,11 +391,12 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <!-- 4. Financial Analytics Chart -->
-                <div class="col-span-12 md:col-span-8 md:col-start-3 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col min-h-[400px]" x-data="financialAnalytics()">
-                    <div class="p-6 h-full flex flex-col">
+                <div class="col-span-12 lg:col-span-8 lg:col-start-3 h-48 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col" x-data="financialAnalytics()">
+                    <div class="p-6 h-full w-full overflow-y-auto flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col items-start gap-4 mb-6">
                             <div class="flex items-center gap-2">

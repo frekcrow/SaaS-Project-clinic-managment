@@ -23,13 +23,14 @@
 
         <div>
 
-            <!-- 1. The Live Patient Queue Card & Today's Surgeries Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 relative z-10">
-                <!-- Patient Queue Card spans 8 columns on lg -->
-                <div class="col-span-12 lg:col-span-4 h-40 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between overflow-hidden">
-                    <!-- Top accent line -->
-                    <div class="h-1 w-full bg-gradient-to-r from-teal-400 to-blue-500"></div>
-                    <div class="overflow-y-auto flex-1 flex flex-col w-full">
+<!-- Dashboard Cards: Apple Liquid Glass Bento Grid -->
+<div class="relative z-10 grid grid-cols-12 gap-6">
+
+    <!-- Row 1: Compact Cards -->
+    <div class="col-span-12 lg:col-span-4">
+        <div class="h-48 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+            <!-- Existing Live Patient Queue Card content -->
+            <div class="flex h-full w-full flex-col overflow-y-auto">
 
                     <div class="p-6 flex flex-col md:flex-row items-center justify-between gap-4 h-full">
                         <div class="flex items-center gap-4">
@@ -126,8 +127,10 @@
                 </div>
 
                 <!-- Today's Surgeries Card -->
-                <div class="col-span-12 lg:col-span-4 h-40 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
-                    <div class="relative z-10 flex flex-col justify-between h-full w-full p-6 overflow-y-auto">
+    <div class="col-span-12 lg:col-span-4">
+        <div class="h-48 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+            <!-- Existing Today's Surgeries Card content -->
+            <div class="flex h-full w-full flex-col overflow-y-auto p-6">
                         <div>
                             <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center mb-3">
                                 <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10m-5-4v4m0-4V7a2 2 0 00-2-2H8a2 2 0 00-2 2v10h8V7m-4-2V3a1 1 0 00-1-1H9a1 1 0 00-1 1v2"></path></svg>
@@ -288,7 +291,7 @@
                 </div>
 
                 <!-- 3. Medical Analytics Chart -->
-                <div class="col-span-12 lg:col-span-6 h-80 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col" x-data="medicalAnalytics()">
+                <div class="col-span-12 lg:col-span-6 h-[22rem] overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_16px_50px_rgba(15,23,42,0.09)] backdrop-blur-xl" x-data="medicalAnalytics()">
                     <div class="p-6 h-full w-full overflow-y-auto flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
@@ -335,19 +338,29 @@
                     </div>
                 </div>
 
-                <!-- 5. Financial Stats Section -->
-                <div class="col-span-12 lg:col-span-6 h-80 bg-slate-900 rounded-2xl shadow-xl border border-slate-800 text-white relative overflow-hidden flex flex-col justify-between">
-                    <!-- Decor -->
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                    <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="col-span-12 lg:col-span-6">
+        <div class="relative flex h-[22rem] flex-col overflow-hidden rounded-3xl border border-slate-700/80 bg-slate-900 text-white shadow-[0_16px_50px_rgba(15,23,42,0.18)]">
+            <!-- Decor -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-                    <div class="p-6 sm:p-8 h-full w-full overflow-y-auto flex flex-col justify-between">
+            <div class="relative z-10 flex h-full w-full flex-col overflow-y-auto p-6 sm:p-8">
                     <div class="relative z-10 mb-8 flex items-center justify-between">
+                        <!-- Shared glass card heading -->
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/20">
+                            <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100/80 text-slate-700">
                                 <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <h2 class="text-xl font-bold">{{ __('الإحصائيات المالية الشاملة') }}</h2>
+
+                            <div>
+                                <h2 class="text-lg font-semibold text-slate-900">
+                                    {{ __('الإحصائيات المالية الشاملة') }}
+                                </h2>
+
+                                <div class="text-xs text-slate-500">
+                                    <!-- Optional subtitle -->
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -394,16 +407,30 @@
                     </div>
                 </div>
 
-                <!-- 4. Financial Analytics Chart -->
-                <div class="col-span-12 lg:col-span-8 lg:col-start-3 h-48 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col" x-data="financialAnalytics()">
-                    <div class="p-6 h-full w-full overflow-y-auto flex flex-col">
+    <!-- Row 3: Centered Financial Growth -->
+    <div class="col-span-12 lg:col-span-8 lg:col-start-3">
+        <div
+            x-data="financialAnalytics()"
+            class="h-52 overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-[0_14px_45px_rgba(15,23,42,0.08)] backdrop-blur-xl"
+        >
+            <div class="flex h-full w-full flex-col overflow-y-auto p-6">
                         <!-- Top Controls -->
                         <div class="flex flex-col items-start gap-4 mb-6">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <!-- Shared glass card heading -->
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100/80 text-slate-700">
+                                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
-                                <h2 class="text-lg font-bold text-slate-800">{{ __('مؤشر النمو المالي') }}</h2>
+
+                                <div>
+                                    <h2 class="text-lg font-semibold text-slate-900">
+                                        {{ __('مؤشر النمو المالي') }}
+                                    </h2>
+
+                                    <div class="text-xs text-slate-500">
+                                        <!-- Optional subtitle -->
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="flex items-center gap-2 w-full bg-slate-50 p-1.5 rounded-xl border border-slate-100">

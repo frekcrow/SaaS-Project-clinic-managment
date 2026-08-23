@@ -61,7 +61,7 @@ class SubSecretaryController extends Controller
                 $updateData['password'] = Hash::make($validated['password']);
             }
             $subSecretary->update($updateData);
-            $message = 'تم تحديث حساب السكرتير الفرعي بنجاح.';
+            $message = __('تم تحديث حساب السكرتير الفرعي بنجاح.');
         } else {
             User::create([
                 'name' => 'Sub Secretary', // Default name, can be changed if needed
@@ -72,7 +72,7 @@ class SubSecretaryController extends Controller
                 'clinic_code' => $user->clinic_code,
                 'is_main_account' => false,
             ]);
-            $message = 'تم إنشاء حساب السكرتير الفرعي بنجاح.';
+            $message = __('تم إنشاء حساب السكرتير الفرعي بنجاح.');
         }
 
         return redirect()->route('settings.index')->with('success', $message);

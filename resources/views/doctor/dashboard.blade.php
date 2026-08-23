@@ -139,8 +139,6 @@
                 </div>
             </div>
         </div>
-        <!-- Decorative element -->
-        <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-purple-50 rounded-full opacity-50 group-hover:scale-110 transition-transform pointer-events-none"></div>
     </div>
 
     <!-- Pending Appointments Card -->
@@ -163,24 +161,23 @@
                 </a>
             </div>
         </div>
-        <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-orange-50 rounded-full opacity-50 group-hover:scale-110 transition-transform pointer-events-none"></div>
     </div>
 
     <!-- 3. Medical Analytics Chart -->
     <div class="col-span-6 bg-white rounded-2xl shadow-sm p-4" x-data="medicalAnalytics()">
         <div class="w-full flex flex-col">
             <!-- Top Controls -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600">
                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <h2 class="text-lg font-bold text-slate-800">{{ __('المخطط الطبي') }}</h2>
+                    <h2 class="text-base font-bold text-slate-800">{{ __('المخطط الطبي') }}</h2>
                 </div>
 
-                <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50 p-1.5 rounded-xl border border-slate-100">
+                <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50 p-1 rounded-xl border border-slate-100">
                     <!-- Dropdown Filter -->
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-3 font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
+                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 px-2 font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
                         <option value="today">{{ __('اليوم') }}</option>
                         <option value="week">{{ __('اسبوع') }}</option>
                         <option value="month">{{ __('شهر') }}</option>
@@ -188,11 +185,11 @@
                         <option value="all">{{ __('الكل') }}</option>
                     </select>
 
-                    <div class="w-px h-6 bg-slate-200"></div>
+                    <div class="w-px h-5 bg-slate-200"></div>
 
                     <!-- Date Picker -->
                     <div class="relative w-full sm:w-auto">
-                        <input type="text" x-model="customDate" x-ref="datePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-2 w-full sm:w-28 text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
+                        <input type="text" x-model="customDate" x-ref="datePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 px-2 w-full sm:w-24 text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
                     </div>
                 </div>
             </div>
@@ -201,12 +198,12 @@
             <div class="flex-1 w-full" x-ref="chartContainer"></div>
 
             <!-- Bottom Tabs -->
-            <div class="flex flex-wrap items-center justify-center gap-2 mt-6 pt-4 border-t border-slate-100">
+            <div class="flex flex-wrap items-center justify-center gap-1.5 mt-3 pt-2 border-t border-slate-100">
                 <template x-for="tab in tabs" :key="tab.id">
                     <button
                         @click="activeTab = tab.id; updateChart()"
                         :class="activeTab === tab.id ? 'bg-black text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'"
-                        class="px-4 py-2 rounded-xl font-bold text-xs transition-all duration-200"
+                        class="px-3 py-1.5 rounded-xl font-bold text-xs transition-all duration-200"
                         x-text="tab.name"
                     ></button>
                 </template>
@@ -217,54 +214,54 @@
     <!-- Financial Stats Card -->
     <div class="col-span-6 bg-white rounded-2xl shadow-sm p-4">
         <div class="flex w-full flex-col">
-            <div class="mb-6 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100/80 text-slate-700">
-                        <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div class="mb-3 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100/80 text-slate-700">
+                        <svg class="w-4 h-4 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
 
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-900">
+                        <h2 class="text-base font-bold text-slate-900">
                             {{ __('الإحصائيات المالية الشاملة') }}
                         </h2>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="grid grid-cols-2 gap-3 mb-3">
                 <!-- Income -->
-                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                    <div class="text-sm text-slate-500 mb-2">{{ __('الدخل العام') }}</div>
-                    <div class="text-2xl font-black text-slate-800">{{ number_format($totalIncome ?? 0) }} <span class="text-sm font-normal text-slate-500">{{ __('د.ع') }}</span></div>
+                <div class="bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <div class="text-xs text-slate-500 mb-1 font-medium">{{ __('الدخل العام') }}</div>
+                    <div class="text-xl font-black text-slate-800">{{ number_format($totalIncome ?? 0) }} <span class="text-xs font-normal text-slate-500">{{ __('د.ع') }}</span></div>
                 </div>
 
                 <!-- Net Worth -->
-                <div class="bg-teal-50 p-4 rounded-2xl border border-teal-100">
-                    <div class="text-sm text-teal-600 mb-2">{{ __('صافي الثروة') }}</div>
-                    <div class="text-2xl font-black text-teal-700">{{ number_format($netWorth ?? 0) }} <span class="text-sm font-normal text-teal-500">{{ __('د.ع') }}</span></div>
+                <div class="bg-teal-50 p-3 rounded-2xl border border-teal-100">
+                    <div class="text-xs text-teal-600 mb-1 font-medium">{{ __('صافي الثروة') }}</div>
+                    <div class="text-xl font-black text-teal-700">{{ number_format($netWorth ?? 0) }} <span class="text-xs font-normal text-teal-500">{{ __('د.ع') }}</span></div>
                 </div>
 
                 <!-- Total Expenses -->
-                <div class="bg-red-50 p-4 rounded-2xl border border-red-100">
-                    <div class="text-sm text-red-600 mb-2">{{ __('إجمالي المصاريف') }}</div>
-                    <div class="text-2xl font-black text-red-700">{{ number_format($totalExpenses ?? 0) }} <span class="text-sm font-normal text-red-500">{{ __('د.ع') }}</span></div>
+                <div class="bg-red-50 p-3 rounded-2xl border border-red-100">
+                    <div class="text-xs text-red-600 mb-1 font-medium">{{ __('إجمالي المصاريف') }}</div>
+                    <div class="text-xl font-black text-red-700">{{ number_format($totalExpenses ?? 0) }} <span class="text-xs font-normal text-red-500">{{ __('د.ع') }}</span></div>
                 </div>
 
                 <!-- Surgery Income -->
-                <div class="bg-purple-50 p-4 rounded-2xl border border-purple-100">
-                    <div class="text-sm text-purple-600 mb-2">{{ __('أموال العمليات') }}</div>
-                    <div class="text-2xl font-black text-purple-700">{{ number_format($totalSurgeryIncome ?? 0) }} <span class="text-sm font-normal text-purple-500">{{ __('د.ع') }}</span></div>
+                <div class="bg-purple-50 p-3 rounded-2xl border border-purple-100">
+                    <div class="text-xs text-purple-600 mb-1 font-medium">{{ __('أموال العمليات') }}</div>
+                    <div class="text-xl font-black text-purple-700">{{ number_format($totalSurgeryIncome ?? 0) }} <span class="text-xs font-normal text-purple-500">{{ __('د.ع') }}</span></div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 pt-6 border-t border-slate-100">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pt-3 border-t border-slate-100">
                 <div>
-                    <div class="text-sm text-slate-500 mb-1">{{ __('متوسط دخل العملية الواحدة') }}</div>
-                    <div class="font-bold text-slate-800 text-lg">{{ number_format($avgSurgeryIncome ?? 0) }} <span class="text-xs font-normal text-slate-500">{{ __('د.ع') }}</span></div>
+                    <div class="text-xs text-slate-500 mb-1 font-medium">{{ __('متوسط دخل العملية الواحدة') }}</div>
+                    <div class="font-bold text-slate-800 text-base">{{ number_format($avgSurgeryIncome ?? 0) }} <span class="text-xs font-normal text-slate-500">{{ __('د.ع') }}</span></div>
                 </div>
                 <div>
-                    <div class="text-sm text-slate-500 mb-1">{{ __('تفصيل المصاريف') }} ({{ __('مدفوعة') }} / {{ __('غير مدفوعة') }})</div>
-                    <div class="font-bold text-lg flex items-center gap-2">
+                    <div class="text-xs text-slate-500 mb-1 font-medium">{{ __('تفصيل المصاريف') }} ({{ __('مدفوعة') }} / {{ __('غير مدفوعة') }})</div>
+                    <div class="font-bold text-base flex items-center gap-1.5">
                         <span class="text-emerald-500">{{ number_format($paidExpenses ?? 0) }}</span>
                         <span class="text-slate-400">/</span>
                         <span class="text-rose-500">{{ number_format($unpaidExpenses ?? 0) }}</span>
@@ -467,7 +464,7 @@
                         series: data.series,
                         chart: {
                             type: data.type,
-                            height: 280,
+                            height: 200,
                             fontFamily: 'inherit',
                             animations: {
                                 enabled: true,

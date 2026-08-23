@@ -275,31 +275,30 @@
     <div class="col-span-12 bg-white rounded-2xl shadow-sm p-4" x-data="financialAnalytics()">
         <div class="flex w-full flex-col">
             <!-- Top Controls -->
-            <div class="flex flex-col items-start gap-4 mb-6">
-                <!-- Shared glass card heading -->
-                <div class="flex items-center gap-3">
-                    <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100/80 text-slate-700">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
                         <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
 
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-900">
+                        <h2 class="text-base font-bold text-slate-800">
                             {{ __('مؤشر النمو المالي') }}
                         </h2>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2 w-full bg-slate-50 p-1.5 rounded-xl border border-slate-100">
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-3 font-medium text-slate-600 cursor-pointer flex-1">
+                <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50 p-1 rounded-xl border border-slate-100">
+                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 px-2 font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
                         <option value="today">{{ __('اليوم') }}</option>
                         <option value="week">{{ __('اسبوع') }}</option>
                         <option value="month">{{ __('شهر') }}</option>
                         <option value="year">{{ __('سنة') }}</option>
                         <option value="all">{{ __('الكل') }}</option>
                     </select>
-                    <div class="w-px h-6 bg-slate-200"></div>
-                    <div class="relative w-28">
-                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-2 w-full text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
+                    <div class="w-px h-5 bg-slate-200"></div>
+                    <div class="relative w-full sm:w-auto">
+                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 px-2 w-full sm:w-24 text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
                     </div>
                 </div>
             </div>
@@ -348,7 +347,7 @@
                         series: this.financeSeries,
                         chart: {
                             type: 'area',
-                            height: '100%',
+                            height: 200,
                             fontFamily: 'inherit',
                             animations: {
                                 enabled: true,

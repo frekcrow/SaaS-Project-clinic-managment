@@ -24,10 +24,10 @@
         <div>
 
 <!-- Dashboard Cards: Apple Liquid Glass Bento Grid -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<div class="grid grid-cols-12 gap-6 w-full">
 
     <!-- Row 1: Compact Cards -->
-    <div class="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm p-4">
+    <div class="col-span-4 bg-white rounded-2xl shadow-sm p-4">
         <div class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <!-- Existing Live Patient Queue Card content -->
             <div class="flex w-full flex-col">
@@ -127,7 +127,7 @@
                 </div>
 
                 <!-- Today's Surgeries Card -->
-    <div class="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm p-4">
+    <div class="col-span-4 bg-white rounded-2xl shadow-sm p-4">
         <div class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_12px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
             <!-- Existing Today's Surgeries Card content -->
             <div class="flex w-full flex-col p-4">
@@ -150,7 +150,7 @@
                 </div>
 
                 <!-- Pending Appointments Card -->
-                <div class="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm p-4">
+                <div class="col-span-4 bg-white rounded-2xl shadow-sm p-4">
                     <div class="relative z-10 flex flex-col justify-between w-full p-4 gap-4">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">
@@ -173,7 +173,7 @@
                 </div>
 
                 <!-- 3. Medical Analytics Chart -->
-                <div class="col-span-1 lg:col-span-6 bg-white rounded-2xl shadow-sm p-4" x-data="medicalAnalytics()">
+                <div class="col-span-6 bg-white rounded-2xl shadow-sm p-4" x-data="medicalAnalytics()">
                     <div class="p-6 w-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
@@ -220,7 +220,7 @@
                     </div>
                 </div>
 
-    <div class="col-span-1 lg:col-span-6 bg-white rounded-2xl shadow-sm p-4">
+    <div class="col-span-6 bg-white rounded-2xl shadow-sm p-4">
         <div class="relative flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-md">
             <!-- Decor -->
             <div class="relative z-10 flex w-full flex-col p-6 sm:p-8">
@@ -287,7 +287,7 @@
                 </div>
 
     <!-- Row 3: Centered Financial Growth -->
-    <div class="col-span-1 lg:col-span-12 bg-white rounded-2xl shadow-sm p-4">
+    <div class="col-span-12 bg-white rounded-2xl shadow-sm p-4">
         <div
             x-data="financialAnalytics()"
             class="rounded-3xl border border-white/70 bg-white/75 shadow-[0_14px_45px_rgba(15,23,42,0.08)] backdrop-blur-xl"

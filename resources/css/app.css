@@ -9,77 +9,78 @@
 html[dir="ltr"] body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
+
 /* Themes */
 [data-theme="dark"] body, [data-theme="dark"] .bg-slate-50 {
-    background-color: #121212 !important;
+    background-color: #121212;
 }
 [data-theme="dark"] .bg-white {
-    background-color: #1e1e1e !important;
+    background-color: #1e1e1e;
 }
 [data-theme="dark"] .text-slate-800, [data-theme="dark"] .text-gray-900, [data-theme="dark"] .text-slate-700 {
-    color: #e0e0e0 !important;
+    color: #e0e0e0;
 }
 [data-theme="dark"] .text-slate-500, [data-theme="dark"] .text-slate-600, [data-theme="dark"] .text-gray-500 {
-    color: #9e9e9e !important;
+    color: #9e9e9e;
 }
 [data-theme="dark"] .border-slate-100, [data-theme="dark"] .border-slate-200, [data-theme="dark"] .border-gray-100 {
-    border-color: #333333 !important;
+    border-color: #333333;
 }
 [data-theme="dark"] .bg-indigo-50 {
-    background-color: #312e81 !important; /* dark indigo */
+    background-color: #312e81; /* dark indigo */
 }
 [data-theme="dark"] .text-indigo-600 {
-    color: #818cf8 !important; /* light indigo */
+    color: #818cf8; /* light indigo */
 }
 
 [data-theme="ocean"] body, [data-theme="ocean"] .bg-slate-50 {
-    background-color: #f0f8ff !important; /* Alice Blue */
+    background-color: #f0f8ff; /* Alice Blue */
 }
 [data-theme="ocean"] .bg-white {
-    background-color: #ffffff !important;
+    background-color: #ffffff;
 }
 [data-theme="ocean"] .text-slate-800, [data-theme="ocean"] .text-gray-900 {
-    color: #004d66 !important; /* Deep ocean blue */
+    color: #004d66; /* Deep ocean blue */
 }
 [data-theme="ocean"] .border-slate-100, [data-theme="ocean"] .border-slate-200 {
-    border-color: #b3e0ff !important;
+    border-color: #b3e0ff;
 }
 [data-theme="ocean"] .bg-indigo-600 {
-    background-color: #0077b6 !important; /* Ocean blue button */
+    background-color: #0077b6; /* Ocean blue button */
 }
 [data-theme="ocean"] .text-indigo-600 {
-    color: #0077b6 !important;
+    color: #0077b6;
 }
 [data-theme="ocean"] .bg-indigo-50 {
-    background-color: #e6f7ff !important;
+    background-color: #e6f7ff;
 }
 [data-theme="ocean"] .focus\:ring-indigo-500:focus, [data-theme="ocean"] .focus\:border-indigo-500:focus {
-    --tw-ring-color: #0077b6 !important;
-    border-color: #0077b6 !important;
+    --tw-ring-color: #0077b6;
+    border-color: #0077b6;
 }
 
 [data-theme="nature"] body, [data-theme="nature"] .bg-slate-50 {
-    background-color: #f5fcf5 !important; /* Minty very light green */
+    background-color: #f5fcf5; /* Minty very light green */
 }
 [data-theme="nature"] .bg-white {
-    background-color: #ffffff !important;
+    background-color: #ffffff;
 }
 [data-theme="nature"] .text-slate-800, [data-theme="nature"] .text-gray-900 {
-    color: #1b4332 !important; /* Dark green */
+    color: #1b4332; /* Dark green */
 }
 [data-theme="nature"] .border-slate-100, [data-theme="nature"] .border-slate-200 {
-    border-color: #cce3de !important;
+    border-color: #cce3de;
 }
 [data-theme="nature"] .bg-indigo-600 {
-    background-color: #2d6a4f !important; /* Leaf green button */
+    background-color: #2d6a4f; /* Leaf green button */
 }
 [data-theme="nature"] .text-indigo-600 {
-    color: #2d6a4f !important;
+    color: #2d6a4f;
 }
 [data-theme="nature"] .bg-indigo-50 {
-    background-color: #e8f5e9 !important;
+    background-color: #e8f5e9;
 }
 [data-theme="nature"] .focus\:ring-indigo-500:focus, [data-theme="nature"] .focus\:border-indigo-500:focus {
-    --tw-ring-color: #2d6a4f !important;
-    border-color: #2d6a4f !important;
+    --tw-ring-color: #2d6a4f;
+    border-color: #2d6a4f;
 }

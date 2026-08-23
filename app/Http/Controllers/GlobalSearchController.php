@@ -27,7 +27,7 @@ class GlobalSearchController extends Controller
             $results[] = [
                 'type' => 'patient_record',
                 'title' => $patient->name,
-                'subtitle' => 'سجل المريض',
+                'subtitle' => __('سجل المريض'),
                 'url' => route('patients.show', $patient->id),
                 'icon' => 'user'
             ];
@@ -35,7 +35,7 @@ class GlobalSearchController extends Controller
             $results[] = [
                 'type' => 'patient_appointment',
                 'title' => $patient->name,
-                'subtitle' => 'المواعيد',
+                'subtitle' => __('المواعيد'),
                 'url' => route('appointments.index', ['search' => $patient->name]),
                 'icon' => 'calendar'
             ];
@@ -43,15 +43,15 @@ class GlobalSearchController extends Controller
 
         // Search Sections
         $sections = [
-            ['name' => 'الرئيسية', 'route' => 'dashboard', 'icon' => 'folder'],
-            ['name' => 'العمليات', 'route' => 'surgeries.index', 'icon' => 'folder'],
-            ['name' => 'سجل المرضى', 'route' => 'patients.index', 'icon' => 'folder'],
-            ['name' => 'جدول المواعيد', 'route' => 'appointments.index', 'icon' => 'folder'],
-            ['name' => 'الإعدادات', 'route' => 'settings.index', 'icon' => 'folder'],
+            ['name' => __('الرئيسية'), 'route' => 'dashboard', 'icon' => 'folder'],
+            ['name' => __('العمليات'), 'route' => 'surgeries.index', 'icon' => 'folder'],
+            ['name' => __('سجل المرضى'), 'route' => 'patients.index', 'icon' => 'folder'],
+            ['name' => __('جدول المواعيد'), 'route' => 'appointments.index', 'icon' => 'folder'],
+            ['name' => __('الإعدادات'), 'route' => 'settings.index', 'icon' => 'folder'],
         ];
 
         if (Auth::user()->role === 'doctor') {
-            $sections[] = ['name' => 'الحسابات', 'route' => 'billing.index', 'icon' => 'folder'];
+            $sections[] = ['name' => __('الحسابات'), 'route' => 'billing.index', 'icon' => 'folder'];
         }
 
         foreach ($sections as $section) {
@@ -59,7 +59,7 @@ class GlobalSearchController extends Controller
                 $results[] = [
                     'type' => 'section',
                     'title' => $section['name'],
-                    'subtitle' => 'قسم',
+                    'subtitle' => __('قسم'),
                     'url' => route($section['route']),
                     'icon' => 'folder'
                 ];

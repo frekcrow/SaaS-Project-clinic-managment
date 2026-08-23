@@ -15,23 +15,18 @@
         {{ $greeting ?? __('Doctor Dashboard Workspace') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
-    <div class="rounded-3xl shadow-sm p-4 flex flex-col h-[calc(100vh-10rem)] bento-font">
-        <div class="mb-4 shrink-0">
-            <h1 class="text-2xl font-bold text-slate-800">{{ $greeting ?? __('مرحباً د. :name', ['name' => auth()->user()->name]) }}</h1>
-            <p class="text-slate-500 mt-1 text-sm">{{ __('هنا ملخص لجدولك اليوم، نتمنى لك يوماً سعيداً وناجحاً') }}.</p>
-        </div>
-
+    <div class="space-y-6 bento-font">
         @php
             $pendingAppt = $todaysAppointments->where('status', 'pending')->first();
             $pendingCount = $todaysAppointments->where('status', 'pending')->count();
         @endphp
 
-        <div class="flex-1 overflow-y-auto pr-2 space-y-6">
+        <div>
 
             <!-- 1. The Live Patient Queue Card & Today's Surgeries Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 shrink-0 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 relative z-10">
                 <!-- Patient Queue Card spans 8 columns on lg -->
-                <div class="lg:col-span-8 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between overflow-hidden">
+                <div class="col-span-12 md:col-span-4 aspect-square md:aspect-auto bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl flex flex-col justify-between overflow-hidden">
                     <!-- Top accent line -->
                     <div class="h-1 w-full bg-gradient-to-r from-teal-400 to-blue-500"></div>
 
@@ -129,7 +124,7 @@
                 </div>
 
                 <!-- Today's Surgeries Card -->
-                <div class="lg:col-span-4 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
+                <div class="col-span-12 md:col-span-4 aspect-square md:aspect-auto bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
                     <div class="relative z-10 flex flex-col justify-between h-full w-full">
                         <div>
                             <div class="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center mb-3">
@@ -266,35 +261,32 @@
                     <!-- Decorative element matching Secretary style -->
                     <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-purple-50 rounded-full opacity-50 group-hover:scale-110 transition-transform pointer-events-none"></div>
                 </div>
-            </div>
 
-            <!-- Pending Appointments Card (Full Width) -->
-            <div class="bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl p-6 flex items-center justify-between group hover:shadow-lg transition-all relative overflow-hidden">
-                <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-4">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <!-- Pending Appointments Card -->
+                <div class="col-span-12 md:col-span-4 aspect-square md:aspect-auto bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl p-6 flex flex-col justify-between group hover:shadow-lg transition-all relative overflow-hidden">
+                    <div class="relative z-10 flex flex-col justify-between h-full w-full gap-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-slate-500 font-medium text-sm mb-1">{{ __('المراجعين في الانتظار') }}</h3>
+                                <div class="text-2xl font-black text-slate-800">{{ $pendingCount }}</div>
+                            </div>
                         </div>
+
                         <div>
-                            <h3 class="text-slate-500 font-medium text-sm mb-1">{{ __('المراجعين في الانتظار') }}</h3>
-                            <div class="text-2xl font-black text-slate-800">{{ $pendingCount }}</div>
+                            <a href="{{ route('doctor.appointments.index') }}" class="w-full justify-center text-sm font-bold text-white bg-black hover:bg-neutral-800 shadow-sm px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2">
+                                {{ __('عرض القائمة كاملة') }}
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            </a>
                         </div>
                     </div>
-
-                    <div>
-                        <a href="{{ route('doctor.appointments.index') }}" class="text-sm font-bold text-white bg-black hover:bg-neutral-800 shadow-sm px-5 py-2.5 rounded-xl transition-colors inline-flex items-center gap-2">
-                            {{ __('عرض القائمة كاملة') }}
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                        </a>
-                    </div>
+                    <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-orange-50 rounded-full opacity-50 group-hover:scale-110 transition-transform pointer-events-none"></div>
                 </div>
-                <div class="absolute -left-6 -bottom-6 w-32 h-32 bg-orange-50 rounded-full opacity-50 group-hover:scale-110 transition-transform pointer-events-none"></div>
-            </div>
 
-            <!-- Analytics & Charts Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-4">
                 <!-- 3. Medical Analytics Chart -->
-                <div class="lg:col-span-8 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col min-h-[450px]" x-data="medicalAnalytics()">
+                <div class="col-span-12 md:col-span-6 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col min-h-[400px]" x-data="medicalAnalytics()">
                     <div class="p-6 h-full flex flex-col">
                         <!-- Top Controls -->
                         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
@@ -341,42 +333,8 @@
                     </div>
                 </div>
 
-                <!-- 4. Financial Analytics Chart -->
-                <div class="lg:col-span-4 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col" x-data="financialAnalytics()">
-                    <div class="p-6 h-full flex flex-col">
-                        <!-- Top Controls -->
-                        <div class="flex flex-col items-start gap-4 mb-6">
-                            <div class="flex items-center gap-2">
-                                <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <h2 class="text-lg font-bold text-slate-800">{{ __('مؤشر النمو المالي') }}</h2>
-                            </div>
-
-                            <div class="flex items-center gap-2 w-full bg-slate-50 p-1.5 rounded-xl border border-slate-100">
-                                <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-3 font-medium text-slate-600 cursor-pointer flex-1">
-                                    <option value="today">{{ __('اليوم') }}</option>
-                                    <option value="week">{{ __('اسبوع') }}</option>
-                                    <option value="month">{{ __('شهر') }}</option>
-                                    <option value="year">{{ __('سنة') }}</option>
-                                    <option value="all">{{ __('الكل') }}</option>
-                                </select>
-                                <div class="w-px h-6 bg-slate-200"></div>
-                                <div class="relative w-28">
-                                    <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-2 w-full text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Chart Container -->
-                        <div class="flex-1 w-full" x-ref="financeChartContainer"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. Financial Stats Section -->
-            <div class="pb-6">
-                <div class="bg-slate-900 rounded-3xl shadow-xl border border-slate-800 p-6 sm:p-8 text-white relative overflow-hidden flex flex-col justify-between">
+                <!-- 5. Financial Stats Section -->
+                <div class="col-span-12 md:col-span-6 bg-slate-900 rounded-2xl shadow-xl border border-slate-800 p-6 sm:p-8 text-white relative overflow-hidden flex flex-col justify-between min-h-[400px]">
                     <!-- Decor -->
                     <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
                     <div class="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -431,11 +389,44 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+                <!-- 4. Financial Analytics Chart -->
+                <div class="col-span-12 md:col-span-8 md:col-start-3 bg-white dark:bg-gray-800 shadow-md border border-slate-100 rounded-2xl overflow-hidden flex flex-col min-h-[400px]" x-data="financialAnalytics()">
+                    <div class="p-6 h-full flex flex-col">
+                        <!-- Top Controls -->
+                        <div class="flex flex-col items-start gap-4 mb-6">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <h2 class="text-lg font-bold text-slate-800">{{ __('مؤشر النمو المالي') }}</h2>
+                            </div>
+
+                            <div class="flex items-center gap-2 w-full bg-slate-50 p-1.5 rounded-xl border border-slate-100">
+                                <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-3 font-medium text-slate-600 cursor-pointer flex-1">
+                                    <option value="today">{{ __('اليوم') }}</option>
+                                    <option value="week">{{ __('اسبوع') }}</option>
+                                    <option value="month">{{ __('شهر') }}</option>
+                                    <option value="year">{{ __('سنة') }}</option>
+                                    <option value="all">{{ __('الكل') }}</option>
+                                </select>
+                                <div class="w-px h-6 bg-slate-200"></div>
+                                <div class="relative w-28">
+                                    <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-sm py-1.5 px-2 w-full text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart Container -->
+                        <div class="flex-1 w-full" x-ref="financeChartContainer">
+
+
     </div>
-
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('financialAnalytics', () => ({

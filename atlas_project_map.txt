@@ -1,0 +1,198 @@
+- [app/Console/Commands/SurgeryReminderCommand.php]: Console command `surgeries:send-reminders` scheduled daily to query tomorrow's surgeries and trigger notifications via `Notification` model and Telegram/WhatsApp services to doctors and patients.
+- [app/Http/Controllers/AnalyticsController.php]: Controller providing analytical data endpoint for financial and medical metrics, querying Appointments, Invoices, Surgeries, and MedicalRecords filtered by dates.
+- [app/Http/Controllers/Api/TenantSubscriptionController.php]: API controller protected by `VerifyApiSecret` middleware allowing central management system to inspect and update tenant subscription status (`is_active`, `subscription_plan`, `subscription_expires_at`, `active_features`).
+- [app/Http/Controllers/AppointmentController.php]: Handles CRUD operations for secretary appointments, queue number calculations, status transitions (`pending`, `in_progress`, `completed`, `cancelled`), and syncs to Excel via `SyncsToExcel` trait.
+- [app/Http/Controllers/Auth/AuthenticatedSessionController.php]: Manages user login authentication using `LoginRequest`, handles session regeneration, authentication logs, and user logout redirects.
+- [app/Http/Controllers/Auth/ConfirmablePasswordController.php]: Handles password confirmation prompt views and validation before permitting sensitive user actions.
+- [app/Http/Controllers/Auth/EmailVerificationNotificationController.php]: Sends email verification links to newly registered users if email verification is required.
+- [app/Http/Controllers/Auth/EmailVerificationPromptController.php]: Renders the prompt asking users to verify their email address before accessing protected routes.
+- [app/Http/Controllers/Auth/NewPasswordController.php]: Handles password resets with token validation and updates the encrypted password in `users` table.
+- [app/Http/Controllers/Auth/PasswordController.php]: Handles password updates from authenticated user profile settings.
+- [app/Http/Controllers/Auth/PasswordResetLinkController.php]: Sends password reset links via email upon request from forgot-password view.
+- [app/Http/Controllers/Auth/RegisteredUserController.php]: Handles new user and tenant registration. Creates Tenant, main User account, triggers Telegram registration webhook (`BOT_API_URL`), and sets up initial tenant settings.
+- [app/Http/Controllers/Auth/VerifyEmailController.php]: Marks user email as verified upon clicking emailed verification links.
+- [app/Http/Controllers/BillingController.php]: Secretary billing controller for managing clinic invoices, tracking patient payments, creating financial records, and exporting billing logs.
+- [app/Http/Controllers/BroadcastController.php]: Manages Telegram bot integration settings (`telegram_bot_token`, `doctor_chat_id`, `secretary_chat_id`) stored in `messaging_settings` table for tenant communication.
+- [app/Http/Controllers/ChatController.php]: Handles omnichannel messaging backend, retrieving conversation lists, chat history, and storing new chat messages sent from the dashboard widget.
+- [app/Http/Controllers/Controller.php]: Base Laravel controller class providing standard validation and authorization helpers for all application controllers.
+- [app/Http/Controllers/DashboardController.php]: Main dashboard controller serving both Doctor and Secretary interfaces based on user role. Computes active consultations, visitors, today's appointments, surgeries count, medical charts, and revenue stats.
+- [app/Http/Controllers/Doctor/AppointmentController.php]: Doctor-specific appointment management controller. Handles queue progression, starting/ending live consultation timers, and updating statuses.
+- [app/Http/Controllers/Doctor/PrescriptionController.php]: Doctor controller for managing prescription templates, common medication dosages, and printing formatted prescriptions.
+- [app/Http/Controllers/Doctor/SettingsController.php]: Doctor settings controller for updating profile information, clinic configuration, and messaging preferences.
+- [app/Http/Controllers/DoctorBillingController.php]: Doctor billing controller providing detailed revenue analysis, net worth calculations, income vs expense tracking, and financial growth charts.
+- [app/Http/Controllers/DoctorPatientController.php]: Doctor controller for searching patient medical histories, EHR fields, vital signs, attached lab images, and consultation notes.
+- [app/Http/Controllers/DoctorSurgeryController.php]: Doctor surgery management controller for scheduling, updating notes, tracking surgical types, and logging surgery costs.
+- [app/Http/Controllers/GlobalSearchController.php]: API controller executing instant global searches across Patients, Appointments, and Medical Records for top navigation search bar.
+- [app/Http/Controllers/LanguageController.php]: Controller for switching application language (`ar` / `en`) and saving locale preference in user record / session.
+- [app/Http/Controllers/MedicationController.php]: Controller managing doctor medication catalog CRUD operations (`medications` table).
+- [app/Http/Controllers/NotificationController.php]: Handles system notifications display, marking individual or all notifications as read for logged in user.
+- [app/Http/Controllers/PatientController.php]: Secretary patient management controller for registering new patients, updating contact details, and viewing patient appointment histories.
+- [app/Http/Controllers/ProfileController.php]: Profile settings controller handling user profile photo avatar upload, user details update (syncing `clinic_name` with `Tenant` name), and account deletion.
+- [app/Http/Controllers/SessionTypeController.php]: Controller for managing clinic consultation session types and pricing structure.
+- [app/Http/Controllers/SettingsController.php]: Clinic settings controller handling clinic profile, working hours, sub-secretary account creation, and operational preferences.
+- [app/Http/Controllers/SubSecretaryController.php]: Manages sub-secretary staff accounts linked to the primary tenant doctor account.
+- [app/Http/Controllers/SurgeryController.php]: Secretary surgery controller for booking surgery appointments and tracking surgical schedule.
+- [app/Http/Controllers/SurgeryTypeController.php]: Controller for managing predefined surgery types and default prices (`surgery_types` table).
+- [app/Http/Controllers/SystemNotificationController.php]: Handles pull-based broadcast system notifications fetched from central API server.
+- [app/Http/Controllers/Tenant/LicenseController.php]: Handles DRM activation code entry (`ATLAS-{jwt}`), decoding JWT secret key, validating tenant ownership, jti tracking, and updating tenant activation status.
+- [app/Http/Controllers/WebhookController.php]: Handles inbound webhooks from central Telegram/WhatsApp bots (`/webhooks/*`) without CSRF checks, dispatching processing jobs (`ProcessTelegramMessageJob`).
+- [app/Http/Controllers/WhatsAppSettingsController.php]: Controller for managing WhatsApp integration configurations in `clinic_settings` table.
+- [app/Http/Middleware/CheckSubscriptionStatus.php]: Middleware checking if tenant subscription is valid and redirecting to activation page if expired.
+- [app/Http/Middleware/CheckTenantSubscription.php]: Tenant-level middleware verifying feature flags and active subscription status prior to route execution.
+- [app/Http/Middleware/EnsureTenantIsActivated.php]: Core middleware ensuring tenant `is_active` is true. Redirects unactivated tenants to `/activation` while bypassing login/logout/activation routes.
+- [app/Http/Middleware/LogSystemActivity.php]: Global activity logger intercepting POST/PUT/PATCH/DELETE requests and writing user activity logs to `storage/logs/blackbox.log`.
+- [app/Http/Middleware/SetLocale.php]: Middleware setting application locale from session or authenticated user's `locale` column on every request.
+- [app/Http/Middleware/VerifyApiSecret.php]: API middleware validating incoming `X-API-KEY` request header against `config('app.api_secret_key')` for central management routes.
+- [app/Http/Requests/Auth/LoginRequest.php]: Form request validating user login credentials and handling rate limiting.
+- [app/Http/Requests/DoctorSettingsUpdateRequest.php]: Form request validating doctor settings update payload.
+- [app/Http/Requests/ProfileUpdateRequest.php]: Form request validating user profile update inputs.
+- [app/Http/Requests/SettingsUpdateRequest.php]: Form request validating clinic setup settings payload.
+- [app/Jobs/ProcessTelegramMessageJob.php]: Queued job processing inbound Telegram messages and storing them into `conversations` and `messages` tables.
+- [app/Jobs/ProcessWhatsAppMessageJob.php]: Queued job processing inbound WhatsApp webhooks and logging incoming messages.
+- [app/Models/Appointment.php]: Eloquent model representing clinic appointments. Belongs to Tenant and Patient, uses `SyncsToExcel` trait and `BelongsToTenant` scope.
+- [app/Models/ClinicSetting.php]: Eloquent model storing clinic operational configuration and WhatsApp parameters.
+- [app/Models/Conversation.php]: Eloquent model representing chat threads across platforms (Telegram, WhatsApp). Has many `Message` models.
+- [app/Models/Invoice.php]: Eloquent model representing financial invoices and billing records.
+- [app/Models/MedicalRecord.php]: Eloquent model for patient medical records, clinical notes, prescriptions, and diagnosis details.
+- [app/Models/Medication.php]: Eloquent model for clinic medication inventory catalog.
+- [app/Models/Message.php]: Eloquent model for individual chat messages inside a conversation thread.
+- [app/Models/MessagingSetting.php]: Eloquent model storing Telegram bot token and doctor/secretary chat IDs.
+- [app/Models/Patient.php]: Eloquent model for patient demographic, EHR, and vitals records. Uses `SyncsToExcel` trait.
+- [app/Models/PatientImage.php]: Eloquent model for attached patient medical images and lab X-rays.
+- [app/Models/Scopes/TenantScope.php]: Global Eloquent scope enforcing tenant data isolation by applying `where tenant_id = X` to queries.
+- [app/Models/SessionType.php]: Eloquent model for consultation session categories and default fees.
+- [app/Models/Surgery.php]: Eloquent model for surgical operations scheduled or performed. Uses `SyncsToExcel` trait.
+- [app/Models/SurgeryType.php]: Eloquent model for predefined surgical categories and standard pricing.
+- [app/Models/SystemNotification.php]: Eloquent model storing broadcast system notifications fetched from central server.
+- [app/Models/Tenant.php]: Core Tenant model representing clinic account, subscription plan (`is_active`, `subscription_expires_at`, `active_features`), and feature flag checker (`hasFeature()`).
+- [app/Models/UsedActivationCode.php]: Eloquent model tracking JWT DRM activation code reuse (`jti`, `usage_count`, `bound_username`).
+- [app/Models/User.php]: User model with role attributes (`doctor`, `secretary`, `sub_secretary`), tenant relationship, and authentication traits.
+- [app/Notifications/GeneralNotification.php]: Notification class sending system notifications to users.
+- [app/Notifications/SecretaryNotification.php]: Notification class dispatching alerts to secretary user accounts.
+- [app/Providers/AppServiceProvider.php]: Primary service provider configuring custom `@feature` Blade directive, loading dynamic config from `storage/app/config.json` for NativePHP compatibility, and setting up model observers.
+- [app/Services/LicenseService.php]: Service encapsulating JWT DRM code decoding (`HS256`), secret key validation, expiration checks, and two-use tenant binding.
+- [app/Services/NotificationSyncService.php]: Service fetching pull-based system notifications from central API (`config('app.central_api_url') . '/api/broadcasts'`) and deduplicating via `external_id`.
+- [app/Traits/BelongsToTenant.php]: Trait automatically binding Eloquent model events to current tenant ID and attaching `TenantScope`.
+- [app/Traits/SyncsToExcel.php]: Trait automatically logging model saved events (Patient, Appointment, Surgery) to local Excel files via `spatie/simple-excel`.
+- [app/View/Components/AppLayout.php]: View component rendering base `layouts.app` Blade layout.
+- [app/View/Components/DoctorLayout.php]: View component rendering doctor-specific `layouts.doctor` Blade layout.
+- [app/View/Components/GuestLayout.php]: View component rendering guest `layouts.guest` Blade layout for authentication pages.
+- [app/View/Components/SecretaryLayout.php]: View component rendering secretary layout wrapper.
+- [config/app.php]: Main application configuration file containing app name ('Atlas Clinic'), environment, encryption key, locale settings (`ar`/`en`), and central API secret parameters.
+- [config/auth.php]: Authentication configuration defining guards, user providers, and password reset brokers.
+- [config/cache.php]: Cache store configurations (file, array, database).
+- [config/database.php]: Database connection configuration (SQLite default path, connection purge parameters).
+- [config/filesystems.php]: Filesystem disks configuration (local, public, storage paths for avatars and medical images).
+- [config/logging.php]: Logging channels configuration including standard stack and custom activity logs.
+- [config/mail.php]: Mailer configuration for sending system emails and password reset links.
+- [config/queue.php]: Queue drivers configuration for async background job execution.
+- [config/services.php]: External API service configurations including Telegram `BOT_API_URL` webhook settings.
+- [config/session.php]: Session driver, lifetime, and cookie security parameters configuration.
+- [database/.gitignore]: Git ignore rules for database SQLite storage files.
+- [database/factories/UserFactory.php]: Factory generating dummy User models for testing.
+- [database/migrations/0001_01_01_000000_create_users_table.php]: Migration creating base `users`, `password_reset_tokens`, and `sessions` tables.
+- [database/migrations/0001_01_01_000001_create_cache_table.php]: Migration creating application cache table.
+- [database/migrations/0001_01_01_000002_create_jobs_table.php]: Migration creating background queue `jobs` and `failed_jobs` tables.
+- [database/migrations/2026_07_21_165919_create_tenants_table.php]: Migration creating `tenants` table for multi-tenant clinic isolation.
+- [database/migrations/2026_07_21_170030_add_tenant_id_to_users_table.php]: Migration adding foreign key `tenant_id` to `users` table.
+- [database/migrations/2026_07_21_170136_create_patients_table.php]: Migration creating `patients` table with medical record fields.
+- [database/migrations/2026_07_21_170318_create_appointments_table.php]: Migration creating `appointments` table for scheduling.
+- [database/migrations/2026_07_21_170427_create_medical_records_table.php]: Migration creating `medical_records` table.
+- [database/migrations/2026_07_21_170600_create_invoices_table.php]: Migration creating `invoices` table for billing.
+- [database/migrations/2026_07_22_040838_modify_appointments_table_add_patient_id.php]: Migration attaching foreign key `patient_id` to appointments.
+- [database/migrations/2026_07_22_150817_add_clinic_code_to_users_table.php]: Migration adding `clinic_code` column to users table.
+- [database/migrations/2026_07_22_201629_modify_appointments_table_make_patient_id_nullable_and_add_patient_name_and_phone.php]: Migration updating appointments to support walk-in guest names without linked patient record.
+- [database/migrations/2026_07_25_205104_add_settings_columns_to_users_table.php]: Migration adding user configuration columns.
+- [database/migrations/2026_07_26_201107_split_appointment_datetime_in_appointments_table.php]: Migration separating appointment date and time columns.
+- [database/migrations/2026_07_28_220528_modify_medical_records_table_match_requirements.php]: Migration updating medical records structure.
+- [database/migrations/2026_07_28_224154_add_ehr_fields_to_patients_and_medical_records.php]: Migration adding Electronic Health Records (EHR) fields to patients and records.
+- [database/migrations/2026_07_29_011719_add_vitals_fields_to_patients_table.php]: Migration adding vital statistics (blood pressure, heart rate, weight) to `patients` table.
+- [database/migrations/2026_07_29_023403_add_queue_fields_to_appointments_table.php]: Migration adding live queue tracking columns (`queue_number`, `queue_status`) to appointments table.
+- [database/migrations/2026_07_29_023403_create_session_types_table.php]: Migration creating `session_types` table.
+- [database/migrations/2026_07_29_023403_create_surgery_types_table.php]: Migration creating `surgery_types` table.
+- [database/migrations/2026_07_29_030951_create_surgeries_table.php]: Migration creating `surgeries` schedule table.
+- [database/migrations/2026_07_29_033711_add_session_started_at_to_appointments_table.php]: Migration adding `session_started_at` timestamp for active consultation timer tracking.
+- [database/migrations/2026_07_29_041446_create_notifications_table.php]: Migration creating internal `notifications` table.
+- [database/migrations/2026_07_30_023730_add_details_to_surgeries_table.php]: Migration adding detailed surgical fields to `surgeries` table.
+- [database/migrations/2026_07_30_213914_update_role_column_in_users_table.php]: Migration updating role column constraints on users table.
+- [database/migrations/2026_07_31_200757_create_patient_images_table.php]: Migration creating `patient_images` table for medical lab photos.
+- [database/migrations/2026_07_31_213553_add_doctor_notes_to_surgeries_table.php]: Migration adding doctor clinical notes column to surgeries table.
+- [database/migrations/2026_08_01_183646_create_medications_table.php]: Migration creating `medications` catalog table.
+- [database/migrations/2026_08_01_193752_create_clinic_settings_table.php]: Migration creating `clinic_settings` table.
+- [database/migrations/2026_08_06_203524_add_is_main_account_to_users_table.php]: Migration adding `is_main_account` boolean flag to users table.
+- [database/migrations/2026_08_07_002330_add_locale_to_users_table.php]: Migration adding `locale` language preference column to users table.
+- [database/migrations/2026_08_07_224504_add_whatsapp_fields_to_clinic_settings_table.php]: Migration adding WhatsApp integration credentials to clinic settings.
+- [database/migrations/2026_08_09_011913_add_created_by_to_appointments_surgeries_invoices_table.php]: Migration adding `created_by` audit column across core tables.
+- [database/migrations/2026_08_09_042912_create_messaging_settings_table.php]: Migration creating `messaging_settings` table for Telegram bot configurations.
+- [database/migrations/2026_08_09_042913_create_conversations_table.php]: Migration creating omnichannel `conversations` table.
+- [database/migrations/2026_08_09_042913_create_messages_table.php]: Migration creating omnichannel `messages` table.
+- [database/migrations/2026_08_09_230726_add_telegram_bot_username_to_messaging_settings_table.php]: Core application file located at database/migrations/2026_08_09_230726_add_telegram_bot_username_to_messaging_settings_table.php supporting system operations.
+- [database/migrations/2026_08_10_033649_add_contact_name_to_conversations_table.php]: Migration adding contact name column to conversations table.
+- [database/migrations/2026_08_14_225058_add_subscription_fields_to_tenants_table.php]: Migration adding subscription plan, expiration, and active feature columns to `tenants` table.
+- [database/migrations/2026_08_14_225059_create_used_activation_codes_table.php]: Migration creating `used_activation_codes` table to record activation JWT usage.
+- [database/migrations/2026_08_16_054932_modify_used_activation_codes_table_for_two_use.php]: Migration adding `usage_count` and `bound_username` to `used_activation_codes` table to support two-use mechanism.
+- [database/migrations/2026_08_16_071939_add_excel_export_path_to_tenants_table.php]: Migration adding `excel_export_path` column to tenants table for automatic Excel synchronization.
+- [database/migrations/2026_08_16_074739_create_system_notifications_table.php]: Migration creating `system_notifications` table with `external_id` deduplication index.
+- [database/migrations/2026_08_16_081837_add_chat_ids_to_messaging_settings_table.php]: Migration adding doctor and secretary chat IDs to messaging settings.
+- [database/seeders/AtlasSeeder.php]: Primary seeder populating initial clinic settings, session types, surgery types, and sample data.
+- [database/seeders/DatabaseSeeder.php]: Root database seeder calling `AtlasSeeder` and initializing default admin users.
+- [resources/css/app.css]: Primary Tailwind CSS stylesheet. UI CONFLICT NOTE: Contains global [data-theme=...] css rules that override bg-white, text-slate-800, and border-slate-100 with !important flags, causing color inconsistencies across nested Bento cards when dark/ocean/nature themes are toggled.
+- [resources/icon.ico]: 256x256 ICO icon asset used for NativePHP Windows NSIS installer compilation.
+- [resources/js/app.js]: Main JavaScript entrypoint initializing Alpine.js framework (`window.Alpine.start()`) and flatpickr plugins.
+- [resources/views/appointments/create.blade.php]: Secretary view for booking new patient appointments with session type selection and time picker.
+- [resources/views/appointments/index.blade.php]: Secretary appointments list view featuring daily calendar schedule, filter controls, and status update modals.
+- [resources/views/auth/confirm-password.blade.php]: Password confirmation form view rendered prior to executing sensitive security actions.
+- [resources/views/auth/forgot-password.blade.php]: Forgot password request view allowing users to receive password reset email links.
+- [resources/views/auth/login.blade.php]: User login page view with clinic credentials form, styled with guest layout.
+- [resources/views/auth/register.blade.php]: User registration page view for setting up a new clinic account and tenant.
+- [resources/views/auth/reset-password.blade.php]: Password reset form view receiving token parameters from reset emails.
+- [resources/views/auth/verify-email.blade.php]: Email verification notification prompt view.
+- [resources/views/billing/index.blade.php]: Secretary financial billing dashboard for managing clinic invoices, tracking payments, and printing patient receipts.
+- [resources/views/components/application-logo.blade.php]: Blade view component rendering primary Atlas logo image (`public/images/logo-icon.png`).
+- [resources/views/components/auth-session-status.blade.php]: Blade view component displaying flash status messages on auth screens.
+- [resources/views/components/danger-button.blade.php]: Blade view component rendering styled red button for destructive actions.
+- [resources/views/components/dropdown-link.blade.php]: Blade view component rendering menu links inside dropdown containers.
+- [resources/views/components/dropdown.blade.php]: Blade view component rendering Alpine.js powered interactive dropdown menus.
+- [resources/views/components/dynamic-island.blade.php]: Blade view component rendering dynamic status notifications pill at top of screen.
+- [resources/views/components/input-error.blade.php]: Blade view component rendering form input validation error messages.
+- [resources/views/components/input-label.blade.php]: Blade view component rendering styled form field labels.
+- [resources/views/components/modal.blade.php]: Blade view component rendering reusable full-screen overlay modal dialogs with Alpine.js.
+- [resources/views/components/nav-link.blade.php]: Blade view component rendering navigation sidebar items with active route highlighting.
+- [resources/views/components/primary-button.blade.php]: Blade view component rendering standard primary submit button.
+- [resources/views/components/responsive-nav-link.blade.php]: Blade view component rendering navigation link elements.
+- [resources/views/components/secondary-button.blade.php]: Blade view component rendering outline secondary button.
+- [resources/views/components/text-input.blade.php]: Blade view component rendering styled form text input fields.
+- [resources/views/dashboard.blade.php]: Secretary Main Dashboard View. UI CONFLICT NOTE: Uses x-app-layout layout wrapper, with a fixed main height container h-[calc(100vh-10rem)] and internal flex/grid layouts. Directly embeds floating omnichannel drawer with z-[100] z-index.
+- [resources/views/doctor/appointments/index.blade.php]: Doctor appointment calendar view showing upcoming patients, consultation status, and patient queue position.
+- [resources/views/doctor/billing/index.blade.php]: Doctor financial dashboard view displaying net worth, income analysis, expense breakdowns, and financial growth ApexCharts.
+- [resources/views/doctor/dashboard.blade.php]: Doctor Main Dashboard View. UI CONFLICT NOTE: Uses x-doctor-layout layout wrapper and a 12-column bento grid (grid-cols-12 gap-6 w-full). Each bento card wraps content in extra nested rounded-3xl border border-white/70 bg-white/75 containers, which causes double padding, nested rounded corners, and height overflow issues on smaller high-DPI displays.
+- [resources/views/doctor/dashboard.blade.php.rej]: UI CONFLICT NOTE: Orphaned Git patch rejection artifact file from a failed merge on doctor dashboard layout.
+- [resources/views/doctor/medications/index.blade.php]: Doctor medication catalog management view for adding, editing, and deleting clinic medications.
+- [resources/views/doctor/patients/index.blade.php]: Doctor patient records search and listing view with filter controls.
+- [resources/views/doctor/patients/show.blade.php]: Doctor detailed patient medical history view showing EHR parameters, vital sign timelines, medical attachments, and previous consultation notes.
+- [resources/views/doctor/prescriptions/index.blade.php]: Doctor prescription generator view for configuring medication templates and printing physical prescriptions.
+- [resources/views/doctor/settings/index.blade.php]: Doctor settings view for updating profile info, clinic parameters, and Telegram bot chat settings.
+- [resources/views/doctor/surgeries/index.blade.php]: Doctor surgery management view for viewing scheduled operations, editing surgical notes, and tracking costs.
+- [resources/views/errors/subscription_expired.blade.php]: Error page view displayed when a tenant's subscription plan has expired, prompting renewal.
+- [resources/views/layouts/app.blade.php]: Secretary Base Layout Wrapper. UI CONFLICT NOTE: Features a fixed sidebar (:class="isCollapsed ? 'w-20' : 'w-44'") and offset main area (:class="isCollapsed ? 'ms-20' : 'ms-44'") with a top header fixed at z-[70]. If child views add extra max-w or outer margin containers, layout misalignment occurs.
+- [resources/views/layouts/doctor.blade.php]: Doctor Base Layout Wrapper. UI CONFLICT NOTE: Duplicates entire fixed sidebar and top header structure from app.blade.php with doctor-specific navigation links. Offset logic matches app.blade.php (:class="isCollapsed ? 'ms-20' : 'ms-44'"). Having two parallel layout wrappers leads to duplicated header/sidebar code maintenance conflicts.
+- [resources/views/layouts/guest.blade.php]: Guest Layout Wrapper for login, registration, and password reset views.
+- [resources/views/notifications/index.blade.php]: Secretary system notifications log view.
+- [resources/views/patients/create.blade.php]: Secretary view for registering a new patient into the clinic database.
+- [resources/views/patients/index.blade.php]: Secretary patient list view with search, pagination, and patient detail action buttons.
+- [resources/views/patients/show.blade.php]: Secretary patient summary view showing contact information and appointment history.
+- [resources/views/profile/edit.blade.php]: Profile edit settings page containing user profile update, password change, and account deletion forms.
+- [resources/views/profile/partials/delete-user-form.blade.php]: Partial view containing account deletion modal and password confirmation form.
+- [resources/views/profile/partials/update-password-form.blade.php]: Partial view containing form fields for changing user password.
+- [resources/views/profile/partials/update-profile-information-form.blade.php]: Partial view containing form fields for updating user profile name, clinic name, bio, and avatar photo.
+- [resources/views/secretary/broadcast/index.blade.php]: Secretary Telegram bot settings view for configuring Telegram bot token and chat notifications.
+- [resources/views/settings/index.blade.php]: Secretary clinic settings management view for updating clinic contact details, working hours, and sub-secretaries.
+- [resources/views/settings/sub_secretary/create.blade.php]: View form for creating new sub-secretary staff accounts linked to the primary clinic account.
+- [resources/views/surgeries/index.blade.php]: Secretary surgery list and scheduling view.
+- [resources/views/tenant/license/activate.blade.php]: Tenant DRM activation code entry view for submitting JWT activation tokens (`ATLAS-{jwt}`).
+- [resources/views/tenant/notifications/index.blade.php]: Tenant system notifications view for system broadcasts.
+- [resources/views/welcome.blade.php]: Public landing page view redirecting to login or dashboard based on authentication status.
+- [routes/api.php]: API routing file defining endpoints for global search, queue status, system notifications, broadcast syncing, chat messages, and protected central tenant subscription API.
+- [routes/auth.php]: Authentication routing file defining routes for login, register, password resets, email verification, and logout.
+- [routes/console.php]: Console routing file defining Artisan commands and scheduled tasks (e.g. daily surgery reminders command).
+- [routes/web.php]: Main Web routing file defining routes for dashboard, patients, appointments, surgeries, billing, settings, DRM activation, and doctor workspace routes protected by `auth` and `ensure.activated` middleware.

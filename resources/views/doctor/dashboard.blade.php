@@ -173,7 +173,7 @@
 
                 <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50 p-1 rounded-xl border border-slate-100">
                     <!-- Dropdown Filter -->
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 ps-2 pe-7 font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
+                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 ps-3 pe-10 font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
                         <option value="today">{{ __('اليوم') }}</option>
                         <option value="week">{{ __('اسبوع') }}</option>
                         <option value="month">{{ __('شهر') }}</option>
@@ -285,7 +285,7 @@
                 </div>
 
                 <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50 p-1 rounded-xl border border-slate-100">
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 ps-2 pe-7 font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
+                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 ps-3 pe-10 font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
                         <option value="today">{{ __('اليوم') }}</option>
                         <option value="week">{{ __('اسبوع') }}</option>
                         <option value="month">{{ __('شهر') }}</option>

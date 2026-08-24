@@ -30,6 +30,28 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 
+    public function test_inactive_tenant_user_redirected_to_activation_on_login(): void
+    {
+        $tenant = \App\Models\Tenant::create([
+            'name' => 'Inactive Clinic',
+            'domain' => 'inactive-clinic-123',
+            'is_active' => false,
+            'subscription_plan' => null,
+        ]);
+
+        $user = User::factory()->create([
+            'tenant_id' => $tenant->id,
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('activation.show'));
+    }
+
     public function test_users_can_not_authenticate_with_invalid_password(): void
     {
         $user = User::factory()->create();

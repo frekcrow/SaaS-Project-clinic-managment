@@ -16,6 +16,19 @@
 </head>
 <body class="font-sans text-gray-900 antialiased selection:bg-gray-900 selection:text-white">
     <div class="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-50 relative overflow-hidden">
+        <!-- Back Arrow Logout Form -->
+        <form method="POST" action="{{ route('logout') }}" class="absolute top-6 start-6 z-30">
+            @csrf
+            <button type="submit"
+                    title="{{ __('تسجيل الخروج والعودة') }}"
+                    aria-label="{{ __('تسجيل الخروج والعودة') }}"
+                    class="group flex items-center justify-center w-11 h-11 rounded-2xl bg-white hover:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200 shadow-sm hover:shadow transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-400 cursor-pointer">
+                <svg class="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-0.5 rtl:group-hover:translate-x-0.5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+            </button>
+        </form>
+
         <!-- Decorative Ambient Gradient Background -->
         <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-slate-50 to-slate-100 pointer-events-none"></div>
 

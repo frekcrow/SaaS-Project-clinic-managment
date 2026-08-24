@@ -116,6 +116,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        if ($user->tenant && !$user->tenant->hasValidSubscription()) {
+            return redirect()->route('activation.show');
+        }
+
         return redirect(route('dashboard', absolute: false));
     }
 }

@@ -49,140 +49,140 @@
         </div>
 
         <!-- Right Column (Form) -->
-        <div class="flex flex-col justify-center px-8 sm:px-12 lg:px-24 py-12 bg-white">
-            <div class="w-full max-w-md mx-auto">
+        <div class="flex flex-col justify-center px-8 sm:px-12 lg:px-16 py-12 bg-white">
+            <div class="w-full max-w-lg mx-auto">
                 <!-- Logo -->
-                <div class="mb-8">
-                    <img src="{{ asset('images/logo-text.png') }}" alt="Atlas" class="h-10 w-auto mb-8">
+                <div class="mb-6">
+                    <img src="{{ asset('images/logo-text.png') }}" alt="Atlas" class="h-10 w-auto mb-6">
                 </div>
 
                 <!-- Greeting -->
-                <h2 class="text-3xl font-bold mb-8 text-slate-900 tracking-tight" style="font-family: 'Ping', sans-serif;">
+                <h2 class="text-3xl font-bold mb-6 text-slate-900 tracking-tight" style="font-family: 'Ping', sans-serif;">
                     إنشاء حساب جديد
                 </h2>
 
                 <!-- Form -->
-                <form method="POST" action="{{ route('register') }}" class="space-y-5">
+                <form method="POST" action="{{ route('register') }}">
                     @csrf
 
-                    <!-- Role -->
-                    <div>
-                        <label for="role" class="block text-sm font-medium text-slate-700 mb-2">
-                            {{ __('الصفة / الدور') }}
-                        </label>
-                        <select id="role"
-                                name="role"
-                                required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 text-sm shadow-sm bg-white">
-                            <option value="Doctor" {{ old('role') == 'Doctor' ? 'selected' : '' }}>طبيب (Doctor)</option>
-                            <option value="Secretary" {{ old('role') == 'Secretary' ? 'selected' : '' }}>سكرتير / سكرتيرة (Secretary)</option>
-                        </select>
-                        <x-input-error :messages="$errors->get('role')" class="mt-2" />
-                    </div>
+                    <!-- Form Grid Wrapper -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <!-- Row 1: Name & Clinic Name -->
+                        <div class="space-y-1.5">
+                            <label for="name" class="block text-sm font-medium text-slate-700">
+                                {{ __('الاسم الكامل') }}
+                            </label>
+                            <input id="name"
+                                   type="text"
+                                   name="name"
+                                   value="{{ old('name') }}"
+                                   required
+                                   autocomplete="name"
+                                   placeholder="د. محمد أحمد"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
+                            <x-input-error :messages="$errors->get('name')" class="mt-1" />
+                        </div>
 
-                    <!-- Clinic Code -->
-                    <div>
-                        <label for="clinic_code" class="block text-sm font-medium text-slate-700 mb-2">
-                            {{ __('رمز العيادة (اسم المستخدم)') }}
-                        </label>
-                        <input id="clinic_code"
-                               type="text"
-                               name="clinic_code"
-                               value="{{ old('clinic_code') }}"
-                               required
-                               placeholder="e.g. clinic-dr-smith"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
-                        <x-input-error :messages="$errors->get('clinic_code')" class="mt-2" />
-                    </div>
+                        <div class="space-y-1.5">
+                            <label for="clinic_code" class="block text-sm font-medium text-slate-700">
+                                {{ __('اسم العيادة (رمز العيادة)') }}
+                            </label>
+                            <input id="clinic_code"
+                                   type="text"
+                                   name="clinic_code"
+                                   value="{{ old('clinic_code') }}"
+                                   required
+                                   placeholder="e.g. clinic-dr-smith"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
+                            <x-input-error :messages="$errors->get('clinic_code')" class="mt-1" />
+                        </div>
 
-                    <!-- Name -->
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-slate-700 mb-2">
-                            {{ __('الاسم الكامل') }}
-                        </label>
-                        <input id="name"
-                               type="text"
-                               name="name"
-                               value="{{ old('name') }}"
-                               required
-                               autocomplete="name"
-                               placeholder="د. محمد أحمد"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                    </div>
+                        <!-- Row 2: Email & Gender -->
+                        <div class="space-y-1.5">
+                            <label for="email" class="block text-sm font-medium text-slate-700">
+                                {{ __('البريد الإلكتروني') }}
+                            </label>
+                            <input id="email"
+                                   type="email"
+                                   name="email"
+                                   value="{{ old('email') }}"
+                                   required
+                                   autocomplete="username"
+                                   placeholder="doctor@example.com"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
+                            <x-input-error :messages="$errors->get('email')" class="mt-1" />
+                        </div>
 
-                    <!-- Email Address -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-slate-700 mb-2">
-                            {{ __('البريد الإلكتروني') }}
-                        </label>
-                        <input id="email"
-                               type="email"
-                               name="email"
-                               value="{{ old('email') }}"
-                               required
-                               autocomplete="username"
-                               placeholder="doctor@example.com"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                    </div>
+                        <div class="space-y-1.5">
+                            <label for="gender" class="block text-sm font-medium text-slate-700">
+                                {{ __('الجنس') }}
+                            </label>
+                            <select id="gender"
+                                    name="gender"
+                                    required
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 text-sm shadow-sm bg-white">
+                                <option value="" disabled {{ old('gender') ? '' : 'selected' }}>اختر الجنس</option>
+                                <option value="ذكر" {{ old('gender') == 'ذكر' ? 'selected' : '' }}>ذكر</option>
+                                <option value="أنثى" {{ old('gender') == 'أنثى' ? 'selected' : '' }}>أنثى</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('gender')" class="mt-1" />
+                        </div>
 
-                    <!-- Gender -->
-                    <div>
-                        <label for="gender" class="block text-sm font-medium text-slate-700 mb-2">
-                            {{ __('الجنس') }}
-                        </label>
-                        <select id="gender"
-                                name="gender"
-                                required
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 text-sm shadow-sm bg-white">
-                            <option value="" disabled {{ old('gender') ? '' : 'selected' }}>اختر الجنس</option>
-                            <option value="ذكر" {{ old('gender') == 'ذكر' ? 'selected' : '' }}>ذكر</option>
-                            <option value="أنثى" {{ old('gender') == 'أنثى' ? 'selected' : '' }}>أنثى</option>
-                        </select>
-                        <x-input-error :messages="$errors->get('gender')" class="mt-2" />
-                    </div>
+                        <!-- Row 3: Password & Password Confirmation -->
+                        <div class="space-y-1.5">
+                            <label for="password" class="block text-sm font-medium text-slate-700">
+                                {{ __('كلمة المرور') }}
+                            </label>
+                            <input id="password"
+                                   type="password"
+                                   name="password"
+                                   required
+                                   autocomplete="new-password"
+                                   placeholder="••••••••"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
+                            <x-input-error :messages="$errors->get('password')" class="mt-1" />
+                        </div>
 
-                    <!-- Password -->
-                    <div>
-                        <label for="password" class="block text-sm font-medium text-slate-700 mb-2">
-                            {{ __('كلمة المرور') }}
-                        </label>
-                        <input id="password"
-                               type="password"
-                               name="password"
-                               required
-                               autocomplete="new-password"
-                               placeholder="••••••••"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
-                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                    </div>
+                        <div class="space-y-1.5">
+                            <label for="password_confirmation" class="block text-sm font-medium text-slate-700">
+                                {{ __('تأكيد كلمة المرور') }}
+                            </label>
+                            <input id="password_confirmation"
+                                   type="password"
+                                   name="password_confirmation"
+                                   required
+                                   autocomplete="new-password"
+                                   placeholder="••••••••"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
+                            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1" />
+                        </div>
 
-                    <!-- Confirm Password -->
-                    <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-slate-700 mb-2">
-                            {{ __('تأكيد كلمة المرور') }}
-                        </label>
-                        <input id="password_confirmation"
-                               type="password"
-                               name="password_confirmation"
-                               required
-                               autocomplete="new-password"
-                               placeholder="••••••••"
-                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
-                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                        <!-- Row 4: Role (Spans 2 columns) -->
+                        <div class="col-span-1 sm:col-span-2 space-y-1.5">
+                            <label for="role" class="block text-sm font-medium text-slate-700">
+                                {{ __('الصفة / الدور') }}
+                            </label>
+                            <select id="role"
+                                    name="role"
+                                    required
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 text-sm shadow-sm bg-white">
+                                <option value="Doctor" {{ old('role') == 'Doctor' ? 'selected' : '' }}>طبيب (Doctor)</option>
+                                <option value="Secretary" {{ old('role') == 'Secretary' ? 'selected' : '' }}>سكرتير / سكرتيرة (Secretary)</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('role')" class="mt-1" />
+                        </div>
                     </div>
 
                     <!-- Submit Button -->
-                    <div class="pt-3">
+                    <div>
                         <button type="submit"
-                                class="w-full bg-black text-white font-medium py-3.5 px-6 rounded-2xl hover:bg-slate-800 active:scale-[0.99] transition duration-200 text-center shadow-lg shadow-black/5 flex items-center justify-center text-base">
+                                class="w-full bg-black text-white font-medium py-3 px-6 rounded-2xl hover:bg-slate-800 active:scale-[0.99] transition duration-200 text-center shadow-lg shadow-black/5 flex items-center justify-center text-base">
                             إنشاء حساب
                         </button>
                     </div>
 
                     <!-- Footer Link -->
-                    <div class="text-center mt-6">
+                    <div class="text-center mt-5">
                         <a href="{{ route('login') }}" class="text-sm text-slate-600 hover:text-black font-medium transition">
                             لديك حساب بالفعل؟ تسجيل الدخول
                         </a>

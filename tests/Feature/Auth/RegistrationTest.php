@@ -23,6 +23,7 @@ class RegistrationTest extends TestCase
             'clinic_code' => 'CLINIC-123',
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'gender' => 'ذكر',
             'password' => 'password',
             'password_confirmation' => 'password',
         ]);

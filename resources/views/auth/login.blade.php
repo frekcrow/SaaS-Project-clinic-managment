@@ -1,47 +1,138 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-icon.png') }}">
+    <title>{{ config('app.name', 'Atlas Clinic') }} - {{ __('تسجيل الدخول') }}</title>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="font-sans text-gray-900 antialiased bg-white selection:bg-gray-900 selection:text-white">
+    <div class="min-h-screen grid lg:grid-cols-2">
+        <!-- Left Column (Visuals) -->
+        <div class="hidden lg:flex flex-col justify-between bg-slate-50 p-12 border-e border-slate-100 relative overflow-hidden">
+            <!-- Decorative Subtle Pattern / Background Glow -->
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/50 via-slate-50 to-slate-100 pointer-events-none"></div>
+
+            <div class="relative z-10 flex items-center gap-3">
+                <img src="{{ asset('images/logo-icon.png') }}" alt="Atlas Logo" class="h-8 w-auto">
+                <span class="font-bold text-xl text-slate-800 tracking-tight">Atlas Clinic</span>
+            </div>
+
+            <!-- Medical Illustration / Visual Placeholder -->
+            <div class="relative z-10 flex flex-col items-center justify-center my-auto py-12">
+                <div class="w-full max-w-lg aspect-square rounded-3xl bg-white/70 backdrop-blur-md shadow-xl border border-slate-200/60 p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group hover:shadow-2xl transition-all duration-500">
+                    <div class="absolute -top-24 -right-24 w-60 h-60 bg-blue-100 rounded-full filter blur-3xl opacity-60"></div>
+                    <div class="absolute -bottom-24 -left-24 w-60 h-60 bg-indigo-100 rounded-full filter blur-3xl opacity-60"></div>
+
+                    <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-200 mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.18.104l-.84.336a2 2 0 00-1.28 1.86v.58c0 .53.43.96.96.96h17.44c.53 0 .96-.43.96-.96v-.58a2 2 0 00-.732-1.552zM12 11a4 4 0 100-8 4 4 0 000 8z"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2" style="font-family: 'Ping', sans-serif;">نظام إدارة العيادات الذكي</h3>
+                    <p class="text-slate-500 max-w-sm text-sm leading-relaxed">منصة شاملة ومتطورة لإدارة المواعيد، السجلات الطبية، والوصفات الطبية بكل سهولة وأمان.</p>
+                </div>
+            </div>
+
+            <div class="relative z-10 text-xs text-slate-400">
+                &copy; {{ date('Y') }} Atlas Clinic. جميع الحقوق محفوظة.
+            </div>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <!-- Right Column (Form) -->
+        <div class="flex flex-col justify-center px-8 sm:px-12 lg:px-24 py-12 bg-white">
+            <div class="w-full max-w-md mx-auto">
+                <!-- Logo -->
+                <div class="mb-8">
+                    <img src="{{ asset('images/logo-text.png') }}" alt="Atlas" class="h-10 w-auto">
+                </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+                <!-- Greeting -->
+                <h2 class="text-3xl font-bold mb-8 text-slate-900 tracking-tight" style="font-family: 'Ping', sans-serif;">
+                    مرحباً بك من جديد
+                </h2>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <!-- Session Status -->
+                <x-auth-session-status class="mb-6" :status="session('status')" />
+
+                <!-- Form -->
+                <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                    @csrf
+
+                    <!-- Email Address -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-700 mb-2">
+                            {{ __('البريد الإلكتروني') }}
+                        </label>
+                        <input id="email"
+                               type="email"
+                               name="email"
+                               value="{{ old('email') }}"
+                               required
+                               autofocus
+                               autocomplete="username"
+                               placeholder="doctor@example.com"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
+                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label for="password" class="block text-sm font-medium text-slate-700">
+                                {{ __('كلمة المرور') }}
+                            </label>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}" class="text-xs text-slate-500 hover:text-black font-medium transition">
+                                    {{ __('نسيت كلمة المرور؟') }}
+                                </a>
+                            @endif
+                        </div>
+                        <input id="password"
+                               type="password"
+                               name="password"
+                               required
+                               autocomplete="current-password"
+                               placeholder="••••••••"
+                               class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 placeholder:text-slate-400 text-sm shadow-sm" />
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="flex items-center justify-between pt-1">
+                        <label for="remember_me" class="inline-flex items-center cursor-pointer">
+                            <input id="remember_me"
+                                   type="checkbox"
+                                   name="remember"
+                                   class="rounded border-slate-300 text-black shadow-sm focus:ring-black focus:ring-offset-0 h-4 w-4">
+                            <span class="ms-2 text-sm text-slate-600">{{ __('تذكرني') }}</span>
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-2">
+                        <button type="submit"
+                                class="w-full bg-black text-white font-medium py-3.5 px-6 rounded-2xl hover:bg-slate-800 active:scale-[0.99] transition duration-200 text-center shadow-lg shadow-black/5 flex items-center justify-center text-base">
+                            متابعة
+                        </button>
+                    </div>
+
+                    <!-- Footer Text -->
+                    <p class="text-sm text-gray-500 text-center mt-6 leading-relaxed">
+                        بالضغط على زر متابعة انت توافق على سياسة خصوصية وشروط الخدمة
+                    </p>
+                </form>
+            </div>
         </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+</body>
+</html>

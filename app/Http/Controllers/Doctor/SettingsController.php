@@ -64,12 +64,6 @@ class SettingsController extends Controller
 
         $user->save();
 
-        if ($request->has('excel_export_path')) {
-            $user->tenant->update([
-                'excel_export_path' => $request->excel_export_path,
-            ]);
-        }
-
         return redirect()->route('doctor.settings.index')->with('success', __('تم تحديث الإعدادات بنجاح'));
     }
 

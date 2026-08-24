@@ -5,9 +5,6 @@
     }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
-            <!-- Top Header & About Atlas -->
-
-
             <!-- Subscription Details Card -->
             <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm mb-6">
                 <h3 class="text-lg font-bold text-slate-800 mb-4">{{ __('تفاصيل الاشتراك') }}</h3>
@@ -42,7 +39,6 @@
                         <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         {{ __('حول النظام') }}
                     </button>
-                    <!-- Logout button moved to bottom of tabs -->
                 </div>
             </div>
 
@@ -79,6 +75,9 @@
                 <button @click="activeTab = 'integrations'" :class="activeTab === 'integrations' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'" class="px-6 py-2.5 rounded-2xl font-bold border transition-colors flex-shrink-0">
                     {{ __('الربط التقني') }}
                 </button>
+                <button @click="activeTab = 'privacy'" :class="activeTab === 'privacy' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'" class="px-6 py-2.5 rounded-2xl font-bold border transition-colors flex-shrink-0">
+                    {{ __('الخصوصية والامان') }}
+                </button>
             </div>
 
             <form id="reset-usage-form" method="POST" action="{{ route('doctor.settings.reset_usage') }}" class="hidden">
@@ -102,7 +101,7 @@
 
             <!-- Profile Tab -->
             <div x-show="activeTab === 'profile'" x-cloak class="space-y-6">
-                <form method="POST" action="{{ route('doctor.settings.update') }}" enctype="multipart/form-data" class="space-y-6">
+                <form method="POST" action="{{ route('settings.profile.update') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
                     <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
                         <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('المعلومات الشخصية') }}</h3>
@@ -135,7 +134,7 @@
                             <div class="col-span-1 md:col-span-2 space-y-6">
                                 <div>
                                     <x-input-label for="name" :value="__('اسم الطبيب/ة')" />
-                                    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('name', $user->name)" />
+                                    <x-text-input id="name" name="name" type="text" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('name', $user->name)" required />
                                 </div>
 
                                 <div>
@@ -170,27 +169,8 @@
                                     </button>
                                 </div>
 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <x-input-label for="password" :value="__('كلمة المرور الجديدة (اختياري)')" />
-                                        <x-text-input id="password" name="password" type="password" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" autocomplete="new-password" />
-                                    </div>
-                                    <div>
-                                        <x-input-label for="password_confirmation" :value="__('تأكيد كلمة المرور')" />
-                                        <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
-                                    </div>
-                                </div>
-
-                        <div class="col-span-2 mt-4 pt-6 border-t border-slate-100">
-                            <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('مسار تخزين الإكسل (The Archive)') }}</h4>
-                            <x-input-label for="excel_export_path" :value="__('المسار المحلي لحفظ سجلات الإكسل تلقائياً (مثال: C:\ClinicRecords)')" />
-                            <x-text-input id="excel_export_path" name="excel_export_path" type="text" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('excel_export_path', $user->tenant->excel_export_path)" placeholder="C:\ClinicRecords" />
-                            <p class="text-xs text-slate-500 mt-1">{{ __('إذا تم ترك هذا الحقل فارغاً، فلن يتم المزامنة التلقائية لملفات الإكسل.') }}</p>
-                            <x-input-error class="mt-2" :messages="$errors->get('excel_export_path')" />
-                        </div>
-
                                 <!-- System Language -->
-                                <div class="col-span-2 pt-6 border-t border-slate-100">
+                                <div class="pt-6 border-t border-slate-100">
                                     <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }} (System Language)</h4>
                                     <x-input-label for="locale" :value="__('اختر لغة واجهة المستخدم')" />
                                     <select id="locale" name="locale" class="mt-1 block w-full sm:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-slate-700 font-medium">
@@ -203,11 +183,31 @@
 
                         <div class="flex justify-end mt-8 border-t border-slate-100 pt-6">
                             <button type="submit" class="px-6 py-3 bg-black text-white font-bold rounded-2xl shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
-                                {{ __('حفظ الإعدادات') }}
+                                {{ __('حفظ الملف الشخصي') }}
                             </button>
                         </div>
                     </div>
                 </form>
+
+                <!-- Account Actions Card -->
+                <div class="p-6 sm:p-8 bg-red-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-red-100">
+                    <div class="w-full space-y-4">
+                        <h4 class="text-lg font-bold text-red-800 mb-4 text-center">{{ __('إدارة الحساب') }}</h4>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <form method="POST" action="{{ route('logout') }}" class="w-full">
+                                @csrf
+                                <button type="submit" class="w-full text-center px-4 py-3 bg-white border border-red-200 rounded-2xl font-bold text-red-600 hover:bg-red-50 transition-colors shadow-sm">
+                                    {{ __('تسجيل خروج') }}
+                                </button>
+                            </form>
+
+                            <a href="{{ route('profile.edit') }}" class="block w-full text-center px-4 py-3 bg-red-600 border border-transparent rounded-2xl font-bold text-white hover:bg-red-700 transition-colors shadow-sm">
+                                {{ __('حذف الحساب') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Clinic Setup Tab -->
@@ -324,7 +324,7 @@
                         }
                     }">
                         <!-- Default Theme -->
-                        <button @click="setTheme('default')" :class="currentTheme === 'default' ? 'ring-2 ring-indigo-500 border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-indigo-300 hover:bg-slate-50 bg-white'" class="p-4 rounded-2xl border flex flex-col items-center gap-3 transition-all">
+                        <button @click="setTheme('default')" :class="currentTheme === 'default' ? 'ring-2 ring-indigo-500 border-indigo-500 bg-indigo-50' : 'border-slate-200 hover:border-indigo-300 hover:bg-slate-50 bg-white'" class="p-4 rounded-2xl border flex flex-col items-center gap-3 transition-all relative">
                             <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shadow-sm">
                                 <div class="w-6 h-6 rounded-full bg-slate-800"></div>
                             </div>
@@ -410,8 +410,8 @@
                 </div>
             </div>
 
-            <!-- Global Actions (Always visible below tabs) -->
-            <div class="space-y-6">
+            <!-- Privacy & Security Tab -->
+            <div x-show="activeTab === 'privacy'" x-cloak class="space-y-6">
                 <!-- Black Box Logs Download -->
                 <div class="p-6 sm:p-8 bg-slate-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-200">
                     <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('تحميل سجلات النظام (Black Box)') }}</h4>
@@ -426,26 +426,6 @@
                             {{ __('تحميل السجلات') }}
                         </button>
                     </form>
-                </div>
-
-                <!-- Account Actions -->
-                <div class="p-6 sm:p-8 bg-red-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-red-100">
-                    <div class="w-full space-y-4">
-                        <h4 class="text-lg font-bold text-red-800 mb-4 text-center">{{ __('إدارة الحساب') }}</h4>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <form method="POST" action="{{ route('logout') }}" class="w-full">
-                            @csrf
-                            <button type="submit" class="w-full text-center px-4 py-3 bg-white border border-red-200 rounded-2xl font-bold text-red-600 hover:bg-red-50 transition-colors shadow-sm">
-                                {{ __('تسجيل خروج') }}
-                            </button>
-                        </form>
-
-                            <a href="{{ route('profile.edit') }}" class="block w-full text-center px-4 py-3 bg-red-600 border border-transparent rounded-2xl font-bold text-white hover:bg-red-700 transition-colors shadow-sm">
-                                {{ __('حذف الحساب') }}
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
 

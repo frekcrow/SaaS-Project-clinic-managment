@@ -28,6 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = Auth::user();
+
+        if ($user && $user->tenant && !$user->tenant->hasValidSubscription()) {
+            return redirect()->route('activation.show');
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

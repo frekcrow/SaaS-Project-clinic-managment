@@ -36,7 +36,7 @@
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
             <aside
                 :class="isCollapsed ? 'w-20' : 'w-44'"
-                class="fixed flex flex-col h-screen bg-white dark:bg-gray-800 border-e border-slate-100 dark:border-gray-700 shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0"
+                class="fixed flex flex-col h-screen bg-white dark:bg-gray-800 border-e border-slate-100 dark:border-gray-700 shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0 {{ request()->routeIs('dashboard') ? 'w-44' : 'w-20' }}"
             >
                 <!-- Sidebar Header -->
                 <div class="h-20 border-b border-slate-100 dark:border-gray-700 flex items-center px-4" :class="isCollapsed ? 'justify-center' : 'justify-between'">
@@ -145,7 +145,7 @@
             </aside>
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden relative" :class="isCollapsed ? 'ms-20' : 'ms-44'">
+            <div class="flex-1 flex flex-col min-w-0 transition-all duration-300 h-screen overflow-hidden relative {{ request()->routeIs('dashboard') ? 'ms-44' : 'ms-20' }}" :class="isCollapsed ? 'ms-20' : 'ms-44'">
                 <!-- Glassmorphic Loader Overlay -->
                 <div x-cloak x-show="isNavigating" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0 z-50 flex items-center justify-center bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm transition-all duration-300">
                     <svg class="w-10 h-10 text-indigo-600 animate-spin" fill="none" viewBox="0 0 24 24">

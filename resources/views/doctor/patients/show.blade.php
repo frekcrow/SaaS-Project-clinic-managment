@@ -1,6 +1,6 @@
 <x-doctor-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center print:hidden">
+        <div class="flex items-center justify-between w-full mb-6 print:hidden">
             <div class="flex items-center gap-4">
                 <a href="{{ route('doctor.patients.index') }}" class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-slate-500 shadow-sm hover:bg-slate-50 transition-colors border border-gray-100">
                     <svg class="w-5 h-5 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
@@ -9,7 +9,7 @@
                     {{ __('ملف المريض') }}: {{ $patient->name }}
                 </h2>
             </div>
-            <button onclick="window.print()" class="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-800 transition-colors shadow-sm print:hidden">
+            <button onclick="window.print()" class="flex items-center gap-2 bg-black text-white px-3.5 py-1.5 rounded-xl text-sm font-medium hover:bg-neutral-800 transition-colors shadow-sm h-9">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                 {{ __('طباعة الملف') }}
             </button>
@@ -60,7 +60,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الجنس') }}</label>
-                            <select name="gender" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">
+                            <select name="gender" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm ps-3.5 pe-8">
                                 <option value="">{{ __('غير محدد') }}</option>
                                 <option value="male" {{ $patient->gender == 'male' ? 'selected' : '' }}>{{ __('ذكر') }}</option>
                                 <option value="female" {{ $patient->gender == 'female' ? 'selected' : '' }}>{{ __('أنثى') }}</option>

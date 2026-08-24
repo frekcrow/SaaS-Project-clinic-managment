@@ -62,7 +62,7 @@
                         <!-- Patient Selection -->
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('المريض') }} ({{ __('مواعيد اليوم') }})</label>
-                            <select x-model="selectedAppointmentId" @change="updatePatientData" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                            <select x-model="selectedAppointmentId" @change="updatePatientData" class="w-full bg-slate-50 border border-slate-200 rounded-xl ps-3.5 pe-8 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
                                 <option value="">-- {{ __('اختر مريض') }} --</option>
                                 @foreach($patients as $patient)
                                     <option value="{{ $patient->id }}" data-patient="{{ $patient->name }}" data-date="{{ today()->format('Y/m/d') }}" data-booking="{{ $patient->id }}">
@@ -96,7 +96,7 @@
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('إضافة دواء') }}</label>
                             <div class="flex gap-2">
-                                <select x-model="selectedMedicationId" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                                <select x-model="selectedMedicationId" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl ps-3.5 pe-8 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
                                     <option value="">-- {{ __('اختر دواء') }} --</option>
                                     @foreach($medications as $med)
                                         <option value="{{ $med->id }}" data-name="{{ $med->name }}" data-generic="{{ $med->generic_name }}" data-type="{{ $med->medication_type }}">

@@ -7,7 +7,7 @@
             <form method="GET" action="{{ route('doctor.billing.index') }}" x-data="{ secretary: '{{ $secretaryId }}' }" class="flex items-center gap-2">
                 <input type="hidden" name="sort" value="{{ $sortOrder }}">
                 <label for="secretary_id" class="text-sm font-medium text-slate-700 dark:text-gray-300">{{ __('السكرتير') }}:</label>
-                <select name="secretary_id" id="secretary_id" x-model="secretary" @change="$event.target.form.submit()" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm pl-8 pr-4 py-2 shadow-sm cursor-pointer">
+                <select name="secretary_id" id="secretary_id" x-model="secretary" @change="$event.target.form.submit()" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm ps-3 pe-8 py-2 shadow-sm cursor-pointer">
                     <option value="">{{ __('الجميع') }}</option>
                     @foreach($allSecretaries as $sec)
                         <option value="{{ $sec->id }}" {{ $secretaryId == $sec->id ? 'selected' : '' }}>{{ $sec->name }}</option>
@@ -131,7 +131,7 @@
                         <form method="GET" action="{{ route('doctor.billing.index') }}" x-data="{ sort: '{{ $sortOrder }}' }" class="flex items-center gap-2">
                             <input type="hidden" name="secretary_id" value="{{ $secretaryId }}">
                             <label for="sort" class="text-sm font-medium text-slate-700 dark:text-gray-300">{{ __('ترتيب حسب') }}:</label>
-                            <select name="sort" id="sort" x-model="sort" @change="$event.target.form.submit()" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm pl-8 pr-4 py-2 bg-white dark:bg-gray-700 shadow-sm cursor-pointer">
+                            <select name="sort" id="sort" x-model="sort" @change="$event.target.form.submit()" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm ps-3 pe-8 py-2 bg-white dark:bg-gray-700 shadow-sm cursor-pointer">
                                 <option value="desc">{{ __('الأعلى دخلاً') }}</option>
                                 <option value="asc">{{ __('الأدنى دخلاً') }}</option>
                             </select>

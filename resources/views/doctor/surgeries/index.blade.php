@@ -96,7 +96,7 @@
                                     <!-- Anesthesia Type -->
                                     <div>
                                         <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('نوع التخدير') }}</label>
-                                        <select name="anesthesia_type" required class="w-full border-gray-300 rounded-xl focus:ring-teal-500 focus:border-teal-500 sm:text-sm">
+                                        <select name="anesthesia_type" required class="w-full border-gray-300 rounded-xl focus:ring-teal-500 focus:border-teal-500 sm:text-sm ps-3.5 pe-8">
                                             <option value="{{ __('تخدير عام') }}" :selected="surgery.anesthesia_type === '{{ __('تخدير عام') }}'">{{ __('تخدير عام') }}</option>
                                             <option value="{{ __('تخدير موضعي') }}" :selected="surgery.anesthesia_type === '{{ __('تخدير موضعي') }}'">{{ __('تخدير موضعي') }}</option>
                                             <option value="{{ __('تخدير قطني') }}" :selected="surgery.anesthesia_type === '{{ __('تخدير قطني') }}'">{{ __('تخدير قطني') }}</option>

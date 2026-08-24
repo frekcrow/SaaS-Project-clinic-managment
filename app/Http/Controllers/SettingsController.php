@@ -45,6 +45,7 @@ class SettingsController extends Controller
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', \Illuminate\Validation\Rule::unique('users')->ignore($user->id)],
             'clinic_name' => ['nullable', 'string', 'max:255'],
             'bio' => ['nullable', 'string'],
             'avatar' => ['nullable', 'image', 'max:2048'], // 2MB max
@@ -62,12 +63,17 @@ class SettingsController extends Controller
 
         $updateData = [
             'name' => array_key_exists('name', $validated) ? $validated['name'] : $user->name,
+            'email' => array_key_exists('email', $validated) ? $validated['email'] : $user->email,
             'clinic_name' => array_key_exists('clinic_name', $validated) ? $validated['clinic_name'] : $user->clinic_name,
             'bio' => array_key_exists('bio', $validated) ? $validated['bio'] : $user->bio,
         ];
 
         if (isset($validated['avatar_path'])) {
             $updateData['avatar_path'] = $validated['avatar_path'];
+        }
+
+        if ($user->email !== $updateData['email']) {
+            $user->email_verified_at = null;
         }
 
         $user->update($updateData);

@@ -152,10 +152,10 @@
                     </button>
                 </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
-                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن عملية (اسم المريض)...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن عملية...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        <option value="date_desc">{{ __('تاريخ العملية (الأحدث)') }}</option>
-                        <option value="date_asc">{{ __('تاريخ العملية (الأقدم)') }}</option>
+                        <option value="date_desc">{{ __('تاريخ العملية - الأحدث') }}</option>
+                        <option value="date_asc">{{ __('تاريخ العملية - الأقدم') }}</option>
                     </select>
                 </div>
 

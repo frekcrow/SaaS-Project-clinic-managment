@@ -198,7 +198,7 @@
 <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-300" href="#">Pricing</a>
 </nav>
 <div class="flex items-center gap-sm">
-    <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-300 mr-sm" href="{{ route('login') }}">Login (تسجيل الدخول)</a>
+    <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors duration-300 mr-sm" href="{{ route('login') }}">تسجيل الدخول</a>
     <a class="flex items-center gap-sm bg-primary/10 text-primary px-md py-sm rounded-full font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-colors duration-300 active:scale-95" href="/register">
         <span>Get Started</span>
         <span class="material-symbols-outlined text-[18px]">arrow_forward</span>

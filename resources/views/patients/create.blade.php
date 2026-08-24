@@ -102,21 +102,21 @@
 
                             <!-- Allergies -->
                             <div class="md:col-span-2">
-                                <x-input-label for="allergies" :value="__('الحساسية (إن وجدت)')" />
+                                <x-input-label for="allergies" :value="__('الحساسية')" />
                                 <textarea id="allergies" name="allergies" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="2">{{ old('allergies') }}</textarea>
                                 <x-input-error :messages="$errors->get('allergies')" class="mt-2" />
                             </div>
 
                             <!-- Chronic Diseases -->
                             <div class="md:col-span-2">
-                                <x-input-label for="chronic_diseases" :value="__('الأمراض المزمنة (إن وجدت)')" />
+                                <x-input-label for="chronic_diseases" :value="__('الأمراض المزمنة')" />
                                 <textarea id="chronic_diseases" name="chronic_diseases" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="2">{{ old('chronic_diseases') }}</textarea>
                                 <x-input-error :messages="$errors->get('chronic_diseases')" class="mt-2" />
                             </div>
 
                             <!-- Regular Medications -->
                             <div class="md:col-span-2">
-                                <x-input-label for="regular_medications" :value="__('الأدوية المنتظمة (إن وجدت)')" />
+                                <x-input-label for="regular_medications" :value="__('الأدوية المنتظمة')" />
                                 <textarea id="regular_medications" name="regular_medications" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="2">{{ old('regular_medications') }}</textarea>
                                 <x-input-error :messages="$errors->get('regular_medications')" class="mt-2" />
                             </div>

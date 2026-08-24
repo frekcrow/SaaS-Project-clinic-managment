@@ -5,6 +5,14 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Saans';
+    src: url('/fonts/Saans-TRIAL-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,8 +21,14 @@
     display: none !important;
 }
 
-html, body {
-    font-family: 'Ping', ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+/* Default to English / LTR */
+html[lang="en"], html[dir="ltr"] {
+    font-family: 'Saans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Override for Arabic / RTL */
+html[lang="ar"], html[dir="rtl"] {
+    font-family: 'Ping', ui-sans-serif, system-ui, sans-serif;
 }
 
 /* Themes */

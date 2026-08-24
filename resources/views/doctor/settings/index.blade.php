@@ -70,7 +70,7 @@
                     {{ __('تهيئة العيادة') }}
                 </button>
                 <button @click="activeTab = 'themes'" :class="activeTab === 'themes' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'" class="px-6 py-2.5 rounded-2xl font-bold border transition-colors flex-shrink-0">
-                    {{ __('السمات (Themes)') }}
+                    {{ __('السمات') }}
                 </button>
                 <button @click="activeTab = 'integrations'" :class="activeTab === 'integrations' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'" class="px-6 py-2.5 rounded-2xl font-bold border transition-colors flex-shrink-0">
                     {{ __('الربط التقني') }}
@@ -153,7 +153,7 @@
                                 </div>
 
                                 <div>
-                                    <x-input-label for="bio" :value="__('نبذة عن العيادة (Bio)')" />
+                                    <x-input-label for="bio" :value="__('نبذة عن العيادة')" />
                                     <textarea id="bio" name="bio" rows="3" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 resize-none">{{ old('bio', $user->bio) }}</textarea>
                                 </div>
 
@@ -171,10 +171,10 @@
 
                                 <!-- System Language -->
                                 <div class="pt-6 border-t border-slate-100">
-                                    <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }} (System Language)</h4>
+                                    <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }}</h4>
                                     <x-input-label for="locale" :value="__('اختر لغة واجهة المستخدم')" />
                                     <select id="locale" name="locale" class="mt-1 block w-full sm:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-slate-700 font-medium">
-                                        <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>{{ __('العربية') }} (Arabic)</option>
+                                        <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>{{ __('العربية') }}</option>
                                         <option value="en" {{ old('locale', $user->locale) === 'en' ? 'selected' : '' }}>English</option>
                                     </select>
                                 </div>
@@ -217,11 +217,11 @@
                 <form method="POST" action="{{ route('doctor.settings.update') }}" class="space-y-6">
                     @csrf
                     <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20" x-data="{ enabled: {{ old('has_sessions_system', $user->has_sessions_system) ? 'true' : 'false' }} }">
-                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('إعدادات العيادة والحجوزات') }} (Clinic Settings)</h4>
+                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('إعدادات العيادة والحجوزات') }}</h4>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <x-input-label for="default_consultation_price" :value="__('سعر الكشفية الثابت (د.ع)')" />
+                                <x-input-label for="default_consultation_price" :value="__('سعر الكشفية الثابت')" />
                                 <x-text-input id="default_consultation_price" name="default_consultation_price" type="number" step="0.01" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('default_consultation_price', $user->default_consultation_price)" required />
                             </div>
 
@@ -235,8 +235,8 @@
                         </div>
 
                         <div x-show="enabled" x-collapse class="mt-4">
-                            <h4 class="text-md font-bold text-slate-800 mb-4 mt-6 border-t pt-4">{{ __('نظام الجلسات (Sessions System)') }}</h4>
-                            <x-input-label for="default_session_price" :value="__('سعر الجلسة الثابت (د.ع)')" />
+                            <h4 class="text-md font-bold text-slate-800 mb-4 mt-6 border-t pt-4">{{ __('نظام الجلسات') }}</h4>
+                            <x-input-label for="default_session_price" :value="__('سعر الجلسة الثابت')" />
                             <x-text-input id="default_session_price" name="default_session_price" type="number" step="0.01" class="mt-1 block w-full md:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('default_session_price', $user->default_session_price)" />
                         </div>
 
@@ -249,7 +249,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Session Types Management -->
                     <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-100">
-                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('أنواع الجلسات') }} (Session Types)</h4>
+                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('أنواع الجلسات') }}</h4>
 
                         <!-- Add Session Type Form -->
                         <form method="POST" action="{{ route('doctor.settings.session-types.store') }}" class="flex gap-2 mb-6">
@@ -279,7 +279,7 @@
 
                     <!-- Surgery Types Management -->
                     <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-100">
-                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('أنواع العمليات') }} (Surgery Types)</h4>
+                        <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('أنواع العمليات') }}</h4>
 
                         <!-- Add Surgery Type Form -->
                         <form method="POST" action="{{ route('doctor.settings.surgery-types.store') }}" class="flex gap-2 mb-6">
@@ -312,7 +312,7 @@
             <!-- Themes Tab -->
             <div x-show="activeTab === 'themes'" x-cloak class="space-y-6">
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('السمات') }} (Themes)</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('السمات') }}</h3>
                     <p class="text-slate-500 mb-6">{{ __('اختر المظهر المفضل لك لواجهة النظام. يتم حفظ هذا الإعداد على متصفحك الحالي.') }}</p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" x-data="{
@@ -365,27 +365,27 @@
             <!-- Integrations Tab -->
             <div x-show="activeTab === 'integrations'" x-cloak class="space-y-6">
                 <div class="p-6 sm:p-8 bg-white/70 backdrop-blur-md shadow-sm sm:rounded-3xl border border-white/20">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('الربط التقني') }} (Integrations)</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">{{ __('الربط التقني') }}</h3>
                     <form method="POST" action="{{ route('doctor.settings.messaging.update') }}" class="space-y-6">
                         @csrf
 
                         <div class="space-y-4">
-                            <h4 class="text-lg font-bold text-slate-800">{{ __('إعدادات واتساب') }} (WhatsApp Settings)</h4>
+                            <h4 class="text-lg font-bold text-slate-800">{{ __('إعدادات واتساب') }}</h4>
 
                             <div>
-                                <x-input-label for="whatsapp_phone_number_id" :value="__('معرف رقم الهاتف') . ' (Phone Number ID)'" />
+                                <x-input-label for="whatsapp_phone_number_id" :value="__('معرف رقم الهاتف')" />
                                 <x-text-input id="whatsapp_phone_number_id" name="whatsapp_phone_number_id" type="text" class="mt-1 block w-full" :value="old('whatsapp_phone_number_id', $messagingSettings->whatsapp_phone_number_id ?? '')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('whatsapp_phone_number_id')" />
                             </div>
 
                             <div>
-                                <x-input-label for="whatsapp_business_account_id" :value="__('معرف حساب الأعمال') . ' (Business Account ID)'" />
+                                <x-input-label for="whatsapp_business_account_id" :value="__('معرف حساب الأعمال')" />
                                 <x-text-input id="whatsapp_business_account_id" name="whatsapp_business_account_id" type="text" class="mt-1 block w-full" :value="old('whatsapp_business_account_id', $messagingSettings->whatsapp_business_account_id ?? '')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('whatsapp_business_account_id')" />
                             </div>
 
                             <div>
-                                <x-input-label for="whatsapp_access_token" :value="__('رمز الوصول') . ' (Access Token)'" />
+                                <x-input-label for="whatsapp_access_token" :value="__('رمز الوصول')" />
                                 <x-text-input id="whatsapp_access_token" name="whatsapp_access_token" type="password" class="mt-1 block w-full" :value="old('whatsapp_access_token', $messagingSettings->whatsapp_access_token ?? '')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('whatsapp_access_token')" />
                             </div>
@@ -394,10 +394,10 @@
                         <hr class="border-slate-200">
 
                         <div class="space-y-4">
-                            <h4 class="text-lg font-bold text-slate-800">{{ __('إعدادات تليجرام') }} (Telegram Settings)</h4>
+                            <h4 class="text-lg font-bold text-slate-800">{{ __('إعدادات تليجرام') }}</h4>
 
                             <div>
-                                <x-input-label for="telegram_bot_token" :value="__('رمز البوت') . ' (Bot Token)'" />
+                                <x-input-label for="telegram_bot_token" :value="__('رمز البوت')" />
                                 <x-text-input id="telegram_bot_token" name="telegram_bot_token" type="password" class="mt-1 block w-full" :value="old('telegram_bot_token', $messagingSettings->telegram_bot_token ?? '')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('telegram_bot_token')" />
                             </div>
@@ -414,7 +414,7 @@
             <div x-show="activeTab === 'privacy'" x-cloak class="space-y-6">
                 <!-- Black Box Logs Download -->
                 <div class="p-6 sm:p-8 bg-slate-50/50 backdrop-blur-md shadow-sm sm:rounded-3xl border border-slate-200">
-                    <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('تحميل سجلات النظام (Black Box)') }}</h4>
+                    <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('تحميل سجلات النظام') }}</h4>
                     <p class="text-sm text-slate-600 mb-4">{{ __('يتطلب هذا الإجراء إدخال كلمة المرور الحالية لضمان الأمان.') }}</p>
                     <form method="POST" action="{{ route('doctor.settings.download_logs') }}" class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                         @csrf

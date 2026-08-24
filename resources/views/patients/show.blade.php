@@ -124,7 +124,7 @@
                                                     <div class="mt-1 text-gray-900 prose prose-sm bg-gray-50 p-3 rounded-lg print:bg-transparent print:p-0">{!! nl2br(e($record->diagnosis ?: '-')) !!}</div>
                                                 </div>
                                                 <div>
-                                                    <span class="block text-sm font-medium text-gray-500">{{ __('الوصفة الطبية (الأدوية)') }}</span>
+                                                    <span class="block text-sm font-medium text-gray-500">{{ __('الوصفة الطبية') }}</span>
                                                     <div class="mt-1 text-gray-900 prose prose-sm bg-gray-50 p-3 rounded-lg print:bg-transparent print:p-0">{!! nl2br(e($record->prescription ?: '-')) !!}</div>
                                                 </div>
                                                 <div>

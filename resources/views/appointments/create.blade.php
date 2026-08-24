@@ -131,7 +131,7 @@
 
                             <!-- Price -->
                             <div class="mt-4">
-                                <x-input-label for="price" :value="__('السعر / الرسوم (اختياري)')" />
+                                <x-input-label for="price" :value="__('السعر / الرسوم')" />
                                 <x-text-input id="price" class="block mt-1 w-full font-bold" type="number" step="0.01" name="price" x-model="price" />
                                 <x-input-error :messages="$errors->get('price')" class="mt-2" />
                             </div>

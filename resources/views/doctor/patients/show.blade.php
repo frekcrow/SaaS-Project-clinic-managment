@@ -18,7 +18,7 @@
         <!-- Print Header (Hidden on Screen) -->
         <div class="hidden print:flex flex-col items-center justify-center border-b-2 border-black pb-4 mb-8">
             <h1 class="text-3xl font-bold mb-2">{{ __('عيادة الطبيب') }}</h1>
-            <h2 class="text-xl">{{ __('السجل الطبي الإلكتروني') }} (EMR)</h2>
+            <h2 class="text-xl">{{ __('السجل الطبي الإلكتروني') }}</h2>
             <div class="mt-4 flex gap-8 text-sm">
                 <span>{{ __('تاريخ الطباعة') }}: {{ now()->format('Y-m-d') }}</span>
                 <span>{{ __('المريض') }}: {{ $patient->name }}</span>
@@ -72,11 +72,11 @@
                         </div>
 
                         <div class="col-span-full mt-4 border-t border-gray-100 pt-4">
-                            <h4 class="text-sm font-bold text-slate-600 mb-4">{{ __('التاريخ الطبي') }} (Medical History)</h4>
+                            <h4 class="text-sm font-bold text-slate-600 mb-4">{{ __('التاريخ الطبي') }}</h4>
                         </div>
 
                         <div class="col-span-1 md:col-span-2 lg:col-span-1">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الحساسية') }} (Allergies)</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الحساسية') }}</label>
                             <textarea name="allergies" rows="2" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $patient->allergies }}</textarea>
                         </div>
                         <div class="col-span-1 md:col-span-2 lg:col-span-1">
@@ -127,14 +127,14 @@
             <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] print:shadow-none print:border-black/20 print:rounded-none">
                 <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2 print:border-b print:pb-2 print:border-black/20">
                     <svg class="w-5 h-5 text-slate-400 print:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                    {{ __('التشخيص والوصفة الطبية') }} (Current Visit)
+                    {{ __('التشخيص والوصفة الطبية') }}
                 </h3>
 
                 <form action="{{ route('doctor.patients.records.store', $patient) }}" method="POST" class="print:hidden">
                     @csrf
                     <div class="space-y-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('التشخيص') }} (Diagnosis)</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('التشخيص') }}</label>
                             <textarea name="diagnosis" rows="3" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $currentRecord && $currentRecord->diagnosis !== __('قيد الانتظار') ? $currentRecord->diagnosis : '' }}</textarea>
                         </div>
                         <div>
@@ -153,11 +153,11 @@
                 <!-- Print Version -->
                 <div class="hidden print:block space-y-6 mt-4">
                     <div>
-                        <strong class="text-xl border-b-2 border-black inline-block mb-2 pr-8 pb-1">{{ __('التشخيص') }} (Diagnosis):</strong>
+                        <strong class="text-xl border-b-2 border-black inline-block mb-2 pr-8 pb-1">{{ __('التشخيص') }}:</strong>
                         <p class="text-lg mt-2 whitespace-pre-line">{{ $currentRecord && $currentRecord->diagnosis !== __('قيد الانتظار') ? $currentRecord->diagnosis : __('لم يتم التشخيص بعد') }}</p>
                     </div>
                     <div class="pt-4">
-                        <strong class="text-xl border-b-2 border-black inline-block mb-2 pr-8 pb-1">{{ __('الوصفة الطبية') }} (Rx):</strong>
+                        <strong class="text-xl border-b-2 border-black inline-block mb-2 pr-8 pb-1">{{ __('الوصفة الطبية') }}:</strong>
                         <p class="text-lg mt-2 whitespace-pre-line font-mono" dir="ltr">{{ $currentRecord ? $currentRecord->prescription : '-' }}</p>
                     </div>
                 </div>

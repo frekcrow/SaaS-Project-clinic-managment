@@ -34,12 +34,12 @@
                     </button>
                 </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
-                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن موعد (اسم المريض أو رقم الهاتف)...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن موعد...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                     <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        <option value="date_asc">{{ __('تاريخ الموعد (الأقرب)') }}</option>
-                        <option value="date_desc">{{ __('تاريخ الموعد (الأبعد)') }}</option>
-                        <option value="newest">{{ __('تاريخ الإضافة (الأحدث)') }}</option>
-                        <option value="oldest">{{ __('تاريخ الإضافة (الأقدم)') }}</option>
+                        <option value="date_asc">{{ __('تاريخ الموعد - الأقرب') }}</option>
+                        <option value="date_desc">{{ __('تاريخ الموعد - الأبعد') }}</option>
+                        <option value="newest">{{ __('تاريخ الإضافة - الأحدث') }}</option>
+                        <option value="oldest">{{ __('تاريخ الإضافة - الأقدم') }}</option>
                         <option value="status_pending">{{ __('قيد الانتظار') }}</option>
                         <option value="status_completed">{{ __('مكتمل') }}</option>
                         <option value="status_cancelled">{{ __('ملغي') }}</option>

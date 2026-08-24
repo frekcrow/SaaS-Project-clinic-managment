@@ -34,7 +34,7 @@
                     <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-800">{{ __('المساعد الذكي (Telegram Bot)') }}</h3>
+                    <h3 class="text-xl font-bold text-slate-800">{{ __('المساعد الذكي') }}</h3>
                 </div>
 
                 <form method="POST" action="{{ route('secretary.broadcast.update') }}" class="space-y-6">
@@ -42,17 +42,17 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2">
-                            <label for="telegram_bot_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز البوت (Bot Token)') }}</label>
+                            <label for="telegram_bot_token" class="block text-sm font-medium text-slate-700 mb-1">{{ __('رمز البوت') }}</label>
                             <input type="text" id="telegram_bot_token" name="telegram_bot_token" value="{{ old('telegram_bot_token', $messagingSettings->telegram_bot_token ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
 
                         <div>
-                            <label for="doctor_chat_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف دردشة الطبيب (Doctor Chat ID)') }}</label>
+                            <label for="doctor_chat_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف دردشة الطبيب') }}</label>
                             <input type="text" id="doctor_chat_id" name="doctor_chat_id" value="{{ old('doctor_chat_id', $messagingSettings->doctor_chat_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
 
                         <div>
-                            <label for="secretary_chat_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف دردشة السكرتير (Secretary Chat ID)') }}</label>
+                            <label for="secretary_chat_id" class="block text-sm font-medium text-slate-700 mb-1">{{ __('معرف دردشة السكرتير') }}</label>
                             <input type="text" id="secretary_chat_id" name="secretary_chat_id" value="{{ old('secretary_chat_id', $messagingSettings->secretary_chat_id ?? '') }}" class="w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                     </div>

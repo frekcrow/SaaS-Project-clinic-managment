@@ -85,7 +85,7 @@
 
                         <div class="space-y-1.5">
                             <label for="clinic_code" class="block text-sm font-medium text-slate-700">
-                                {{ __('اسم العيادة (رمز العيادة)') }}
+                                {{ __('اسم العيادة') }}
                             </label>
                             <input id="clinic_code"
                                    type="text"
@@ -166,8 +166,8 @@
                                     name="role"
                                     required
                                     class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition duration-200 text-slate-900 text-sm shadow-sm bg-white">
-                                <option value="Doctor" {{ old('role') == 'Doctor' ? 'selected' : '' }}>طبيب (Doctor)</option>
-                                <option value="Secretary" {{ old('role') == 'Secretary' ? 'selected' : '' }}>سكرتير / سكرتيرة (Secretary)</option>
+                                <option value="Doctor" {{ old('role') == 'Doctor' ? 'selected' : '' }}>طبيب</option>
+                                <option value="Secretary" {{ old('role') == 'Secretary' ? 'selected' : '' }}>سكرتير / سكرتيرة</option>
                             </select>
                             <x-input-error :messages="$errors->get('role')" class="mt-1" />
                         </div>

@@ -99,7 +99,7 @@
                     {{ __('تهيئة العيادة') }}
                 </button>
                 <button @click="activeTab = 'themes'" :class="activeTab === 'themes' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'" class="px-6 py-2.5 rounded-2xl font-bold border transition-colors flex-shrink-0">
-                    {{ __('السمات (Themes)') }}
+                    {{ __('السمات') }}
                 </button>
             </div>
             <form id="reset-usage-form" method="POST" action="{{ route('settings.reset_usage') }}" class="hidden">
@@ -167,12 +167,12 @@
                             </div>
 
                             <div>
-                                <x-input-label for="email" :value="__('البريد الإلكتروني (غير قابل للتعديل هنا)')" />
+                                <x-input-label for="email" :value="__('البريد الإلكتروني')" />
                                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full rounded-2xl border-slate-200 bg-slate-100 shadow-sm text-slate-500 cursor-not-allowed" :value="$user->email" readonly />
                             </div>
 
                             <div>
-                                <x-input-label for="bio" :value="__('نبذة عن العيادة (Bio)')" />
+                                <x-input-label for="bio" :value="__('نبذة عن العيادة')" />
                                 <textarea id="bio" name="bio" rows="3" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 resize-none">{{ old('bio', $user->bio) }}</textarea>
                             </div>
 
@@ -216,7 +216,7 @@
 
                     <div class="flex flex-col gap-6">
                         <div>
-                            <x-input-label for="default_consultation_price" :value="__('سعر الكشفية الثابت (د.ع)')" />
+                            <x-input-label for="default_consultation_price" :value="__('سعر الكشفية الثابت')" />
                             <x-text-input id="default_consultation_price" name="default_consultation_price" type="number" step="0.01" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('default_consultation_price', $user->default_consultation_price)" required />
                         </div>
 
@@ -228,17 +228,17 @@
                             </label>
 
                             <div x-show="enabled" x-collapse class="mt-4">
-                                <x-input-label for="default_session_price" :value="__('سعر الجلسة الثابت (د.ع)')" />
+                                <x-input-label for="default_session_price" :value="__('سعر الجلسة الثابت')" />
                                 <x-text-input id="default_session_price" name="default_session_price" type="number" step="0.01" class="mt-1 block w-full rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" :value="old('default_session_price', $user->default_session_price)" />
                             </div>
                         </div>
 
                         <!-- System Language -->
                         <div class="col-span-2 mt-4 pt-6 border-t border-slate-100">
-                            <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }} (System Language)</h4>
+                            <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }}</h4>
                             <x-input-label for="locale" :value="__('اختر لغة واجهة المستخدم')" />
                             <select id="locale" name="locale" class="mt-1 block w-full sm:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-slate-700 font-medium">
-                                <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>{{ __('العربية') }} (Arabic)</option>
+                                <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>{{ __('العربية') }}</option>
                                 <option value="en" {{ old('locale', $user->locale) === 'en' ? 'selected' : '' }}>English</option>
                             </select>
                         </div>

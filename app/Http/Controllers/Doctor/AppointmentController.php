@@ -57,4 +57,66 @@ class AppointmentController extends Controller
             'remainingPatients'
         ));
     }
+
+    /**
+     * Update the status of the specified appointment.
+     */
+    public function updateStatus(Request $request, Appointment $appointment)
+    {
+        abort_if($appointment->tenant_id !== Auth::user()->tenant_id, 403);
+
+        $validatedData = $request->validate([
+            'status' => 'required|in:pending,completed,cancelled,in_progress',
+        ]);
+
+        $oldStatus = $appointment->status;
+        $newStatus = $validatedData['status'];
+
+        if ($newStatus === 'in_progress' && $oldStatus !== 'in_progress') {
+            $appointment->update([
+                'status' => 'in_progress',
+                'session_started_at' => now(),
+            ]);
+
+            // Notify secretary about session start
+            $secretaries = \App\Models\User::where('tenant_id', Auth::user()->tenant_id)
+                ->where('role', '!=', 'Doctor')
+                ->get();
+            foreach ($secretaries as $secretary) {
+                $secretary->notify(new \App\Notifications\GeneralNotification("بدأت الجلسة للمراجع رقم {$appointment->queue_number}", 'info', 'play'));
+            }
+
+        } elseif ($newStatus === 'completed' && $oldStatus === 'in_progress') {
+            $appointment->update(['status' => $newStatus]);
+
+            // Notify secretary about session end
+            $secretaries = \App\Models\User::where('tenant_id', Auth::user()->tenant_id)
+                ->where('role', '!=', 'Doctor')
+                ->get();
+            foreach ($secretaries as $secretary) {
+                $secretary->notify(new \App\Notifications\GeneralNotification("انتهت الجلسة للمراجع رقم {$appointment->queue_number}", 'success', 'check-circle'));
+            }
+        } else {
+            $appointment->update(['status' => $newStatus]);
+        }
+
+        if ($request->wantsJson()) {
+            if ($newStatus === 'completed') {
+                return response()->json([
+                    'success' => true,
+                    'redirect_url' => route('doctor.patients.show', $appointment->patient_id)
+                ]);
+            }
+            return response()->json(['success' => true]);
+        }
+
+        if ($newStatus === 'completed') {
+            if ($appointment->patient_id) {
+                return redirect()->route('doctor.patients.show', $appointment->patient_id)->with('success', __('Status updated successfully.'));
+            }
+            return redirect()->back()->with('success', __('Status updated successfully.'));
+        }
+
+        return redirect()->back()->with('success', __('Status updated successfully.'));
+    }
 }

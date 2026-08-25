@@ -173,7 +173,7 @@
                                 <div class="pt-6 border-t border-slate-100">
                                     <h4 class="text-lg font-bold text-slate-800 mb-4">{{ __('لغة النظام') }}</h4>
                                     <x-input-label for="locale" :value="__('اختر لغة واجهة المستخدم')" />
-                                    <select id="locale" name="locale" class="mt-1 block w-full sm:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-slate-700 font-medium ps-3.5 pe-8">
+                                    <select id="locale" name="locale" class="mt-1 block w-full sm:w-1/2 rounded-2xl border-slate-200 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-slate-700 font-medium ltr:pl-3 ltr:pr-8 rtl:pr-3 rtl:pl-8 ltr:text-left rtl:text-right ltr:bg-[position:right_0.5rem_center] rtl:bg-[position:left_0.5rem_center]">
                                         <option value="ar" {{ old('locale', $user->locale ?? 'ar') === 'ar' ? 'selected' : '' }}>{{ __('العربية') }}</option>
                                         <option value="en" {{ old('locale', $user->locale) === 'en' ? 'selected' : '' }}>English</option>
                                     </select>

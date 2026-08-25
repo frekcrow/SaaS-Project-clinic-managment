@@ -332,8 +332,8 @@
                 <main x-cloak x-show="pageLoaded" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="flex-1 overflow-y-auto px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900">
                     <!-- Page Heading -->
                     @isset($header)
-                        <div class="mb-6 flex items-center justify-between">
-                            <h1 class="text-2xl font-bold text-slate-800 dark:text-gray-100">
+                        <div class="mb-6 flex items-center justify-between w-full">
+                            <h1 class="text-2xl font-bold w-full text-slate-800 dark:text-gray-100">
                                 {{ $header }}
                             </h1>
                         </div>

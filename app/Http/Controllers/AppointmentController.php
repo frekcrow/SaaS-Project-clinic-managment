@@ -129,7 +129,7 @@ class AppointmentController extends Controller
             'appointment_date' => 'nullable|date',
             'appointment_time' => 'nullable|date_format:H:i',
             'price' => 'nullable|numeric|min:0',
-            'status' => 'sometimes|required|in:pending,completed,cancelled,in_progress',
+            'status' => 'sometimes|required|in:pending,completed,cancelled,in_progress,arrived',
             'is_session' => 'boolean',
             'session_type_id' => [
                 'nullable',
@@ -164,7 +164,7 @@ class AppointmentController extends Controller
         abort_if($appointment->tenant_id !== Auth::user()->tenant_id, 403);
 
         $validatedData = $request->validate([
-            'status' => 'required|in:pending,completed,cancelled,in_progress',
+            'status' => 'required|in:pending,completed,cancelled,in_progress,arrived',
         ]);
 
         $oldStatus = $appointment->status;

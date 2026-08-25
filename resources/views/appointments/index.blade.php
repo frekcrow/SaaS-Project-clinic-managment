@@ -41,6 +41,8 @@
                         <option value="newest">{{ __('تاريخ الإضافة - الأحدث') }}</option>
                         <option value="oldest">{{ __('تاريخ الإضافة - الأقدم') }}</option>
                         <option value="status_pending">{{ __('قيد الانتظار') }}</option>
+                        <option value="status_arrived">{{ __('حاضر') }}</option>
+                        <option value="status_in_progress">{{ __('قيد الإجراء') }}</option>
                         <option value="status_completed">{{ __('مكتمل') }}</option>
                         <option value="status_cancelled">{{ __('ملغي') }}</option>
                     </select>
@@ -179,15 +181,17 @@
                                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm border"
                                                                 :class="{
                                                                     'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
+                                                                    'bg-blue-50 text-blue-700 border-blue-200': appointment.status === 'arrived',
+                                                                    'bg-indigo-50 text-indigo-700 border-indigo-200': appointment.status === 'in_progress',
                                                                     'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
                                                                 }"
-                                                                x-text="appointment.status === 'completed' ? '{{ __('مكتمل') }}' : '{{ __('ملغي') }}'">
+                                                                x-text="appointment.status === 'completed' ? '{{ __('مكتمل') }}' : (appointment.status === 'arrived' ? '{{ __('حاضر') }}' : (appointment.status === 'in_progress' ? '{{ __('قيد الإجراء') }}' : '{{ __('ملغي') }}'))">
                                                             </span>
                                                         </template>
                                                         <template x-if="appointment.status === 'pending'">
                                                             <div class="flex gap-2">
-                                                                <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('مكتمل') }}">
-                                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                                <button type="button" @click="quickUpdateStatus(appointment, 'arrived')" class="inline-flex items-center px-2 py-1 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('تأكيد الحضور') }}">
+                                                                    {{ __('تأكيد الحضور') }}
                                                                 </button>
                                                                 <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('إلغاء') }}">
                                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -199,6 +203,8 @@
                                                 <template x-if="editMode">
                                                     <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
                                                         <option value="pending">{{ __('قيد الانتظار') }}</option>
+                                                        <option value="arrived">{{ __('حاضر') }}</option>
+                                                        <option value="in_progress">{{ __('قيد الإجراء') }}</option>
                                                         <option value="completed">{{ __('مكتمل') }}</option>
                                                         <option value="cancelled">{{ __('ملغي') }}</option>
                                                     </select>
@@ -363,15 +369,17 @@
                                                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm border"
                                                                             :class="{
                                                                                 'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
+                                                                                'bg-blue-50 text-blue-700 border-blue-200': appointment.status === 'arrived',
+                                                                                'bg-indigo-50 text-indigo-700 border-indigo-200': appointment.status === 'in_progress',
                                                                                 'bg-red-50 text-red-700 border-red-200': appointment.status === 'cancelled'
                                                                             }"
-                                                                            x-text="appointment.status === 'completed' ? '{{ __('مكتمل') }}' : '{{ __('ملغي') }}'">
+                                                                            x-text="appointment.status === 'completed' ? '{{ __('مكتمل') }}' : (appointment.status === 'arrived' ? '{{ __('حاضر') }}' : (appointment.status === 'in_progress' ? '{{ __('قيد الإجراء') }}' : '{{ __('ملغي') }}'))">
                                                                         </span>
                                                                     </template>
                                                                     <template x-if="appointment.status === 'pending'">
                                                                         <div class="flex gap-2">
-                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'completed')" class="inline-flex items-center px-2 py-1 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('مكتمل') }}">
-                                                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'arrived')" class="inline-flex items-center px-2 py-1 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('تأكيد الحضور') }}">
+                                                                                {{ __('تأكيد الحضور') }}
                                                                             </button>
                                                                             <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('إلغاء') }}">
                                                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -383,6 +391,8 @@
                                                             <template x-if="editMode">
                                                                 <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
                                                                     <option value="pending">{{ __('قيد الانتظار') }}</option>
+                                                                    <option value="arrived">{{ __('حاضر') }}</option>
+                                                                    <option value="in_progress">{{ __('قيد الإجراء') }}</option>
                                                                     <option value="completed">{{ __('مكتمل') }}</option>
                                                                     <option value="cancelled">{{ __('ملغي') }}</option>
                                                                 </select>
@@ -477,6 +487,8 @@
                         if (this.sortBy === 'newest') return caB - caA;
                         if (this.sortBy === 'oldest') return caA - caB;
                         if (this.sortBy === 'status_pending') return (a.status === 'pending' ? -1 : 1) - (b.status === 'pending' ? -1 : 1);
+                        if (this.sortBy === 'status_arrived') return (a.status === 'arrived' ? -1 : 1) - (b.status === 'arrived' ? -1 : 1);
+                        if (this.sortBy === 'status_in_progress') return (a.status === 'in_progress' ? -1 : 1) - (b.status === 'in_progress' ? -1 : 1);
                         if (this.sortBy === 'status_completed') return (a.status === 'completed' ? -1 : 1) - (b.status === 'completed' ? -1 : 1);
                         if (this.sortBy === 'status_cancelled') return (a.status === 'cancelled' ? -1 : 1) - (b.status === 'cancelled' ? -1 : 1);
 

@@ -13,8 +13,8 @@
 
     <div class="space-y-6">
         @php
-            $pendingAppt = $todaysAppointments->where('status', 'pending')->first();
-            $pendingCount = $todaysAppointments->where('status', 'pending')->count();
+            $pendingAppt = $todaysAppointments->where('status', 'arrived')->sortBy('queue_number')->first();
+            $pendingCount = $todaysAppointments->where('status', 'arrived')->count();
         @endphp
 
         <div>

@@ -160,6 +160,8 @@
                             <option value="all" {{ $appointmentStatus === 'all' ? 'selected' : '' }}>{{ __('الكل') }}</option>
                             <option value="completed" {{ $appointmentStatus === 'completed' ? 'selected' : '' }}>{{ __('مكتمل') }}</option>
                             <option value="pending" {{ $appointmentStatus === 'pending' ? 'selected' : '' }}>{{ __('قيد الانتظار') }}</option>
+                            <option value="arrived" {{ $appointmentStatus === 'arrived' ? 'selected' : '' }}>{{ __('حاضر') }}</option>
+                            <option value="in_progress" {{ $appointmentStatus === 'in_progress' ? 'selected' : '' }}>{{ __('قيد الإجراء') }}</option>
                             <option value="cancelled" {{ $appointmentStatus === 'cancelled' ? 'selected' : '' }}>{{ __('ملغي') }}</option>
                         </select>
                     </form>
@@ -294,6 +296,14 @@
                                 @elseif($appointment->status === 'cancelled')
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                                         {{ __('ملغي') }}
+                                    </span>
+                                @elseif($appointment->status === 'arrived')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        {{ __('حاضر') }}
+                                    </span>
+                                @elseif($appointment->status === 'in_progress')
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                        {{ __('قيد الإجراء') }}
                                     </span>
                                 @else
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">

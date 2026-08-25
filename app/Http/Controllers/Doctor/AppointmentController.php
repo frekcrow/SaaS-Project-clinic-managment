@@ -66,7 +66,7 @@ class AppointmentController extends Controller
         abort_if($appointment->tenant_id !== Auth::user()->tenant_id, 403);
 
         $validatedData = $request->validate([
-            'status' => 'required|in:pending,completed,cancelled,in_progress',
+            'status' => 'required|in:pending,completed,cancelled,in_progress,arrived',
         ]);
 
         $oldStatus = $appointment->status;

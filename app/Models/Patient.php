@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Traits\BelongsToTenant;
 use App\Traits\SyncsToExcel;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Patient extends Model
 {
-    use BelongsToTenant, SyncsToExcel;
+    use BelongsToTenant, SyncsToExcel, SoftDeletes;
 
     protected $casts = [
         'dob' => 'date',

@@ -11,7 +11,7 @@ class DoctorSurgeryController extends Controller
 {
     public function index()
     {
-        $surgeries = Surgery::with(['patient', 'surgeryType'])
+        $surgeries = Surgery::withTrashed()->with(['patient', 'surgeryType'])
             ->where('tenant_id', Auth::user()->tenant_id)
             ->orderBy('surgery_date', 'desc')
             ->get();

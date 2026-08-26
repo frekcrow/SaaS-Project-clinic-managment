@@ -18,7 +18,7 @@ class AppointmentController extends Controller
         $viewMode = $request->query('view_mode', 'default');
         $filterDate = $request->query('date', now()->format('Y-m-d'));
 
-        $query = Appointment::with(['patient'])
+        $query = Appointment::withTrashed()->with(['patient'])
             ->where('tenant_id', $tenantId)
             ->where('doctor_id', $doctorId)
             ->whereNotIn('status', ['in_progress', 'completed', 'cancelled']); // Queue sync logic
@@ -34,7 +34,7 @@ class AppointmentController extends Controller
             ->get();
 
         // Calculate Hourly Summary for today
-        $todayAppointments = Appointment::where('tenant_id', $tenantId)
+        $todayAppointments = Appointment::withTrashed()->where('tenant_id', $tenantId)
             ->where('doctor_id', $doctorId)
             ->whereDate('appointment_date', now()->format('Y-m-d'))
             ->whereNotIn('status', ['in_progress', 'completed', 'cancelled'])
@@ -47,7 +47,7 @@ class AppointmentController extends Controller
         })->sortKeys();
 
         // Calculate remaining patients
-        $remainingPatients = Appointment::where('tenant_id', $tenantId)
+        $remainingPatients = Appointment::withTrashed()->where('tenant_id', $tenantId)
             ->where('doctor_id', $doctorId)
             ->whereDate('appointment_date', now()->format('Y-m-d'))
             ->where('status', 'arrived')

@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\BelongsToTenant;
 use App\Traits\SyncsToExcel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Surgery extends Model
 {
-    use BelongsToTenant, SyncsToExcel;
+    use BelongsToTenant, SyncsToExcel, SoftDeletes;
 
     protected $fillable = [
         'tenant_id',

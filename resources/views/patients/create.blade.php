@@ -42,8 +42,8 @@
                                 <x-input-label for="gender" :value="__('الجنس')" />
                                 <select id="gender" name="gender" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
                                     <option value="">{{ __('اختر الجنس') }}</option>
-                                    <option value="{{ __('ذكر') }}" {{ old('gender') == __('ذكر') ? 'selected' : '' }}>{{ __('ذكر') }}</option>
-                                    <option value="{{ __('أنثى') }}" {{ old('gender') == __('أنثى') ? 'selected' : '' }}>{{ __('أنثى') }}</option>
+                                    <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>{{ __('ذكر') }}</option>
+                                    <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>{{ __('أنثى') }}</option>
                                 </select>
                                 <x-input-error :messages="$errors->get('gender')" class="mt-2" />
                             </div>

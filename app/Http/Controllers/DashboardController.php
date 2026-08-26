@@ -29,7 +29,7 @@ class DashboardController extends Controller
 
             // Financial Calculations
             $totalIncome = Appointment::where('tenant_id', auth()->user()->tenant_id)
-                ->where('status', 'completed')
+                ->whereIn('status', ['arrived', 'in_progress', 'completed'])
                 ->sum('price');
 
             $surgeriesQuery = \App\Models\Surgery::where('tenant_id', auth()->user()->tenant_id);
@@ -118,7 +118,7 @@ class DashboardController extends Controller
             });
 
             $revenueByDay = \App\Models\Appointment::where('tenant_id', $tenantId)
-                ->where('status', 'completed')
+                ->whereIn('status', ['arrived', 'in_progress', 'completed'])
                 ->where('appointment_date', '>=', now()->subDays(6)->format('Y-m-d'))
                 ->selectRaw('appointment_date, sum(price) as total')
                 ->groupBy('appointment_date')
@@ -209,7 +209,7 @@ class DashboardController extends Controller
 
         // Calculations for Dashboard Stats
         $filter = $request->query('filter', 'today');
-        $query = Appointment::where('tenant_id', auth()->user()->tenant_id)->where('status', 'completed');
+        $query = Appointment::where('tenant_id', auth()->user()->tenant_id)->whereIn('status', ['arrived', 'in_progress', 'completed']);
 
         switch ($filter) {
             case 'week':
@@ -232,7 +232,7 @@ class DashboardController extends Controller
         // Revenue Calculations
         $revenuePeriod = $request->query('revenue_period', 'today');
         $revenueDate = $request->query('revenue_date');
-        $revenueQuery = Appointment::where('tenant_id', auth()->user()->tenant_id)->where('status', 'completed');
+        $revenueQuery = Appointment::where('tenant_id', auth()->user()->tenant_id)->whereIn('status', ['arrived', 'in_progress', 'completed']);
 
         if ($revenueDate) {
             $revenueQuery->where('appointment_date', $revenueDate);

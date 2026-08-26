@@ -47,7 +47,11 @@ class AppointmentController extends Controller
         })->sortKeys();
 
         // Calculate remaining patients
-        $remainingPatients = $todayAppointments->count();
+        $remainingPatients = Appointment::where('tenant_id', $tenantId)
+            ->where('doctor_id', $doctorId)
+            ->whereDate('appointment_date', now()->format('Y-m-d'))
+            ->where('status', 'arrived')
+            ->count();
 
         return view('doctor.appointments.index', compact(
             'appointments',

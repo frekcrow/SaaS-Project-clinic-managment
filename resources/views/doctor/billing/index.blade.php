@@ -20,6 +20,19 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
 
+            <!-- Financial Filters -->
+            <form method="GET" action="{{ route('doctor.billing.index') }}" class="flex items-center gap-4 mb-4">
+                <select name="period" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm ltr:pl-3 ltr:pr-8 rtl:pr-3 rtl:pl-8 py-2 ltr:text-left rtl:text-right ltr:bg-[position:right_0.5rem_center] rtl:bg-[position:left_0.5rem_center] pe-10 shadow-sm cursor-pointer">
+                    <option value="today">{{ __('اليوم') }}</option>
+                    <option value="week">{{ __('الاسبوع') }}</option>
+                    <option value="month">{{ __('الشهر') }}</option>
+                    <option value="year">{{ __('السنة') }}</option>
+                    <option value="all">{{ __('الكل') }}</option>
+                </select>
+                <input type="date" name="custom_date" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm shadow-sm cursor-pointer">
+            </form>
+            <hr class="border-black opacity-20 mb-6">
+
             <!-- Top Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Total Patients Today -->

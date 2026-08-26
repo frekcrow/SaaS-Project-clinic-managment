@@ -29,14 +29,14 @@ class DoctorBillingController extends Controller
         // 2. Today's Income (Sum of session/consultation fees collected today for completed appointments)
         $todayIncomeQuery = Appointment::where('tenant_id', $tenantId)
             ->where('appointment_date', $today)
-            ->where('status', 'completed');
+            ->whereIn('status', ['arrived', 'in_progress', 'completed']);
 
         // 3. Total Surgeries Income (Sum of surgery costs for all surgeries)
         $totalSurgeriesIncomeQuery = Surgery::where('tenant_id', $tenantId);
 
         // 4. Net Worth (Total overall income: sessions + surgeries)
         $totalSessionsIncomeQuery = Appointment::where('tenant_id', $tenantId)
-            ->where('status', 'completed');
+            ->whereIn('status', ['arrived', 'in_progress', 'completed']);
 
         if ($secretaryId) {
             $totalPatientsTodayQuery->where('created_by', $secretaryId);
@@ -65,7 +65,7 @@ class DoctorBillingController extends Controller
 
         $appointmentsSubquery = Appointment::select('patient_id', DB::raw('SUM(price) as total_appointments_paid'))
             ->where('tenant_id', $tenantId)
-            ->where('status', 'completed')
+            ->whereIn('status', ['arrived', 'in_progress', 'completed'])
             ->whereNotNull('patient_id')
             ->groupBy('patient_id');
 
@@ -109,7 +109,7 @@ class DoctorBillingController extends Controller
             foreach ($secretaries as $secretary) {
                 $dailyAppt = Appointment::where('tenant_id', $tenantId)
                     ->where('created_by', $secretary->id)
-                    ->where('status', 'completed')
+                    ->whereIn('status', ['arrived', 'in_progress', 'completed'])
                     ->whereDate('appointment_date', $startOfDay)
                     ->sum('price');
                 $dailySurg = Surgery::where('tenant_id', $tenantId)
@@ -119,7 +119,7 @@ class DoctorBillingController extends Controller
 
                 $weeklyAppt = Appointment::where('tenant_id', $tenantId)
                     ->where('created_by', $secretary->id)
-                    ->where('status', 'completed')
+                    ->whereIn('status', ['arrived', 'in_progress', 'completed'])
                     ->whereDate('appointment_date', '>=', $startOfWeek)
                     ->sum('price');
                 $weeklySurg = Surgery::where('tenant_id', $tenantId)
@@ -129,7 +129,7 @@ class DoctorBillingController extends Controller
 
                 $monthlyAppt = Appointment::where('tenant_id', $tenantId)
                     ->where('created_by', $secretary->id)
-                    ->where('status', 'completed')
+                    ->whereIn('status', ['arrived', 'in_progress', 'completed'])
                     ->whereDate('appointment_date', '>=', $startOfMonth)
                     ->sum('price');
                 $monthlySurg = Surgery::where('tenant_id', $tenantId)

@@ -14,7 +14,8 @@
     <div class="space-y-6">
         @php
             $pendingAppt = $todaysAppointments->where('status', 'arrived')->sortBy('queue_number')->first();
-            $pendingCount = $todaysAppointments->where('status', 'arrived')->count();
+            $pendingBookingsCount = $todaysAppointments->where('status', 'pending')->count();
+            $arrivedCount = $todaysAppointments->where('status', 'arrived')->count();
         @endphp
 
         <div>
@@ -139,22 +140,30 @@
 
     <!-- Pending Appointments Card -->
     <div class="col-span-4 bg-white rounded-2xl shadow-sm p-4 relative overflow-hidden group">
-        <div class="relative z-10 flex flex-col justify-between w-full gap-4">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center">
-                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="relative z-10 flex flex-col h-full w-full gap-4">
+            <!-- Header with Title and Button -->
+            <div class="flex justify-between items-center mb-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-slate-800 font-bold text-sm">{{ __('حالة المراجعين اليوم') }}</h3>
                 </div>
-                <div>
-                    <h3 class="text-slate-500 font-medium text-sm mb-1">{{ __('المراجعين في الانتظار') }}</h3>
-                    <div class="text-2xl font-black text-slate-800">{{ $pendingCount }}</div>
-                </div>
+                <a href="{{ route('doctor.appointments.index') }}" class="text-xs font-bold text-white bg-black hover:bg-neutral-800 shadow-sm px-3 py-1 rounded-lg transition-colors flex items-center gap-1">
+                    {{ __('القائمة') }}
+                </a>
             </div>
 
-            <div>
-                <a href="{{ route('doctor.appointments.index') }}" class="w-full justify-center text-sm font-bold text-white bg-black hover:bg-neutral-800 shadow-sm px-4 py-2.5 rounded-xl transition-colors flex items-center gap-2">
-                    {{ __('عرض القائمة كاملة') }}
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                </a>
+            <!-- Split Content -->
+            <div class="grid grid-cols-2 divide-x divide-x-reverse flex-1 items-center mt-2">
+                <div class="flex flex-col px-2">
+                    <h4 class="text-slate-500 font-medium text-xs mb-1">{{ __('قيد الانتظار') }}</h4>
+                    <div class="text-2xl font-black text-slate-800">{{ $pendingBookingsCount }}</div>
+                </div>
+                <div class="flex flex-col px-2">
+                    <h4 class="text-slate-500 font-medium text-xs mb-1">{{ __('حاضر') }}</h4>
+                    <div class="text-2xl font-black text-slate-800">{{ $arrivedCount }}</div>
+                </div>
             </div>
         </div>
     </div>

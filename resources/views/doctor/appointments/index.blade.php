@@ -90,7 +90,7 @@
                 <div class="mt-4 pt-4 border-t border-slate-50">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-sm font-medium text-slate-500">{{ __('وقت الموعد') }}</span>
-                        <span class="text-lg font-bold text-slate-800" dir="ltr">{{ substr($appointment->appointment_time, 0, 5) }}</span>
+                        <span class="text-lg font-bold text-slate-800" dir="ltr">{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('h:i A') }}</span>
                     </div>
 
                     <!-- Live Countdown Timer -->

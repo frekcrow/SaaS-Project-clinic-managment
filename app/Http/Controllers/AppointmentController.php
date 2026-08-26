@@ -199,7 +199,7 @@ class AppointmentController extends Controller
         }
 
         if ($request->wantsJson()) {
-            if ($newStatus === 'completed') {
+            if (in_array($newStatus, ['completed', 'arrived'])) {
                 return response()->json([
                     'success' => true,
                     'redirect_url' => route('patients.create', [
@@ -211,7 +211,7 @@ class AppointmentController extends Controller
             return response()->json(['success' => true]);
         }
 
-        if ($newStatus === 'completed') {
+        if (in_array($newStatus, ['completed', 'arrived'])) {
             return redirect()->route('patients.create', [
                 'name' => $appointment->patient->name ?? $appointment->patient_name,
                 'phone' => $appointment->patient->phone ?? $appointment->phone

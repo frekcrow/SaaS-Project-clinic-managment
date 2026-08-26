@@ -90,7 +90,7 @@
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
                                         @endif
                                         <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">{{ __('إجراءات') }}</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200">
@@ -211,23 +211,7 @@
                                                 </template>
                                             </td>
 
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
-                                                <div class="flex space-x-2 rtl:space-x-reverse justify-center">
-                                                    <template x-if="(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                        <div class="flex space-x-2 rtl:space-x-reverse">
-                                                            <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="{{ __('اتصال') }}">
-                                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                                            </a>
-                                                            <a :href="'https://wa.me/' + ((appointment.patient ? appointment.patient.phone : appointment.phone) || '').replace(/[^0-9]/g, '')" target="_blank" class="text-emerald-600 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 p-2 rounded transition-colors border border-emerald-200" title="{{ __('واتساب') }}">
-                                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                                                            </a>
-                                                        </div>
-                                                    </template>
-                                                    <template x-if="!(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                        <span class="text-gray-400 text-xs">{{ __('لا يوجد رقم') }}</span>
-                                                    </template>
-                                                </div>
-                                            </td>
+
                                         </tr>
                                     </template>
                                     <template x-if="filteredAppointments.length === 0">
@@ -272,7 +256,7 @@
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
                                                     @endif
                                                     <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">{{ __('إجراءات') }}</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody class="divide-y divide-gray-200">
@@ -399,23 +383,7 @@
                                                             </template>
                                                         </td>
 
-                                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200 text-center">
-                                                            <div class="flex space-x-2 rtl:space-x-reverse justify-center">
-                                                                <template x-if="(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                                    <div class="flex space-x-2 rtl:space-x-reverse">
-                                                                        <a :href="'tel:' + (appointment.patient ? appointment.patient.phone : appointment.phone)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200" title="{{ __('اتصال') }}">
-                                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                                                        </a>
-                                                                        <a :href="'https://wa.me/' + ((appointment.patient ? appointment.patient.phone : appointment.phone) || '').replace(/[^0-9]/g, '')" target="_blank" class="text-emerald-600 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 p-2 rounded transition-colors border border-emerald-200" title="{{ __('واتساب') }}">
-                                                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                                                                        </a>
-                                                                    </div>
-                                                                </template>
-                                                                <template x-if="!(appointment.patient ? appointment.patient.phone : appointment.phone)">
-                                                                    <span class="text-gray-400 text-xs">{{ __('لا يوجد رقم') }}</span>
-                                                                </template>
-                                                            </div>
-                                                        </td>
+
                                                     </tr>
                                                 </template>
                                             </tbody>

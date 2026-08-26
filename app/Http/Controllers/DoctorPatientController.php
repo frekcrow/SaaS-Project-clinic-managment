@@ -15,7 +15,7 @@ class DoctorPatientController extends Controller
     {
         // Must be a doctor to access this (enforced by role check ideally, but handled mostly by UI routing right now)
         // Ensure tenant isolation
-        $patients = Patient::where('tenant_id', Auth::user()->tenant_id)
+        $patients = Patient::withTrashed()->where('tenant_id', Auth::user()->tenant_id)
             ->orderBy('created_at', 'desc')
             ->get();
 

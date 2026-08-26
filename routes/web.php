@@ -94,15 +94,15 @@ Route::middleware(['auth', 'ensure.activated'])->group(function () {
     // Doctor EMR routes
     Route::prefix('doctor')->name('doctor.')->group(function () {
         Route::get('/appointments', [App\Http\Controllers\Doctor\AppointmentController::class, 'index'])->name('appointments.index');
-        Route::patch('/appointments/{appointment}/status', [App\Http\Controllers\Doctor\AppointmentController::class, 'updateStatus'])->name('appointments.update_status');
+        Route::patch('/appointments/{appointment}/status', [App\Http\Controllers\Doctor\AppointmentController::class, 'updateStatus'])->name('appointments.update_status')->withTrashed();
         Route::get('/surgeries', [App\Http\Controllers\DoctorSurgeryController::class, 'index'])->name('surgeries.index');
-        Route::put('/surgeries/{surgery}', [App\Http\Controllers\DoctorSurgeryController::class, 'update'])->name('surgeries.update');
+        Route::put('/surgeries/{surgery}', [App\Http\Controllers\DoctorSurgeryController::class, 'update'])->name('surgeries.update')->withTrashed();
         Route::get('/patients', [DoctorPatientController::class, 'index'])->name('patients.index');
-        Route::get('/patients/{patient}', [DoctorPatientController::class, 'show'])->name('patients.show');
-        Route::put('/patients/{patient}', [DoctorPatientController::class, 'update'])->name('patients.update');
-        Route::post('/patients/{patient}/records', [DoctorPatientController::class, 'storeRecord'])->name('patients.records.store');
-        Route::post('/patients/{patient}/images', [DoctorPatientController::class, 'uploadImage'])->name('patients.images.upload');
-        Route::delete('/patients/{patient}/images/{image}', [DoctorPatientController::class, 'deleteImage'])->name('patients.images.destroy');
+        Route::get('/patients/{patient}', [DoctorPatientController::class, 'show'])->name('patients.show')->withTrashed();
+        Route::put('/patients/{patient}', [DoctorPatientController::class, 'update'])->name('patients.update')->withTrashed();
+        Route::post('/patients/{patient}/records', [DoctorPatientController::class, 'storeRecord'])->name('patients.records.store')->withTrashed();
+        Route::post('/patients/{patient}/images', [DoctorPatientController::class, 'uploadImage'])->name('patients.images.upload')->withTrashed();
+        Route::delete('/patients/{patient}/images/{image}', [DoctorPatientController::class, 'deleteImage'])->name('patients.images.destroy')->withTrashed();
 
         Route::get('/billing', [App\Http\Controllers\DoctorBillingController::class, 'index'])->name('billing.index');
 

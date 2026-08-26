@@ -22,14 +22,20 @@
 
             <!-- Financial Filters -->
             <form method="GET" action="{{ route('doctor.billing.index') }}" class="flex items-center gap-4 mb-4">
-                <select name="period" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm ltr:pl-3 ltr:pr-8 rtl:pr-3 rtl:pl-8 py-2 ltr:text-left rtl:text-right ltr:bg-[position:right_0.5rem_center] rtl:bg-[position:left_0.5rem_center] pe-10 shadow-sm cursor-pointer">
+                <select name="period" onchange="this.form.submit()" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm ltr:pl-3 ltr:pr-8 rtl:pr-3 rtl:pl-8 py-2 ltr:text-left rtl:text-right ltr:bg-[position:right_0.5rem_center] rtl:bg-[position:left_0.5rem_center] pe-10 shadow-sm cursor-pointer">
                     <option value="today">{{ __('اليوم') }}</option>
                     <option value="week">{{ __('الاسبوع') }}</option>
                     <option value="month">{{ __('الشهر') }}</option>
                     <option value="year">{{ __('السنة') }}</option>
                     <option value="all">{{ __('الكل') }}</option>
                 </select>
-                <input type="date" name="custom_date" class="border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 rounded-xl focus:ring-teal-500 focus:border-teal-500 text-sm shadow-sm cursor-pointer">
+                <div class="relative w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer overflow-hidden border border-gray-300">
+                    <!-- Visible SVG Icon -->
+                    <svg class="w-5 h-5 text-gray-700 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+
+                    <!-- Invisible but clickable native date picker -->
+                    <input type="date" name="date" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="this.form.submit()" value="{{ request('date') }}">
+                </div>
             </form>
             <hr class="border-black opacity-20 mb-6">
 

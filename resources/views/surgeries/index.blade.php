@@ -216,8 +216,11 @@
                                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                 {{ __('التكلفة') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                 {{ __('تاريخ العملية') }}
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                {{ __('الإجراءات') }}
                                             </th>
                                         </tr>
                                     </thead>
@@ -248,8 +251,20 @@
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                     <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' {{ __('د.ع') }}' : '-'" dir="ltr"></span>
                                                 </td>
-                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                     <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 text-center">
+                                                    <template x-if="surgery.status !== 'completed'">
+                                                        <button @click="updateStatus(surgery, 'completed')" class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-green-700 transition-colors">
+                                                            {{ __('تأكيد إنجاز العملية') }}
+                                                        </button>
+                                                    </template>
+                                                    <template x-if="surgery.status === 'completed'">
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                            {{ __('مكتملة') }}
+                                                        </span>
+                                                    </template>
                                                 </td>
                                             </tr>
                                         </template>
@@ -299,8 +314,11 @@
                                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                     {{ __('التكلفة') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
                                                     {{ __('تاريخ العملية') }}
+                                                </th>
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                    {{ __('الإجراءات') }}
                                                 </th>
                                             </tr>
                                         </thead>
@@ -331,8 +349,20 @@
                                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                         <span x-text="surgery.cost ? Number(surgery.cost).toLocaleString() + ' {{ __('د.ع') }}' : '-'" dir="ltr"></span>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
                                                         <span x-text="surgery.surgery_date ? surgery.surgery_date.split('T')[0] : '-'" dir="ltr"></span>
+                                                    </td>
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 text-center">
+                                                        <template x-if="surgery.status !== 'completed'">
+                                                            <button @click="updateStatus(surgery, 'completed')" class="inline-flex items-center px-3 py-1.5 bg-green-600 text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-green-700 transition-colors">
+                                                                {{ __('تأكيد إنجاز العملية') }}
+                                                            </button>
+                                                        </template>
+                                                        <template x-if="surgery.status === 'completed'">
+                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                                {{ __('مكتملة') }}
+                                                            </span>
+                                                        </template>
                                                     </td>
                                                 </tr>
                                             </template>

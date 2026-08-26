@@ -32,7 +32,7 @@ class DashboardController extends Controller
                 ->whereIn('status', ['arrived', 'in_progress', 'completed'])
                 ->sum('price');
 
-            $surgeriesQuery = \App\Models\Surgery::where('tenant_id', auth()->user()->tenant_id);
+            $surgeriesQuery = \App\Models\Surgery::where('tenant_id', auth()->user()->tenant_id)->where('status', 'completed');
             $totalSurgeryIncome = $surgeriesQuery->sum('cost');
             $completedSurgeriesCount = $surgeriesQuery->count();
             $avgSurgeryIncome = $completedSurgeriesCount > 0 ? $totalSurgeryIncome / $completedSurgeriesCount : 0;

@@ -74,7 +74,7 @@ class DoctorPatientController extends Controller
             $record->update([
                 'diagnosis' => $validated['diagnosis'],
                 'prescription' => $validated['prescription'],
-                'lab_tests' => $validated['lab_tests'],
+                'lab_tests' => $validated['lab_tests'] ?? null,
                 'doctor_id' => Auth::id(),
             ]);
         } else {
@@ -83,7 +83,7 @@ class DoctorPatientController extends Controller
                 'doctor_id' => Auth::id(),
                 'diagnosis' => $validated['diagnosis'],
                 'prescription' => $validated['prescription'],
-                'lab_tests' => $validated['lab_tests'],
+                'lab_tests' => $validated['lab_tests'] ?? null,
             ]);
         }
 

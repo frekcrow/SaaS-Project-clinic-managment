@@ -33,7 +33,8 @@ class DoctorBillingController extends Controller
             ->whereIn('status', ['arrived', 'in_progress', 'completed']);
 
         // 3. Total Surgeries Income (Sum of surgery costs for all surgeries)
-        $totalSurgeriesIncomeQuery = Surgery::where('tenant_id', $tenantId);
+        $totalSurgeriesIncomeQuery = Surgery::where('tenant_id', $tenantId)
+            ->where('status', 'completed');
 
         // 4. Net Worth (Total overall income: sessions + surgeries)
         $totalSessionsIncomeQuery = Appointment::where('tenant_id', $tenantId)
@@ -72,6 +73,7 @@ class DoctorBillingController extends Controller
 
         $surgeriesSubquery = Surgery::select('patient_id', DB::raw('SUM(cost) as total_surgeries_paid'))
             ->where('tenant_id', $tenantId)
+            ->where('status', 'completed')
             ->whereNotNull('patient_id')
             ->groupBy('patient_id');
 
@@ -115,6 +117,7 @@ class DoctorBillingController extends Controller
                     ->sum('price');
                 $dailySurg = Surgery::where('tenant_id', $tenantId)
                     ->where('created_by', $secretary->id)
+                    ->where('status', 'completed')
                     ->whereDate('surgery_date', $startOfDay)
                     ->sum('cost');
 
@@ -125,6 +128,7 @@ class DoctorBillingController extends Controller
                     ->sum('price');
                 $weeklySurg = Surgery::where('tenant_id', $tenantId)
                     ->where('created_by', $secretary->id)
+                    ->where('status', 'completed')
                     ->whereDate('surgery_date', '>=', $startOfWeek)
                     ->sum('cost');
 
@@ -135,6 +139,7 @@ class DoctorBillingController extends Controller
                     ->sum('price');
                 $monthlySurg = Surgery::where('tenant_id', $tenantId)
                     ->where('created_by', $secretary->id)
+                    ->where('status', 'completed')
                     ->whereDate('surgery_date', '>=', $startOfMonth)
                     ->sum('cost');
 

@@ -120,16 +120,16 @@
                                             <!-- Diagnosis & Prescription -->
                                             <div class="space-y-4">
                                                 <div>
-                                                    <span class="block text-sm font-medium text-gray-500">{{ __('التشخيص') }}</span>
-                                                    <div class="mt-1 text-gray-900 prose prose-sm bg-gray-50 p-3 rounded-lg print:bg-transparent print:p-0">{!! nl2br(e($record->diagnosis ?: '-')) !!}</div>
+                                                    <span class="block text-sm font-medium text-gray-500 mb-1">{{ __('التشخيص') }}</span>
+                                                    <textarea class="mt-1 block w-full border-gray-300 rounded-md shadow-sm print:border-none print:shadow-none print:resize-none print:bg-transparent bg-gray-50" readonly disabled rows="3">{{ $record->diagnosis ?: '-' }}</textarea>
                                                 </div>
                                                 <div>
-                                                    <span class="block text-sm font-medium text-gray-500">{{ __('الوصفة الطبية') }}</span>
-                                                    <div class="mt-1 text-gray-900 prose prose-sm bg-gray-50 p-3 rounded-lg print:bg-transparent print:p-0">{!! nl2br(e($record->prescription ?: '-')) !!}</div>
+                                                    <span class="block text-sm font-medium text-gray-500 mb-1">{{ __('الوصفة الطبية') }}</span>
+                                                    <textarea class="mt-1 block w-full border-gray-300 rounded-md shadow-sm print:border-none print:shadow-none print:resize-none print:bg-transparent bg-gray-50" readonly disabled rows="3">{{ $record->prescription ?: '-' }}</textarea>
                                                 </div>
                                                 <div>
-                                                    <span class="block text-sm font-medium text-gray-500">{{ __('التحاليل والفحوصات المطلوبة') }}</span>
-                                                    <div class="mt-1 text-gray-900 prose prose-sm bg-gray-50 p-3 rounded-lg print:bg-transparent print:p-0">{!! nl2br(e($record->lab_tests ?: '-')) !!}</div>
+                                                    <span class="block text-sm font-medium text-gray-500 mb-1">{{ __('التحاليل والفحوصات المطلوبة') }}</span>
+                                                    <textarea class="mt-1 block w-full border-gray-300 rounded-md shadow-sm print:border-none print:shadow-none print:resize-none print:bg-transparent bg-gray-50" readonly disabled rows="3">{{ $record->lab_tests ?: '-' }}</textarea>
                                                 </div>
                                             </div>
                                         </div>

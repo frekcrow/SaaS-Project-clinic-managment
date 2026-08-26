@@ -24,7 +24,8 @@ class DoctorBillingController extends Controller
         // Top Stats
         // 1. Total Patients Today (Count of appointments strictly for today)
         $totalPatientsTodayQuery = Appointment::where('tenant_id', $tenantId)
-            ->where('appointment_date', $today);
+            ->where('appointment_date', $today)
+            ->where('status', 'arrived');
 
         // 2. Today's Income (Sum of session/consultation fees collected today for completed appointments)
         $todayIncomeQuery = Appointment::where('tenant_id', $tenantId)

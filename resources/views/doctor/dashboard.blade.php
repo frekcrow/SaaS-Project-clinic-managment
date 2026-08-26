@@ -24,9 +24,9 @@
 <div class="grid grid-cols-12 gap-6 w-full">
 
     <!-- Row 1: Compact Cards -->
-    <div class="col-span-4 bg-white rounded-2xl shadow-sm p-4">
+    <div class="col-span-4 bg-white rounded-2xl shadow-sm p-6 overflow-hidden">
         <div class="flex w-full flex-col">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex flex-col gap-4">
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-full bg-teal-50 border-4 border-white shadow-sm flex items-center justify-center flex-shrink-0 relative">
                         <svg class="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,7 +39,7 @@
                         @endif
                     </div>
 
-                    <div>
+                    <div class="overflow-hidden">
                         <div class="text-xs font-bold tracking-wide text-teal-600 mb-1 uppercase flex items-center gap-2">
                             <span class="relative flex h-2 w-2">
                               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
@@ -47,12 +47,12 @@
                             </span>
                             {{ __('المراجع القادم') }} ({{ __('الانتظار') }})
                         </div>
-                        <h2 class="text-xl font-black text-slate-800 mb-1">
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-800 mb-1 truncate">
                             {{ $pendingAppt ? ($pendingAppt->patient_name ?? ($pendingAppt->patient ? $pendingAppt->patient->name : '-')) : __('لا يوجد مراجعين في الانتظار') }}
                         </h2>
                         @if($pendingAppt && $pendingAppt->patient)
                             <a href="{{ route('doctor.patients.show', $pendingAppt->patient->id) }}" class="inline-flex items-center text-xs text-slate-500 hover:text-teal-600 transition-colors gap-1 group">
-                                <svg class="w-3 h-3 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                <svg class="w-3 h-3 group-hover:-translate-x-1 transition-transform flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                                 {{ __('عرض الملف الطبي الكامل') }}
                             </a>
                         @endif
@@ -60,22 +60,22 @@
                 </div>
 
                 @if($pendingAppt)
-                    <div class="flex items-center gap-2 w-full md:w-auto">
-                        <form method="POST" action="{{ route('doctor.appointments.update_status', $pendingAppt) }}" class="w-full md:w-auto">
+                    <div class="flex flex-wrap gap-2 mt-2 w-full">
+                        <form method="POST" action="{{ route('doctor.appointments.update_status', $pendingAppt) }}" class="flex-grow sm:flex-grow-0">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="in_progress">
-                            <button type="submit" class="w-full md:w-auto px-6 py-2 bg-black text-white rounded-xl font-bold text-sm shadow-sm hover:bg-neutral-800 hover:shadow-md transition-all flex items-center justify-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-black text-white rounded-xl font-bold text-sm shadow-sm hover:bg-neutral-800 hover:shadow-md transition-all flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 {{ __('بدء الجلسة') }}
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('doctor.appointments.update_status', $pendingAppt) }}" class="w-full md:w-auto">
+                        <form method="POST" action="{{ route('doctor.appointments.update_status', $pendingAppt) }}" class="flex-grow sm:flex-grow-0">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="cancelled">
-                            <button type="submit" class="w-full md:w-auto px-4 py-2 bg-white text-red-600 border border-slate-200 rounded-xl font-bold text-sm shadow-sm hover:bg-red-50 hover:border-red-100 transition-all">
+                            <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-white text-red-600 border border-slate-200 rounded-xl font-bold text-sm shadow-sm hover:bg-red-50 hover:border-red-100 transition-all">
                                 {{ __('تخطي') }}
                             </button>
                         </form>

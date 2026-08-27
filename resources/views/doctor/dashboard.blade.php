@@ -11,7 +11,8 @@
         {{ $greeting ?? __('Doctor Dashboard Workspace') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
-    <div class="space-y-6">
+    <div class="space-y-6 grid-wrapper">
+        <div class="grid-background"></div>
         @php
             $pendingAppt = $todaysAppointments->where('status', 'arrived')->sortBy('queue_number')->first();
             $pendingBookingsCount = $todaysAppointments->where('status', 'pending')->count();

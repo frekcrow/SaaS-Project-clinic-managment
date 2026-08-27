@@ -1,8 +1,9 @@
 <x-doctor-layout>
-    <div class="py-8" x-data="{
+    <div class="py-8 grid-wrapper" x-data="{
         activeTab: 'profile',
         openAboutModal: false
     }">
+        <div class="grid-background"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
             <!-- Subscription Details Card -->

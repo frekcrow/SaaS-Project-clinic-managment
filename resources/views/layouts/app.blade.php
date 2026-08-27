@@ -315,17 +315,18 @@
                 </header>
 
                 <!-- Page Content (Scrollable) -->
-                <main x-cloak x-show="pageLoaded" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="flex-1 overflow-y-auto px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900">
+                <main x-cloak x-show="pageLoaded" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="flex-1 overflow-y-auto px-6 py-6 pb-20 bg-gray-50 dark:bg-gray-900 grid-wrapper">
+                    <div class="grid-background"></div>
                     <!-- Page Heading -->
                     @isset($header)
-                        <div class="mb-6 flex items-center justify-between w-full">
+                        <div class="mb-6 flex items-center justify-between w-full relative z-10">
                             <h1 class="text-2xl font-bold w-full text-slate-800 dark:text-gray-100">
                                 {{ $header }}
                             </h1>
                         </div>
                     @endisset
 
-                    <div class="w-full">
+                    <div class="w-full relative z-10">
                         {{ $slot }}
                     </div>
                 </main>

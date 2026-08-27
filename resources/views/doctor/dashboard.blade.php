@@ -11,10 +11,12 @@
         {{ $greeting ?? __('Doctor Dashboard Workspace') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
-    <div class="space-y-6 grid-wrapper">
+    <div class="grid-wrapper">
         <div class="grid-background"></div>
-        @php
-            $pendingAppt = $todaysAppointments->where('status', 'arrived')->sortBy('queue_number')->first();
+        <div class="relative z-10 p-4 sm:p-6 h-full w-full">
+            <div class="space-y-6">
+                @php
+                    $pendingAppt = $todaysAppointments->where('status', 'arrived')->sortBy('queue_number')->first();
             $pendingBookingsCount = $todaysAppointments->where('status', 'pending')->count();
             $arrivedCount = $todaysAppointments->where('status', 'arrived')->count();
         @endphp
@@ -315,8 +317,9 @@
     </div>
 
 </div>
-</div>
-</div>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('alpine:init', () => {

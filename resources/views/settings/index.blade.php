@@ -5,6 +5,12 @@
         </h2>
     </x-slot>
 
+    <div class="grid-wrapper">
+        <!-- The Grid Background -->
+        <div class="grid-background"></div>
+
+        <!-- The Content Container -->
+        <div class="relative z-10 p-4 sm:p-6 h-full w-full">
         <div class="py-12" >
         <div x-data="{ activeTab: 'profile', currentTheme: localStorage.getItem('theme') || 'default', setTheme(theme) { this.currentTheme = theme; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); } }" class="flex flex-col space-y-8 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -286,5 +292,6 @@
                     }
                 });
             </script>
-
+        </div>
+    </div>
 </x-app-layout>

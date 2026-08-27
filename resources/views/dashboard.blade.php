@@ -3,6 +3,12 @@
         {{ $greeting ?? __('لوحة التحكم') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
+    <div class="grid-wrapper">
+        <!-- The Grid Background -->
+        <div class="grid-background"></div>
+
+        <!-- The Content Container -->
+        <div class="relative z-10 p-4 sm:p-6 h-full w-full">
     <!-- Main Dashboard Master Container -->
     <div class="rounded-3xl shadow-sm p-4 flex flex-col h-[calc(100vh-10rem)]">
 
@@ -690,4 +696,6 @@
         }));
     });
 </script>
+        </div>
+    </div>
 </x-app-layout>

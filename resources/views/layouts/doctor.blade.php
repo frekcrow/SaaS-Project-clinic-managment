@@ -41,7 +41,7 @@
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
             <aside
                 :class="{ 'w-20': isCollapsed, 'w-44': !isCollapsed }"
-                class="fixed flex flex-col h-screen bg-white dark:bg-gray-800 border-e border-slate-100 dark:border-gray-700 shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0 {{ request()->routeIs('dashboard') ? 'w-44' : 'w-20' }}"
+                class="fixed flex flex-col h-screen bg-white dark:bg-gray-800 border-e border-slate-100 dark:border-gray-700 shadow-md transition-all duration-300 ease-in-out z-50 flex-shrink-0 print:hidden {{ request()->routeIs('dashboard') ? 'w-44' : 'w-20' }}"
             >
                 <!-- Sidebar Header -->
                 <div class="h-20 border-b border-slate-100 dark:border-gray-700 flex items-center px-4" :class="isCollapsed ? 'justify-center' : 'justify-between'">
@@ -168,7 +168,7 @@
                     </svg>
                 </div>
                 <!-- HeroUI-inspired Top Header (Floating) -->
-                <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-slate-200 dark:border-gray-700 flex-shrink-0">
+                <header class="relative z-[70] h-20 flex items-center justify-between px-6 bg-white dark:bg-gray-800 border-b border-slate-200 dark:border-gray-700 flex-shrink-0 print:hidden">
 
                     <!-- Dynamic Header Logo -->
                     <div class="flex items-center gap-2" x-cloak x-show="isCollapsed" x-transition.opacity.duration.300ms>

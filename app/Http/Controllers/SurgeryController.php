@@ -77,6 +77,10 @@ class SurgeryController extends Controller
 
         $surgery->update(['status' => $validatedData['status']]);
 
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true]);
+        }
+
         return redirect()->back()->with('success', __('Status updated successfully.'));
     }
 

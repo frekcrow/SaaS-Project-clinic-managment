@@ -127,7 +127,7 @@
 
                     <!-- The A4 Canvas -->
                     <!-- We use aspect-[1/1.414] for A4 proportions on screen, but remove bounds on print -->
-                    <div class="bg-white rounded-lg shadow-xl print:shadow-none w-full max-w-xl mx-auto overflow-hidden flex flex-col relative aspect-[1/1.414] print:aspect-auto print:w-full print:h-full print:block">
+                    <div class="bg-white rounded-lg shadow-xl print:shadow-none w-full max-w-xl mx-auto overflow-hidden flex flex-col relative aspect-[1/1.414] print:aspect-auto print:w-full print:h-full print:block print:absolute print:inset-0 print:m-0 print:p-0 print:border-none print:bg-white">
 
                         <!-- Header -->
                         <div class="flex justify-between items-start p-5 border-b-2 border-slate-800 print:border-black">

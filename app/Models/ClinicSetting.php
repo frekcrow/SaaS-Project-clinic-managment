@@ -14,6 +14,7 @@ class ClinicSetting extends Model
         'tenant_id',
         'clinic_name',
         'doctor_name',
+        'doctor_specialization',
         'logo_1_path',
         'logo_2_path',
         'whatsapp_api_token',

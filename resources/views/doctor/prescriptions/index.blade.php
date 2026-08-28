@@ -4,130 +4,160 @@
     </x-slot>
 
     <div x-data="prescriptionSetup({{ $medications->toJson() }})" class="max-w-7xl mx-auto pb-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Panel (Controls & Settings) -->
-            <div class="lg:col-span-1 print:hidden space-y-6">
-                <!-- Settings Form -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                    <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                        {{ __('إعدادات قالب الوصفة') }}
-                    </h2>
-                    <form action="{{ route('doctor.prescriptions.settings.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                        @csrf
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('اسم العيادة') }}</label>
-                            <input type="text" name="clinic_name" value="{{ old('clinic_name', $settings->clinic_name) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('اسم الطبيب') }}</label>
-                            <input type="text" name="doctor_name" value="{{ old('doctor_name', $settings->doctor_name) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('الشعار الأول') }} ({{ __('اليمين') }})</label>
-                            <input type="file" name="logo_1" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 transition-colors">
-                            @if($settings->logo_1_path)
-                                <div class="mt-2">
-                                    <img src="{{ Storage::url($settings->logo_1_path) }}" alt="Logo 1" class="h-12 object-contain rounded">
-                                </div>
-                            @endif
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('الشعار الثاني') }} ({{ __('اليسار - اختياري') }})</label>
-                            <input type="file" name="logo_2" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 transition-colors">
-                            @if($settings->logo_2_path)
-                                <div class="mt-2">
-                                    <img src="{{ Storage::url($settings->logo_2_path) }}" alt="Logo 2" class="h-12 object-contain rounded">
-                                </div>
-                            @endif
-                        </div>
-                        <button type="submit" class="w-full bg-slate-900 text-white rounded-xl px-4 py-2 text-sm font-medium hover:bg-slate-800 transition-colors">
-                            {{ __('حفظ الإعدادات') }}
-                        </button>
-                    </form>
+        <!-- Top Action Bar -->
+        <div class="flex items-center gap-4 mb-4 print:hidden">
+            <button @click="isSettingsModalOpen = true" class="bg-teal-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                {{ __('إعدادات الوصفة') }}
+            </button>
+            <button onclick="printPrescription()" class="bg-indigo-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                </svg>
+                {{ __('طباعة الوصفة') }}
+            </button>
+            <button type="button" class="bg-slate-800 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-slate-700 transition-colors flex items-center gap-2 shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                </svg>
+                {{ __('QR Code') }}
+            </button>
+        </div>
+
+        <hr class="border-gray-200 my-6 print:hidden">
+
+        <!-- Settings Modal (Hidden by Default) -->
+        <div x-show="isSettingsModalOpen" style="display: none;" class="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center p-4">
+            <div @click.away="isSettingsModalOpen = false" class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
+                <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                    <h2 class="text-lg font-bold text-slate-800">{{ __('إعدادات قالب الوصفة وبياناتها') }}</h2>
+                    <button @click="isSettingsModalOpen = false" class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
-
-                <!-- Prescription Data Entry -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-                    <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                        </svg>
-                        {{ __('بيانات الوصفة') }}
-                    </h2>
-                    <div class="space-y-4">
-                        <!-- Patient Selection -->
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('المريض') }} ({{ __('مواعيد اليوم') }})</label>
-                            <select x-model="selectedAppointmentId" @change="updatePatientData" class="w-full bg-slate-50 border border-slate-200 rounded-xl ps-3.5 pe-8 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
-                                <option value="">-- {{ __('اختر مريض') }} --</option>
-                                @foreach($patients as $patient)
-                                    <option value="{{ $patient->id }}" data-patient="{{ $patient->name }}" data-date="{{ today()->format('Y/m/d') }}" data-booking="{{ $patient->id }}">
-                                        {{ $patient->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Manual Override for Patient Details -->
-                        <div x-show="selectedAppointmentId" x-collapse>
-                            <div class="p-3 bg-slate-50 rounded-xl space-y-3 mt-2 border border-slate-100">
+                <div class="p-6 overflow-y-auto flex-1 space-y-8">
+                    <!-- Settings Form -->
+                    <div>
+                        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            {{ __('إعدادات قالب الوصفة') }}
+                        </h3>
+                        <form action="{{ route('doctor.prescriptions.settings.update') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                            @csrf
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-medium text-slate-500 mb-1">{{ __('اسم المريض') }}</label>
-                                    <input type="text" x-model="patientName" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('اسم العيادة') }}</label>
+                                    <input type="text" name="clinic_name" value="{{ old('clinic_name', $settings->clinic_name) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
                                 </div>
-                                <div class="grid grid-cols-2 gap-3">
-                                    <div>
-                                        <label class="block text-xs font-medium text-slate-500 mb-1">{{ __('رقم الحجز') }}</label>
-                                        <input type="text" x-model="bookingNumber" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-medium text-slate-500 mb-1">{{ __('التاريخ') }}</label>
-                                        <input type="text" x-model="bookingDate" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm" dir="ltr" class="text-left">
-                                    </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('اسم الطبيب') }}</label>
+                                    <input type="text" name="doctor_name" value="{{ old('doctor_name', $settings->doctor_name) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
                                 </div>
                             </div>
-                        </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('الشعار الأول') }} ({{ __('اليمين') }})</label>
+                                    <input type="file" name="logo_1" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 transition-colors">
+                                    @if($settings->logo_1_path)
+                                        <div class="mt-2">
+                                            <img src="{{ Storage::url($settings->logo_1_path) }}" alt="Logo 1" class="h-12 object-contain rounded">
+                                        </div>
+                                    @endif
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('الشعار الثاني') }} ({{ __('اليسار - اختياري') }})</label>
+                                    <input type="file" name="logo_2" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 transition-colors">
+                                    @if($settings->logo_2_path)
+                                        <div class="mt-2">
+                                            <img src="{{ Storage::url($settings->logo_2_path) }}" alt="Logo 2" class="h-12 object-contain rounded">
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-slate-900 text-white rounded-xl px-4 py-2 text-sm font-medium hover:bg-slate-800 transition-colors">
+                                {{ __('حفظ الإعدادات') }}
+                            </button>
+                        </form>
+                    </div>
 
-                        <!-- Medication Selection -->
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('إضافة دواء') }}</label>
-                            <div class="flex gap-2">
-                                <select x-model="selectedMedicationId" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl ps-3.5 pe-8 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
-                                    <option value="">-- {{ __('اختر دواء') }} --</option>
-                                    @foreach($medications as $med)
-                                        <option value="{{ $med->id }}" data-name="{{ $med->name }}" data-generic="{{ $med->generic_name }}" data-type="{{ $med->medication_type }}">
-                                            {{ $med->name }}
+                    <hr class="border-slate-200">
+
+                    <!-- Prescription Data Entry -->
+                    <div>
+                        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                            {{ __('بيانات الوصفة') }}
+                        </h3>
+                        <div class="space-y-4">
+                            <!-- Patient Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('المريض') }} ({{ __('مواعيد اليوم') }})</label>
+                                <select x-model="selectedAppointmentId" @change="updatePatientData" class="w-full bg-slate-50 border border-slate-200 rounded-xl ps-3.5 pe-8 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                                    <option value="">-- {{ __('اختر مريض') }} --</option>
+                                    @foreach($patients as $patient)
+                                        <option value="{{ $patient->id }}" data-patient="{{ $patient->name }}" data-date="{{ today()->format('Y/m/d') }}" data-booking="{{ $patient->id }}">
+                                            {{ $patient->name }}
                                         </option>
                                     @endforeach
                                 </select>
-                                <button @click="addMedication()" type="button" class="bg-teal-600 text-white rounded-xl px-4 py-2 text-sm font-medium hover:bg-teal-700 transition-colors flex items-center justify-center">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                                </button>
+                            </div>
+
+                            <!-- Manual Override for Patient Details -->
+                            <div x-show="selectedAppointmentId" x-collapse>
+                                <div class="p-3 bg-slate-50 rounded-xl space-y-3 mt-2 border border-slate-100">
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-500 mb-1">{{ __('اسم المريض') }}</label>
+                                        <input type="text" x-model="patientName" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-500 mb-1">{{ __('رقم الحجز') }}</label>
+                                            <input type="text" x-model="bookingNumber" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-500 mb-1">{{ __('التاريخ') }}</label>
+                                            <input type="text" x-model="bookingDate" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-1.5 text-sm" dir="ltr">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Medication Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('إضافة دواء') }}</label>
+                                <div class="flex gap-2">
+                                    <select x-model="selectedMedicationId" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl ps-3.5 pe-8 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                                        <option value="">-- {{ __('اختر دواء') }} --</option>
+                                        @foreach($medications as $med)
+                                            <option value="{{ $med->id }}" data-name="{{ $med->name }}" data-generic="{{ $med->generic_name }}" data-type="{{ $med->medication_type }}">
+                                                {{ $med->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button @click="addMedication()" type="button" class="bg-teal-600 text-white rounded-xl px-4 py-2 text-sm font-medium hover:bg-teal-700 transition-colors flex items-center justify-center">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Right Panel (Digital A4 Paper) -->
-            <div class="lg:col-span-2">
-                <div class="sticky top-6">
-                    <!-- Action Bar -->
-                    <div class="flex justify-between items-center mb-4 print:hidden">
-                        <h2 class="text-xl font-bold text-slate-800">{{ __('معاينة الوصفة') }}</h2>
-                        <button onclick="printPrescription()" class="bg-indigo-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-sm">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                            {{ __('طباعة الوصفة') }}
-                        </button>
-                    </div>
-
-                    <!-- The A4 Canvas -->
-                    <!-- We use aspect-[1/1.414] for A4 proportions on screen, but remove bounds on print -->
-                    <div id="prescription-print-area" class="bg-white rounded-lg shadow-xl print:shadow-none w-full max-w-xl mx-auto overflow-hidden flex flex-col relative aspect-[1/1.414] print:aspect-auto print:w-full print:h-full print:block print:absolute print:inset-0 print:m-0 print:p-0 print:border-none print:bg-white">
+        <!-- Center Template Area -->
+        <div class="flex justify-center w-full">
+            <!-- The A4 Canvas -->
+            <!-- We use aspect-[1/1.414] for A4 proportions on screen, but remove bounds on print -->
+            <div id="prescription-print-area" class="bg-white shadow-lg border border-gray-200 max-w-3xl w-full mx-auto p-8 flex flex-col relative aspect-[1/1.414] print:aspect-auto print:w-full print:h-full print:block print:absolute print:inset-0 print:m-0 print:p-0 print:border-none print:bg-white">
 
                         <!-- Header -->
                         <div class="flex justify-between items-start p-5 border-b-2 border-slate-800 print:border-black">
@@ -236,8 +266,6 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -275,6 +303,7 @@
 
         document.addEventListener('alpine:init', () => {
             Alpine.data('prescriptionSetup', (medicationsData = []) => ({
+                isSettingsModalOpen: false,
                 selectedAppointmentId: '',
                 patientName: '',
                 bookingNumber: '',

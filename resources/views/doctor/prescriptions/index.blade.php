@@ -127,7 +127,7 @@
 
                     <!-- The A4 Canvas -->
                     <!-- We use aspect-[1/1.414] for A4 proportions on screen, but remove bounds on print -->
-                    <div class="bg-white rounded-lg shadow-xl print:shadow-none w-full max-w-xl mx-auto overflow-hidden flex flex-col relative aspect-[1/1.414] print:aspect-auto print:w-full print:h-full print:block print:absolute print:inset-0 print:m-0 print:p-0 print:border-none print:bg-white">
+                    <div id="prescription-print-area" class="bg-white rounded-lg shadow-xl print:shadow-none w-full max-w-xl mx-auto overflow-hidden flex flex-col relative aspect-[1/1.414] print:aspect-auto print:w-full print:h-full print:block print:absolute print:inset-0 print:m-0 print:p-0 print:border-none print:bg-white">
 
                         <!-- Header -->
                         <div class="flex justify-between items-start p-5 border-b-2 border-slate-800 print:border-black">
@@ -240,6 +240,33 @@
             </div>
         </div>
     </div>
+
+    @push('styles')
+    <style>
+        @media print {
+            /* Hide everything in the body by default */
+            body * {
+                visibility: hidden;
+            }
+            /* Explicitly make ONLY the prescription area and its children visible */
+            #prescription-print-area, #prescription-print-area * {
+                visibility: visible;
+            }
+            /* Stretch and position the prescription to fill the printed page */
+            #prescription-print-area {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+    </style>
+    @endpush
 
     @push('scripts')
     <script>

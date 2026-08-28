@@ -119,7 +119,7 @@
                     <!-- Action Bar -->
                     <div class="flex justify-between items-center mb-4 print:hidden">
                         <h2 class="text-xl font-bold text-slate-800">{{ __('معاينة الوصفة') }}</h2>
-                        <button onclick="window.print()" class="bg-indigo-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-sm">
+                        <button onclick="printPrescription()" class="bg-indigo-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-sm">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                             {{ __('طباعة الوصفة') }}
                         </button>
@@ -241,35 +241,38 @@
         </div>
     </div>
 
-    @push('styles')
-    <style>
-        @media print {
-            /* Hide everything in the body by default */
-            body * {
-                visibility: hidden;
-            }
-            /* Explicitly make ONLY the prescription area and its children visible */
-            #prescription-print-area, #prescription-print-area * {
-                visibility: visible;
-            }
-            /* Stretch and position the prescription to fill the printed page */
-            #prescription-print-area {
-                position: absolute !important;
-                left: 0 !important;
-                top: 0 !important;
-                width: 100% !important;
-                height: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                box-shadow: none !important;
-                border: none !important;
-            }
-        }
-    </style>
-    @endpush
-
     @push('scripts')
     <script>
+        function printPrescription() {
+            // 1. Get the exact HTML of the prescription template
+            const printContent = document.getElementById('prescription-print-area').innerHTML;
+
+            // 2. Open a new temporary background window
+            const printWindow = window.open('', '_blank', 'width=800,height=900');
+
+            // 3. Write the HTML structure
+            printWindow.document.write('<html dir="rtl"><head><title>طباعة الوصفة</title>');
+
+            // 4. Clone all stylesheets from the main system so Tailwind works perfectly in the print window
+            const styles = document.querySelectorAll('link[rel="stylesheet"], style');
+            styles.forEach(style => {
+                printWindow.document.write(style.outerHTML);
+            });
+
+            // 5. Inject the prescription content into a clean white body
+            printWindow.document.write('</head><body class="bg-white p-8">');
+            printWindow.document.write(printContent);
+            printWindow.document.write('</body></html>');
+
+            // 6. Close document, wait for styles to load, print, and auto-close the window
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(function() {
+                printWindow.print();
+                printWindow.close();
+            }, 500); // 500ms delay ensures Tailwind CSS is fully applied before the print dialog opens
+        }
+
         document.addEventListener('alpine:init', () => {
             Alpine.data('prescriptionSetup', (medicationsData = []) => ({
                 selectedAppointmentId: '',

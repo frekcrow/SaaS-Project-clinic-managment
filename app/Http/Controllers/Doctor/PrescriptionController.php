@@ -24,7 +24,9 @@ class PrescriptionController extends Controller
             ]
         );
 
-        $patients = Patient::where('tenant_id', $tenantId)->get();
+        $patients = Patient::where('tenant_id', $tenantId)->with(['medicalRecords' => function($q) {
+            $q->latest();
+        }])->get();
         $medications = Medication::where('tenant_id', $tenantId)->get();
 
         // Fetch appointments for today as a convenient patient list, or recently updated ones
@@ -44,6 +46,7 @@ class PrescriptionController extends Controller
         $validated = $request->validate([
             'clinic_name' => 'nullable|string|max:255',
             'doctor_name' => 'nullable|string|max:255',
+            'doctor_specialization' => 'nullable|string|max:255',
             'logo_1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'logo_2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
@@ -51,6 +54,7 @@ class PrescriptionController extends Controller
         $data = [
             'clinic_name' => $validated['clinic_name'] ?? $settings->clinic_name,
             'doctor_name' => $validated['doctor_name'] ?? $settings->doctor_name,
+            'doctor_specialization' => $validated['doctor_specialization'] ?? $settings->doctor_specialization,
         ];
 
         if ($request->hasFile('logo_1')) {

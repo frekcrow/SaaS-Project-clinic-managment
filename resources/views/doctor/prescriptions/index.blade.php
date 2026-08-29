@@ -1,7 +1,7 @@
 <x-doctor-layout>
     <style>
         @font-face {
-            font-family: 'ping';
+            font-family: 'Ping-Bold';
             src: url('{{ asset("fonts/Ping-Bold.otf") }}');
         }
     </style>
@@ -54,7 +54,7 @@
                     <img src="{{ asset('images/heart.png') }}" alt="Heart" class="absolute top-0 right-0 opacity-80 w-24 h-24 pointer-events-none">
 
                     <!-- Doctor / Hospital Info -->
-                    <div class="text-right relative z-10">
+                    <div class="text-right relative z-10 mt-8">
                         <h3 class="text-xl font-bold text-white/90 print:text-white/90 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
                         <p class="text-sm text-white/90 mt-1 mb-2">{{ \Carbon\Carbon::now()->locale('ar')->translatedFormat('l، d F Y') }}</p>
                         @if($settings->doctor_specialization)
@@ -82,7 +82,7 @@
                             </div>
                             @endif
                         </div>
-                        <h1 class="text-3xl font-extrabold text-gray-900 print:text-black mb-1 drop-shadow-sm mt-2 text-center" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
+                        <h1 class="text-white text-xl z-10 mb-1 mt-2 text-center" style="font-family: 'Ping-Bold', sans-serif; text-shadow: 1px 1px 5px rgba(0,0,0,0.6);">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
                     </div>
                 </div>
 
@@ -139,7 +139,7 @@
 
                         <!-- Medication List -->
                         <template x-for="(med, index) in addedMedications" :key="index">
-                            <div class="relative z-10 group border-b border-blue-50 print:border-transparent pb-2 last:border-0 hover:bg-slate-50 print:hover:bg-transparent -mx-3 px-3 rounded-lg transition-colors shrink-0">
+                            <div class="medication-item relative z-10 group border-b border-blue-50 print:border-transparent pb-2 last:border-0 hover:bg-slate-50 print:hover:bg-transparent -mx-3 px-3 rounded-lg transition-colors shrink-0">
                                 <!-- Delete Button (Hidden on Print) -->
                                 <button @click="removeMedication(index)" class="absolute left-2 top-2 text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity print:hidden">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -150,7 +150,7 @@
                                         <div class="w-2 h-2 border border-black rounded-full flex-shrink-0"></div>
                                         <span class="font-['Times_New_Roman'] font-bold text-lg text-gray-900 print:text-black"><span x-text="med.name"></span><span x-show="med.dosage"> (<span x-text="med.dosage"></span>)</span></span>
                                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                                        <span class="font-['ping'] text-sm text-gray-800 print:text-black" x-text="med.usage"></span>
+                                        <span class="font-['Ping-Bold'] text-sm text-gray-800 print:text-black" x-text="med.usage"></span>
                                     </div>
 
                                     <!-- Editable Dosage and Usage (Hidden on Print) -->
@@ -420,6 +420,9 @@
                       flex-direction: column;
                     }
                    #prescription-print-area .text-lg { font-size: 0.95rem !important; }
+                   .rx-content-body { gap: 2px !important; margin-top: 0 !important; padding-top: 0 !important; }
+                   .medication-item { margin-bottom: 2px !important; }
+                   .medication-item span, .medication-item svg { font-size: 11px !important; line-height: 1.2 !important; height: 12px; width: 12px; }
                 `;
             } else if (size === 'Custom') {
                 styleContent = `

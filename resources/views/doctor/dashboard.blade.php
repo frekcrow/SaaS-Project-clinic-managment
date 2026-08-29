@@ -296,39 +296,40 @@
     </div>
 
     <!-- Row 3: Centered Financial Growth -->
-    <div class="col-span-12 bg-white rounded-2xl shadow-sm p-4" x-data="financialAnalytics()">
-        <div class="flex w-full flex-col">
+    <div class="col-span-12 bg-white/80 backdrop-blur-xl rounded-3xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 animate-fade-up" style="animation-delay: 0.15s;" x-data="financialAnalytics()">
+        <div class="flex w-full flex-col gap-6">
             <!-- Top Controls -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
-                        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 border border-white/20 relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
+                        <svg class="w-6 h-6 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
 
                     <div>
-                        <h2 class="text-base font-bold text-slate-800">
+                        <h2 class="text-xl font-bold tracking-tight text-slate-800">
                             {{ __('مؤشر النمو المالي') }}
                         </h2>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50 p-1 rounded-xl border border-slate-100">
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 ltr:pl-2 ltr:pr-6 rtl:pr-2 rtl:pl-6 ltr:text-left rtl:text-right ltr:bg-[position:right_0.25rem_center] rtl:bg-[position:left_0.25rem_center] font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
+                <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50/80 backdrop-blur-sm p-1.5 rounded-2xl border border-slate-200/60 shadow-inner">
+                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent hover:bg-white rounded-xl focus:ring-0 text-sm py-1.5 ltr:pl-3 ltr:pr-8 rtl:pr-3 rtl:pl-8 ltr:text-left rtl:text-right ltr:bg-[position:right_0.5rem_center] rtl:bg-[position:left_0.5rem_center] font-medium text-slate-700 cursor-pointer w-full sm:w-auto transition-all duration-200 active:scale-95 shadow-sm">
                         <option value="today">{{ __('اليوم') }}</option>
                         <option value="week">{{ __('اسبوع') }}</option>
                         <option value="month">{{ __('شهر') }}</option>
                         <option value="year">{{ __('سنة') }}</option>
                         <option value="all">{{ __('الكل') }}</option>
                     </select>
-                    <div class="w-px h-5 bg-slate-200"></div>
-                    <div class="relative w-full sm:w-auto">
-                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 px-2 w-full sm:w-24 text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
+                    <div class="w-px h-6 bg-slate-200/80 mx-1"></div>
+                    <div class="relative w-full sm:w-auto group">
+                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent hover:bg-white rounded-xl focus:ring-0 text-sm py-1.5 px-3 w-full sm:w-32 text-center font-medium text-slate-700 cursor-pointer placeholder-slate-400 transition-all duration-200 active:scale-95 shadow-sm" dir="ltr">
                     </div>
                 </div>
             </div>
 
             <!-- Chart Container -->
-            <div class="flex-1 w-full" x-ref="financeChartContainer"></div>
+            <div class="flex-1 w-full mt-2" x-ref="financeChartContainer"></div>
         </div>
     </div>
 

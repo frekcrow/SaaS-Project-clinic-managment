@@ -35,20 +35,22 @@
             <div id="prescription-print-area" class="bg-white shadow-2xl border border-gray-200 max-w-3xl w-full mx-auto flex flex-col relative overflow-hidden aspect-[1/1.414] print:break-after-avoid print:aspect-auto print:w-full print:h-[297mm] print:overflow-hidden print:block print:absolute print:inset-0 print:m-0 print:p-0 print:border-none print:bg-white text-gray-900">
 
                 <!-- Header Section -->
-                <div class="flex justify-between items-center px-10 pt-10 pb-4 bg-emerald-500 print:bg-emerald-500 text-white shrink-0 relative overflow-hidden">
-                    <!-- Decorative Geometric Heart Shape -->
-                    <div class="absolute -top-10 -left-10 w-48 h-48 opacity-20 pointer-events-none">
-                        <svg viewBox="0 0 200 200" fill="white" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="60" cy="80" r="40" />
-                            <circle cx="140" cy="80" r="40" />
-                            <circle cx="100" cy="120" r="40" />
-                            <circle cx="100" cy="90" r="40" />
-                        </svg>
+                <div class="flex justify-between items-center px-10 pt-10 pb-4 bg-gradient-to-l from-emerald-500 via-emerald-500 to-white print:bg-gradient-to-l print:from-emerald-500 print:via-emerald-500 print:to-white text-white shrink-0 relative overflow-hidden">
+                    <!-- Heart Image -->
+                    <img src="{{ asset('images/heart.png') }}" alt="Heart" class="absolute top-0 right-0 opacity-80 w-24 h-24 pointer-events-none">
+
+                    <!-- Doctor / Hospital Info -->
+                    <div class="text-right relative z-10">
+                        <h1 class="text-3xl font-extrabold text-white print:text-white mb-1 drop-shadow-sm" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
+                        <h3 class="text-xl font-bold text-white/90 print:text-white/90 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
+                        @if($settings->doctor_specialization)
+                            <h2 class="text-sm font-semibold tracking-widest text-emerald-100 print:text-emerald-100 mb-2 bg-black/10 inline-block px-3 py-1 rounded-full">{{ $settings->doctor_specialization }}</h2>
+                        @endif
                     </div>
 
                     <!-- Logos -->
                     <div class="flex gap-4 items-center relative z-10">
-                        <div class="w-24 h-24 text-white print:text-white bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+                        <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
                             @if($settings->logo_1_path)
                                 <img src="{{ Storage::url($settings->logo_1_path) }}" alt="Logo 1" class="w-full h-full object-contain">
                             @else
@@ -60,18 +62,9 @@
                             @endif
                         </div>
                         @if($settings->logo_2_path)
-                        <div class="w-24 h-24 text-white print:text-white bg-white/20 p-2 rounded-xl backdrop-blur-sm">
+                        <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
                             <img src="{{ Storage::url($settings->logo_2_path) }}" alt="Logo 2" class="w-full h-full object-contain">
                         </div>
-                        @endif
-                    </div>
-
-                    <!-- Doctor / Hospital Info -->
-                    <div class="text-right relative z-10">
-                        <h1 class="text-3xl font-extrabold text-white print:text-white mb-1 drop-shadow-sm" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
-                        <h3 class="text-xl font-bold text-white/90 print:text-white/90 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
-                        @if($settings->doctor_specialization)
-                            <h2 class="text-sm font-semibold tracking-widest text-emerald-100 print:text-emerald-100 mb-2 bg-black/10 inline-block px-3 py-1 rounded-full">{{ $settings->doctor_specialization }}</h2>
                         @endif
                     </div>
                 </div>

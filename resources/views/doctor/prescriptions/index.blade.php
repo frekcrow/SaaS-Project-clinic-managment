@@ -1,4 +1,10 @@
 <x-doctor-layout>
+    <style>
+        @font-face {
+            font-family: 'ping';
+            src: url('{{ asset("fonts/Ping-Bold.otf") }}');
+        }
+    </style>
     <x-slot name="header">
         {{ __('تهيئة الوصفات الطبية') }}
     </x-slot>
@@ -105,6 +111,9 @@
 
                 <!-- Body (Rx & Medications) -->
                 <div class="flex-1 px-10 py-4 flex flex-col relative z-10 overflow-hidden rx-content-body">
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+                        <img src="{{ asset('images/snake.png') }}" class="w-64 h-auto opacity-[0.07]">
+                    </div>
                     <!-- Rx Logo -->
                     <div class="mb-4 shrink-0">
                         <svg class="w-10 h-10 text-blue-500 print:text-blue-500" viewBox="0 0 24 24" fill="currentColor">
@@ -112,7 +121,7 @@
                         </svg>
                     </div>
 
-                    <div class="flex-1 overflow-hidden flex flex-col min-h-0 space-y-2" style="font-family: 'Times New Roman', Times, serif;">
+                    <div class="flex-1 overflow-hidden flex flex-col min-h-0 space-y-2 text-left" dir="ltr" style="font-family: 'Times New Roman', Times, serif;">
                         <!-- Empty State -->
                         <div x-show="addedMedications.length === 0" class="text-center text-slate-400 print:hidden mt-4 text-sm font-sans shrink-0">
                             {{ __('قم بإضافة أدوية من القائمة الجانبية') }}
@@ -120,33 +129,30 @@
 
                         <!-- Medication List -->
                         <template x-for="(med, index) in addedMedications" :key="index">
-                            <div class="relative group border-b border-blue-50 print:border-transparent pb-2 last:border-0 hover:bg-slate-50 print:hover:bg-transparent -mx-3 px-3 rounded-lg transition-colors shrink-0">
+                            <div class="relative z-10 group border-b border-blue-50 print:border-transparent pb-2 last:border-0 hover:bg-slate-50 print:hover:bg-transparent -mx-3 px-3 rounded-lg transition-colors shrink-0">
                                 <!-- Delete Button (Hidden on Print) -->
                                 <button @click="removeMedication(index)" class="absolute left-2 top-2 text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity print:hidden">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
 
-                                <div class="flex items-start gap-3">
-                                    <div class="text-base font-bold text-gray-800 print:text-black mt-0.5 w-6 text-right" x-text="(index + 1) + '.'"></div>
-                                    <div class="flex-1">
-                                        <div class="text-base font-bold text-gray-900 print:text-black flex items-center gap-2">
-                                            <span x-text="med.name"></span>
-                                            <span x-show="med.type" class="text-xs px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full print:border print:border-black print:bg-transparent font-sans" x-text="med.type"></span>
+                                <div class="flex items-start">
+                                    <div class="w-2 h-2 border border-black rounded-full mt-1.5 mr-3 flex-shrink-0"></div>
+                                    <div class="flex-1 relative z-10">
+                                        <div class="flex items-center gap-1" style="font-family: 'Times New Roman', Times, serif;">
+                                            <span class="text-lg font-bold text-gray-900 print:text-black" x-text="med.name"></span>
+                                            <span class="text-lg font-bold text-gray-900 print:text-black" x-show="med.dosage"> (<span x-text="med.dosage"></span>)</span>
                                         </div>
-                                        <div x-show="med.generic" class="text-xs text-gray-500 print:text-gray-700 mb-1 italic" x-text="med.generic"></div>
+                                        <div class="text-sm text-gray-800 print:text-black mt-0.5" style="font-family: 'ping', sans-serif;" x-text="med.usage"></div>
 
-                                        <!-- Editable Dosage and Usage -->
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 mt-1">
+                                        <!-- Editable Dosage and Usage (Hidden on Print) -->
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 mt-2 print:hidden">
                                             <div>
-                                                <label class="block text-[10px] font-semibold text-gray-400 print:hidden mb-0.5 font-sans">{{ __('الجرعة') }}</label>
-                                                <input type="text" x-model="med.dosage" placeholder="{{ __('مثال') }}: {{ __('حبة واحدة') }}" class="w-full bg-transparent border-b border-gray-200 print:border-transparent focus:border-blue-500 focus:outline-none focus:ring-0 text-gray-800 print:text-black text-sm px-0 py-0.5 transition-colors font-medium">
+                                                <input type="text" x-model="med.dosage" placeholder="{{ __('الجرعة') }}" class="w-full bg-transparent border-b border-gray-200 focus:border-blue-500 focus:outline-none focus:ring-0 text-gray-800 text-sm px-0 py-0.5 transition-colors font-medium">
                                             </div>
                                             <div>
-                                                <label class="block text-[10px] font-semibold text-gray-400 print:hidden mb-0.5 font-sans">{{ __('وقت الاستخدام') }}</label>
-                                                <input type="text" x-model="med.usage" placeholder="{{ __('مثال') }}: {{ __('مرتين يومياً بعد الأكل') }}" class="w-full bg-transparent border-b border-gray-200 print:border-transparent focus:border-blue-500 focus:outline-none focus:ring-0 text-gray-800 print:text-black text-sm px-0 py-0.5 transition-colors font-medium">
+                                                <input type="text" x-model="med.usage" placeholder="{{ __('وقت الاستخدام') }}" class="w-full bg-transparent border-b border-gray-200 focus:border-blue-500 focus:outline-none focus:ring-0 text-gray-800 text-sm px-0 py-0.5 transition-colors font-medium">
                                             </div>
                                             <div class="md:col-span-2 hidden">
-                                                <label class="block text-[10px] font-semibold text-gray-400 print:hidden mb-0.5 font-sans">{{ __('دواعي الاستعمال') }}</label>
                                                 <input type="text" x-model="med.indications" placeholder="{{ __('مثال') }}: {{ __('مسكن للألم') }}" class="w-full bg-transparent border-b border-gray-200 print:border-transparent focus:border-blue-500 focus:outline-none focus:ring-0 text-gray-800 print:text-black text-sm px-0 py-0.5 transition-colors font-medium">
                                             </div>
                                         </div>

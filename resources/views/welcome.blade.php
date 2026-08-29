@@ -1,102 +1,98 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="antialiased">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Atlas OS - Mono</title>
+    <title>{{ config('app.name', 'Atlas') }} - Absolute Clarity</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:200,300,400,500,600,700,800,900" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
 
-    <!-- Tailwind -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         :root {
-            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-            --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+            /* Apple UI Core Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent: #0071e3;
+
+            /* Physical Press Curve */
+            --ease-press: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* Typography overrides */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Fluid Typography and Heavy Contrast */
-        h1, h2, h3, h4 {
-            letter-spacing: -0.04em;
-            font-weight: 800;
-        }
-
-        .tracking-ultra-tight {
-            letter-spacing: -0.06em;
-        }
-
-        .text-body {
-            color: #888;
-            font-weight: 400;
-            letter-spacing: -0.01em;
-        }
-
-        /* Monochromatic palette overrides */
-        .border-mono {
-            border-color: #222;
-        }
-
-        .bg-mono-light {
-            background-color: #111;
-        }
-
-        .bg-mono-lighter {
-            background-color: #1a1a1a;
-        }
-
-        .text-mono-dark {
-            color: #000;
-        }
-
-        .bg-mono-white {
-            background-color: #fff;
-        }
-
-        /* Physical Interactions */
-        .pressable {
-            transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), border-color 160ms var(--ease-out);
-        }
-        .pressable:active {
-            transform: scale(0.97);
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            .pressable:hover {
-                background-color: #1a1a1a;
-                border-color: #333;
-            }
+        /* Apple UI Components */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
         }
 
         .btn-primary {
-            transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), filter 160ms var(--ease-out);
-        }
-        .btn-primary:active {
-            transform: scale(0.97);
+            background: var(--accent);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 98px;
+            font-weight: 600;
+            transition: all 0.2s var(--ease-press);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(0, 113, 227, 0.2);
         }
 
+        .btn-primary:hover {
+            filter: brightness(1.05);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--text-primary);
+            padding: 12px 28px;
+            border-radius: 98px;
+            font-weight: 600;
+            transition: all 0.2s var(--ease-press);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        /* Physical Press Animation */
+        .pressable {
+            transition: transform 0.15s var(--ease-press);
+        }
         @media (hover: hover) and (pointer: fine) {
-            .btn-primary:hover {
-                filter: brightness(0.9);
+            .pressable:active {
+                transform: scale(0.97);
             }
         }
 
-
-        /* Staggered Animations */
+        /* Staggered Fade Up Animations */
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(16px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -106,305 +102,242 @@
 
         .stagger-item {
             opacity: 0;
-            animation: fadeUp 600ms var(--ease-out) forwards;
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .stagger-1 { animation-delay: 100ms; }
-        .stagger-2 { animation-delay: 150ms; }
-        .stagger-3 { animation-delay: 200ms; }
-        .stagger-4 { animation-delay: 250ms; }
-        .stagger-5 { animation-delay: 300ms; }
-        .stagger-6 { animation-delay: 350ms; }
-        .stagger-7 { animation-delay: 400ms; }
-        .stagger-8 { animation-delay: 450ms; }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
 
-
-        /* Abstract Chart Styles */
-        @keyframes scaleYUp {
-            from {
-                transform: scaleY(0);
-            }
-            to {
-                transform: scaleY(1);
-            }
+        /* Typography optical adjustments */
+        .tracking-ultra-tight {
+            letter-spacing: -0.04em;
         }
 
-        @keyframes scaleXRight {
-            from {
-                transform: scaleX(0);
-            }
-            to {
-                transform: scaleX(1);
-            }
+        .tracking-tight-custom {
+            letter-spacing: -0.02em;
         }
 
-        .chart-bar-container {
-            display: flex;
-            align-items: flex-end;
-            gap: 4px;
-            height: 60px;
-        }
-
-        .chart-bar {
-            background-color: #333;
-            width: 100%;
-            border-radius: 2px 2px 0 0;
-            transform-origin: bottom;
-            animation: scaleYUp 800ms var(--ease-out) backwards;
-            transition: background-color 0.2s ease;
-        }
-
-        /* Stagger for chart bars */
-        .chart-bar:nth-child(1) { animation-delay: 500ms; }
-        .chart-bar:nth-child(2) { animation-delay: 550ms; }
-        .chart-bar:nth-child(3) { animation-delay: 600ms; }
-        .chart-bar:nth-child(4) { animation-delay: 650ms; }
-        .chart-bar:nth-child(5) { animation-delay: 700ms; }
-        .chart-bar:nth-child(6) { animation-delay: 750ms; }
-        .chart-bar:nth-child(7) { animation-delay: 800ms; }
-        .chart-bar:nth-child(8) { animation-delay: 850ms; }
-        .chart-bar:nth-child(9) { animation-delay: 900ms; }
-        .chart-bar:nth-child(10) { animation-delay: 950ms; }
-        .chart-bar:nth-child(11) { animation-delay: 1000ms; }
-        .chart-bar:nth-child(12) { animation-delay: 1050ms; }
-
-        .chart-bar.active {
-            background-color: #fff;
-        }
-
-        .chart-bar:hover {
-            background-color: #666;
-        }
-
-        .line-graph {
-            width: 100%;
-            height: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .line-segment {
+        /* Animated Blob Background for Depth */
+        .blob {
             position: absolute;
-            height: 2px;
-            background-color: #fff;
-            transform-origin: left center;
-            animation: scaleXRight 1000ms var(--ease-out) backwards;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: float 10s ease-in-out infinite;
         }
 
-        .line-segment:nth-child(1) { animation-delay: 400ms; }
-        .line-segment:nth-child(2) { animation-delay: 600ms; }
-        .line-segment:nth-child(3) { animation-delay: 800ms; }
-        .line-segment:nth-child(4) { animation-delay: 1000ms; }
-
-        /* Progress Bars */
-        .progress-fill {
-            transform-origin: left;
-            animation: scaleXRight 800ms var(--ease-out) backwards;
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(0, 113, 227, 0.3);
+            border-radius: 50%;
         }
 
-        .progress-bar-container:nth-child(1) .progress-fill { animation-delay: 500ms; }
-        .progress-bar-container:nth-child(2) .progress-fill { animation-delay: 650ms; }
-        .progress-bar-container:nth-child(3) .progress-fill { animation-delay: 800ms; }
-
-        /* List Items Stagger */
-        @keyframes slideRightIn {
-            from {
-                opacity: 0;
-                transform: translateX(-8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .blob-2 {
+            bottom: -20%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(134, 134, 139, 0.2);
+            border-radius: 50%;
+            animation-delay: -5s;
         }
 
-        .list-stagger {
-            opacity: 0;
-            animation: slideRightIn 500ms var(--ease-out) forwards;
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -50px); }
         }
 
-        .list-stagger:nth-child(1) { animation-delay: 600ms; }
-        .list-stagger:nth-child(2) { animation-delay: 650ms; }
-        .list-stagger:nth-child(3) { animation-delay: 700ms; }
-
-        /* Grid Background Pattern */
-        .mono-grid {
-             background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
-             background-size: 32px 32px;
-             background-position: center center;
-        }
-
-        /* Blur overlay for depth */
-        .blur-overlay {
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+        /* Abstract Grid Pattern overlay */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            position: absolute;
+            inset: 0;
+            z-index: -1;
         }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-white selection:text-black">
+<body class="min-h-screen relative overflow-x-hidden selection:bg-blue-500 selection:text-white">
 
-    <!-- Grid Background -->
-    <div class="fixed inset-0 mono-grid z-0 opacity-40 pointer-events-none"></div>
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-[-2] bg-[#fbfbfd]"></div>
+    <div class="fixed inset-0 z-[-1] bg-grid pointer-events-none"></div>
+    <div class="fixed blob blob-1 pointer-events-none"></div>
+    <div class="fixed blob blob-2 pointer-events-none"></div>
 
     <!-- Navigation -->
-    <nav class="relative z-50 w-full pt-8 pb-4 px-6 md:px-12 max-w-[90rem] mx-auto flex justify-between items-center stagger-item stagger-1">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-white text-black flex items-center justify-center font-bold text-xl rounded-sm tracking-tighter">
-                A
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex items-center justify-between glass-card px-6 py-3 rounded-full">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-black text-white flex items-center justify-center font-bold text-lg rounded-full tracking-tighter">
+                    A
+                </div>
+                <span class="font-bold text-xl tracking-tight-custom text-black">Atlas</span>
             </div>
-            <span class="font-bold text-xl tracking-tight">Atlas</span>
-        </div>
-        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-[#888]">
-            <a href="#" class="hover:text-white transition-colors">Features</a>
-            <a href="#" class="hover:text-white transition-colors">Methodology</a>
-            <a href="#" class="hover:text-white transition-colors">Enterprise</a>
-        </div>
-        <div class="flex items-center gap-4">
-            <a href="{{ route('login') }}" class="text-sm font-medium hover:text-gray-300 transition-colors">Log in</a>
-            <a href="{{ route('register') }}" class="bg-mono-white text-mono-dark px-5 py-2 rounded-full text-sm font-bold btn-primary tracking-tight">Get Started</a>
+
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
+                <a href="#" class="hover:text-black transition-colors pressable">Platform</a>
+                <a href="#" class="hover:text-black transition-colors pressable">Solutions</a>
+                <a href="#" class="hover:text-black transition-colors pressable">Enterprise</a>
+            </div>
+
+            <div class="flex items-center gap-3">
+                @auth
+                    <a href="{{ route('dashboard') }}" class="text-sm font-semibold hover:text-black transition-colors pressable">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm font-semibold hover:text-black transition-colors pressable px-4 py-2">Sign in</a>
+                    <a href="{{ route('register') }}" class="bg-black text-white px-5 py-2 rounded-full text-sm font-semibold pressable tracking-tight-custom hover:bg-gray-800 transition-colors shadow-md">
+                        Get Started
+                    </a>
+                @endauth
+            </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="relative z-10 flex-grow flex flex-col items-center justify-center pt-20 pb-32 px-6">
+    <main class="relative z-10 flex flex-col items-center justify-center min-h-screen pt-32 pb-20 px-6">
 
         <!-- Hero Section -->
-        <div class="max-w-4xl text-center mb-24 w-full">
-            <div class="stagger-item stagger-2 inline-flex items-center gap-2 border border-mono bg-mono-light px-4 py-1.5 rounded-full text-xs font-medium tracking-wide mb-8 text-[#aaa]">
-                <span class="w-2 h-2 rounded-full bg-white"></span>
-                SYSTEM V2.0 LIVE
+        <div class="max-w-5xl text-center w-full mt-12 md:mt-24 mb-24">
+            <div class="stagger-item stagger-1 inline-flex items-center gap-2 bg-white/50 backdrop-blur-md border border-gray-200 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide mb-8 text-gray-600 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                ATLAS OS 3.0 IS HERE
             </div>
-            <h1 class="stagger-item stagger-3 text-6xl md:text-8xl tracking-ultra-tight leading-[1.05] mb-8">
-                Absolute Clarity.
+
+            <h1 class="stagger-item stagger-2 text-6xl md:text-8xl lg:text-[110px] font-bold tracking-ultra-tight text-[#1d1d1f] leading-[1.05] mb-8">
+                Design that <br class="hidden md:block"/> commands focus.
             </h1>
-            <p class="stagger-item stagger-4 text-xl md:text-2xl text-body max-w-2xl mx-auto leading-relaxed mb-12">
-                A surgical instrument for data. No distractions, no noise. Just pure monochromatic efficiency designed for focus.
+
+            <p class="stagger-item stagger-3 text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto leading-relaxed mb-12 font-medium tracking-tight-custom">
+                A surgical instrument for your data. Experience absolute clarity with an interface crafted for pure performance and premium aesthetics.
             </p>
+
+            <div class="stagger-item stagger-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                @auth
+                    <a href="{{ route('dashboard') }}" class="btn-primary pressable text-lg px-8 py-4 w-full sm:w-auto">
+                        Go to Dashboard
+                    </a>
+                @else
+                    <a href="{{ route('register') }}" class="btn-primary pressable text-lg px-8 py-4 w-full sm:w-auto">
+                        Start for free
+                    </a>
+                    <a href="{{ route('login') }}" class="btn-secondary pressable text-lg px-8 py-4 w-full sm:w-auto">
+                        Sign in to account
+                    </a>
+                @endauth
+            </div>
         </div>
 
-        <!-- Dashboard Demo (Bento Grid) -->
-        <div class="w-full max-w-[90rem] mx-auto stagger-item stagger-5">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 auto-rows-[minmax(180px,_auto)]">
+        <!-- Bento Grid Layered Aesthetic -->
+        <div class="w-full max-w-6xl mx-auto stagger-item stagger-5">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(240px,_auto)]">
 
-                <!-- Main KPI Card -->
-                <div class="md:col-span-8 border border-mono bg-mono-light rounded-3xl p-8 md:p-10 flex flex-col justify-between pressable cursor-default group relative overflow-hidden">
+                <!-- Main Feature Card -->
+                <div class="glass-card md:col-span-2 p-10 flex flex-col justify-between group overflow-hidden relative pressable cursor-pointer">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="relative z-10">
-                        <div class="flex justify-between items-start mb-12">
+                        <div class="flex justify-between items-start mb-8">
                             <div>
-                                <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-2">Total Volume</h3>
-                                <div class="text-5xl font-bold tracking-tighter">84,209</div>
+                                <h3 class="text-gray-500 font-semibold text-sm tracking-widest uppercase mb-2">Performance</h3>
+                                <h2 class="text-3xl font-bold tracking-tight-custom text-[#1d1d1f]">Lightning Fast</h2>
                             </div>
-                            <div class="bg-white/10 px-3 py-1 rounded-full text-white text-xs font-semibold">
-                                +12.4%
+                            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             </div>
                         </div>
+                        <p class="text-gray-600 font-medium max-w-md mb-8">
+                            Built on a modern stack with instantaneous interactions and fluid motion that feels like magic.
+                        </p>
+                    </div>
 
-                        <!-- Abstract Line Chart -->
-                        <div class="line-graph w-full opacity-80 group-hover:opacity-100 transition-opacity">
-                            <div class="line-segment" style="width: 20%; left: 0; bottom: 10px; transform: rotate(-15deg);"></div>
-                            <div class="line-segment" style="width: 25%; left: 19%; bottom: 15px; transform: rotate(5deg);"></div>
-                            <div class="line-segment" style="width: 30%; left: 43%; bottom: 10px; transform: rotate(-10deg);"></div>
-                            <div class="line-segment" style="width: 35%; left: 72%; bottom: 20px; transform: rotate(-25deg);"></div>
+                    <!-- Abstract UI Mockup -->
+                    <div class="mt-auto pt-8 border-t border-gray-100/50 relative z-10 flex items-end gap-3">
+                        <div class="w-1/3 bg-gray-100 rounded-t-lg h-24 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                        <div class="w-1/3 bg-blue-100 rounded-t-lg h-32 transform translate-y-2 group-hover:-translate-y-2 transition-transform duration-500 ease-out"></div>
+                        <div class="w-1/3 bg-gray-100 rounded-t-lg h-16 transform translate-y-6 group-hover:translate-y-2 transition-transform duration-500 ease-out"></div>
+                    </div>
+                </div>
+
+                <!-- Secondary Card -->
+                <div class="glass-card p-10 flex flex-col justify-between group overflow-hidden relative pressable cursor-pointer">
+                    <div class="relative z-10">
+                        <h3 class="text-gray-500 font-semibold text-sm tracking-widest uppercase mb-2">Security</h3>
+                        <h2 class="text-2xl font-bold tracking-tight-custom text-[#1d1d1f] mb-4">Fort Knox Level</h2>
+                        <p class="text-gray-600 font-medium text-sm">
+                            Enterprise-grade encryption with zero-trust architecture built natively into the core.
+                        </p>
+                    </div>
+
+                    <div class="mt-8 flex justify-center">
+                        <div class="w-24 h-24 rounded-full border-8 border-gray-100 flex items-center justify-center relative group-hover:border-blue-100 transition-colors duration-500">
+                            <svg class="w-8 h-8 text-gray-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                         </div>
                     </div>
                 </div>
 
-                <!-- Secondary KPI -->
-                <div class="md:col-span-4 border border-mono bg-mono-light rounded-3xl p-8 flex flex-col justify-between pressable cursor-default">
+                <!-- Small Cards -->
+                <div class="glass-card p-8 flex items-center justify-between group pressable cursor-pointer">
                     <div>
-                        <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-2">Active Sessions</h3>
-                        <div class="text-4xl font-bold tracking-tighter">1,042</div>
+                        <h3 class="font-bold text-lg text-[#1d1d1f]">Real-time Sync</h3>
+                        <p class="text-sm text-gray-500 font-medium">Across all your devices</p>
                     </div>
-
-                    <!-- Abstract Progress/Activity -->
-                    <div class="mt-8 flex flex-col gap-3">
-                        <div class="progress-bar-container w-full h-1 bg-[#222] rounded-full overflow-hidden">
-                            <div class="w-[70%] h-full bg-white rounded-full progress-fill"></div>
-                        </div>
-                        <div class="progress-bar-container w-full h-1 bg-[#222] rounded-full overflow-hidden">
-                            <div class="w-[45%] h-full bg-[#888] rounded-full progress-fill"></div>
-                        </div>
-                        <div class="progress-bar-container w-full h-1 bg-[#222] rounded-full overflow-hidden">
-                            <div class="w-[90%] h-full bg-[#555] rounded-full progress-fill"></div>
-                        </div>
+                    <div class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center">
+                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                     </div>
                 </div>
 
-                <!-- Activity Chart -->
-                <div class="md:col-span-6 border border-mono bg-mono-light rounded-3xl p-8 flex flex-col justify-between pressable cursor-default">
-                     <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-6">Velocity</h3>
-                     <div class="chart-bar-container w-full">
-                         <div class="chart-bar" style="height: 30%;"></div>
-                         <div class="chart-bar" style="height: 45%;"></div>
-                         <div class="chart-bar active" style="height: 80%;"></div>
-                         <div class="chart-bar" style="height: 60%;"></div>
-                         <div class="chart-bar" style="height: 50%;"></div>
-                         <div class="chart-bar" style="height: 90%;"></div>
-                         <div class="chart-bar" style="height: 70%;"></div>
-                         <div class="chart-bar" style="height: 40%;"></div>
-                         <div class="chart-bar active" style="height: 100%;"></div>
-                         <div class="chart-bar" style="height: 85%;"></div>
-                         <div class="chart-bar" style="height: 65%;"></div>
-                         <div class="chart-bar" style="height: 55%;"></div>
-                     </div>
-                </div>
-
-                <!-- Status Block -->
-                <div class="md:col-span-3 border border-mono bg-mono-light rounded-3xl p-8 flex flex-col items-center justify-center pressable cursor-default text-center">
-                     <div class="w-16 h-16 rounded-full border-[4px] border-[#333] flex items-center justify-center mb-4 relative">
-                          <div class="absolute inset-0 rounded-full border-[4px] border-white border-t-transparent border-l-transparent transform rotate-45"></div>
-                          <span class="text-xl font-bold">99%</span>
-                     </div>
-                     <h3 class="text-white font-semibold text-lg tracking-tight">System Health</h3>
-                     <p class="text-[#888] text-sm mt-1">All clusters nominal</p>
-                </div>
-
-                <!-- List/Log Block -->
-                <div class="md:col-span-3 border border-mono bg-mono-light rounded-3xl p-6 flex flex-col pressable cursor-default overflow-hidden">
-                     <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-4 px-2">Recent Events</h3>
-                     <div class="flex flex-col gap-2">
-                         <div class="list-stagger flex items-center gap-3 p-2 rounded-lg bg-[#1a1a1a]">
-                             <div class="w-2 h-2 rounded-full bg-white"></div>
-                             <div class="flex-1 text-sm font-medium truncate">Node deployment</div>
-                             <div class="text-xs text-[#666]">2m</div>
-                         </div>
-                         <div class="list-stagger flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
-                             <div class="w-2 h-2 rounded-full bg-[#555]"></div>
-                             <div class="flex-1 text-sm font-medium text-[#aaa] truncate">Sync complete</div>
-                             <div class="text-xs text-[#666]">14m</div>
-                         </div>
-                         <div class="list-stagger flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
-                             <div class="w-2 h-2 rounded-full bg-[#555]"></div>
-                             <div class="flex-1 text-sm font-medium text-[#aaa] truncate">Backup verified</div>
-                             <div class="text-xs text-[#666]">1h</div>
-                         </div>
-                     </div>
+                <div class="glass-card md:col-span-2 p-8 flex items-center justify-between group pressable cursor-pointer bg-gradient-to-r from-gray-900 to-black text-white hover:shadow-2xl transition-shadow">
+                    <div>
+                        <h3 class="font-bold text-2xl tracking-tight-custom mb-1">Ready to elevate your workflow?</h3>
+                        <p class="text-gray-400 font-medium">Join thousands of professionals using Atlas today.</p>
+                    </div>
+                    <a href="{{ route('register') }}" class="bg-white text-black px-6 py-3 rounded-full font-bold text-sm pressable hidden sm:block">
+                        Get Started Now
+                    </a>
                 </div>
 
             </div>
         </div>
-
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 w-full border-t border-mono mt-auto bg-black blur-overlay">
-        <div class="max-w-[90rem] mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium text-[#666]">
+    <footer class="relative z-10 w-full border-t border-gray-200/50 bg-white/50 backdrop-blur-xl mt-20">
+        <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-2">
-                 <div class="w-4 h-4 bg-white text-black flex items-center justify-center font-bold text-[8px] rounded-sm">A</div>
-                 <span>Atlas OS</span>
+                <div class="w-6 h-6 bg-black text-white flex items-center justify-center font-bold text-xs rounded-full">A</div>
+                <span class="font-bold tracking-tight-custom text-[#1d1d1f]">Atlas OS</span>
             </div>
-            <div>&copy; {{ date('Y') }} Monochrome Inc.</div>
+            <div class="text-sm font-medium text-gray-500">
+                &copy; {{ date('Y') }} Monochrome Inc. All rights reserved.
+            </div>
+            <div class="flex gap-6 text-sm font-medium text-gray-500">
+                <a href="#" class="hover:text-black transition-colors">Privacy</a>
+                <a href="#" class="hover:text-black transition-colors">Terms</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            if (prefersReducedMotion) {
-                document.querySelectorAll('.stagger-item').forEach(el => {
-                    el.style.animation = 'none';
-                    el.style.opacity = '1';
-                });
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.style.paddingTop = '1rem';
+                nav.style.paddingBottom = '1rem';
+            } else {
+                nav.style.paddingTop = '1.5rem';
+                nav.style.paddingBottom = '1.5rem';
             }
         });
     </script>

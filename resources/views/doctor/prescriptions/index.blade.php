@@ -35,10 +35,20 @@
             <div id="prescription-print-area" class="bg-white shadow-2xl border border-gray-200 max-w-3xl w-full mx-auto flex flex-col relative overflow-hidden aspect-[1/1.414] print:break-after-avoid print:aspect-auto print:w-full print:h-[297mm] print:overflow-hidden print:block print:absolute print:inset-0 print:m-0 print:p-0 print:border-none print:bg-white text-gray-900">
 
                 <!-- Header Section -->
-                <div class="flex justify-between items-center px-10 pt-10 pb-4 bg-white print:bg-transparent shrink-0">
+                <div class="flex justify-between items-center px-10 pt-10 pb-4 bg-emerald-500 print:bg-emerald-500 text-white shrink-0 relative overflow-hidden">
+                    <!-- Decorative Geometric Heart Shape -->
+                    <div class="absolute -top-10 -left-10 w-48 h-48 opacity-20 pointer-events-none">
+                        <svg viewBox="0 0 200 200" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="60" cy="80" r="40" />
+                            <circle cx="140" cy="80" r="40" />
+                            <circle cx="100" cy="120" r="40" />
+                            <circle cx="100" cy="90" r="40" />
+                        </svg>
+                    </div>
+
                     <!-- Logos -->
-                    <div class="flex gap-4 items-center">
-                        <div class="w-24 h-24 text-blue-600 print:text-blue-600">
+                    <div class="flex gap-4 items-center relative z-10">
+                        <div class="w-24 h-24 text-white print:text-white bg-white/20 p-2 rounded-xl backdrop-blur-sm">
                             @if($settings->logo_1_path)
                                 <img src="{{ Storage::url($settings->logo_1_path) }}" alt="Logo 1" class="w-full h-full object-contain">
                             @else
@@ -50,18 +60,18 @@
                             @endif
                         </div>
                         @if($settings->logo_2_path)
-                        <div class="w-24 h-24 text-blue-600 print:text-blue-600">
+                        <div class="w-24 h-24 text-white print:text-white bg-white/20 p-2 rounded-xl backdrop-blur-sm">
                             <img src="{{ Storage::url($settings->logo_2_path) }}" alt="Logo 2" class="w-full h-full object-contain">
                         </div>
                         @endif
                     </div>
 
                     <!-- Doctor / Hospital Info -->
-                    <div class="text-right">
-                        <h1 class="text-3xl font-extrabold text-blue-600 print:text-blue-600 mb-1" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
-                        <h3 class="text-xl font-bold text-blue-600 print:text-blue-600 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
+                    <div class="text-right relative z-10">
+                        <h1 class="text-3xl font-extrabold text-white print:text-white mb-1 drop-shadow-sm" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
+                        <h3 class="text-xl font-bold text-white/90 print:text-white/90 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
                         @if($settings->doctor_specialization)
-                            <h2 class="text-sm font-semibold tracking-widest text-slate-600 print:text-black mb-2">{{ $settings->doctor_specialization }}</h2>
+                            <h2 class="text-sm font-semibold tracking-widest text-emerald-100 print:text-emerald-100 mb-2 bg-black/10 inline-block px-3 py-1 rounded-full">{{ $settings->doctor_specialization }}</h2>
                         @endif
                     </div>
                 </div>
@@ -100,7 +110,7 @@
                 </div>
 
                 <!-- Body (Rx & Medications) -->
-                <div class="flex-1 px-10 py-4 flex flex-col relative z-10 overflow-hidden">
+                <div class="flex-1 px-10 py-4 flex flex-col relative z-10 overflow-hidden rx-content-body">
                     <!-- Rx Logo -->
                     <div class="mb-4 shrink-0">
                         <svg class="w-10 h-10 text-blue-500 print:text-blue-500" viewBox="0 0 24 24" fill="currentColor">
@@ -168,12 +178,12 @@
                     <div class="grid grid-cols-2 gap-4 relative z-10">
                         <div class="space-y-2">
                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-blue-500 print:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                <span>{{ $settings->whatsapp_phone_number_id ?? '---' }}<br>{{ $settings->whatsapp_business_account_id ?? '---' }}</span>
+                                <svg class="w-4 h-4 text-emerald-600 print:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                <span>{{ $settings->primary_phone ?? '---' }}@if($settings->secondary_phone)<br>{{ $settings->secondary_phone }}@endif</span>
                             </div>
                             <div class="flex items-center gap-2">
-                                <svg class="w-4 h-4 text-blue-500 print:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                                <span>{{ __('عنوان العيادة') }}</span>
+                                <svg class="w-4 h-4 text-emerald-600 print:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                <span>{{ $settings->clinic_address ?? __('عنوان العيادة') }}</span>
                             </div>
                         </div>
                         <div class="space-y-1 flex flex-col justify-end items-end text-left rtl:text-left">
@@ -222,6 +232,20 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('تخصص الطبيب') }}</label>
                                 <input type="text" name="doctor_specialization" value="{{ old('doctor_specialization', $settings->doctor_specialization) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('عنوان العيادة') }}</label>
+                                <input type="text" name="clinic_address" value="{{ old('clinic_address', $settings->clinic_address) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('رقم الهاتف 1') }}</label>
+                                    <input type="text" name="primary_phone" value="{{ old('primary_phone', $settings->primary_phone) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">{{ __('رقم الهاتف 2') }} ({{ __('اختياري') }})</label>
+                                    <input type="text" name="secondary_phone" value="{{ old('secondary_phone', $settings->secondary_phone) }}" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors">
+                                </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
@@ -336,10 +360,29 @@
                 printWindow.document.write(style.outerHTML);
             });
 
+            // 4.5 Inject print specific styles
+            printWindow.document.write(`
+            <style>
+               @page { size: A4; margin: 0; }
+               body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; background: white; }
+               #prescription-print-area {
+                  width: 210mm !important;
+                  min-height: 297mm !important;
+                  height: 100% !important;
+                  margin: 0 auto;
+                  display: flex;
+                  flex-direction: column;
+                }
+               /* Force the content area to grow and push the footer to the bottom */
+               .rx-content-body { flex-grow: 1; }
+            </style>
+            `);
+
             // 5. Inject the prescription content into a clean white body
-            printWindow.document.write('</head><body class="bg-white p-8">');
+            printWindow.document.write('</head><body class="bg-white">');
+            printWindow.document.write('<div id="prescription-print-area">');
             printWindow.document.write(printContent);
-            printWindow.document.write('</body></html>');
+            printWindow.document.write('</div></body></html>');
 
             // 6. Close document, wait for styles to load, print, and auto-close the window
             printWindow.document.close();

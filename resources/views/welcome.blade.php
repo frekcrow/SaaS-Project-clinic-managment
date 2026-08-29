@@ -1,366 +1,327 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atlas | Premium Medical System</title>
-    <!-- Material Symbols -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Atlas OS - Mono</title>
+
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: {
-                            DEFAULT: '#0058bc',
-                            dark: '#004493',
-                            light: '#e6f0fa',
-                        },
-                        surface: '#fbfbfe',
-                    },
-                    animation: {
-                        'float': 'float 8s ease-in-out infinite',
-                        'float-delayed': 'float 8s ease-in-out 4s infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0) scale(1)' },
-                            '50%': { transform: 'translateY(-20px) scale(1.05)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:200,300,400,500,600,700,800,900" rel="stylesheet" />
+
+    <!-- Tailwind -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <style>
+        /* Typography overrides */
         body {
-            background-color: #0f172a; /* Dark sleek background */
-            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
         }
 
-        :root {
-            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-            --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+        /* Fluid Typography and Heavy Contrast */
+        h1, h2, h3, h4 {
+            letter-spacing: -0.04em;
+            font-weight: 800;
         }
 
-        /* Group Stagger Animations */
-        @keyframes fadeUpAndIn {
+        .tracking-ultra-tight {
+            letter-spacing: -0.06em;
+        }
+
+        .text-body {
+            color: #888;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        /* Monochromatic palette overrides */
+        .border-mono {
+            border-color: #222;
+        }
+
+        .bg-mono-light {
+            background-color: #111;
+        }
+
+        .bg-mono-lighter {
+            background-color: #1a1a1a;
+        }
+
+        .text-mono-dark {
+            color: #000;
+        }
+
+        .bg-mono-white {
+            background-color: #fff;
+        }
+
+        /* Physical Interactions */
+        .pressable {
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease, border-color 0.15s ease;
+        }
+        .pressable:active {
+            transform: scale(0.97);
+        }
+        .pressable:hover {
+            background-color: #1a1a1a;
+            border-color: #333;
+        }
+
+        .btn-primary {
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease, filter 0.15s ease;
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-primary:hover {
+            filter: brightness(0.9);
+        }
+
+
+        /* Staggered Animations */
+        @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(24px) scale(0.98);
+                transform: translateY(24px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
         .stagger-item {
             opacity: 0;
-            animation: fadeUpAndIn 800ms var(--ease-out) forwards;
+            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .stagger-1 { animation-delay: 100ms; }
-        .stagger-2 { animation-delay: 200ms; }
-        .stagger-3 { animation-delay: 300ms; }
-        .stagger-4 { animation-delay: 400ms; }
-        .stagger-5 { animation-delay: 500ms; }
-        .stagger-6 { animation-delay: 600ms; }
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+        .stagger-7 { animation-delay: 0.7s; }
+        .stagger-8 { animation-delay: 0.8s; }
 
-        .stagger-fast {
-             animation: fadeUpAndIn 400ms var(--ease-out) forwards;
+
+        /* Abstract Chart Styles */
+        .chart-bar-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 60px;
         }
 
-        /* Glassmorphism Classes */
-        .glass-nav {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .chart-bar {
+            background-color: #333;
+            width: 100%;
+            border-radius: 2px 2px 0 0;
+            transition: background-color 0.2s ease, height 0.5s ease;
         }
 
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.5);
-            transition: transform 300ms var(--ease-out), border-color 300ms var(--ease-out);
+        .chart-bar.active {
+            background-color: #fff;
         }
 
-        @media (hover: hover) and (pointer: fine) {
-            .glass-panel:hover {
-                transform: translateY(-4px) scale(1.01);
-                border-color: rgba(255, 255, 255, 0.15);
-            }
+        .chart-bar:hover {
+            background-color: #666;
         }
 
-        /* Interactive Elements */
-        .pressable {
-            transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), opacity 160ms var(--ease-out);
+        .line-graph {
+            width: 100%;
+            height: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .pressable:active {
-            transform: scale(0.97);
+        .line-segment {
+            position: absolute;
+            height: 2px;
+            background-color: #fff;
+            transform-origin: left center;
         }
 
-        /* Text Gradients */
-        .text-gradient {
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Grid Background Pattern */
+        .mono-grid {
+             background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+             background-size: 32px 32px;
+             background-position: center center;
         }
 
-        .text-gradient-primary {
-            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Blur overlay for depth */
+        .blur-overlay {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
-
-        /* Ambient Orbs */
-        .orb-1 {
-            background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 70%);
-        }
-        .orb-2 {
-            background: radial-gradient(circle at center, rgba(139, 92, 246, 0.12) 0%, rgba(139, 92, 246, 0) 70%);
-        }
-
-        /* Typography Polish */
-        .tracking-tight-custom {
-            letter-spacing: -0.04em;
-        }
-
-        .tracking-tighter-custom {
-            letter-spacing: -0.06em;
-        }
-
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden font-sans selection:bg-blue-500/30">
+<body class="antialiased min-h-screen flex flex-col relative overflow-x-hidden selection:bg-white selection:text-black">
 
-    <!-- Ambient Background -->
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div class="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full orb-1 blur-[100px] mix-blend-screen animate-float"></div>
-        <div class="absolute top-[40%] -right-[20%] w-[60vw] h-[60vw] rounded-full orb-2 blur-[120px] mix-blend-screen animate-float-delayed"></div>
-
-        <!-- Subtle Grid Overlay -->
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdib3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAzNHYtNGgtMnY0aC00djJoNHY0aDJ2LTRoNHYtMmgtNHzmMC0zMFYwaC0ydjRoLTR2Mmg0djRoMnYtNGg0VjRoLTR6bS0zMCAwVjBoLTJ2NGgtNHYyaDR2NGgydi00aDRWNGgtNHptMCAzMHYtNGgtMnY0aC00djJoNHY0aDJ2LTRoNHYtMmgtNHoiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyIvPjwvZz48L3N2Zz4=')] opacity-50"></div>
-    </div>
+    <!-- Grid Background -->
+    <div class="fixed inset-0 mono-grid z-0 opacity-40 pointer-events-none"></div>
 
     <!-- Navigation -->
-    <header class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
-        <div class="flex justify-between items-center h-20 px-6 md:px-12 max-w-[90rem] mx-auto stagger-item stagger-fast stagger-1">
-            <div class="flex items-center gap-3 pressable cursor-pointer">
-                <!-- Assuming logo-text.png is dark text, we might just use text for dark mode if it doesn't look good, but we'll try to use it with invert or keep it if it's already white -->
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                    <span class="material-symbols-outlined text-white">medical_services</span>
-                </div>
-                <span class="text-xl font-bold tracking-tight text-white hidden sm:block">Atlas</span>
+    <nav class="relative z-50 w-full pt-8 pb-4 px-6 md:px-12 max-w-[90rem] mx-auto flex justify-between items-center stagger-item stagger-1">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-white text-black flex items-center justify-center font-bold text-xl rounded-sm tracking-tighter">
+                A
             </div>
+            <span class="font-bold text-xl tracking-tight">Atlas</span>
+        </div>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-[#888]">
+            <a href="#" class="hover:text-white transition-colors">Features</a>
+            <a href="#" class="hover:text-white transition-colors">Methodology</a>
+            <a href="#" class="hover:text-white transition-colors">Enterprise</a>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="{{ route('login') }}" class="text-sm font-medium hover:text-gray-300 transition-colors">Log in</a>
+            <a href="{{ route('register') }}" class="bg-mono-white text-mono-dark px-5 py-2 rounded-full text-sm font-bold btn-primary tracking-tight">Get Started</a>
+        </div>
+    </nav>
 
-            <nav class="hidden md:flex gap-10 items-center">
-                <a class="text-sm font-medium text-slate-300 hover:text-white pressable" href="#platform">Platform</a>
-                <a class="text-sm font-medium text-slate-300 hover:text-white pressable" href="#solutions">Solutions</a>
-                <a class="text-sm font-medium text-slate-300 hover:text-white pressable" href="#security">Security</a>
-            </nav>
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center pt-20 pb-32 px-6">
 
-            <div class="flex items-center gap-4">
-                @auth
-                    <a class="text-sm font-medium text-slate-300 hover:text-white pressable px-4 py-2" href="{{ route('dashboard') }}">Dashboard</a>
-                @else
-                    <a class="hidden sm:block text-sm font-medium text-slate-300 hover:text-white pressable px-4 py-2" href="{{ route('login') }}">Sign In</a>
-                    <a class="flex items-center gap-2 bg-white text-slate-900 px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-slate-100 pressable shadow-lg shadow-white/10" href="/register">
-                        <span>Get Started</span>
-                    </a>
-                @endauth
+        <!-- Hero Section -->
+        <div class="max-w-4xl text-center mb-24 w-full">
+            <div class="stagger-item stagger-2 inline-flex items-center gap-2 border border-mono bg-mono-light px-4 py-1.5 rounded-full text-xs font-medium tracking-wide mb-8 text-[#aaa]">
+                <span class="w-2 h-2 rounded-full bg-white"></span>
+                SYSTEM V2.0 LIVE
+            </div>
+            <h1 class="stagger-item stagger-3 text-6xl md:text-8xl tracking-ultra-tight leading-[1.05] mb-8">
+                Absolute Clarity.
+            </h1>
+            <p class="stagger-item stagger-4 text-xl md:text-2xl text-body max-w-2xl mx-auto leading-relaxed mb-12">
+                A surgical instrument for data. No distractions, no noise. Just pure monochromatic efficiency designed for focus.
+            </p>
+        </div>
+
+        <!-- Dashboard Demo (Bento Grid) -->
+        <div class="w-full max-w-[90rem] mx-auto stagger-item stagger-5">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 auto-rows-[minmax(180px,_auto)]">
+
+                <!-- Main KPI Card -->
+                <div class="md:col-span-8 border border-mono bg-mono-light rounded-3xl p-8 md:p-10 flex flex-col justify-between pressable cursor-default group relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-12">
+                            <div>
+                                <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-2">Total Volume</h3>
+                                <div class="text-5xl font-bold tracking-tighter">84,209</div>
+                            </div>
+                            <div class="bg-white/10 px-3 py-1 rounded-full text-white text-xs font-semibold">
+                                +12.4%
+                            </div>
+                        </div>
+
+                        <!-- Abstract Line Chart -->
+                        <div class="line-graph w-full opacity-80 group-hover:opacity-100 transition-opacity">
+                            <div class="line-segment" style="width: 20%; left: 0; bottom: 10px; transform: rotate(-15deg);"></div>
+                            <div class="line-segment" style="width: 25%; left: 19%; bottom: 15px; transform: rotate(5deg);"></div>
+                            <div class="line-segment" style="width: 30%; left: 43%; bottom: 10px; transform: rotate(-10deg);"></div>
+                            <div class="line-segment" style="width: 35%; left: 72%; bottom: 20px; transform: rotate(-25deg);"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary KPI -->
+                <div class="md:col-span-4 border border-mono bg-mono-light rounded-3xl p-8 flex flex-col justify-between pressable cursor-default">
+                    <div>
+                        <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-2">Active Sessions</h3>
+                        <div class="text-4xl font-bold tracking-tighter">1,042</div>
+                    </div>
+
+                    <!-- Abstract Progress/Activity -->
+                    <div class="mt-8 flex flex-col gap-3">
+                        <div class="w-full h-1 bg-[#222] rounded-full overflow-hidden">
+                            <div class="w-[70%] h-full bg-white rounded-full"></div>
+                        </div>
+                        <div class="w-full h-1 bg-[#222] rounded-full overflow-hidden">
+                            <div class="w-[45%] h-full bg-[#888] rounded-full"></div>
+                        </div>
+                        <div class="w-full h-1 bg-[#222] rounded-full overflow-hidden">
+                            <div class="w-[90%] h-full bg-[#555] rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Chart -->
+                <div class="md:col-span-6 border border-mono bg-mono-light rounded-3xl p-8 flex flex-col justify-between pressable cursor-default">
+                     <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-6">Velocity</h3>
+                     <div class="chart-bar-container w-full">
+                         <div class="chart-bar" style="height: 30%;"></div>
+                         <div class="chart-bar" style="height: 45%;"></div>
+                         <div class="chart-bar active" style="height: 80%;"></div>
+                         <div class="chart-bar" style="height: 60%;"></div>
+                         <div class="chart-bar" style="height: 50%;"></div>
+                         <div class="chart-bar" style="height: 90%;"></div>
+                         <div class="chart-bar" style="height: 70%;"></div>
+                         <div class="chart-bar" style="height: 40%;"></div>
+                         <div class="chart-bar active" style="height: 100%;"></div>
+                         <div class="chart-bar" style="height: 85%;"></div>
+                         <div class="chart-bar" style="height: 65%;"></div>
+                         <div class="chart-bar" style="height: 55%;"></div>
+                     </div>
+                </div>
+
+                <!-- Status Block -->
+                <div class="md:col-span-3 border border-mono bg-mono-light rounded-3xl p-8 flex flex-col items-center justify-center pressable cursor-default text-center">
+                     <div class="w-16 h-16 rounded-full border-[4px] border-[#333] flex items-center justify-center mb-4 relative">
+                          <div class="absolute inset-0 rounded-full border-[4px] border-white border-t-transparent border-l-transparent transform rotate-45"></div>
+                          <span class="text-xl font-bold">99%</span>
+                     </div>
+                     <h3 class="text-white font-semibold text-lg tracking-tight">System Health</h3>
+                     <p class="text-[#888] text-sm mt-1">All clusters nominal</p>
+                </div>
+
+                <!-- List/Log Block -->
+                <div class="md:col-span-3 border border-mono bg-mono-light rounded-3xl p-6 flex flex-col pressable cursor-default overflow-hidden">
+                     <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-4 px-2">Recent Events</h3>
+                     <div class="flex flex-col gap-2">
+                         <div class="flex items-center gap-3 p-2 rounded-lg bg-[#1a1a1a]">
+                             <div class="w-2 h-2 rounded-full bg-white"></div>
+                             <div class="flex-1 text-sm font-medium truncate">Node deployment</div>
+                             <div class="text-xs text-[#666]">2m</div>
+                         </div>
+                         <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
+                             <div class="w-2 h-2 rounded-full bg-[#555]"></div>
+                             <div class="flex-1 text-sm font-medium text-[#aaa] truncate">Sync complete</div>
+                             <div class="text-xs text-[#666]">14m</div>
+                         </div>
+                         <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
+                             <div class="w-2 h-2 rounded-full bg-[#555]"></div>
+                             <div class="flex-1 text-sm font-medium text-[#aaa] truncate">Backup verified</div>
+                             <div class="text-xs text-[#666]">1h</div>
+                         </div>
+                     </div>
+                </div>
+
             </div>
         </div>
-    </header>
-
-    <main class="flex-grow pt-32 pb-24 relative z-10 flex flex-col justify-center">
-        <!-- Hero Section -->
-        <section class="w-full min-h-[75vh] flex flex-col items-center justify-center px-6 md:px-12 text-center mt-12 md:mt-0">
-            <div class="max-w-5xl mx-auto flex flex-col items-center">
-
-                <!-- Pill Badge -->
-                <div class="stagger-item stagger-1 inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider mb-8 uppercase backdrop-blur-md">
-                    <div class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></div>
-                    <span>Atlas OS v2.0 Available</span>
-                </div>
-
-                <!-- Main Headline (Optical Typography) -->
-                <h1 class="stagger-item stagger-2 text-6xl md:text-8xl font-extrabold tracking-tighter-custom leading-[1.05] mb-8 text-white">
-                    The operating system <br class="hidden md:block"/>
-                    for <span class="text-gradient-primary">modern clinics.</span>
-                </h1>
-
-                <!-- Subheadline -->
-                <p class="stagger-item stagger-3 text-lg md:text-2xl text-slate-400 tracking-tight-custom max-w-3xl leading-relaxed mb-12 font-light">
-                    Beautifully designed to reduce cognitive load. Experience intelligent scheduling, seamless patient records, and automated billing in one fluid workspace.
-                </p>
-
-                <!-- CTA Actions -->
-                <div class="stagger-item stagger-4 flex flex-col sm:flex-row gap-5 w-full sm:w-auto items-center justify-center">
-                    <a class="w-full sm:w-auto bg-blue-600 text-white rounded-full px-8 py-4 text-base font-medium flex items-center justify-center gap-2 shadow-xl shadow-blue-900/40 hover:bg-blue-500 pressable border border-blue-400/20" href="/register">
-                        Start your journey
-                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-                    </a>
-                    <a class="w-full sm:w-auto bg-slate-800/50 text-white border border-slate-700/50 rounded-full px-8 py-4 text-base font-medium flex items-center justify-center gap-2 hover:bg-slate-700/50 hover:border-slate-600 pressable backdrop-blur-sm" href="{{ route('login') }}">
-                        <span class="material-symbols-outlined text-[20px] text-slate-400">login</span>
-                        Sign into workspace
-                    </a>
-                </div>
-            </div>
-
-            <!-- Hero Interface Mockup / Visual Anchor -->
-            <div class="stagger-item stagger-5 w-full max-w-6xl mx-auto mt-24 perspective-1000">
-                <div class="w-full h-48 md:h-96 rounded-t-3xl glass-panel border-b-0 overflow-hidden relative" style="transform: rotateX(5deg) scale(0.95); transform-origin: bottom; box-shadow: 0 -20px 60px -15px rgba(59, 130, 246, 0.2);">
-                    <!-- Fake UI Header -->
-                    <div class="h-12 border-b border-slate-700/50 flex items-center px-6 gap-2 bg-slate-900/80">
-                        <div class="w-3 h-3 rounded-full bg-slate-700"></div>
-                        <div class="w-3 h-3 rounded-full bg-slate-700"></div>
-                        <div class="w-3 h-3 rounded-full bg-slate-700"></div>
-                    </div>
-                    <!-- Fake UI Body -->
-                    <div class="p-8 flex gap-6 h-full opacity-30">
-                        <div class="w-64 hidden md:flex flex-col gap-4">
-                            <div class="h-8 bg-slate-700/50 rounded-lg w-full"></div>
-                            <div class="h-8 bg-slate-700/50 rounded-lg w-3/4"></div>
-                            <div class="h-8 bg-slate-700/50 rounded-lg w-5/6"></div>
-                        </div>
-                        <div class="flex-1 flex flex-col gap-4">
-                            <div class="h-32 bg-slate-700/30 rounded-2xl w-full border border-slate-700/50"></div>
-                            <div class="flex gap-4">
-                                <div class="h-32 bg-slate-700/30 rounded-2xl flex-1 border border-slate-700/50"></div>
-                                <div class="h-32 bg-slate-700/30 rounded-2xl flex-1 border border-slate-700/50"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Overlay Gradient -->
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent z-10"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Bento Grid Features Section -->
-        <section class="py-32 px-6 md:px-12 max-w-[90rem] mx-auto w-full relative z-10" id="platform">
-
-            <div class="text-center mb-20 stagger-item stagger-1">
-                <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight-custom mb-6">Designed for flow.</h2>
-                <p class="text-slate-400 text-lg md:text-xl font-light tracking-tight-custom max-w-2xl mx-auto">
-                    Every pixel is engineered to get out of your way, letting you focus entirely on providing exceptional patient care.
-                </p>
-            </div>
-
-            <!-- Bento Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(300px,_auto)]">
-
-                <!-- Large Feature 1 -->
-                <div class="md:col-span-8 glass-panel rounded-3xl p-10 flex flex-col justify-between stagger-item stagger-2 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[60px] group-hover:bg-blue-500/20 transition-colors duration-500"></div>
-                    <div class="relative z-10">
-                        <div class="w-14 h-14 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center mb-8 border border-blue-500/30">
-                            <span class="material-symbols-outlined text-[28px]">vital_signs</span>
-                        </div>
-                        <h3 class="text-2xl md:text-3xl font-semibold text-white tracking-tight-custom mb-4">Intelligent EMR</h3>
-                        <p class="text-slate-400 text-lg leading-relaxed max-w-md">Context-aware timeline views that adapt to your specialty. Access patient history, prescriptions, and lab results in a single, fluid interface.</p>
-                    </div>
-                </div>
-
-                <!-- Small Feature 1 -->
-                <div class="md:col-span-4 glass-panel rounded-3xl p-10 flex flex-col justify-between stagger-item stagger-3 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-[50px] group-hover:bg-purple-500/20 transition-colors duration-500"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center mb-8 border border-purple-500/30">
-                            <span class="material-symbols-outlined text-[24px]">calendar_month</span>
-                        </div>
-                        <h3 class="text-xl font-semibold text-white tracking-tight-custom mb-3">Fluid Scheduling</h3>
-                        <p class="text-slate-400 leading-relaxed">Drag-and-drop interfaces that make managing multi-doctor queues feel like magic.</p>
-                    </div>
-                </div>
-
-                <!-- Small Feature 2 -->
-                <div class="md:col-span-4 glass-panel rounded-3xl p-10 flex flex-col justify-between stagger-item stagger-4 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full blur-[50px] group-hover:bg-emerald-500/20 transition-colors duration-500"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-8 border border-emerald-500/30">
-                            <span class="material-symbols-outlined text-[24px]">payments</span>
-                        </div>
-                        <h3 class="text-xl font-semibold text-white tracking-tight-custom mb-3">Automated Billing</h3>
-                        <p class="text-slate-400 leading-relaxed">Seamlessly generate invoices, track revenues, and manage multi-tenant financials effortlessly.</p>
-                    </div>
-                </div>
-
-                <!-- Large Feature 2 -->
-                <div class="md:col-span-8 glass-panel rounded-3xl p-10 flex flex-col justify-between stagger-item stagger-5 relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-[60px] group-hover:bg-orange-500/20 transition-colors duration-500"></div>
-                    <div class="relative z-10 flex h-full flex-col justify-between">
-                        <div>
-                            <div class="w-14 h-14 rounded-2xl bg-orange-500/20 text-orange-400 flex items-center justify-center mb-8 border border-orange-500/30">
-                                <span class="material-symbols-outlined text-[28px]">forum</span>
-                            </div>
-                            <h3 class="text-2xl md:text-3xl font-semibold text-white tracking-tight-custom mb-4">Patient Communications</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg leading-relaxed max-w-md">Integrated WhatsApp and Telegram webhooks. Notify patients of appointments, delays, and updates automatically without lifting a finger.</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Bottom CTA -->
-        <section class="py-24 px-6 relative z-10 text-center flex flex-col items-center">
-            <div class="stagger-item stagger-6 glass-panel rounded-3xl p-12 md:p-20 max-w-4xl w-full border border-blue-500/20 bg-blue-900/10 relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent"></div>
-                <div class="relative z-10">
-                    <h2 class="text-3xl md:text-5xl font-bold text-white tracking-tight-custom mb-6">Ready to elevate your practice?</h2>
-                    <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">Join modern clinics running on Atlas and experience the difference of premium software.</p>
-                    <a class="inline-flex bg-white text-slate-900 rounded-full px-10 py-4 text-base font-semibold items-center justify-center gap-2 hover:bg-slate-100 pressable shadow-xl shadow-white/10" href="/register">
-                        Create your workspace
-                    </a>
-                </div>
-            </div>
-        </section>
 
     </main>
 
     <!-- Footer -->
-    <footer class="glass-nav mt-auto relative z-10">
-        <div class="max-w-[90rem] mx-auto px-6 md:px-12 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex items-center gap-2 opacity-60">
-                <span class="material-symbols-outlined text-white">medical_services</span>
-                <span class="text-lg font-bold tracking-tight text-white">Atlas</span>
+    <footer class="relative z-10 w-full border-t border-mono mt-auto bg-black blur-overlay">
+        <div class="max-w-[90rem] mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium text-[#666]">
+            <div class="flex items-center gap-2">
+                 <div class="w-4 h-4 bg-white text-black flex items-center justify-center font-bold text-[8px] rounded-sm">A</div>
+                 <span>Atlas OS</span>
             </div>
-            <nav class="flex gap-8">
-                <a class="text-sm text-slate-500 hover:text-slate-300 pressable" href="#">Privacy</a>
-                <a class="text-sm text-slate-500 hover:text-slate-300 pressable" href="#">Terms</a>
-                <a class="text-sm text-slate-500 hover:text-slate-300 pressable" href="#">Security</a>
-            </nav>
-            <p class="text-sm text-slate-500">&copy; {{ date('Y') }} Atlas Medical OS. All rights reserved.</p>
+            <div>&copy; {{ date('Y') }} Monochrome Inc.</div>
         </div>
     </footer>
 
-    <!-- Initialize staggered animations on load -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check for reduced motion
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
             if (prefersReducedMotion) {
-                // Remove animation classes if reduced motion is preferred
                 document.querySelectorAll('.stagger-item').forEach(el => {
                     el.style.animation = 'none';
                     el.style.opacity = '1';
-                    el.style.transform = 'none';
                 });
             }
         });

@@ -1,13 +1,32 @@
 <x-doctor-layout>
+    @push('styles')
+    <style>
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-up {
+            animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0; /* Ensures it's hidden before animation starts */
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+    @endpush
+
     <x-slot name="header">
         <div class="flex items-center justify-between w-full mb-6 print:hidden">
             <div>
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tight">
                     {{ $patient->name ?? 'اسم المريض' }}
                 </h2>
             </div>
             <div>
-                <button onclick="window.print()" class="flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors">
+                <button onclick="window.print()" class="flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-black bg-white border border-gray-200 rounded-full hover:bg-gray-50 active:scale-[0.97] transition-all duration-200 shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                     <span>{{ __('طباعة الملف') }}</span>
                 </button>
@@ -29,15 +48,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
 
             @if(session('success'))
-                <div class="bg-teal-50 border border-teal-200 text-teal-800 px-4 py-3 rounded-xl print:hidden">
+                <div class="bg-black text-white px-4 py-3 rounded-xl print:hidden animate-fade-up">
                     {{ session('success') }}
                 </div>
             @endif
 
             <!-- 1. Patient Information (Editable by Doctor) -->
-            <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] print:shadow-none print:border-black/20 print:rounded-none">
-                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2 print:border-b print:pb-2 print:border-black/20">
-                    <svg class="w-5 h-5 text-slate-400 print:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <div class="bg-white rounded-2xl p-8 border border-gray-200 print:shadow-none print:border-black/20 print:rounded-none animate-fade-up delay-1">
+                <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 print:border-b print:pb-2 print:border-black/20">
+                    <svg class="w-5 h-5 text-gray-400 print:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     {{ __('المعلومات الشخصية والتاريخ المرضي') }}
                 </h3>
 
@@ -47,19 +66,19 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الاسم الكامل') }}</label>
-                            <input type="text" name="name" value="{{ $patient->name }}" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">
+                            <input type="text" name="name" value="{{ $patient->name }}" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('تاريخ الميلاد') }}</label>
-                            <input type="text" dir="ltr" name="dob" value="{{ $patient->dob ? $patient->dob->format('Y-m-d') : '' }}" x-data x-mask="9999-99-99" placeholder="YYYY-MM-DD" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm text-left">
+                            <input type="text" dir="ltr" name="dob" value="{{ $patient->dob ? $patient->dob->format('Y-m-d') : '' }}" x-data x-mask="9999-99-99" placeholder="YYYY-MM-DD" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors text-left">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('رقم الهاتف') }}</label>
-                            <input type="text" name="phone" value="{{ $patient->phone }}" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">
+                            <input type="text" name="phone" value="{{ $patient->phone }}" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الجنس') }}</label>
-                            <select name="gender" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm ps-3.5 pe-8">
+                            <select name="gender" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors ps-3.5 pe-8">
                                 <option value="">{{ __('غير محدد') }}</option>
                                 <option value="male" {{ $patient->gender == 'male' ? 'selected' : '' }}>{{ __('ذكر') }}</option>
                                 <option value="female" {{ $patient->gender == 'female' ? 'selected' : '' }}>{{ __('أنثى') }}</option>
@@ -67,35 +86,35 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('فصيلة الدم') }}</label>
-                            <input type="text" name="blood_type" dir="ltr" value="{{ $patient->blood_type }}" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm text-left">
+                            <input type="text" name="blood_type" dir="ltr" value="{{ $patient->blood_type }}" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors text-left">
                         </div>
 
                         <div class="col-span-full mt-4 border-t border-gray-100 pt-4">
-                            <h4 class="text-sm font-bold text-slate-600 mb-4">{{ __('التاريخ الطبي') }}</h4>
+                            <h4 class="text-sm font-bold text-gray-600 mb-4">{{ __('التاريخ الطبي') }}</h4>
                         </div>
 
                         <div class="col-span-1 md:col-span-2 lg:col-span-1">
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الحساسية') }}</label>
-                            <textarea name="allergies" rows="2" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $patient->allergies }}</textarea>
+                            <textarea name="allergies" rows="2" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">{{ $patient->allergies }}</textarea>
                         </div>
                         <div class="col-span-1 md:col-span-2 lg:col-span-1">
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الأمراض المزمنة') }}</label>
-                            <textarea name="chronic_diseases" rows="2" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $patient->chronic_diseases }}</textarea>
+                            <textarea name="chronic_diseases" rows="2" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">{{ $patient->chronic_diseases }}</textarea>
                         </div>
                         <div class="col-span-1 md:col-span-2 lg:col-span-1">
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الأدوية المنتظمة') }}</label>
-                            <textarea name="regular_medications" rows="2" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $patient->regular_medications }}</textarea>
+                            <textarea name="regular_medications" rows="2" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">{{ $patient->regular_medications }}</textarea>
                         </div>
                         <div class="col-span-1 md:col-span-3">
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('سبب الزيارة والأعراض') }} ({{ __('من السكرتير') }})</label>
                             <div class="grid grid-cols-2 gap-4">
-                                <textarea name="reason_for_visit" rows="2" placeholder="{{ __('سبب الزيارة') }}..." class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $patient->reason_for_visit }}</textarea>
-                                <textarea name="symptoms_onset" rows="2" placeholder="{{ __('بداية الأعراض') }}..." class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $patient->symptoms_onset }}</textarea>
+                                <textarea name="reason_for_visit" rows="2" placeholder="{{ __('سبب الزيارة') }}..." class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">{{ $patient->reason_for_visit }}</textarea>
+                                <textarea name="symptoms_onset" rows="2" placeholder="{{ __('بداية الأعراض') }}..." class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">{{ $patient->symptoms_onset }}</textarea>
                             </div>
                         </div>
                     </div>
                     <div class="mt-6 flex justify-end">
-                        <button type="submit" class="bg-black text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-800 transition-colors shadow-sm">
+                        <button type="submit" class="bg-black text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-neutral-800 active:scale-[0.97] transition-all duration-200 shadow-sm">
                             {{ __('حفظ التعديلات') }}
                         </button>
                     </div>
@@ -123,9 +142,9 @@
             @php
                 $currentRecord = $patient->medicalRecords->where('diagnosis', __('قيد الانتظار'))->first() ?? $patient->medicalRecords->first();
             @endphp
-            <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] print:shadow-none print:border-black/20 print:rounded-none">
-                <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2 print:border-b print:pb-2 print:border-black/20">
-                    <svg class="w-5 h-5 text-slate-400 print:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+            <div class="bg-white rounded-2xl p-8 border border-gray-200 print:shadow-none print:border-black/20 print:rounded-none animate-fade-up delay-2">
+                <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2 print:border-b print:pb-2 print:border-black/20">
+                    <svg class="w-5 h-5 text-gray-400 print:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                     {{ __('التشخيص والوصفة الطبية') }}
                 </h3>
 
@@ -134,15 +153,15 @@
                     <div class="space-y-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('التشخيص') }}</label>
-                            <textarea name="diagnosis" rows="3" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm">{{ $currentRecord && $currentRecord->diagnosis !== __('قيد الانتظار') ? $currentRecord->diagnosis : '' }}</textarea>
+                            <textarea name="diagnosis" rows="3" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors">{{ $currentRecord && $currentRecord->diagnosis !== __('قيد الانتظار') ? $currentRecord->diagnosis : '' }}</textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">{{ __('الوصفة الطبية والنصائح') }} (Prescription & Advice)</label>
-                            <textarea name="prescription" rows="5" dir="ltr" class="w-full border-gray-300 focus:border-slate-500 focus:ring-slate-500 rounded-xl shadow-sm text-left font-mono">{{ $currentRecord ? $currentRecord->prescription : '' }}</textarea>
+                            <textarea name="prescription" rows="5" dir="ltr" class="w-full bg-gray-50 border-gray-200 focus:border-black focus:ring-black rounded-xl text-gray-900 transition-colors text-left font-mono">{{ $currentRecord ? $currentRecord->prescription : '' }}</textarea>
                         </div>
                     </div>
                     <div class="mt-6 flex justify-end">
-                        <button type="submit" class="bg-black text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-800 transition-colors shadow-sm flex items-center gap-2">
+                        <button type="submit" class="bg-black text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-neutral-800 active:scale-[0.97] transition-all duration-200 shadow-sm flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                             {{ __('اعتماد التشخيص') }}
                         </button>
@@ -163,10 +182,10 @@
             </div>
 
             <!-- 3. Medical Albums (X-Rays, Prescriptions, Diagnostics) -->
-            <div x-data="{ activeTab: 'xray' }" class="bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] print:hidden">
+            <div x-data="{ activeTab: 'xray' }" class="bg-white rounded-2xl p-8 border border-gray-200 print:hidden animate-fade-up delay-3">
                 <div class="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
-                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         {{ __('الصور والملفات المرفقة') }}
                     </h3>
 
@@ -175,7 +194,7 @@
                         @csrf
                         <input type="hidden" name="album_type" x-model="activeTab">
                         <input type="file" name="image" id="file_upload" class="hidden" onchange="this.form.submit()" accept="image/*">
-                        <label for="file_upload" class="cursor-pointer bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-medium hover:bg-slate-50 transition-colors shadow-sm flex items-center gap-2">
+                        <label for="file_upload" class="cursor-pointer bg-white border border-gray-200 text-gray-900 px-4 py-2 rounded-full text-sm font-medium hover:bg-gray-50 active:scale-[0.97] transition-all duration-200 shadow-sm flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                             {{ __('إضافة صورة') }}
                         </label>
@@ -203,7 +222,7 @@
                                             <form action="{{ route('doctor.patients.images.destroy', [$patient, $image]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors shadow-sm mb-2" onclick="return confirm('{{ __('هل أنت متأكد من حذف هذه الصورة؟') }}')">
+                                                <button type="submit" class="bg-red-500 text-white p-2 rounded-full hover:bg-red-600 active:scale-[0.97] transition-all duration-200 shadow-sm mb-2" onclick="return confirm('{{ __('هل أنت متأكد من حذف هذه الصورة؟') }}')">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                                 </button>
                                             </form>
@@ -215,7 +234,7 @@
                                         </div>
                                     </div>
                                 @empty
-                                    <div class="col-span-full py-12 text-center text-gray-500 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                                    <div class="col-span-full py-12 text-center text-gray-500 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
                                         {{ __('لا توجد صور في هذا الألبوم') }}
                                     </div>
                                 @endforelse

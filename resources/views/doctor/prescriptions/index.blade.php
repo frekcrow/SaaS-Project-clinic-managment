@@ -19,13 +19,21 @@
                 </svg>
                 {{ __('إعدادات الوصفة') }}
             </button>
-            <button onclick="printPrescription()" class="bg-indigo-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                </svg>
-                {{ __('طباعة الوصفة') }}
-            </button>
-            <button type="button" class="bg-slate-800 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-slate-700 transition-colors flex items-center gap-2 shadow-sm">
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @click.outside="open = false" class="bg-indigo-600 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    {{ __('طباعة الوصفة') }}
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div x-show="open" x-transition class="absolute top-full mt-2 right-0 w-48 bg-white border border-gray-100 rounded-xl shadow-lg z-50 py-1" style="display: none;">
+                    <button @click="printPrescription('A4'); open = false" class="w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">طباعة A4</button>
+                    <button @click="printPrescription('A5'); open = false" class="w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">طباعة A5</button>
+                    <button @click="printPrescription('Custom'); open = false" class="w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors">مخصص</button>
+                </div>
+            </div>
+            <button @click="isQrModalOpen = true" type="button" class="bg-slate-800 text-white rounded-xl px-5 py-2.5 text-sm font-bold hover:bg-slate-700 transition-colors flex items-center gap-2 shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
                 </svg>
@@ -112,7 +120,7 @@
                 <!-- Body (Rx & Medications) -->
                 <div class="flex-1 px-10 py-4 flex flex-col relative z-10 overflow-hidden rx-content-body">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-                        <img src="{{ asset('images/snake.png') }}" class="w-64 h-auto opacity-[0.07]">
+                        <img src="{{ asset('images/snake.png') }}" class="w-96 h-auto opacity-[0.07]">
                     </div>
                     <!-- Rx Logo -->
                     <div class="mb-4 shrink-0">
@@ -135,17 +143,16 @@
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
 
-                                <div class="flex items-start">
-                                    <div class="w-2 h-2 border border-black rounded-full mt-1.5 mr-3 flex-shrink-0"></div>
-                                    <div class="flex-1 relative z-10">
-                                        <div class="flex items-center gap-1" style="font-family: 'Times New Roman', Times, serif;">
-                                            <span class="text-lg font-bold text-gray-900 print:text-black" x-text="med.name"></span>
-                                            <span class="text-lg font-bold text-gray-900 print:text-black" x-show="med.dosage"> (<span x-text="med.dosage"></span>)</span>
-                                        </div>
-                                        <div class="text-sm text-gray-800 print:text-black mt-0.5" style="font-family: 'ping', sans-serif;" x-text="med.usage"></div>
+                                <div class="flex-1 relative z-10">
+                                    <div class="flex items-center gap-3 ltr" dir="ltr">
+                                        <div class="w-2 h-2 border border-black rounded-full flex-shrink-0"></div>
+                                        <span class="font-['Times_New_Roman'] font-bold text-lg text-gray-900 print:text-black"><span x-text="med.name"></span><span x-show="med.dosage"> (<span x-text="med.dosage"></span>)</span></span>
+                                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                        <span class="font-['ping'] text-sm text-gray-800 print:text-black" x-text="med.usage"></span>
+                                    </div>
 
-                                        <!-- Editable Dosage and Usage (Hidden on Print) -->
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 mt-2 print:hidden">
+                                    <!-- Editable Dosage and Usage (Hidden on Print) -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 mt-2 print:hidden">
                                             <div>
                                                 <input type="text" x-model="med.dosage" placeholder="{{ __('الجرعة') }}" class="w-full bg-transparent border-b border-gray-200 focus:border-blue-500 focus:outline-none focus:ring-0 text-gray-800 text-sm px-0 py-0.5 transition-colors font-medium">
                                             </div>
@@ -340,11 +347,36 @@
             </div>
         </div>
 
+        <!-- QR Code Modal -->
+        <div x-show="isQrModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm" style="display: none;">
+            <div @click.outside="isQrModalOpen = false" class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden flex flex-col">
+                <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                    <h3 class="font-bold text-slate-800">{{ __('QR Code') }}</h3>
+                    <button @click="isQrModalOpen = false" class="text-slate-400 hover:text-slate-600 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <div class="p-6 text-center">
+                    <div class="bg-white p-2 rounded-xl inline-block border border-slate-100 shadow-sm mb-4">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Placeholder_URL" alt="QR Code" class="mx-auto">
+                    </div>
+                    <p class="text-sm text-slate-600 mb-6">{{ __('امسح الرمز لعرض الوصفة أو مشاركتها') }}</p>
+                    <div class="flex gap-3 justify-center">
+                        <button @click="isQrModalOpen = false" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium rounded-lg transition-colors">{{ __('إغلاق') }}</button>
+                        <a href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Placeholder_URL" download="qrcode.png" target="_blank" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            {{ __('تنزيل') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     @push('scripts')
     <script>
-        function printPrescription() {
+        function printPrescription(size = 'A4') {
             // 1. Get the exact HTML of the prescription template
             const printContent = document.getElementById('prescription-print-area').innerHTML;
 
@@ -360,19 +392,48 @@
                 printWindow.document.write(style.outerHTML);
             });
 
-            // 4.5 Inject print specific styles
+            // 4.5 Inject print specific styles dynamically based on size
+            let styleContent = '';
+            if (size === 'A4') {
+                styleContent = `
+                   @page { size: A4; margin: 0; }
+                   #prescription-print-area {
+                      width: 210mm !important;
+                      min-height: 297mm !important;
+                      height: 100% !important;
+                      margin: 0 auto;
+                      display: flex;
+                      flex-direction: column;
+                    }
+                `;
+            } else if (size === 'A5') {
+                styleContent = `
+                   @page { size: A5; margin: 0; }
+                   #prescription-print-area {
+                      width: 148mm !important;
+                      min-height: 210mm !important;
+                      height: 100% !important;
+                      margin: 0 auto;
+                      display: flex;
+                      flex-direction: column;
+                    }
+                `;
+            } else if (size === 'Custom') {
+                styleContent = `
+                   #prescription-print-area {
+                      width: 100% !important;
+                      height: 100% !important;
+                      margin: 0 auto;
+                      display: flex;
+                      flex-direction: column;
+                    }
+                `;
+            }
+
             printWindow.document.write(`
             <style>
-               @page { size: A4; margin: 0; }
                body { margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; background: white; }
-               #prescription-print-area {
-                  width: 210mm !important;
-                  min-height: 297mm !important;
-                  height: 100% !important;
-                  margin: 0 auto;
-                  display: flex;
-                  flex-direction: column;
-                }
+               ${styleContent}
                /* Force the content area to grow and push the footer to the bottom */
                .rx-content-body { flex-grow: 1; }
             </style>
@@ -396,6 +457,7 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('prescriptionSetup', (medicationsData = []) => ({
                 isSettingsModalOpen: false,
+                isQrModalOpen: false,
                 selectedAppointmentId: '',
                 patientName: '',
                 bookingNumber: '',

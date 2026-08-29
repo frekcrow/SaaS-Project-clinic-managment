@@ -54,7 +54,8 @@
                     <img src="{{ asset('images/heart.png') }}" alt="Heart" class="absolute top-0 right-0 opacity-80 w-24 h-24 pointer-events-none">
 
                     <!-- Doctor / Hospital Info -->
-                    <div class="text-right relative z-10 mt-8">
+                    <div class="text-right relative z-10 mt-12">
+                        <h2 class="text-2xl font-bold text-white mb-2" style="font-family: 'Ping-Bold', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h2>
                         <h3 class="text-xl font-bold text-white/90 print:text-white/90 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
                         <p class="text-sm text-white/90 mt-1 mb-2">{{ \Carbon\Carbon::now()->locale('ar')->translatedFormat('l، d F Y') }}</p>
                         @if($settings->doctor_specialization)
@@ -63,9 +64,9 @@
                     </div>
 
                     <!-- Logos and Doctor Name -->
-                    <div class="flex flex-col items-center relative z-10 -mt-3">
+                    <div class="flex flex-col items-center relative z-10">
                         <div class="flex gap-4 items-center">
-                            <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
+                            <div class="w-32 h-32 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
                                 @if($settings->logo_1_path)
                                     <img src="{{ Storage::url($settings->logo_1_path) }}" alt="Logo 1" class="w-full h-full object-contain">
                                 @else
@@ -77,12 +78,11 @@
                                 @endif
                             </div>
                             @if($settings->logo_2_path)
-                            <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
+                            <div class="w-32 h-32 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
                                 <img src="{{ Storage::url($settings->logo_2_path) }}" alt="Logo 2" class="w-full h-full object-contain">
                             </div>
                             @endif
                         </div>
-                        <h1 class="text-white text-xl z-10 mb-1 mt-2 text-center" style="font-family: 'Ping-Bold', sans-serif; text-shadow: 1px 1px 5px rgba(0,0,0,0.6);">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
                     </div>
                 </div>
 

@@ -13,6 +13,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
+        :root {
+            --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
         /* Typography overrides */
         body {
             font-family: 'Inter', sans-serif;
@@ -60,24 +65,30 @@
 
         /* Physical Interactions */
         .pressable {
-            transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease, border-color 0.15s ease;
+            transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), border-color 160ms var(--ease-out);
         }
         .pressable:active {
             transform: scale(0.97);
         }
-        .pressable:hover {
-            background-color: #1a1a1a;
-            border-color: #333;
+
+        @media (hover: hover) and (pointer: fine) {
+            .pressable:hover {
+                background-color: #1a1a1a;
+                border-color: #333;
+            }
         }
 
         .btn-primary {
-            transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), background-color 0.15s ease, filter 0.15s ease;
+            transition: transform 160ms var(--ease-out), background-color 160ms var(--ease-out), filter 160ms var(--ease-out);
         }
         .btn-primary:active {
             transform: scale(0.97);
         }
-        .btn-primary:hover {
-            filter: brightness(0.9);
+
+        @media (hover: hover) and (pointer: fine) {
+            .btn-primary:hover {
+                filter: brightness(0.9);
+            }
         }
 
 
@@ -85,7 +96,7 @@
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(24px);
+                transform: translateY(16px);
             }
             to {
                 opacity: 1;
@@ -95,20 +106,38 @@
 
         .stagger-item {
             opacity: 0;
-            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeUp 600ms var(--ease-out) forwards;
         }
 
-        .stagger-1 { animation-delay: 0.1s; }
-        .stagger-2 { animation-delay: 0.2s; }
-        .stagger-3 { animation-delay: 0.3s; }
-        .stagger-4 { animation-delay: 0.4s; }
-        .stagger-5 { animation-delay: 0.5s; }
-        .stagger-6 { animation-delay: 0.6s; }
-        .stagger-7 { animation-delay: 0.7s; }
-        .stagger-8 { animation-delay: 0.8s; }
+        .stagger-1 { animation-delay: 100ms; }
+        .stagger-2 { animation-delay: 150ms; }
+        .stagger-3 { animation-delay: 200ms; }
+        .stagger-4 { animation-delay: 250ms; }
+        .stagger-5 { animation-delay: 300ms; }
+        .stagger-6 { animation-delay: 350ms; }
+        .stagger-7 { animation-delay: 400ms; }
+        .stagger-8 { animation-delay: 450ms; }
 
 
         /* Abstract Chart Styles */
+        @keyframes scaleYUp {
+            from {
+                transform: scaleY(0);
+            }
+            to {
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes scaleXRight {
+            from {
+                transform: scaleX(0);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+
         .chart-bar-container {
             display: flex;
             align-items: flex-end;
@@ -120,8 +149,24 @@
             background-color: #333;
             width: 100%;
             border-radius: 2px 2px 0 0;
-            transition: background-color 0.2s ease, height 0.5s ease;
+            transform-origin: bottom;
+            animation: scaleYUp 800ms var(--ease-out) backwards;
+            transition: background-color 0.2s ease;
         }
+
+        /* Stagger for chart bars */
+        .chart-bar:nth-child(1) { animation-delay: 500ms; }
+        .chart-bar:nth-child(2) { animation-delay: 550ms; }
+        .chart-bar:nth-child(3) { animation-delay: 600ms; }
+        .chart-bar:nth-child(4) { animation-delay: 650ms; }
+        .chart-bar:nth-child(5) { animation-delay: 700ms; }
+        .chart-bar:nth-child(6) { animation-delay: 750ms; }
+        .chart-bar:nth-child(7) { animation-delay: 800ms; }
+        .chart-bar:nth-child(8) { animation-delay: 850ms; }
+        .chart-bar:nth-child(9) { animation-delay: 900ms; }
+        .chart-bar:nth-child(10) { animation-delay: 950ms; }
+        .chart-bar:nth-child(11) { animation-delay: 1000ms; }
+        .chart-bar:nth-child(12) { animation-delay: 1050ms; }
 
         .chart-bar.active {
             background-color: #fff;
@@ -143,7 +188,44 @@
             height: 2px;
             background-color: #fff;
             transform-origin: left center;
+            animation: scaleXRight 1000ms var(--ease-out) backwards;
         }
+
+        .line-segment:nth-child(1) { animation-delay: 400ms; }
+        .line-segment:nth-child(2) { animation-delay: 600ms; }
+        .line-segment:nth-child(3) { animation-delay: 800ms; }
+        .line-segment:nth-child(4) { animation-delay: 1000ms; }
+
+        /* Progress Bars */
+        .progress-fill {
+            transform-origin: left;
+            animation: scaleXRight 800ms var(--ease-out) backwards;
+        }
+
+        .progress-bar-container:nth-child(1) .progress-fill { animation-delay: 500ms; }
+        .progress-bar-container:nth-child(2) .progress-fill { animation-delay: 650ms; }
+        .progress-bar-container:nth-child(3) .progress-fill { animation-delay: 800ms; }
+
+        /* List Items Stagger */
+        @keyframes slideRightIn {
+            from {
+                opacity: 0;
+                transform: translateX(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .list-stagger {
+            opacity: 0;
+            animation: slideRightIn 500ms var(--ease-out) forwards;
+        }
+
+        .list-stagger:nth-child(1) { animation-delay: 600ms; }
+        .list-stagger:nth-child(2) { animation-delay: 650ms; }
+        .list-stagger:nth-child(3) { animation-delay: 700ms; }
 
         /* Grid Background Pattern */
         .mono-grid {
@@ -236,14 +318,14 @@
 
                     <!-- Abstract Progress/Activity -->
                     <div class="mt-8 flex flex-col gap-3">
-                        <div class="w-full h-1 bg-[#222] rounded-full overflow-hidden">
-                            <div class="w-[70%] h-full bg-white rounded-full"></div>
+                        <div class="progress-bar-container w-full h-1 bg-[#222] rounded-full overflow-hidden">
+                            <div class="w-[70%] h-full bg-white rounded-full progress-fill"></div>
                         </div>
-                        <div class="w-full h-1 bg-[#222] rounded-full overflow-hidden">
-                            <div class="w-[45%] h-full bg-[#888] rounded-full"></div>
+                        <div class="progress-bar-container w-full h-1 bg-[#222] rounded-full overflow-hidden">
+                            <div class="w-[45%] h-full bg-[#888] rounded-full progress-fill"></div>
                         </div>
-                        <div class="w-full h-1 bg-[#222] rounded-full overflow-hidden">
-                            <div class="w-[90%] h-full bg-[#555] rounded-full"></div>
+                        <div class="progress-bar-container w-full h-1 bg-[#222] rounded-full overflow-hidden">
+                            <div class="w-[90%] h-full bg-[#555] rounded-full progress-fill"></div>
                         </div>
                     </div>
                 </div>
@@ -281,17 +363,17 @@
                 <div class="md:col-span-3 border border-mono bg-mono-light rounded-3xl p-6 flex flex-col pressable cursor-default overflow-hidden">
                      <h3 class="text-[#888] font-medium text-sm tracking-wide uppercase mb-4 px-2">Recent Events</h3>
                      <div class="flex flex-col gap-2">
-                         <div class="flex items-center gap-3 p-2 rounded-lg bg-[#1a1a1a]">
+                         <div class="list-stagger flex items-center gap-3 p-2 rounded-lg bg-[#1a1a1a]">
                              <div class="w-2 h-2 rounded-full bg-white"></div>
                              <div class="flex-1 text-sm font-medium truncate">Node deployment</div>
                              <div class="text-xs text-[#666]">2m</div>
                          </div>
-                         <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
+                         <div class="list-stagger flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
                              <div class="w-2 h-2 rounded-full bg-[#555]"></div>
                              <div class="flex-1 text-sm font-medium text-[#aaa] truncate">Sync complete</div>
                              <div class="text-xs text-[#666]">14m</div>
                          </div>
-                         <div class="flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
+                         <div class="list-stagger flex items-center gap-3 p-2 rounded-lg hover:bg-[#1a1a1a] transition-colors">
                              <div class="w-2 h-2 rounded-full bg-[#555]"></div>
                              <div class="flex-1 text-sm font-medium text-[#aaa] truncate">Backup verified</div>
                              <div class="text-xs text-[#666]">1h</div>

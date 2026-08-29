@@ -55,7 +55,6 @@
 
                     <!-- Doctor / Hospital Info -->
                     <div class="text-right relative z-10">
-                        <h1 class="text-3xl font-extrabold text-white print:text-white mb-1 drop-shadow-sm ps-4" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
                         <h3 class="text-xl font-bold text-white/90 print:text-white/90 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
                         <p class="text-sm text-white/90 mt-1 mb-2">{{ \Carbon\Carbon::now()->locale('ar')->translatedFormat('l، d F Y') }}</p>
                         @if($settings->doctor_specialization)
@@ -63,24 +62,27 @@
                         @endif
                     </div>
 
-                    <!-- Logos -->
-                    <div class="flex gap-4 items-center relative z-10">
-                        <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
-                            @if($settings->logo_1_path)
-                                <img src="{{ Storage::url($settings->logo_1_path) }}" alt="Logo 1" class="w-full h-full object-contain">
-                            @else
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
-                                    <path d="M4.5 4.5v5c0 3.3 2.7 6 6 6s6-2.7 6-6v-5"></path>
-                                    <path d="M10.5 15.5L7 21h7l-3.5-5.5z"></path>
-                                    <path d="M16.5 15.5C18 17 21 16 21 13.5c0-2-1.5-3-3-3s-3 1-3 3"></path>
-                                </svg>
+                    <!-- Logos and Doctor Name -->
+                    <div class="flex flex-col items-center relative z-10 -mt-3">
+                        <div class="flex gap-4 items-center">
+                            <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
+                                @if($settings->logo_1_path)
+                                    <img src="{{ Storage::url($settings->logo_1_path) }}" alt="Logo 1" class="w-full h-full object-contain">
+                                @else
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                                        <path d="M4.5 4.5v5c0 3.3 2.7 6 6 6s6-2.7 6-6v-5"></path>
+                                        <path d="M10.5 15.5L7 21h7l-3.5-5.5z"></path>
+                                        <path d="M16.5 15.5C18 17 21 16 21 13.5c0-2-1.5-3-3-3s-3 1-3 3"></path>
+                                    </svg>
+                                @endif
+                            </div>
+                            @if($settings->logo_2_path)
+                            <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
+                                <img src="{{ Storage::url($settings->logo_2_path) }}" alt="Logo 2" class="w-full h-full object-contain">
+                            </div>
                             @endif
                         </div>
-                        @if($settings->logo_2_path)
-                        <div class="w-24 h-24 text-emerald-500 print:text-emerald-500 bg-transparent p-2 rounded-xl backdrop-blur-sm">
-                            <img src="{{ Storage::url($settings->logo_2_path) }}" alt="Logo 2" class="w-full h-full object-contain">
-                        </div>
-                        @endif
+                        <h1 class="text-3xl font-extrabold text-gray-900 print:text-black mb-1 drop-shadow-sm mt-2 text-center" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
                     </div>
                 </div>
 
@@ -88,14 +90,14 @@
                 <div class="bg-gradient-to-b from-blue-50 to-transparent print:from-blue-50 print:to-transparent px-10 py-6 text-sm font-medium shrink-0">
                     <div class="grid grid-cols-12 gap-y-4 gap-x-6 items-end">
                         <div class="col-span-12 flex items-center gap-2">
-                            <span class="text-gray-700 w-24 shrink-0">{{ __('Patient Name:') }}</span>
+                            <span class="text-gray-700 w-24 shrink-0">{{ __('اسم المريض:') }}</span>
                             <div class="flex-1 border-b border-blue-200 relative">
                                 <span class="absolute bottom-1 px-2" x-text="patientName || '...........................................'"></span>
                             </div>
                         </div>
 
                         <div class="col-span-6 flex items-center gap-2">
-                            <span class="text-gray-700 w-12 shrink-0">{{ __('Age:') }}</span>
+                            <span class="text-gray-700 w-12 shrink-0">{{ __('العمر:') }}</span>
                             <div class="flex-1 border-b border-blue-200 relative h-6">
                                 <span class="absolute bottom-1 px-2" x-text="patientAge || '...................'"></span>
                             </div>
@@ -109,7 +111,7 @@
                         </div>
 
                         <div class="col-span-12 flex items-center gap-2">
-                            <span class="text-gray-700 w-24 shrink-0">{{ __('Diagnosis:') }}</span>
+                            <span class="text-gray-700 w-24 shrink-0">{{ __('التشخيص:') }}</span>
                             <div class="flex-1 border-b border-blue-200 relative h-6">
                                 <span class="absolute bottom-1 px-2" x-text="patientDiagnosis || '...........................................'"></span>
                             </div>
@@ -118,18 +120,18 @@
                 </div>
 
                 <!-- Body (Rx & Medications) -->
-                <div class="flex-1 px-10 py-4 flex flex-col relative z-10 overflow-hidden rx-content-body">
+                <div class="flex-1 px-10 pt-2 pb-4 flex flex-col relative z-10 overflow-hidden rx-content-body">
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
                         <img src="{{ asset('images/snake.png') }}" class="w-96 h-auto opacity-[0.07]">
                     </div>
                     <!-- Rx Logo -->
-                    <div class="mb-4 shrink-0">
+                    <div class="mb-2 shrink-0">
                         <svg class="w-10 h-10 text-blue-500 print:text-blue-500" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M17.5 4C15.567 4 14 5.567 14 7.5c0 1.706 1.218 3.125 2.839 3.447L14.975 14H19v2h-5c-1.103 0-2-.897-2-2v-1.171l2.459-3.935C13.064 8.647 12 7.189 12 5.5 12 2.467 14.467 0 17.5 0S23 2.467 23 5.5c0 2.223-1.326 4.14-3.238 5.048L21 13v3h-2v-1.78l-1.077-2.155C18.665 11.83 21 9.92 21 7.5 21 5.567 19.433 4 17.5 4zm-7 8.5C10.5 10.015 8.485 8 6 8S1.5 10.015 1.5 12.5 3.515 17 6 17s4.5-2.015 4.5-4.5zM6 10c1.378 0 2.5 1.122 2.5 2.5S7.378 15 6 15s-2.5-1.122-2.5-2.5S4.622 10 6 10zm0 1c-.827 0-1.5.673-1.5 1.5S5.173 14 6 14s1.5-.673 1.5-1.5S6.827 11 6 11z"/>
                         </svg>
                     </div>
 
-                    <div class="flex-1 overflow-hidden flex flex-col min-h-0 space-y-2 text-left" dir="ltr" style="font-family: 'Times New Roman', Times, serif;">
+                    <div class="flex-1 overflow-hidden flex flex-col min-h-0 gap-1 text-left" dir="ltr" style="font-family: 'Times New Roman', Times, serif;">
                         <!-- Empty State -->
                         <div x-show="addedMedications.length === 0" class="text-center text-slate-400 print:hidden mt-4 text-sm font-sans shrink-0">
                             {{ __('قم بإضافة أدوية من القائمة الجانبية') }}
@@ -417,6 +419,7 @@
                       display: flex;
                       flex-direction: column;
                     }
+                   #prescription-print-area .text-lg { font-size: 0.95rem !important; }
                 `;
             } else if (size === 'Custom') {
                 styleContent = `

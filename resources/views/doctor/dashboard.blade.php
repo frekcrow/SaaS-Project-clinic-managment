@@ -295,41 +295,61 @@
         </div>
     </div>
 
-    <!-- Row 3: Centered Financial Growth -->
-    <div class="col-span-12 bg-white/80 backdrop-blur-xl rounded-3xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 animate-fade-up" style="animation-delay: 0.15s;" x-data="financialAnalytics()">
-        <div class="flex w-full flex-col gap-6">
-            <!-- Top Controls -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 border border-white/20 relative overflow-hidden group">
-                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-                        <svg class="w-6 h-6 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <!-- Row 3: Centered Financial Growth (Redesigned Apple-like) -->
+    <div class="col-span-12 bg-white/[0.85] backdrop-blur-2xl rounded-[32px] border border-white shadow-[0_12px_40px_-12px_rgba(0,0,0,0.08)] p-8 overflow-hidden relative animate-fade-up" style="animation-delay: 0.15s;" x-data="financialAnalytics()">
+        <!-- Decorative Ambient Glows -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-400/10 blur-[80px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-teal-400/10 blur-[100px] rounded-full pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
+
+        <div class="flex w-full flex-col gap-8 relative z-10">
+            <!-- Top Header & Controls -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <!-- Title Section -->
+                <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-[20px] bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center text-white shadow-lg shadow-slate-900/20 border border-slate-700/50 relative overflow-hidden group transition-transform duration-300 hover:scale-105 active:scale-95">
+                        <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></div>
+                        <svg class="w-7 h-7 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
 
                     <div>
-                        <h2 class="text-xl font-bold tracking-tight text-slate-800">
+                        <h2 class="text-2xl font-bold tracking-tight text-slate-900" style="font-weight: 600; letter-spacing: -0.02em;">
                             {{ __('مؤشر النمو المالي') }}
                         </h2>
+                        <p class="text-sm font-medium text-slate-500 mt-0.5">تحليل الإيرادات والنمو الاقتصادي</p>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50/80 backdrop-blur-sm p-1.5 rounded-2xl border border-slate-200/60 shadow-inner">
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent hover:bg-white rounded-xl focus:ring-0 text-sm py-1.5 ltr:pl-3 ltr:pr-8 rtl:pr-3 rtl:pl-8 ltr:text-left rtl:text-right ltr:bg-[position:right_0.5rem_center] rtl:bg-[position:left_0.5rem_center] font-medium text-slate-700 cursor-pointer w-full sm:w-auto transition-all duration-200 active:scale-95 shadow-sm">
-                        <option value="today">{{ __('اليوم') }}</option>
-                        <option value="week">{{ __('اسبوع') }}</option>
-                        <option value="month">{{ __('شهر') }}</option>
-                        <option value="year">{{ __('سنة') }}</option>
-                        <option value="all">{{ __('الكل') }}</option>
-                    </select>
-                    <div class="w-px h-6 bg-slate-200/80 mx-1"></div>
-                    <div class="relative w-full sm:w-auto group">
-                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent hover:bg-white rounded-xl focus:ring-0 text-sm py-1.5 px-3 w-full sm:w-32 text-center font-medium text-slate-700 cursor-pointer placeholder-slate-400 transition-all duration-200 active:scale-95 shadow-sm" dir="ltr">
+                <!-- Modern Controls -->
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+                    <!-- Dropdown Filter -->
+                    <div class="relative w-full sm:w-auto bg-slate-100/80 backdrop-blur-md rounded-2xl border border-slate-200/50 shadow-sm p-1.5 transition-all duration-300 hover:shadow-md hover:bg-slate-100">
+                        <select x-model="timeFilter" @change="updateChart" class="appearance-none outline-none border-none bg-transparent focus:ring-0 text-sm py-2 ltr:pl-4 ltr:pr-10 rtl:pr-4 rtl:pl-10 font-semibold text-slate-700 cursor-pointer w-full sm:w-auto transition-transform duration-200 active:scale-95">
+                            <option value="today">{{ __('اليوم') }}</option>
+                            <option value="week">{{ __('اسبوع') }}</option>
+                            <option value="month">{{ __('شهر') }}</option>
+                            <option value="year">{{ __('سنة') }}</option>
+                            <option value="all">{{ __('الكل') }}</option>
+                        </select>
+                        <!-- Custom Select Arrow -->
+                        <div class="absolute top-1/2 -translate-y-1/2 ltr:right-3 rtl:left-3 pointer-events-none text-slate-400">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>
+                        </div>
+                    </div>
+
+                    <!-- Date Picker -->
+                    <div class="relative w-full sm:w-auto bg-white backdrop-blur-md rounded-2xl border border-slate-200/60 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300">
+                        <div class="absolute inset-y-0 ltr:left-0 rtl:right-0 flex items-center ltr:pl-3 rtl:pr-3 pointer-events-none">
+                            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        </div>
+                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="block w-full sm:w-40 outline-none border-none bg-transparent focus:ring-0 text-sm py-2.5 ltr:pl-10 ltr:pr-4 rtl:pr-10 rtl:pl-4 font-semibold text-slate-700 placeholder-slate-400 cursor-pointer transition-transform duration-200 active:scale-[0.98]" dir="ltr">
                     </div>
                 </div>
             </div>
 
-            <!-- Chart Container -->
-            <div class="flex-1 w-full mt-2" x-ref="financeChartContainer"></div>
+            <!-- Chart Container Wrapper -->
+            <div class="w-full bg-slate-50/50 rounded-2xl border border-slate-100 p-2 sm:p-4 transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.03)] hover:bg-slate-50/80">
+                <div class="w-full" style="min-height: 220px;" x-ref="financeChartContainer"></div>
+            </div>
         </div>
     </div>
 

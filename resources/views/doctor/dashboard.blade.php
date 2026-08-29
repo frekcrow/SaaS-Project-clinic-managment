@@ -4,6 +4,22 @@
     <style>
         /* Fix the Z index of modals */
         .z-50 { z-index: 100 !important; }
+
+        /* Premium Entrance Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
     </style>
 
     @endpush
@@ -172,20 +188,20 @@
     </div>
 
     <!-- 3. Medical Analytics Chart -->
-    <div class="col-span-6 bg-white rounded-2xl shadow-sm p-4" x-data="medicalAnalytics()">
+    <div class="col-span-6 bg-white/60 backdrop-blur-2xl border border-white/80 rounded-2xl shadow-lg p-4 animate-fade-up" style="animation-delay: 100ms;" x-data="medicalAnalytics()">
         <div class="w-full flex flex-col">
             <!-- Top Controls -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-3 animate-fade-up" style="animation-delay: 150ms;">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600">
                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
                     </div>
-                    <h2 class="text-base font-bold text-slate-800">{{ __('المخطط الطبي') }}</h2>
+                    <h2 class="text-base font-bold text-slate-800 tracking-tight">{{ __('المخطط الطبي') }}</h2>
                 </div>
 
                 <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50 p-1 rounded-xl border border-slate-100">
                     <!-- Dropdown Filter -->
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 ltr:pl-2 ltr:pr-6 rtl:pr-2 rtl:pl-6 ltr:text-left rtl:text-right ltr:bg-[position:right_0.25rem_center] rtl:bg-[position:left_0.25rem_center] font-medium text-slate-600 cursor-pointer w-full sm:w-auto">
+                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 ltr:pl-2 ltr:pr-6 rtl:pr-2 rtl:pl-6 ltr:text-left rtl:text-right ltr:bg-[position:right_0.25rem_center] rtl:bg-[position:left_0.25rem_center] font-medium text-slate-600 cursor-pointer w-full sm:w-auto transition-transform active:scale-[0.97]">
                         <option value="today">{{ __('اليوم') }}</option>
                         <option value="week">{{ __('اسبوع') }}</option>
                         <option value="month">{{ __('شهر') }}</option>
@@ -197,21 +213,21 @@
 
                     <!-- Date Picker -->
                     <div class="relative w-full sm:w-auto">
-                        <input type="text" x-model="customDate" x-ref="datePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 px-2 w-full sm:w-24 text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400" dir="ltr">
+                        <input type="text" x-model="customDate" x-ref="datePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent rounded-lg focus:ring-0 text-xs py-1 px-2 w-full sm:w-24 text-left font-medium text-slate-600 cursor-pointer placeholder-slate-400 transition-transform active:scale-[0.97]" dir="ltr">
                     </div>
                 </div>
             </div>
 
             <!-- Chart Container -->
-            <div class="flex-1 w-full" x-ref="chartContainer"></div>
+            <div class="flex-1 w-full animate-fade-up" style="animation-delay: 200ms;" x-ref="chartContainer"></div>
 
             <!-- Bottom Tabs -->
-            <div class="flex flex-wrap items-center justify-center gap-1.5 mt-3 pt-2 border-t border-slate-100">
+            <div class="flex flex-wrap items-center justify-center gap-1.5 mt-3 pt-2 border-t border-slate-100 animate-fade-up" style="animation-delay: 250ms;">
                 <template x-for="tab in tabs" :key="tab.id">
                     <button
                         @click="activeTab = tab.id; updateChart()"
                         :class="activeTab === tab.id ? 'bg-black text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'"
-                        class="px-3 py-1.5 rounded-xl font-bold text-xs transition-all duration-200"
+                        class="px-3 py-1.5 rounded-xl font-bold text-xs transition-all duration-200 active:scale-[0.97]"
                         x-text="tab.name"
                     ></button>
                 </template>

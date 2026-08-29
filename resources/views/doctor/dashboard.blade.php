@@ -295,41 +295,51 @@
         </div>
     </div>
 
-    <!-- Row 3: Centered Financial Growth -->
-    <div class="col-span-12 bg-white/80 backdrop-blur-xl rounded-3xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 animate-fade-up" style="animation-delay: 0.15s;" x-data="financialAnalytics()">
-        <div class="flex w-full flex-col gap-6">
-            <!-- Top Controls -->
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 border border-white/20 relative overflow-hidden group">
-                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-                        <svg class="w-6 h-6 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    </div>
+    <!-- Row 3: Centered Financial Growth (Radical Visual Redesign) -->
+    <div class="col-span-12 relative rounded-[2.5rem] bg-slate-900 border border-slate-800/80 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)] p-6 sm:p-8 animate-fade-up overflow-hidden group" style="animation-delay: 0.15s;" x-data="financialAnalytics()">
+        <!-- Gradient Mesh Background -->
+        <div class="absolute top-[-20%] right-[-10%] w-[60%] h-[140%] bg-gradient-to-bl from-teal-500/20 via-emerald-600/10 to-transparent blur-3xl rounded-full pointer-events-none transition-transform duration-1000 group-hover:scale-105"></div>
+        <div class="absolute bottom-[-20%] left-[-10%] w-[50%] h-[120%] bg-gradient-to-tr from-cyan-600/10 via-teal-900/40 to-transparent blur-3xl rounded-full pointer-events-none"></div>
 
+        <!-- Content Container -->
+        <div class="relative z-10 flex w-full flex-col gap-8">
+
+            <!-- Top Controls Area -->
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <!-- Title & Icon -->
+                <div class="flex items-center gap-5">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-white shadow-[0_0_20px_rgba(16,185,129,0.3)] border border-white/20 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                        <svg class="w-7 h-7 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
                     <div>
-                        <h2 class="text-xl font-bold tracking-tight text-slate-800">
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white mb-1">
                             {{ __('مؤشر النمو المالي') }}
                         </h2>
+                        <p class="text-slate-400 text-sm font-medium">{{ __('تتبع وتحليل الأداء المالي للعيادة') }}</p>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2 w-full sm:w-auto bg-slate-50/80 backdrop-blur-sm p-1.5 rounded-2xl border border-slate-200/60 shadow-inner">
-                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent hover:bg-white rounded-xl focus:ring-0 text-sm py-1.5 ltr:pl-3 ltr:pr-8 rtl:pr-3 rtl:pl-8 ltr:text-left rtl:text-right ltr:bg-[position:right_0.5rem_center] rtl:bg-[position:left_0.5rem_center] font-medium text-slate-700 cursor-pointer w-full sm:w-auto transition-all duration-200 active:scale-95 shadow-sm">
-                        <option value="today">{{ __('اليوم') }}</option>
-                        <option value="week">{{ __('اسبوع') }}</option>
-                        <option value="month">{{ __('شهر') }}</option>
-                        <option value="year">{{ __('سنة') }}</option>
-                        <option value="all">{{ __('الكل') }}</option>
+                <!-- Glassmorphic Filter Controls -->
+                <div class="flex items-center gap-2 w-full md:w-auto bg-slate-800/40 backdrop-blur-xl p-1.5 rounded-[1.25rem] border border-slate-700/50 shadow-inner">
+                    <select x-model="timeFilter" @change="updateChart" class="border-none bg-transparent hover:bg-white/5 rounded-xl focus:ring-0 text-sm py-2 ltr:pl-4 ltr:pr-10 rtl:pr-4 rtl:pl-10 ltr:text-left rtl:text-right font-semibold text-slate-200 cursor-pointer w-full sm:w-auto transition-transform duration-200 active:scale-[0.97]">
+                        <option value="today" class="bg-slate-800 text-white">{{ __('اليوم') }}</option>
+                        <option value="week" class="bg-slate-800 text-white">{{ __('اسبوع') }}</option>
+                        <option value="month" class="bg-slate-800 text-white">{{ __('شهر') }}</option>
+                        <option value="year" class="bg-slate-800 text-white">{{ __('سنة') }}</option>
+                        <option value="all" class="bg-slate-800 text-white">{{ __('الكل') }}</option>
                     </select>
-                    <div class="w-px h-6 bg-slate-200/80 mx-1"></div>
-                    <div class="relative w-full sm:w-auto group">
-                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent hover:bg-white rounded-xl focus:ring-0 text-sm py-1.5 px-3 w-full sm:w-32 text-center font-medium text-slate-700 cursor-pointer placeholder-slate-400 transition-all duration-200 active:scale-95 shadow-sm" dir="ltr">
+
+                    <div class="w-px h-6 bg-slate-700/80 mx-1"></div>
+
+                    <div class="relative w-full sm:w-auto">
+                        <input type="text" x-model="customDate" x-ref="financeDatePicker" placeholder="{{ __('تاريخ محدد') }}" class="border-none bg-transparent hover:bg-white/5 rounded-xl focus:ring-0 text-sm py-2 px-4 w-full sm:w-36 text-center font-semibold text-slate-200 cursor-pointer placeholder-slate-500 transition-transform duration-200 active:scale-[0.97]" dir="ltr">
                     </div>
                 </div>
             </div>
 
             <!-- Chart Container -->
-            <div class="flex-1 w-full mt-2" x-ref="financeChartContainer"></div>
+            <div class="flex-1 w-full mt-4 bg-slate-900/50 rounded-2xl border border-slate-800/50 p-2" x-ref="financeChartContainer"></div>
         </div>
     </div>
 
@@ -387,12 +397,12 @@
                             toolbar: { show: false },
                             parentHeightOffset: 0
                         },
-                        colors: ['#0f172a'], // slate-900 (matches black buttons)
+                        colors: ['#10b981'], // emerald-500 (striking contrast on dark)
                         fill: {
                             type: 'gradient',
                             gradient: {
                                 shadeIntensity: 1,
-                                opacityFrom: 0.1,
+                                opacityFrom: 0.4,
                                 opacityTo: 0.0,
                                 stops: [0, 90, 100]
                             }
@@ -407,20 +417,21 @@
                         xaxis: {
                             categories: this.financeLabels,
                             labels: {
-                                style: { fontWeight: 600, colors: '#64748b' }
+                                style: { fontWeight: 600, colors: '#cbd5e1' } // slate-300
                             },
                             axisBorder: { show: false },
                             axisTicks: { show: false }
                         },
                         yaxis: {
                             labels: {
-                                style: { colors: '#64748b' },
+                                style: { colors: '#cbd5e1' }, // slate-300
                                 formatter: (value) => {
                                     return Number(value).toLocaleString('ar-IQ');
                                 }
                             }
                         },
                         tooltip: {
+                            theme: 'dark',
                             y: {
                                 formatter: function (val) {
                                     return Number(val).toLocaleString('ar-IQ') + " {{ __('د.ع') }}";
@@ -428,7 +439,7 @@
                             }
                         },
                         grid: {
-                            borderColor: '#f1f5f9',
+                            borderColor: '#334155', // slate-700
                             strokeDashArray: 4,
                             padding: { top: 0, right: 0, bottom: 0, left: 10 }
                         }

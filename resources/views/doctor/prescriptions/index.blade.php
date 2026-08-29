@@ -41,8 +41,9 @@
 
                     <!-- Doctor / Hospital Info -->
                     <div class="text-right relative z-10">
-                        <h1 class="text-3xl font-extrabold text-white print:text-white mb-1 drop-shadow-sm" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
+                        <h1 class="text-3xl font-extrabold text-white print:text-white mb-1 drop-shadow-sm ps-4" style="font-family: 'Tajawal', sans-serif;">{{ __('د') }}. {{ $settings->doctor_name }}</h1>
                         <h3 class="text-xl font-bold text-white/90 print:text-white/90 leading-tight mb-1">{{ $settings->clinic_name }}</h3>
+                        <p class="text-sm text-white/90 mt-1 mb-2">{{ \Carbon\Carbon::now()->locale('ar')->translatedFormat('l، d F Y') }}</p>
                         @if($settings->doctor_specialization)
                             <h2 class="text-sm font-semibold tracking-widest text-emerald-100 print:text-emerald-100 mb-2 bg-black/10 inline-block px-3 py-1 rounded-full">{{ $settings->doctor_specialization }}</h2>
                         @endif
@@ -158,7 +159,7 @@
                     <!-- Doctor's Notes -->
                     <div class="mt-4 pt-2 border-t border-dashed border-gray-200 print:border-black shrink-0">
                         <label class="block text-xs font-bold text-gray-700 print:hidden mb-1 font-sans">{{ __('ملاحظات الطبيب') }}:</label>
-                        <textarea rows="2" class="w-full bg-gray-50 print:bg-transparent border border-gray-200 print:border-0 rounded-lg p-2 text-gray-800 print:text-black focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none font-medium text-sm leading-relaxed" placeholder="{{ __('اكتب ملاحظاتك هنا') }}..."></textarea>
+                        <textarea rows="2" class="w-full bg-gray-50 print:bg-transparent border border-gray-200 print:border-0 rounded-lg p-2 text-gray-800 print:text-black print:placeholder-transparent focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none font-medium text-sm leading-relaxed" placeholder="{{ __('اكتب ملاحظاتك هنا') }}..."></textarea>
                     </div>
                 </div>
 

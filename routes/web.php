@@ -20,9 +20,9 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\ChatController;
 
-Route::get('/webhooks/whatsapp', [WebhookController::class, 'verifyWhatsApp']);
-Route::post('/webhooks/whatsapp', [WebhookController::class, 'handleWhatsApp']);
-Route::post('/webhooks/telegram/{tenant_id}', [WebhookController::class, 'handleTelegram']);
+Route::get('/webhooks/whatsapp', [WebhookController::class, 'verifyWhatsApp'])->middleware('throttle:60,1');
+Route::post('/webhooks/whatsapp', [WebhookController::class, 'handleWhatsApp'])->middleware('throttle:60,1');
+Route::post('/webhooks/telegram/{tenant_id}', [WebhookController::class, 'handleTelegram'])->middleware('throttle:60,1');
 use App\Http\Controllers\BroadcastController;
 use App\Http\Controllers\SessionTypeController;
 use App\Http\Controllers\SurgeryTypeController;
@@ -92,7 +92,7 @@ Route::middleware(['auth', 'ensure.activated'])->group(function () {
     Route::patch('/surgeries/{surgery}/status', [SurgeryController::class, 'updateStatus'])->name('surgeries.update_status');
 
     // Doctor EMR routes
-    Route::prefix('doctor')->name('doctor.')->group(function () {
+    Route::prefix('doctor')->name('doctor.')->middleware('role:Doctor')->group(function () {
         Route::get('/appointments', [App\Http\Controllers\Doctor\AppointmentController::class, 'index'])->name('appointments.index');
         Route::patch('/appointments/{appointment}/status', [App\Http\Controllers\Doctor\AppointmentController::class, 'updateStatus'])->name('appointments.update_status')->withTrashed();
         Route::get('/surgeries', [App\Http\Controllers\DoctorSurgeryController::class, 'index'])->name('surgeries.index');

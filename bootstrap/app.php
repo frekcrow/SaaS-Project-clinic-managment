@@ -25,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.subscription.status' => \App\Http\Middleware\CheckSubscriptionStatus::class,
             'ensure.activated' => \App\Http\Middleware\EnsureTenantIsActivated::class,
             'valid.subdomain' => \App\Http\Middleware\EnsureValidTenantSubdomain::class,
+            'role' => \App\Http\Middleware\CheckRole::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -25,7 +25,7 @@ class DashboardController extends Controller
                 ->count();
 
             $surgeryTypes = \App\Models\SurgeryType::where('tenant_id', auth()->user()->tenant_id)->get();
-            $patients = \App\Models\Patient::where('tenant_id', auth()->user()->tenant_id)->orderBy('name')->get();
+            $patients = \App\Models\Patient::where('tenant_id', auth()->user()->tenant_id)->select('id', 'name')->orderBy('name')->get();
 
             // Financial Calculations
             $totalIncome = Appointment::where('tenant_id', auth()->user()->tenant_id)
@@ -143,7 +143,8 @@ class DashboardController extends Controller
             ));
         }
 
-        $pendingAppointments = Appointment::where('tenant_id', auth()->user()->tenant_id)
+        $pendingAppointments = Appointment::with('patient')
+            ->where('tenant_id', auth()->user()->tenant_id)
             ->where('status', 'pending')
             ->get();
 

@@ -8,7 +8,7 @@
     </x-slot>
 
     @php
-        $formattedPatients = $patients->map(function($patient) {
+        $formattedPatients = $patients->getCollection()->map(function($patient) {
             $formatted = $patient->toArray();
             $formatted['dob_formatted'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('Y/m/d') : '';
             $formatted['dob_day'] = $patient->dob ? \Carbon\Carbon::parse($patient->dob)->format('d') : '';
@@ -515,6 +515,9 @@ patients: {{ $formattedPatients->values()->toJson() }},
                         </div>
                     @endforeach
                 @endif
+                <div class="mt-4">
+                    {{ $patients->links() }}
+                </div>
             </div>
         </div>
     </div>

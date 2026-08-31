@@ -14,7 +14,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::all();
+        $patients = Patient::with(['doctor'])->paginate(50);
         $surgeryTypes = \App\Models\SurgeryType::where('tenant_id', Auth::user()->tenant_id)->get();
         return view('patients.index', compact('patients', 'surgeryTypes'));
     }

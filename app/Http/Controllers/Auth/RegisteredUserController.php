@@ -101,7 +101,7 @@ class RegisteredUserController extends Controller
             try {
                 $botApiUrl = config('services.bot.api_url');
                 if ($botApiUrl) {
-                    Http::post($botApiUrl, [
+                    Http::timeout(3)->post($botApiUrl, [
                         'tenant_id' => $user->tenant_id,
                         'clinic_name' => $user->clinic_code,
                         'doctor_name' => $user->name,

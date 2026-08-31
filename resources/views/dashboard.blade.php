@@ -3,7 +3,7 @@
         {{ $greeting ?? __('لوحة التحكم') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
-    <div class="grid-wrapper">
+    <div class="grid-wrapper dark:bg-[#0a0a0a]">
         <!-- The Grid Background -->
         <div class="grid-background"></div>
 

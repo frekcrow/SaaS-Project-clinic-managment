@@ -27,7 +27,7 @@
         {{ $greeting ?? __('Doctor Dashboard Workspace') }} - {{ __('هل أنت مستعد ليومك؟') }}
     </x-slot>
 
-    <div class="grid-wrapper">
+    <div class="grid-wrapper dark:bg-[#0a0a0a]">
         <div class="grid-background"></div>
         <div class="relative z-10 p-4 sm:p-6 h-full w-full">
             <div class="space-y-6">

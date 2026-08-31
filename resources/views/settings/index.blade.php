@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="grid-wrapper">
+    <div class="grid-wrapper dark:bg-[#0a0a0a]">
         <!-- The Grid Background -->
         <div class="grid-background"></div>
 

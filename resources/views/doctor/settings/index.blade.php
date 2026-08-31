@@ -1,5 +1,5 @@
 <x-doctor-layout>
-    <div class="grid-wrapper" x-data="{
+    <div class="grid-wrapper dark:bg-[#0a0a0a]" x-data="{
         activeTab: 'profile',
         openAboutModal: false
     }">

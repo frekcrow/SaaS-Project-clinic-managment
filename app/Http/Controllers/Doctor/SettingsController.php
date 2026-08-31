@@ -44,9 +44,9 @@ class SettingsController extends Controller
 
         if ($request->hasFile('avatar')) {
             if ($user->avatar_path) {
-                Storage::disk('public')->delete($user->avatar_path);
+                Storage::disk(config('filesystems.default'))->delete($user->avatar_path);
             }
-            $path = $request->file('avatar')->store('avatars', 'public');
+            $path = $request->file('avatar')->store('avatars', config('filesystems.default'));
             $validated['avatar_path'] = $path;
         }
 

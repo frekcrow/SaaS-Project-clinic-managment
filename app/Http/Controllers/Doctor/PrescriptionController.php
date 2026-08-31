@@ -65,16 +65,16 @@ class PrescriptionController extends Controller
 
         if ($request->hasFile('logo_1')) {
             if ($settings->logo_1_path) {
-                Storage::disk('public')->delete($settings->logo_1_path);
+                Storage::disk(config('filesystems.default'))->delete($settings->logo_1_path);
             }
-            $data['logo_1_path'] = $request->file('logo_1')->store('logos', 'public');
+            $data['logo_1_path'] = $request->file('logo_1')->store('logos', config('filesystems.default'));
         }
 
         if ($request->hasFile('logo_2')) {
             if ($settings->logo_2_path) {
-                Storage::disk('public')->delete($settings->logo_2_path);
+                Storage::disk(config('filesystems.default'))->delete($settings->logo_2_path);
             }
-            $data['logo_2_path'] = $request->file('logo_2')->store('logos', 'public');
+            $data['logo_2_path'] = $request->file('logo_2')->store('logos', config('filesystems.default'));
         }
 
         $settings->update($data);

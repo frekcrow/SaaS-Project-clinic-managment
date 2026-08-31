@@ -100,7 +100,7 @@ class DoctorPatientController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('patient_images/' . $patient->id, 'public');
+            $path = $request->file('image')->store('patient_images/' . $patient->id, config('filesystems.default'));
 
             $patient->patientImages()->create([
                 'album_type' => $request->album_type,
@@ -118,8 +118,8 @@ class DoctorPatientController extends Controller
         abort_if($patient->tenant_id !== Auth::user()->tenant_id, 403);
         abort_if($image->patient_id !== $patient->id, 404);
 
-        if (Storage::disk('public')->exists($image->image_path)) {
-            Storage::disk('public')->delete($image->image_path);
+        if (Storage::disk(config('filesystems.default'))->exists($image->image_path)) {
+            Storage::disk(config('filesystems.default'))->delete($image->image_path);
         }
 
         $image->delete();

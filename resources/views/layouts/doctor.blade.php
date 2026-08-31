@@ -29,14 +29,14 @@
         </script>
         @stack('styles')
     </head>
-    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900 text-slate-800 dark:text-slate-200 ">
+    <body class="font-sans antialiased bg-gray-50 dark:bg-[#0a0a0a] text-slate-800 dark:text-slate-200 ">
         <x-dynamic-island />
         @if(isset($subscriptionWarning) && $subscriptionWarning)
             <div class="bg-yellow-500 text-white text-center py-2 font-bold z-[100] relative">
                 {{ __('Warning: Your subscription will expire soon. Please renew.') }}
             </div>
         @endif
-        <div x-data="{ isNavigating: false, pageLoaded: false, isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, darkMode: localStorage.getItem('theme') === 'dark', toggleDarkMode() { this.darkMode = !this.darkMode; const theme = this.darkMode ? 'dark' : 'default'; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); document.documentElement.classList.toggle('dark', this.darkMode); } }" x-init="pageLoaded = true" class="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden">
+        <div x-data="{ isNavigating: false, pageLoaded: false, isCollapsed: {{ request()->routeIs('dashboard') ? 'false' : 'true' }}, darkMode: localStorage.getItem('theme') === 'dark', toggleDarkMode() { this.darkMode = !this.darkMode; const theme = this.darkMode ? 'dark' : 'default'; localStorage.setItem('theme', theme); document.documentElement.setAttribute('data-theme', theme); document.documentElement.classList.toggle('dark', this.darkMode); } }" x-init="pageLoaded = true" class="flex h-screen bg-gray-50 dark:bg-[#0a0a0a] overflow-hidden">
 
             <!-- HeroUI-inspired Floating Sidebar (RTL) -->
             <aside

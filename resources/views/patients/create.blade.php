@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('إضافة مريض جديد') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="{{ route('patients.store') }}" method="POST" x-data>
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -30,9 +30,9 @@
                             <div>
                                 <x-input-label for="dob_day" :value="__('تاريخ الميلاد')" />
                                 <div class="flex space-x-2 rtl:space-x-reverse mt-1" dir="ltr">
-                                    <input type="number" id="dob_day" name="dob_day" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="DD" min="1" max="31" value="{{ old('dob_day') }}" />
-                                    <input type="number" id="dob_month" name="dob_month" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="MM" min="1" max="12" value="{{ old('dob_month') }}" />
-                                    <input type="number" id="dob_year" name="dob_year" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full text-center" placeholder="YYYY" min="1900" max="{{ date('Y') }}" value="{{ old('dob_year') }}" />
+                                    <input type="number" id="dob_day" name="dob_day" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block w-full text-center" placeholder="DD" min="1" max="31" value="{{ old('dob_day') }}" />
+                                    <input type="number" id="dob_month" name="dob_month" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block w-full text-center" placeholder="MM" min="1" max="12" value="{{ old('dob_month') }}" />
+                                    <input type="number" id="dob_year" name="dob_year" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block w-full text-center" placeholder="YYYY" min="1900" max="{{ date('Y') }}" value="{{ old('dob_year') }}" />
                                 </div>
                                 <x-input-error :messages="$errors->get('dob_day')" class="mt-2" />
                             </div>
@@ -40,7 +40,7 @@
                             <!-- Gender -->
                             <div>
                                 <x-input-label for="gender" :value="__('الجنس')" />
-                                <select id="gender" name="gender" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
+                                <select id="gender" name="gender" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full">
                                     <option value="">{{ __('اختر الجنس') }}</option>
                                     <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>{{ __('ذكر') }}</option>
                                     <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>{{ __('أنثى') }}</option>
@@ -51,7 +51,7 @@
                             <!-- Smoking Status -->
                             <div>
                                 <x-input-label for="smoking_status" :value="__('التدخين')" />
-                                <select id="smoking_status" name="smoking_status" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
+                                <select id="smoking_status" name="smoking_status" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full">
                                     <option value="">{{ __('اختر حالة التدخين') }}</option>
                                     <option value="{{ __('غير مدخن') }}" {{ old('smoking_status') == __('غير مدخن') ? 'selected' : '' }}>{{ __('غير مدخن') }}</option>
                                     <option value="{{ __('مدخن حالي') }}" {{ old('smoking_status') == __('مدخن حالي') ? 'selected' : '' }}>{{ __('مدخن حالي') }}</option>
@@ -63,7 +63,7 @@
                             <!-- Blood Type -->
                             <div>
                                 <x-input-label for="blood_type" :value="__('زمرة الدم')" />
-                                <select id="blood_type" name="blood_type" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" dir="ltr">
+                                <select id="blood_type" name="blood_type" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full" dir="ltr">
                                     <option value="">{{ __('اختر زمرة الدم') }}</option>
                                     @foreach(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-', __('غير معروف')] as $type)
                                         <option value="{{ $type }}" {{ old('blood_type') == $type ? 'selected' : '' }}>{{ $type }}</option>
@@ -75,7 +75,7 @@
                             <!-- Doctor Name -->
                             <div>
                                 <x-input-label for="doctor_id" :value="__('اسم الطبيب المعالج')" />
-                                <select id="doctor_id" name="doctor_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full">
+                                <select id="doctor_id" name="doctor_id" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full">
                                     <option value="">{{ __('اختر الطبيب') }}</option>
                                     @foreach($doctors as $doctor)
                                         <option value="{{ $doctor->id }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
@@ -89,7 +89,7 @@
                             <!-- Reason for Visit -->
                             <div class="md:col-span-2">
                                 <x-input-label for="visit_reason" :value="__('سبب الزيارة')" />
-                                <textarea id="visit_reason" name="visit_reason" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="3">{{ old('visit_reason') }}</textarea>
+                                <textarea id="visit_reason" name="visit_reason" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full" rows="3">{{ old('visit_reason') }}</textarea>
                                 <x-input-error :messages="$errors->get('visit_reason')" class="mt-2" />
                             </div>
 
@@ -103,27 +103,27 @@
                             <!-- Allergies -->
                             <div class="md:col-span-2">
                                 <x-input-label for="allergies" :value="__('الحساسية')" />
-                                <textarea id="allergies" name="allergies" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="2">{{ old('allergies') }}</textarea>
+                                <textarea id="allergies" name="allergies" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full" rows="2">{{ old('allergies') }}</textarea>
                                 <x-input-error :messages="$errors->get('allergies')" class="mt-2" />
                             </div>
 
                             <!-- Chronic Diseases -->
                             <div class="md:col-span-2">
                                 <x-input-label for="chronic_diseases" :value="__('الأمراض المزمنة')" />
-                                <textarea id="chronic_diseases" name="chronic_diseases" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="2">{{ old('chronic_diseases') }}</textarea>
+                                <textarea id="chronic_diseases" name="chronic_diseases" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full" rows="2">{{ old('chronic_diseases') }}</textarea>
                                 <x-input-error :messages="$errors->get('chronic_diseases')" class="mt-2" />
                             </div>
 
                             <!-- Regular Medications -->
                             <div class="md:col-span-2">
                                 <x-input-label for="regular_medications" :value="__('الأدوية المنتظمة')" />
-                                <textarea id="regular_medications" name="regular_medications" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block mt-1 w-full" rows="2">{{ old('regular_medications') }}</textarea>
+                                <textarea id="regular_medications" name="regular_medications" class="border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none block mt-1 w-full" rows="2">{{ old('regular_medications') }}</textarea>
                                 <x-input-error :messages="$errors->get('regular_medications')" class="mt-2" />
                             </div>
                         </div>
 
                         <div class="flex items-center justify-end mt-6">
-                            <a href="{{ route('patients.index') }}" class="text-sm text-gray-600 hover:text-gray-900 mx-4">
+                            <a href="{{ route('patients.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 mx-4">
                                 {{ __('إلغاء') }}
                             </a>
                             <x-primary-button>

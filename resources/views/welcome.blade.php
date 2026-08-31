@@ -183,7 +183,7 @@
                 <div class="w-8 h-8 bg-black text-white flex items-center justify-center font-bold text-lg rounded-full tracking-tighter">
                     A
                 </div>
-                <span class="font-bold text-xl tracking-tight-custom text-black">Atlas</span>
+                <span class="font-bold text-xl tracking-tight-custom text-black dark:text-white">Atlas</span>
             </div>
 
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-500">
@@ -197,7 +197,7 @@
                     <a href="{{ route('dashboard') }}" class="text-sm font-semibold hover:text-black transition-colors pressable">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="text-sm font-semibold hover:text-black transition-colors pressable px-4 py-2">Sign in</a>
-                    <a href="{{ route('register') }}" class="bg-black text-white px-5 py-2 rounded-full text-sm font-semibold pressable tracking-tight-custom hover:bg-gray-800 transition-colors shadow-md">
+                    <a href="{{ route('register') }}" class="bg-black text-white px-5 py-2 rounded-full text-sm font-semibold pressable tracking-tight-custom hover:bg-gray-800 transition-colors shadow-md dark:shadow-none">
                         Get Started
                     </a>
                 @endauth
@@ -210,7 +210,7 @@
 
         <!-- Hero Section -->
         <div class="max-w-5xl text-center w-full mt-12 md:mt-24 mb-24">
-            <div class="stagger-item stagger-1 inline-flex items-center gap-2 bg-white/50 backdrop-blur-md border border-gray-200 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide mb-8 text-gray-600 shadow-sm">
+            <div class="stagger-item stagger-1 inline-flex items-center gap-2 bg-white/50 dark:bg-gray-800 backdrop-blur-md border border-gray-200 dark:border-gray-700 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide mb-8 text-gray-600 dark:text-gray-400 shadow-sm dark:shadow-none dark:backdrop-blur-none">
                 <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                 ATLAS OS 3.0 IS HERE
             </div>
@@ -245,27 +245,27 @@
 
                 <!-- Main Feature Card -->
                 <div class="glass-card md:col-span-2 p-10 flex flex-col justify-between group overflow-hidden relative pressable cursor-pointer">
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 from-blue-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-8">
                             <div>
                                 <h3 class="text-gray-500 font-semibold text-sm tracking-widest uppercase mb-2">Performance</h3>
                                 <h2 class="text-3xl font-bold tracking-tight-custom text-[#1d1d1f]">Lightning Fast</h2>
                             </div>
-                            <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                            <div class="w-12 h-12 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm dark:shadow-none">
                                 <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             </div>
                         </div>
-                        <p class="text-gray-600 font-medium max-w-md mb-8">
+                        <p class="text-gray-600 dark:text-gray-400 font-medium max-w-md mb-8">
                             Built on a modern stack with instantaneous interactions and fluid motion that feels like magic.
                         </p>
                     </div>
 
                     <!-- Abstract UI Mockup -->
                     <div class="mt-auto pt-8 border-t border-gray-100/50 relative z-10 flex items-end gap-3">
-                        <div class="w-1/3 bg-gray-100 rounded-t-lg h-24 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                        <div class="w-1/3 bg-gray-100 dark:bg-gray-800 rounded-t-lg h-24 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
                         <div class="w-1/3 bg-blue-100 rounded-t-lg h-32 transform translate-y-2 group-hover:-translate-y-2 transition-transform duration-500 ease-out"></div>
-                        <div class="w-1/3 bg-gray-100 rounded-t-lg h-16 transform translate-y-6 group-hover:translate-y-2 transition-transform duration-500 ease-out"></div>
+                        <div class="w-1/3 bg-gray-100 dark:bg-gray-800 rounded-t-lg h-16 transform translate-y-6 group-hover:translate-y-2 transition-transform duration-500 ease-out"></div>
                     </div>
                 </div>
 
@@ -274,13 +274,13 @@
                     <div class="relative z-10">
                         <h3 class="text-gray-500 font-semibold text-sm tracking-widest uppercase mb-2">Security</h3>
                         <h2 class="text-2xl font-bold tracking-tight-custom text-[#1d1d1f] mb-4">Fort Knox Level</h2>
-                        <p class="text-gray-600 font-medium text-sm">
+                        <p class="text-gray-600 dark:text-gray-400 font-medium text-sm">
                             Enterprise-grade encryption with zero-trust architecture built natively into the core.
                         </p>
                     </div>
 
                     <div class="mt-8 flex justify-center">
-                        <div class="w-24 h-24 rounded-full border-8 border-gray-100 flex items-center justify-center relative group-hover:border-blue-100 transition-colors duration-500">
+                        <div class="w-24 h-24 rounded-full border-8 border-gray-100 dark:border-gray-700 flex items-center justify-center relative group-hover:border-blue-100 transition-colors duration-500">
                             <svg class="w-8 h-8 text-gray-400 group-hover:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                         </div>
                     </div>
@@ -302,7 +302,7 @@
                         <h3 class="font-bold text-2xl tracking-tight-custom mb-1">Ready to elevate your workflow?</h3>
                         <p class="text-gray-400 font-medium">Join thousands of professionals using Atlas today.</p>
                     </div>
-                    <a href="{{ route('register') }}" class="bg-white text-black px-6 py-3 rounded-full font-bold text-sm pressable hidden sm:block">
+                    <a href="{{ route('register') }}" class="bg-white dark:bg-gray-800 text-black dark:text-white px-6 py-3 rounded-full font-bold text-sm pressable hidden sm:block">
                         Get Started Now
                     </a>
                 </div>
@@ -312,7 +312,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 w-full border-t border-gray-200/50 bg-white/50 backdrop-blur-xl mt-20">
+    <footer class="relative z-10 w-full border-t border-gray-200/50 bg-white/50 dark:bg-gray-800 backdrop-blur-xl mt-20 dark:backdrop-blur-none">
         <div class="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="flex items-center gap-2">
                 <div class="w-6 h-6 bg-black text-white flex items-center justify-center font-bold text-xs rounded-full">A</div>

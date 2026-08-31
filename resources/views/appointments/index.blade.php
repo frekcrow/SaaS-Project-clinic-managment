@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center" >
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('جدول المواعيد') }}
             </h2>
         </div>
@@ -23,19 +23,19 @@
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:rtl:space-x-reverse">
 
                 <!-- View Mode Toggle -->
-                <div class="inline-flex rounded-md shadow-sm" role="group">
-                    <button type="button" @click="viewMode = 'default'" :class="viewMode === 'default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                <div class="inline-flex rounded-md shadow-sm dark:shadow-none" role="group">
+                    <button type="button" @click="viewMode = 'default'" :class="viewMode ==='default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 dark:border-gray-700 rounded-s-lg focus:z-10 focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-black focus:text-black transition-colors">
                         <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
                         {{ __('العرض الافتراضي') }}
                     </button>
-                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode === 'grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode ==='grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 dark:border-gray-700 rounded-e-lg focus:z-10 focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-black focus:text-black transition-colors">
                         <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         {{ __('عرض حسب التاريخ') }}
                     </button>
                 </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
-                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن موعد...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن موعد...') }}" class="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500">
+                    <select x-model="sortBy" class="border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500">
                         <option value="date_asc">{{ __('تاريخ الموعد - الأقرب') }}</option>
                         <option value="date_desc">{{ __('تاريخ الموعد - الأبعد') }}</option>
                         <option value="newest">{{ __('تاريخ الإضافة - الأحدث') }}</option>
@@ -49,13 +49,13 @@
                 </div>
 
                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <a href="{{ route('appointments.create') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <a href="{{ route('appointments.create') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('اضافة +') }}
                     </a>
-                    <a href="{{ route('appointments.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <a href="{{ route('appointments.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('تصدير CSV') }}
                     </a>
-                    <button @click="editMode = !editMode" :class="editMode ? 'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm transition-colors hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <button @click="editMode = !editMode" :class="editMode ?'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none transition-colors hover:bg-neutral-800 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('تعديل') }}
                     </button>
                 </div>
@@ -63,56 +63,56 @@
 
             <!-- Bulk Actions -->
             <div x-show="editMode && selected.length > 0" x-cloak class="mb-4">
-                <button @click="deleteSelected" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <button @click="deleteSelected" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     {{ __('حذف المحدد') }} (<span x-text="selected.length"></span>)
                 </button>
             </div>
 
 
             <div x-show="viewMode === 'default'">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
-                    <div class="p-0 text-gray-900">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="p-0 text-gray-900 dark:text-gray-100">
                     <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white border-0">
+                        <table class="min-w-full bg-white dark:bg-gray-800 border-0">
                             <thead>
-                                    <tr class="bg-gray-50 border-b border-gray-200">
-                                        <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-12 text-center">
-                                            <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                    <tr class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                                        <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-12 text-center">
+                                            <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                         </th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('اسم المريض') }}</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الهاتف') }}</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الحجز') }}</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('نوع الحجز') }}</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الطبيب') }}</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('تاريخ الموعد') }}</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('وقت الموعد') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('اسم المريض') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('رقم الهاتف') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('رقم الحجز') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('نوع الحجز') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('الطبيب') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('تاريخ الموعد') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('وقت الموعد') }}</th>
                                         @if(auth()->user()->role === 'doctor')
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
                                         @endif
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
 
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200">
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                     <template x-for="appointment in filteredAppointments" :key="appointment.id">
                                         <tr class="hover:bg-gray-50 transition-colors">
-                                            <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
-                                                <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                            <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 border-l text-center">
+                                                <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                             </td>
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.name : appointment.patient_name) || '-'"></div>
                                             </td>
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.phone : appointment.phone) || '-'"></div>
                                             </td>
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm font-bold text-gray-900 border-b border-gray-200 border-l h-full text-center bg-gray-50">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l h-full text-center bg-gray-50 dark:bg-gray-900">
                                                 <div class="px-6 py-4" x-text="appointment.queue_number || '-'"></div>
                                             </td>
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4">
                                                         <template x-if="appointment.is_session">
@@ -128,10 +128,10 @@
                                                 <template x-if="editMode">
                                                     <div class="px-4 py-2 flex flex-col gap-2">
                                                         <label class="inline-flex items-center">
-                                                            <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                            <span class="ml-2 mr-2 text-xs text-gray-600">{{ __('جلسة؟') }}</span>
+                                                            <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
+                                                            <span class="ml-2 mr-2 text-xs text-gray-600 dark:text-gray-400">{{ __('جلسة؟') }}</span>
                                                         </label>
-                                                        <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-xs py-1">
+                                                        <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none text-xs py-1">
                                                             <option value="">{{ __('اختر النوع') }}</option>
                                                             @foreach($sessionTypes as $type)
                                                                 <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -141,44 +141,44 @@
                                                 </template>
                                             </td>
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <div class="px-6 py-4" x-text="appointment.doctor ? appointment.doctor.name : '-'"></div>
                                             </td>
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_date_formatted"></div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="date" x-model="appointment.appointment_date_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                    <input type="date" x-model="appointment.appointment_date_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
                                                 </template>
                                             </td>
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_display"></div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                    <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
                                                 </template>
                                             </td>
 
                                             @if(auth()->user()->role === 'doctor')
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4" x-text="appointment.price || '-'"></div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="number" step="0.01" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
+                                                    <input type="number" step="0.01" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0" placeholder="-">
                                                 </template>
                                             </td>
                                             @endif
 
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4 flex items-center justify-center h-full">
                                                         <template x-if="appointment.status !== 'pending'">
-                                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm border"
+                                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm dark:shadow-none border"
                                                                 :class="{
                                                                     'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
                                                                     'bg-blue-50 text-blue-700 border-blue-200': appointment.status === 'arrived',
@@ -190,10 +190,10 @@
                                                         </template>
                                                         <template x-if="appointment.status === 'pending'">
                                                             <div class="flex gap-2">
-                                                                <button type="button" @click="quickUpdateStatus(appointment, 'arrived')" class="inline-flex items-center px-2 py-1 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('تأكيد الحضور') }}">
+                                                                <button type="button" @click="quickUpdateStatus(appointment, 'arrived')" class="inline-flex items-center px-2 py-1 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-blue-500 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm dark:shadow-none" title="{{ __('تأكيد الحضور') }}">
                                                                     {{ __('تأكيد الحضور') }}
                                                                 </button>
-                                                                <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('إلغاء') }}">
+                                                                <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm dark:shadow-none" title="{{ __('إلغاء') }}">
                                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                                 </button>
                                                             </div>
@@ -201,7 +201,7 @@
                                                     </div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
+                                                    <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0 text-sm">
                                                         <option value="pending">{{ __('قيد الانتظار') }}</option>
                                                         <option value="arrived">{{ __('حاضر') }}</option>
                                                         <option value="in_progress">{{ __('قيد الإجراء') }}</option>
@@ -228,57 +228,57 @@
 
             <div x-show="viewMode === 'grouped'" x-cloak>
                 @if($groupedRecords->isEmpty())
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
                         <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
                     </div>
                 @else
                     @foreach($groupedRecords as $date => $dayAppointments)
                         <div class="mb-8" x-show="filteredAppointments.filter(a => a.appointment_date_grouped === '{{ $date }}').length > 0">
-                            <h3 class="text-lg font-bold text-gray-800 mb-3 sticky top-0 bg-gray-100/80 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200">
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-3 sticky top-0 bg-gray-100/80 dark:bg-gray-800 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200 dark:border-gray-700 dark:backdrop-blur-none">
                                 {{ \Carbon\Carbon::parse($date)->locale('ar')->translatedFormat('Y - F - d') }}
                             </h3>
-                            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
                                 <div class="overflow-x-auto">
-                                    <table class="min-w-full bg-white border-0">
+                                    <table class="min-w-full bg-white dark:bg-gray-800 border-0">
                                         <thead>
-                                                <tr class="bg-gray-50 border-b border-gray-200">
-                                                    <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-12 text-center">
-                                                        <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                <tr class="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                                                    <th x-show="editMode" scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-12 text-center">
+                                                        <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                                     </th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('اسم المريض') }}</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الهاتف') }}</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('رقم الحجز') }}</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('نوع الحجز') }}</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الطبيب') }}</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('تاريخ الموعد') }}</th>
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('وقت الموعد') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('اسم المريض') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('رقم الهاتف') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('رقم الحجز') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('نوع الحجز') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('الطبيب') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('تاريخ الموعد') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('وقت الموعد') }}</th>
                                                     @if(auth()->user()->role === 'doctor')
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('السعر') }}</th>
                                                     @endif
-                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
+                                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">{{ __('الحالة') }}</th>
 
                                                 </tr>
                                             </thead>
-                                            <tbody class="divide-y divide-gray-200">
+                                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                                                 <template x-for="appointment in filteredAppointments.filter(a => a.appointment_date_grouped === '{{ $date }}')" :key="appointment.id">
                                                     <tr class="hover:bg-gray-50 transition-colors">
-                                                        <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
-                                                            <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                        <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 border-l text-center">
+                                                            <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                                         </td>
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.name : appointment.patient_name) || '-'"></div>
                                                         </td>
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <div class="px-6 py-4" x-text="(appointment.patient ? appointment.patient.phone : appointment.phone) || '-'"></div>
                                                         </td>
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-bold text-gray-900 border-b border-gray-200 border-l h-full text-center bg-gray-50">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l h-full text-center bg-gray-50 dark:bg-gray-900">
                                                             <div class="px-6 py-4" x-text="appointment.queue_number || '-'"></div>
                                                         </td>
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <template x-if="!editMode">
                                                                 <div class="px-6 py-4">
                                                                     <template x-if="appointment.is_session">
@@ -294,10 +294,10 @@
                                                             <template x-if="editMode">
                                                                 <div class="px-4 py-2 flex flex-col gap-2">
                                                                     <label class="inline-flex items-center">
-                                                                        <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                                        <span class="ml-2 mr-2 text-xs text-gray-600">{{ __('جلسة؟') }}</span>
+                                                                        <input type="checkbox" x-model="appointment.is_session" @change="saveAppointment(appointment)" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
+                                                                        <span class="ml-2 mr-2 text-xs text-gray-600 dark:text-gray-400">{{ __('جلسة؟') }}</span>
                                                                     </label>
-                                                                    <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm text-xs py-1">
+                                                                    <select x-show="appointment.is_session" x-model="appointment.session_type_id" @change="saveAppointment(appointment)" class="w-full border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none text-xs py-1">
                                                                         <option value="">{{ __('اختر النوع') }}</option>
                                                                         @foreach($sessionTypes as $type)
                                                                             <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -307,30 +307,30 @@
                                                             </template>
                                                         </td>
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <div class="px-6 py-4" x-text="appointment.doctor ? appointment.doctor.name : '-'"></div>
                                                         </td>
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <template x-if="!editMode">
                                                                 <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_date_formatted"></div>
                                                             </template>
                                                             <template x-if="editMode">
-                                                                <input type="date" x-model="appointment.appointment_date_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                                <input type="date" x-model="appointment.appointment_date_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
                                                             </template>
                                                         </td>
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <template x-if="!editMode">
                                                                 <div class="px-6 py-4 text-left" dir="ltr" x-text="appointment.appointment_time_display"></div>
                                                             </template>
                                                             <template x-if="editMode">
-                                                                <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
+                                                                <input type="time" x-model="appointment.appointment_time_formatted" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0 text-sm text-left" dir="ltr">
                                                             </template>
                                                         </td>
 
                                                         @if(auth()->user()->role === 'doctor')
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-medium border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm font-medium border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <template x-if="!editMode">
                                                                 <div class="px-6 py-4">
                                                                     <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 rtl:space-x-reverse" dir="ltr">
@@ -341,16 +341,16 @@
                                                                 </div>
                                                             </template>
                                                             <template x-if="editMode">
-                                                                <input type="number" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm" placeholder="0">
+                                                                <input type="number" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0 text-sm" placeholder="0">
                                                             </template>
                                                         </td>
                                                         @endif
 
-                                                        <td class="px-0 py-0 whitespace-nowrap text-sm border-b border-gray-200 border-l h-full">
+                                                        <td class="px-0 py-0 whitespace-nowrap text-sm border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                             <template x-if="!editMode">
                                                                 <div class="px-6 py-4 flex items-center justify-center h-full">
                                                                     <template x-if="appointment.status !== 'pending'">
-                                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm border"
+                                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full shadow-sm dark:shadow-none border"
                                                                             :class="{
                                                                                 'bg-green-50 text-green-700 border-green-200': appointment.status === 'completed',
                                                                                 'bg-blue-50 text-blue-700 border-blue-200': appointment.status === 'arrived',
@@ -362,10 +362,10 @@
                                                                     </template>
                                                                     <template x-if="appointment.status === 'pending'">
                                                                         <div class="flex gap-2">
-                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'arrived')" class="inline-flex items-center px-2 py-1 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('تأكيد الحضور') }}">
+                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'arrived')" class="inline-flex items-center px-2 py-1 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-blue-500 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm dark:shadow-none" title="{{ __('تأكيد الحضور') }}">
                                                                                 {{ __('تأكيد الحضور') }}
                                                                             </button>
-                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm" title="{{ __('إلغاء') }}">
+                                                                            <button type="button" @click="quickUpdateStatus(appointment, 'cancelled')" class="inline-flex items-center px-2 py-1 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-sm dark:shadow-none" title="{{ __('إلغاء') }}">
                                                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                                                             </button>
                                                                         </div>
@@ -373,7 +373,7 @@
                                                                 </div>
                                                             </template>
                                                             <template x-if="editMode">
-                                                                <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0 text-sm">
+                                                                <select x-model="appointment.status" @change="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0 text-sm">
                                                                     <option value="pending">{{ __('قيد الانتظار') }}</option>
                                                                     <option value="arrived">{{ __('حاضر') }}</option>
                                                                     <option value="in_progress">{{ __('قيد الإجراء') }}</option>

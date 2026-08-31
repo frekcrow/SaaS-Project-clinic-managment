@@ -5,7 +5,7 @@
 
     <div class="space-y-6">
         <!-- Global Counter -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm dark:shadow-none border border-slate-100 dark:border-gray-700 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-4">
                 <div class="p-3 bg-teal-50 text-teal-600 rounded-xl">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -13,7 +13,7 @@
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800">{{ __('المراجعين المتبقين اليوم') }}</h2>
+                    <h2 class="text-lg font-bold text-slate-800 dark:text-slate-200">{{ __('المراجعين المتبقين اليوم') }}</h2>
                     <p class="text-slate-500 text-sm">{{ __('الذين لم يتم إدخالهم بعد') }}</p>
                 </div>
             </div>
@@ -23,16 +23,16 @@
         </div>
 
         <!-- Controls & Summary -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 space-y-6">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm dark:shadow-none border border-slate-100 dark:border-gray-700 p-6 space-y-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <!-- Display Modes -->
-                <div class="flex gap-2 bg-slate-100 p-1 rounded-xl w-full md:w-auto">
+                <div class="flex gap-2 bg-slate-100 dark:bg-gray-800 p-1 rounded-xl w-full md:w-auto">
                     <a href="{{ route('doctor.appointments.index', ['view_mode' => 'default']) }}"
-                       class="px-4 py-2 rounded-lg text-sm font-medium transition-colors w-1/2 md:w-auto text-center {{ $viewMode === 'default' ? 'bg-white text-teal-600 shadow-sm' : 'text-slate-600 hover:bg-slate-200' }}">
+                       class="px-4 py-2 rounded-lg text-sm font-medium transition-colors w-1/2 md:w-auto text-center {{ $viewMode ==='default' ? 'bg-white text-teal-600 shadow-sm' : 'text-slate-600 hover:bg-slate-200' }}">
                         {{ __('العرض الافتراضي') }}
                     </a>
                     <a href="{{ route('doctor.appointments.index', ['view_mode' => 'filter', 'date' => $filterDate]) }}"
-                       class="px-4 py-2 rounded-lg text-sm font-medium transition-colors w-1/2 md:w-auto text-center {{ $viewMode === 'filter' ? 'bg-white text-teal-600 shadow-sm' : 'text-slate-600 hover:bg-slate-200' }}">
+                       class="px-4 py-2 rounded-lg text-sm font-medium transition-colors w-1/2 md:w-auto text-center {{ $viewMode ==='filter' ? 'bg-white text-teal-600 shadow-sm' : 'text-slate-600 hover:bg-slate-200' }}">
                         {{ __('حسب التاريخ') }}
                     </a>
                 </div>
@@ -41,15 +41,15 @@
                 @if($viewMode === 'filter')
                 <form method="GET" action="{{ route('doctor.appointments.index') }}" class="flex gap-2 w-full md:w-auto" x-data>
                     <input type="hidden" name="view_mode" value="filter">
-                    <input type="date" name="date" value="{{ $filterDate }}" class="border-slate-200 rounded-xl text-sm focus:ring-teal-500 focus:border-teal-500 flex-1" @change="$el.form.submit()">
+                    <input type="date" name="date" value="{{ $filterDate }}" class="border-slate-200 dark:border-gray-700 rounded-xl text-sm focus:ring-teal-500 dark:bg-gray-900 dark:text-white focus:border-teal-500 flex-1" @change="$el.form.submit()">
                 </form>
                 @endif
             </div>
 
             <!-- Hourly Summary -->
             @if($hourlySummary->isNotEmpty())
-            <div class="pt-4 border-t border-slate-100">
-                <h3 class="text-sm font-semibold text-slate-700 mb-3">{{ __('ملخص مواعيد اليوم بالساعات') }}</h3>
+            <div class="pt-4 border-t border-slate-100 dark:border-gray-700">
+                <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{{ __('ملخص مواعيد اليوم بالساعات') }}</h3>
                 <div class="flex flex-wrap gap-2">
                     @foreach($hourlySummary as $hour => $count)
                     <div class="bg-teal-50 text-teal-700 px-3 py-1.5 rounded-lg text-sm font-medium border border-teal-100 flex items-center gap-2">
@@ -70,18 +70,18 @@
                 $dateTimeString = $appointment->appointment_date->format('Y-m-d') . ' ' . $appointment->appointment_time;
                 $targetTimestamp = \Carbon\Carbon::parse($dateTimeString)->timestamp * 1000;
             @endphp
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm dark:shadow-none border border-slate-100 dark:border-gray-700 p-6 flex flex-col justify-between hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 text-xl font-bold">
+                        <div class="w-12 h-12 bg-slate-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-slate-500 text-xl font-bold">
                             {{ mb_substr($appointment->patient_name, 0, 1) }}
                         </div>
                         <div>
-                            <h3 class="font-bold text-slate-800">{{ $appointment->patient->name ?? $appointment->patient_name }}</h3>
+                            <h3 class="font-bold text-slate-800 dark:text-slate-200">{{ $appointment->patient->name ?? $appointment->patient_name }}</h3>
                             <p class="text-sm text-slate-500">{{ $appointment->patient->phone ?? $appointment->phone ?? __('لا يوجد رقم') }}</p>
                         </div>
                     </div>
-                    <div class="bg-slate-100 px-3 py-1 rounded-full text-xs font-semibold text-slate-600 flex items-center gap-1">
+                    <div class="bg-slate-100 dark:bg-gray-800 px-3 py-1 rounded-full text-xs font-semibold text-slate-600 dark:text-slate-400 flex items-center gap-1">
                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         {{ \Carbon\Carbon::parse($appointment->appointment_date)->format('Y/m/d') }}
                     </div>
@@ -90,11 +90,11 @@
                 <div class="mt-4 pt-4 border-t border-slate-50">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-sm font-medium text-slate-500">{{ __('وقت الموعد') }}</span>
-                        <span class="text-lg font-bold text-slate-800" dir="ltr">{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('h:i A') }}</span>
+                        <span class="text-lg font-bold text-slate-800 dark:text-slate-200" dir="ltr">{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('h:i A') }}</span>
                     </div>
 
                     <!-- Live Countdown Timer -->
-                    <div x-data="countdownTimer({{ $targetTimestamp }})" class="bg-slate-50 rounded-xl p-3 flex flex-col items-center justify-center border border-slate-100">
+                    <div x-data="countdownTimer({{ $targetTimestamp }})" class="bg-slate-50 dark:bg-gray-900 rounded-xl p-3 flex flex-col items-center justify-center border border-slate-100 dark:border-gray-700">
                         <span class="text-xs text-slate-500 mb-1">{{ __('الوقت المتبقي') }}</span>
                         <div x-show="!isPast" class="text-xl font-mono font-bold text-teal-600" dir="ltr" x-text="timeLeft" x-cloak></div>
                         <div x-show="isPast" class="text-sm font-bold text-red-500" x-cloak>{{ __('تجاوز الوقت المحدد') }}</div>
@@ -102,11 +102,11 @@
                 </div>
             </div>
             @empty
-            <div class="col-span-full bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center">
-                <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="col-span-full bg-white dark:bg-gray-800 rounded-2xl shadow-sm dark:shadow-none border border-slate-100 dark:border-gray-700 p-12 text-center">
+                <div class="w-20 h-20 bg-slate-50 dark:bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 </div>
-                <h3 class="text-lg font-bold text-slate-700 mb-1">{{ __('لا توجد مواعيد') }}</h3>
+                <h3 class="text-lg font-bold text-slate-700 dark:text-slate-300 mb-1">{{ __('لا توجد مواعيد') }}</h3>
                 <p class="text-slate-500">{{ __('لم يتم العثور على مواعيد في هذه الفترة') }}.</p>
             </div>
             @endforelse

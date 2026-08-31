@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('سجل المرضى') }}
             </h2>
         </div>
@@ -202,19 +202,19 @@ patients: {{ $formattedPatients->values()->toJson() }},
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:rtl:space-x-reverse">
 
                 <!-- View Mode Toggle -->
-                <div class="inline-flex rounded-md shadow-sm" role="group">
-                    <button type="button" @click="viewMode = 'default'" :class="viewMode === 'default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                <div class="inline-flex rounded-md shadow-sm dark:shadow-none" role="group">
+                    <button type="button" @click="viewMode = 'default'" :class="viewMode ==='default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 dark:border-gray-700 rounded-s-lg focus:z-10 focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-black focus:text-black transition-colors">
                         <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
                         {{ __('العرض الافتراضي') }}
                     </button>
-                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode === 'grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode ==='grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 dark:border-gray-700 rounded-e-lg focus:z-10 focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-black focus:text-black transition-colors">
                         <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         {{ __('عرض حسب التاريخ') }}
                     </button>
                 </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
-                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن مريض...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <select x-model="sortBy" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input type="text" x-model="search" placeholder="{{ __('ابحث عن مريض...') }}" class="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500">
+                    <select x-model="sortBy" class="border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500">
                         <option value="newest">{{ __('الأحدث') }}</option>
                         <option value="oldest">{{ __('الأقدم') }}</option>
                         <option value="az">{{ __('أ-ي') }}</option>
@@ -223,13 +223,13 @@ patients: {{ $formattedPatients->values()->toJson() }},
                 </div>
 
                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <a href="{{ route('patients.create') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <a href="{{ route('patients.create') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('اضافة +') }}
                     </a>
-                    <a href="{{ route('patients.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <a href="{{ route('patients.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('تصدير CSV') }}
                     </a>
-                    <button @click.prevent="editMode = !editMode" :class="editMode ? 'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
+                    <button @click.prevent="editMode = !editMode" :class="editMode ?'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none hover:bg-neutral-800 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
                         {{ __('تعديل') }}
                     </button>
                 </div>
@@ -242,18 +242,18 @@ patients: {{ $formattedPatients->values()->toJson() }},
 
                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                    <div x-show="showTransferModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full" >
+                    <div x-show="showTransferModal" x-transition.scale.origin.bottom class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-right overflow-hidden shadow-xl dark:shadow-none transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full" >
                         <form @submit.prevent="submitTransfer">
-                            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
                                     <div class="mt-3 text-center sm:mt-0 sm:text-right w-full">
-                                        <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                        <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-title">
                                             {{ __('تحويل إلى العمليات') }} - <span x-text="transferPatient ? transferPatient.name : ''"></span>
                                         </h3>
                                         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
                                                 <x-input-label for="surgery_type_id" :value="__('نوع العملية')" />
-                                                <select id="surgery_type_id" x-model="transferForm.surgery_type_id" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
+                                                <select id="surgery_type_id" x-model="transferForm.surgery_type_id" class="border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 block mt-1 w-full" required>
                                                     <option value="" disabled>{{ __('اختر نوع العملية') }}</option>
                                                     @foreach($surgeryTypes as $type)
                                                         <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -262,7 +262,7 @@ patients: {{ $formattedPatients->values()->toJson() }},
                                             </div>
                                             <div>
                                                 <x-input-label for="surgery_date" :value="__('تاريخ العملية')" />
-                                                <input type="text" id="surgery_date" x-model="transferForm.surgery_date" x-init="flatpickr($el, {allowInput: true, disableMobile: true, dateFormat: 'Y-m-d'})" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full text-left" dir="ltr" required>
+                                                <input type="text" id="surgery_date" x-model="transferForm.surgery_date" x-init="flatpickr($el, {allowInput: true, disableMobile: true, dateFormat: 'Y-m-d'})" class="border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 block mt-1 w-full text-left" dir="ltr" required>
                                             </div>
 
                                             <div>
@@ -292,7 +292,7 @@ patients: {{ $formattedPatients->values()->toJson() }},
 
                                             <div>
                                                 <x-input-label for="anesthesia_type" :value="__('نوع التخدير')" />
-                                                <select id="anesthesia_type" x-model="transferForm.anesthesia_type" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full" required>
+                                                <select id="anesthesia_type" x-model="transferForm.anesthesia_type" class="border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 block mt-1 w-full" required>
                                                     <option value="" disabled>{{ __('اختر نوع التخدير') }}</option>
                                                     <option value="{{ __('تخدير عام') }}">{{ __('تخدير عام') }}</option>
                                                     <option value="{{ __('تخدير موضعي') }}">{{ __('تخدير موضعي') }}</option>
@@ -313,16 +313,16 @@ patients: {{ $formattedPatients->values()->toJson() }},
                                         </div>
                                         <div class="mt-4">
                                             <x-input-label for="notes" :value="__('ملاحظات')" />
-                                            <textarea id="notes" x-model="transferForm.notes" rows="3" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 block mt-1 w-full"></textarea>
+                                            <textarea id="notes" x-model="transferForm.notes" rows="3" class="border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 block mt-1 w-full"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                            <div class="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm dark:shadow-none px-4 py-2 bg-black text-base font-medium text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-offset-2 focus:ring-neutral-900 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
                                     {{ __('حفظ') }}
                                 </button>
-                                <button type="button" @click="showTransferModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
+                                <button type="button" @click="showTransferModal = false" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm dark:shadow-none px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
                                     {{ __('إلغاء') }}
                                 </button>
                             </div>
@@ -333,82 +333,82 @@ patients: {{ $formattedPatients->values()->toJson() }},
 
             <!-- Bulk Actions -->
             <div x-show="editMode && selected.length > 0" x-cloak class="mb-4">
-                <button @click="deleteSelected" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <button @click="deleteSelected" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     {{ __('حذف المحدد') }} (<span x-text="selected.length"></span>)
                 </button>
             </div>
 
             <div x-show="viewMode === 'default'">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
-                    <div class="p-0 text-gray-900">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="p-0 text-gray-900 dark:text-gray-100">
                         <template x-if="filteredPatients.length === 0">
                             <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
                         </template>
 
                         <template x-if="filteredPatients.length > 0">
                             <div class="overflow-x-auto">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
+                                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                    <thead class="bg-gray-50 dark:bg-gray-900">
                                         <tr>
-                                            <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
-                                                <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                            <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l">
+                                                <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                 {{ __('اسم المريض') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                 {{ __('رقم الهاتف') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                 {{ __('تاريخ الميلاد') }}
                                             </th>
-                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                            <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 whitespace-nowrap w-auto">
                                                 {{ __('الإجراءات') }}
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200">
+                                    <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                         <template x-for="patient in filteredPatients" :key="patient.id">
                                             <tr class="hover:bg-gray-50">
-                                                <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
-                                                    <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 border-l text-center">
+                                                    <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                                 </td>
-                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                     <template x-if="!editMode">
                                                         <div class="px-6 py-4 text-center" x-text="patient.name"></div>
                                                     </template>
                                                     <template x-if="editMode">
-                                                        <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0">
+                                                        <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0">
                                                     </template>
                                                 </td>
-                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                     <template x-if="!editMode">
                                                         <div class="px-6 py-4 text-center" x-text="patient.phone || '-'"></div>
                                                     </template>
                                                     <template x-if="editMode">
-                                                        <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
+                                                        <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0" placeholder="-">
                                                     </template>
                                                 </td>
-                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                     <template x-if="!editMode">
                                                         <div class="px-6 py-4 text-center" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                     </template>
                                                     <template x-if="editMode">
                                                         <div class="flex space-x-1 rtl:space-x-reverse h-full px-2 py-4" dir="ltr">
-                                                            <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
-                                                            <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
-                                                            <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
+                                                            <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 dark:border-gray-600 rounded focus:ring-indigo-500 dark:bg-gray-900 dark:text-white p-1 text-center text-sm" placeholder="DD" min="1" max="31">
+                                                            <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 dark:border-gray-600 rounded focus:ring-indigo-500 dark:bg-gray-900 dark:text-white p-1 text-center text-sm" placeholder="MM" min="1" max="12">
+                                                            <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 dark:border-gray-600 rounded focus:ring-indigo-500 dark:bg-gray-900 dark:text-white p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
                                                         </div>
                                                     </template>
                                                 </td>
-                                                <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200 dark:border-gray-700">
                                                     <div class="flex items-center justify-center gap-2 w-max mx-auto">
                                                         <a :href="'/patients/' + patient.id" title="{{ __('ملف المريض') }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                                             </svg>
                                                         </a>
-                                                        <button @click="openTransferModal(patient)" title="{{ __('تحويل إلى العمليات') }}" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
+                                                        <button @click="openTransferModal(patient)" title="{{ __('تحويل إلى العمليات') }}" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm dark:shadow-none focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
                                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
                                                             </svg>
@@ -427,79 +427,79 @@ patients: {{ $formattedPatients->values()->toJson() }},
 
             <div x-show="viewMode === 'grouped'" x-cloak>
                 @if($groupedRecords->isEmpty())
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
                         <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
                     </div>
                 @else
                     @foreach($groupedRecords as $date => $dayPatients)
                         <div class="mb-8" x-show="filteredPatients.filter(p => p.created_at_date === '{{ $date }}').length > 0">
-                            <h3 class="text-lg font-bold text-gray-800 mb-3 sticky top-0 bg-gray-100/80 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200">
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-3 sticky top-0 bg-gray-100/80 dark:bg-gray-800 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200 dark:border-gray-700 dark:backdrop-blur-none">
                                 {{ \Carbon\Carbon::parse($date)->locale('ar')->translatedFormat('Y - F - d') }}
                             </h3>
-                            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
                                 <div class="overflow-x-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-50">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead class="bg-gray-50 dark:bg-gray-900">
                                             <tr>
-                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
-                                                    <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l">
+                                                    <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('اسم المريض') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('رقم الهاتف') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('تاريخ الميلاد') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 whitespace-nowrap w-auto">
                                                     {{ __('الإجراءات') }}
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
+                                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                             <template x-for="patient in filteredPatients.filter(p => p.created_at_date === '{{ $date }}')" :key="patient.id">
                                                 <tr class="hover:bg-gray-50">
-                                                    <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
-                                                        <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                    <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 border-l text-center">
+                                                        <input type="checkbox" x-model="selected" :value="patient.id" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                                     </td>
-                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l h-full">
+                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                         <template x-if="!editMode">
                                                             <div class="px-6 py-4 text-center" x-text="patient.name"></div>
                                                         </template>
                                                         <template x-if="editMode">
-                                                            <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0">
+                                                            <input type="text" x-model="patient.name" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0">
                                                         </template>
                                                     </td>
-                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                         <template x-if="!editMode">
                                                             <div class="px-6 py-4 text-center" x-text="patient.phone || '-'"></div>
                                                         </template>
                                                         <template x-if="editMode">
-                                                            <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" placeholder="-">
+                                                            <input type="text" x-model="patient.phone" @blur="savePatient(patient)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0" placeholder="-">
                                                         </template>
                                                     </td>
-                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l h-full">
+                                                    <td class="px-0 py-0 text-center whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                         <template x-if="!editMode">
                                                             <div class="px-6 py-4 text-center" dir="ltr" x-text="patient.dob_formatted || '-'"></div>
                                                         </template>
                                                         <template x-if="editMode">
                                                             <div class="flex space-x-1 rtl:space-x-reverse h-full px-2 py-4" dir="ltr">
-                                                                <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="DD" min="1" max="31">
-                                                                <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="MM" min="1" max="12">
-                                                                <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 rounded focus:ring-indigo-500 p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
+                                                                <input type="number" x-model="patient.dob_day" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 dark:border-gray-600 rounded focus:ring-indigo-500 dark:bg-gray-900 dark:text-white p-1 text-center text-sm" placeholder="DD" min="1" max="31">
+                                                                <input type="number" x-model="patient.dob_month" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 dark:border-gray-600 rounded focus:ring-indigo-500 dark:bg-gray-900 dark:text-white p-1 text-center text-sm" placeholder="MM" min="1" max="12">
+                                                                <input type="number" x-model="patient.dob_year" @blur="savePatient(patient)" @keyup.enter="savePatient(patient)" class="w-1/3 border-gray-300 dark:border-gray-600 rounded focus:ring-indigo-500 dark:bg-gray-900 dark:text-white p-1 text-center text-sm" placeholder="YYYY" min="1900" max="{{ date('Y') }}">
                                                             </div>
                                                         </template>
                                                     </td>
-                                                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                    <td class="px-6 py-4 text-center whitespace-nowrap text-sm font-medium border-b border-gray-200 dark:border-gray-700">
                                                         <div class="flex items-center justify-center gap-2 w-max mx-auto">
                                                             <a :href="'/patients/' + patient.id" title="{{ __('ملف المريض') }}" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 p-2 rounded transition-colors border border-indigo-200">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                                                 </svg>
                                                             </a>
-                                                            <button @click="openTransferModal(patient)" title="{{ __('تحويل إلى العمليات') }}" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
+                                                            <button @click="openTransferModal(patient)" title="{{ __('تحويل إلى العمليات') }}" class="text-white bg-black hover:bg-neutral-800 p-2 rounded transition-colors shadow-sm dark:shadow-none focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25">
                                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path>
                                                                 </svg>

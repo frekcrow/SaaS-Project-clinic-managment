@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('سجل الحسابات') }}
             </h2>
         </div>
@@ -50,19 +50,19 @@
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6 space-y-4 sm:space-y-0 sm:space-x-4 sm:rtl:space-x-reverse">
 
                 <!-- View Mode Toggle -->
-                <div class="inline-flex rounded-md shadow-sm" role="group">
-                    <button type="button" @click="viewMode = 'default'" :class="viewMode === 'default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-s-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                <div class="inline-flex rounded-md shadow-sm dark:shadow-none" role="group">
+                    <button type="button" @click="viewMode = 'default'" :class="viewMode ==='default' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 dark:border-gray-700 rounded-s-lg focus:z-10 focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-black focus:text-black transition-colors">
                         <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
                         {{ __('العرض الافتراضي') }}
                     </button>
-                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode === 'grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 rounded-e-lg focus:z-10 focus:ring-2 focus:ring-black focus:text-black transition-colors">
+                    <button type="button" @click="viewMode = 'grouped'" :class="viewMode ==='grouped' ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-4 py-2 text-sm font-medium border border-gray-200 dark:border-gray-700 rounded-e-lg focus:z-10 focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-black focus:text-black transition-colors">
                         <svg class="w-4 h-4 inline-block mr-1 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                         {{ __('عرض حسب التاريخ') }}
                     </button>
                 </div>
                 <div class="flex flex-1 w-full max-w-md items-center space-x-2 rtl:space-x-reverse">
-                    <input type="text" x-model="search" placeholder="{{ __('ابحث في السجلات...') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    <select x-model="filter" class="border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <input type="text" x-model="search" placeholder="{{ __('ابحث في السجلات...') }}" class="w-full border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500">
+                    <select x-model="filter" class="border-gray-300 dark:border-gray-600 rounded-md shadow-sm dark:shadow-none focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500">
                         <option value="all">{{ __('الكل') }}</option>
                         <option value="today">{{ __('اليوم') }}</option>
                         <option value="week">{{ __('هذا الأسبوع') }}</option>
@@ -72,10 +72,10 @@
                 </div>
 
                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <a href="{{ route('billing.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <a href="{{ route('billing.export_csv') }}" class="inline-flex items-center px-4 py-2 bg-black text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none hover:bg-neutral-800 transition-colors focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('تصدير CSV') }}
                     </a>
-                    <button @click="editMode = !editMode" :class="editMode ? 'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm transition-colors hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
+                    <button @click="editMode = !editMode" :class="editMode ?'bg-neutral-800 text-white' : 'bg-black text-white'" class="inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm dark:shadow-none transition-colors hover:bg-neutral-800 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-25 duration-150">
                         {{ __('تعديل') }}
                     </button>
                 </div>
@@ -83,75 +83,75 @@
 
             <!-- Bulk Actions -->
             <div x-show="editMode && selected.length > 0" x-cloak class="mb-4">
-                <button @click="deleteSelected" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                <button @click="deleteSelected" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 active:bg-red-700 focus:outline-none focus:ring-2 dark:bg-gray-900 dark:text-white focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150">
                     {{ __('حذف المحدد') }} (<span x-text="selected.length"></span>)
                 </button>
             </div>
 
             <div x-show="viewMode === 'default'">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
-                    <div class="p-0 text-gray-900">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="p-0 text-gray-900 dark:text-gray-100">
                     <template x-if="filteredAppointments.length === 0">
                         <div class="p-6 text-center text-gray-500">{{ __('لا توجد سجلات مطابقة.') }}</div>
                     </template>
 
                     <template x-if="filteredAppointments.length > 0">
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
+                            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead class="bg-gray-50 dark:bg-gray-900">
                                     <tr>
-                                        <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
-                                            <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                        <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l">
+                                            <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                             {{ __('اسم المريض') }}
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                             {{ __('المبلغ المدفوع') }}
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                             {{ __('رقم الهاتف') }}
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                             {{ __('التاريخ') }}
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                             {{ __('الوقت') }}
                                         </th>
-                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                        <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 whitespace-nowrap w-auto">
                                             {{ __('الإجراءات') }}
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                     <template x-for="appointment in filteredAppointments" :key="appointment.id">
                                         <tr class="hover:bg-gray-50 transition-colors">
-                                            <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
-                                                <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                            <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 border-l text-center">
+                                                <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l">
                                                 <span x-text="appointment.patient?.name || appointment.patient_name || '-'"></span>
                                             </td>
-                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-900 border-b border-gray-200 border-l h-full">
+                                            <td class="px-0 py-0 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l h-full">
                                                 <template x-if="!editMode">
                                                     <div class="px-6 py-4">
                                                         <span x-text="Number(appointment.price || 0).toLocaleString()"></span> {{ __('د.ع') }}
                                                     </div>
                                                 </template>
                                                 <template x-if="editMode">
-                                                    <input type="number" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 px-6 py-4 bg-transparent m-0" step="0.01">
+                                                    <input type="number" x-model="appointment.price" @blur="saveAppointment(appointment)" class="w-full h-full border-0 focus:ring-0 dark:bg-gray-900 dark:text-white px-6 py-4 bg-transparent m-0" step="0.01">
                                                 </template>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l">
                                                 <span x-text="appointment.patient?.phone || appointment.phone || '-'"></span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l">
                                                 <span x-text="appointment.appointment_date"></span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l">
                                                 <span x-text="appointment.appointment_time ? appointment.appointment_time.substring(0, 5) : ''"></span>
                                             </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200 dark:border-gray-700">
                                                 <button @click="openInvoiceModal(appointment, appointment.total_paid, clinicName)" class="text-indigo-600 hover:text-indigo-900 p-2 bg-indigo-50 hover:bg-indigo-100 rounded transition-colors border border-indigo-200">
                                                     {{ __('عرض الفاتورة') }}
                                                 </button>
@@ -168,69 +168,69 @@
 
             <div x-show="viewMode === 'grouped'" x-cloak>
                 @if($groupedRecords->isEmpty())
-                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
                         <div class="p-6 text-center text-gray-500">{{ __('لا توجد بيانات') }}</div>
                     </div>
                 @else
                     @foreach($groupedRecords as $date => $dayAppointments)
                         <div class="mb-8" x-show="filteredAppointments.filter(a => a.created_at_date === '{{ $date }}').length > 0">
-                            <h3 class="text-lg font-bold text-gray-800 mb-3 sticky top-0 bg-gray-100/80 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200">
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 mb-3 sticky top-0 bg-gray-100/80 dark:bg-gray-800 backdrop-blur-sm px-4 py-2 rounded-md border border-gray-200 dark:border-gray-700 dark:backdrop-blur-none">
                                 {{ \Carbon\Carbon::parse($date)->locale('ar')->translatedFormat('Y - F - d') }}
                             </h3>
-                            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border-[1.5px] border-black/20">
+                            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg border-[1.5px] border-black/20">
                                 <div class="overflow-x-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-50">
+                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                        <thead class="bg-gray-50 dark:bg-gray-900">
                                             <tr>
-                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l">
-                                                    <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                <th x-show="editMode" scope="col" class="w-12 px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l">
+                                                    <input type="checkbox" @click="toggleSelectAll" :checked="allSelected" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('اسم المريض') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('المبلغ المدفوع') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('رقم الهاتف') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('التاريخ') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 border-l whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 border-l whitespace-nowrap w-auto">
                                                     {{ __('الوقت') }}
                                                 </th>
-                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 whitespace-nowrap w-auto">
+                                                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 whitespace-nowrap w-auto">
                                                     {{ __('الإجراءات') }}
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
+                                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                             <template x-for="appointment in filteredAppointments.filter(a => a.created_at_date === '{{ $date }}')" :key="appointment.id">
                                                 <tr class="hover:bg-gray-50">
-                                                    <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 border-l text-center">
-                                                        <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                                    <td x-show="editMode" class="px-4 py-3 whitespace-nowrap border-b border-gray-200 dark:border-gray-700 border-l text-center">
+                                                        <input type="checkbox" x-model="selected" :value="appointment.id" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-b border-gray-200 border-l">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100 border-b border-gray-200 dark:border-gray-700 border-l">
                                                         <div x-text="(appointment.patient ? appointment.patient.name : appointment.patient_name) || '-'"></div>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm border-b border-gray-200 border-l">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm border-b border-gray-200 dark:border-gray-700 border-l">
                                                         <span x-show="appointment.price" class="text-green-600 bg-green-50 px-2.5 py-1 rounded-md border border-green-200 inline-flex items-center space-x-1 rtl:space-x-reverse font-medium" dir="ltr">
                                                             <span x-text="Number(appointment.price).toLocaleString()"></span>
                                                             <span class="text-xs">{{ __('د.ع') }}</span>
                                                         </span>
                                                         <span x-show="!appointment.price" class="text-gray-400">-</span>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l">
                                                         <div x-text="(appointment.patient ? appointment.patient.phone : appointment.phone) || '-'"></div>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l text-left" dir="ltr">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l text-left" dir="ltr">
                                                         <div x-text="appointment.appointment_date ? appointment.appointment_date.substring(0, 10) : (appointment.appointment_datetime ? appointment.appointment_datetime.substring(0, 10) : '-')"></div>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 border-l text-left" dir="ltr">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-b border-gray-200 dark:border-gray-700 border-l text-left" dir="ltr">
                                                         <div x-text="appointment.appointment_time ? appointment.appointment_time.substring(0, 5) : (appointment.appointment_datetime ? appointment.appointment_datetime.substring(11, 16) : '-')"></div>
                                                     </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200">
+                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium border-b border-gray-200 dark:border-gray-700">
                                                         <button @click="openInvoice(appointment)" class="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded transition-colors border border-indigo-200 inline-flex items-center">
                                                             <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                                                             {{ __('طباعة وصل') }}
@@ -255,56 +255,56 @@
 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                <div x-show="isModalOpen" id="invoice-modal" class="inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div x-show="isModalOpen" id="invoice-modal" class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-right overflow-hidden shadow-xl dark:shadow-none transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start flex-col">
 
                             <!-- Invoice Header -->
                             <div class="w-full text-center mb-6 border-b pb-4">
-                                <h3 class="text-2xl font-bold text-gray-900" x-text="clinicName"></h3>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100" x-text="clinicName"></h3>
                                 <p class="text-sm text-gray-500 mt-1">{{ __('فاتورة') }} / {{ __('إيصال استلام') }}</p>
                             </div>
 
                             <!-- Invoice Details -->
                             <div class="w-full space-y-4">
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">{{ __('اسم المريض') }}:</span>
-                                    <span class="text-gray-900" x-text="currentAppointment?.patient?.name || currentAppointment?.patient_name"></span>
+                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ __('اسم المريض') }}:</span>
+                                    <span class="text-gray-900 dark:text-gray-100" x-text="currentAppointment?.patient?.name || currentAppointment?.patient_name"></span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">{{ __('التاريخ') }}:</span>
-                                    <span class="text-gray-900" x-text="currentAppointment ? currentAppointment.appointment_date : ''"></span>
+                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ __('التاريخ') }}:</span>
+                                    <span class="text-gray-900 dark:text-gray-100" x-text="currentAppointment ? currentAppointment.appointment_date : ''"></span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">{{ __('الوقت') }}:</span>
-                                    <span class="text-gray-900" x-text="currentAppointment ? (currentAppointment.appointment_time ? currentAppointment.appointment_time.substring(0, 5) : '') : ''"></span>
+                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ __('الوقت') }}:</span>
+                                    <span class="text-gray-900 dark:text-gray-100" x-text="currentAppointment ? (currentAppointment.appointment_time ? currentAppointment.appointment_time.substring(0, 5) : '') : ''"></span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="font-semibold text-gray-700">{{ __('السبب') }}:</span>
-                                    <span class="text-gray-900">{{ __('استشارة') }} / {{ __('جلسة') }}</span>
+                                    <span class="font-semibold text-gray-700 dark:text-gray-300">{{ __('السبب') }}:</span>
+                                    <span class="text-gray-900 dark:text-gray-100">{{ __('استشارة') }} / {{ __('جلسة') }}</span>
                                 </div>
 
-                                <div class="border-t pt-4 flex justify-between items-center bg-gray-50 p-3 rounded">
-                                    <span class="font-bold text-lg text-gray-900">{{ __('المبلغ المدفوع') }}:</span>
-                                    <span class="font-bold text-lg text-gray-900">
+                                <div class="border-t pt-4 flex justify-between items-center bg-gray-50 dark:bg-gray-900 p-3 rounded">
+                                    <span class="font-bold text-lg text-gray-900 dark:text-gray-100">{{ __('المبلغ المدفوع') }}:</span>
+                                    <span class="font-bold text-lg text-gray-900 dark:text-gray-100">
                                         <span x-text="Number(showFullHistory ? totalPaid : (currentAppointment?.price || 0)).toLocaleString()"></span> {{ __('د.ع') }}
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse no-print justify-between items-center">
+                    <div class="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse no-print justify-between items-center">
                         <div class="flex space-x-2 rtl:space-x-reverse">
-                            <button type="button" @click="printInvoice()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                            <button type="button" @click="printInvoice()" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm dark:shadow-none px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
                                 {{ __('طباعة') }}
                             </button>
-                            <button type="button" @click="closeInvoiceModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            <button type="button" @click="closeInvoiceModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm dark:shadow-none px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
                                 {{ __('إغلاق') }}
                             </button>
                         </div>
                         <div class="flex items-center">
-                            <label for="toggle-history" class="mr-2 text-sm text-gray-700 cursor-pointer pl-2">{{ __('إظهار التاريخ المالي الكامل') }}:</label>
-                            <input id="toggle-history" type="checkbox" x-model="showFullHistory" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <label for="toggle-history" class="mr-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer pl-2">{{ __('إظهار التاريخ المالي الكامل') }}:</label>
+                            <input id="toggle-history" type="checkbox" x-model="showFullHistory" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:border-indigo-300 dark:bg-gray-900 dark:text-white focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                     </div>
                 </div>

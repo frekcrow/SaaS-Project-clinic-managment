@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('إضافة موعد جديد') }}
         </h2>
     </x-slot>
 
     <div class="py-12" >
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm dark:shadow-none sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form method="POST" action="{{ route('appointments.store') }}">
                         @csrf
 
@@ -52,13 +52,13 @@
 
                                 <!-- Dropdown -->
                                 <div x-show="showDropdown && results.length > 0"
-                                     class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
+                                     class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg dark:shadow-none"
                                      style="display: none;">
                                     <ul class="max-h-60 overflow-auto">
                                         <template x-for="patient in results" :key="patient.id">
                                             <li @click="selectPatient(patient)"
                                                 class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                                <span x-text="patient.name" class="block font-medium text-gray-900"></span>
+                                                <span x-text="patient.name" class="block font-medium text-gray-900 dark:text-gray-100"></span>
                                                 <span x-text="patient.phone" class="block text-sm text-gray-500"></span>
                                             </li>
                                         </template>
@@ -70,7 +70,7 @@
                         <!-- Doctor -->
                         <div class="mt-4">
                             <x-input-label for="doctor_id" :value="__('الطبيب المعالج')" />
-                            <select id="doctor_id" name="doctor_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                            <select id="doctor_id" name="doctor_id" class="block mt-1 w-full border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none" required>
                                 <option value="">{{ __('اختر الطبيب') }}</option>
                                 @foreach($doctors as $doctor) <!-- Iterate over scoped doctors -->
                                     <option value="{{ $doctor->id }}" {{ old('doctor_id') == $doctor->id ? 'selected' : '' }}>
@@ -95,19 +95,19 @@
                             </div>
                         </div>
 
-                        <div x-data="appointmentPricing({{ auth()->user()->default_consultation_price ?? 0 }}, {{ auth()->user()->default_session_price ?? 0 }})" class="mt-4 border-t pt-4 border-gray-100">
+                        <div x-data="appointmentPricing({{ auth()->user()->default_consultation_price ?? 0 }}, {{ auth()->user()->default_session_price ?? 0 }})" class="mt-4 border-t pt-4 border-gray-100 dark:border-gray-700">
                                 <div class="mb-4 space-y-2">
-                                    <span class="block text-sm font-medium text-gray-700">{{ __('نوع الحجز') }}</span>
+                                    <span class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ __('نوع الحجز') }}</span>
                                     <div class="flex flex-col gap-4">
                                         <div class="flex gap-6">
                                             <label class="inline-flex items-center">
-                                                <input type="checkbox" x-model="isConsultation" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                <span class="ml-2 mr-2 text-sm text-gray-600">{{ __('كشفية') }}</span>
+                                                <input type="checkbox" x-model="isConsultation" @change="calculatePrice" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
+                                                <span class="ml-2 mr-2 text-sm text-gray-600 dark:text-gray-400">{{ __('كشفية') }}</span>
                                             </label>
                                             @if(auth()->user()->has_sessions_system)
                                             <label class="inline-flex items-center">
-                                                <input type="checkbox" name="is_session" value="1" x-model="isSession" @change="calculatePrice" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                                                <span class="ml-2 mr-2 text-sm text-gray-600">{{ __('جلسة') }}</span>
+                                                <input type="checkbox" name="is_session" value="1" x-model="isSession" @change="calculatePrice" class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm dark:shadow-none focus:ring-indigo-500 dark:bg-gray-900 dark:text-white">
+                                                <span class="ml-2 mr-2 text-sm text-gray-600 dark:text-gray-400">{{ __('جلسة') }}</span>
                                             </label>
                                             @endif
                                         </div>
@@ -115,7 +115,7 @@
                                         @if(auth()->user()->has_sessions_system)
                                         <div x-show="isSession" class="mt-2" style="display: none;">
                                             <x-input-label for="session_type_id" :value="__('نوع الجلسة')" />
-                                            <select id="session_type_id" name="session_type_id" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                            <select id="session_type_id" name="session_type_id" class="block mt-1 w-full border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:bg-gray-900 dark:text-white focus:ring-indigo-500 rounded-md shadow-sm dark:shadow-none">
                                                 <option value="">{{ __('اختر نوع الجلسة') }}</option>
                                                 @foreach($sessionTypes as $sessionType)
                                                     <option value="{{ $sessionType->id }}" {{ old('session_type_id') == $sessionType->id ? 'selected' : '' }}>
@@ -138,7 +138,7 @@
                         </div>
 
                         <div class="flex items-center justify-end mt-6 gap-4">
-                            <a href="{{ route('appointments.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                            <a href="{{ route('appointments.index') }}" class="inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest shadow-sm dark:shadow-none hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                                 {{ __('إلغاء') }}
                             </a>
                             <x-primary-button>

@@ -8,7 +8,7 @@
             'w-8 h-8 rounded-full opacity-0': !activeNotification,
             'w-96 min-h-[5rem] rounded-3xl opacity-100 pointer-events-auto': activeNotification
          }"
-         class="bg-black/90 text-white backdrop-blur-md shadow-2xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] relative flex items-center p-4">
+         class="bg-black/90 text-white backdrop-blur-md shadow-2xl dark:shadow-none overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] relative flex items-center p-4 dark:backdrop-blur-none">
 
         <template x-if="activeNotification">
             <div class="flex items-center gap-4 w-full"
@@ -21,7 +21,7 @@
                  x-transition:leave-end="opacity-0">
 
                 <!-- Icon based on type -->
-                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-white/20 dark:bg-gray-800 flex items-center justify-center">
                     <template x-if="activeNotification.data.icon === 'clock'">
                         <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </template>

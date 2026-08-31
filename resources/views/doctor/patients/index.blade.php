@@ -1,7 +1,7 @@
 <x-doctor-layout>
     <x-slot name="header">
         <div class="flex justify-between items-center w-full">
-            <h2 class="font-semibold text-2xl text-slate-800 leading-tight">
+            <h2 class="font-semibold text-2xl text-slate-800 dark:text-slate-200 leading-tight">
                 {{ __('ملفات المرضى') }}
             </h2>
         </div>
@@ -47,7 +47,7 @@
                         </svg>
                     </div>
                     <input type="text" x-model="searchQuery"
-                           class="block w-full pl-4 pr-12 py-3 border border-gray-200 rounded-xl leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out text-sm"
+                           class="block w-full pl-4 pr-12 py-3 border border-gray-200 dark:border-gray-700 rounded-xl leading-5 bg-white dark:bg-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out text-sm"
                            placeholder="{{ __('ابحث عن مريض بالاسم') }}...">
                 </div>
             </div>
@@ -57,19 +57,19 @@
                 <template x-for="patient in filteredPatients" :key="patient.id">
                     <a :href="'/doctor/patients/' + patient.id" class="block group patient-card active:scale-[0.97] transition-transform duration-200">
                         <!-- Redesigned Card: Flat, Solid Background, Soft Border, Shadow ONLY on Hover -->
-                        <div class="bg-white rounded-2xl p-6 border border-gray-100 hover:border-gray-200 hover:shadow-lg hover:shadow-gray-200/50 relative overflow-hidden h-full flex flex-col justify-between">
+                        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 hover:border-gray-200 hover:shadow-lg hover:shadow-gray-200/50 relative overflow-hidden h-full flex flex-col justify-between">
 
                             <!-- Content -->
                             <div class="flex flex-col items-center justify-center text-center">
                                 <!-- Avatar -->
-                                <div class="h-16 w-16 bg-gray-50 border border-gray-100 text-gray-700 rounded-full flex items-center justify-center mb-4 text-2xl font-bold shadow-none">
+                                <div class="h-16 w-16 bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-full flex items-center justify-center mb-4 text-2xl font-bold shadow-none">
                                     <span x-text="patient.name.charAt(0)"></span>
                                 </div>
 
                                 <!-- Details -->
-                                <h3 class="text-lg font-semibold text-gray-900 mb-1" x-text="patient.name"></h3>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-1" x-text="patient.name"></h3>
 
-                                <div class="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-gray-50 rounded-full border border-gray-100">
+                                <div class="mt-4 inline-flex items-center gap-1.5 px-3 py-1 bg-gray-50 dark:bg-gray-900 rounded-full border border-gray-100 dark:border-gray-700">
                                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
@@ -82,13 +82,13 @@
             </div>
 
             <!-- Empty State -->
-            <div x-show="filteredPatients.length === 0" x-cloak class="bg-white rounded-2xl p-12 border border-gray-100 flex flex-col items-center justify-center text-center">
-                <div class="w-20 h-20 bg-gray-50 text-gray-300 rounded-full flex items-center justify-center mb-6">
+            <div x-show="filteredPatients.length === 0" x-cloak class="bg-white dark:bg-gray-800 rounded-2xl p-12 border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center text-center">
+                <div class="w-20 h-20 bg-gray-50 dark:bg-gray-900 text-gray-300 rounded-full flex items-center justify-center mb-6">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ __('لا يوجد مرضى') }}</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ __('لا يوجد مرضى') }}</h3>
                 <p class="text-sm text-gray-500 max-w-sm">{{ __('لم يتم العثور على أي ملفات مرضى مطابقة لبحثك') }}.</p>
             </div>
 

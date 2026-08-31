@@ -106,7 +106,7 @@ class ChatController extends Controller
             ];
 
             try {
-                $response = Http::withToken($settings->whatsapp_access_token)->post($url, $payload);
+                $response = Http::withToken($settings->whatsapp_access_token)->timeout(5)->post($url, $payload);
 
                 if ($response->successful()) {
                     $responseData = $response->json();
@@ -134,7 +134,7 @@ class ChatController extends Controller
             $messageText = $message->content;
 
             try {
-                $response = Http::post("https://api.telegram.org/bot{$token}/sendMessage", [
+                $response = Http::timeout(5)->post("https://api.telegram.org/bot{$token}/sendMessage", [
                     'chat_id' => $providerChatId,
                     'text' => $messageText,
                 ]);

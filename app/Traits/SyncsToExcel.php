@@ -5,6 +5,7 @@ namespace App\Traits;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 trait SyncsToExcel
 {
@@ -33,6 +34,7 @@ trait SyncsToExcel
                 try {
                     File::makeDirectory($dir, 0755, true);
                 } catch (\Exception $e) {
+                    Log::error('Excel Sync Error: ' . $e->getMessage());
                     return;
                 }
             }
@@ -69,7 +71,7 @@ trait SyncsToExcel
             $writer->addRows($rows);
             $writer->close();
         } catch (\Exception $e) {
-            // Log or ignore failure to write to the archive
+            Log::error('Excel Sync Error: ' . $e->getMessage());
         }
     }
 }

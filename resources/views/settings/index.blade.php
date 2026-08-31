@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="grid-wrapper dark:bg-[#0a0a0a]">
+    <div class="grid-wrapper dark:bg-[#0a0a0a] [mask-image:linear-gradient(to_bottom,transparent,black_5%,black_95%,transparent),linear-gradient(to_right,transparent,black_5%,black_95%,transparent)] [-webkit-mask-composite:source-in] [mask-composite:intersect]">
         <!-- The Grid Background -->
         <div class="grid-background"></div>
 
